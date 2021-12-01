@@ -13,4 +13,12 @@ namespace Game
     {
         std::cout << "Updating RenderComponent" << std::endl;
     }
+
+    void RenderComponent::Render()
+    {
+        // just placeholder to test it out
+        sf::CircleShape shape(100.f);
+        shape.setFillColor(sf::Color::Green);
+        m_renderManager->Draw(shape);
+    }
 };

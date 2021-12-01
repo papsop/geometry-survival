@@ -1,22 +1,25 @@
 #pragma once
 #include "IComponent.h"
-#include "SFML/System/Vector2.hpp"
+#include "../Singletons/SingletonManager.h"
+#include <SFML/System/Vector2.hpp>
 
 namespace Game
 {
     class RenderComponent : public IComponent
     {
     public:
-        RenderComponent(){};
+        RenderComponent()
+        {
+            m_renderManager = SingletonManager::Instance().GetRenderManager();
+        };
 
         ~RenderComponent() override;
 
         void Update(float dt) override;
 
-        void Render() {};
+        void Render();
     private:
-        sf::Vector2f m_position;
-        sf::Vector2f m_scale;
+        std::shared_ptr<RenderManager> m_renderManager;
     };
 };
 

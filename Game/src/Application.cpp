@@ -16,12 +16,10 @@ namespace Game
         auto renderManager = SingletonManager::Instance().GetRenderManager();
         auto inputManager = SingletonManager::Instance().GetInputManager();
         // ---------------------------------------
-        sf::CircleShape shape(100.f);
-        shape.setFillColor(sf::Color::Green);
+
 
         GameObject go;
         go.AddComponent<TransformComponent>(TransformComponent(sf::Vector2f(0.0f, 1.0f), sf::Vector2f(0.0f, 1.0f)));
-        go.AddComponent<RenderComponent>(RenderComponent());
 
         while (m_window.isOpen())
         {
@@ -47,16 +45,18 @@ namespace Game
 
             if (inputManager->IsKeyPressed(sf::Keyboard::Key::E))
                 go.RemoveComponent<RenderComponent>();
+            if (inputManager->IsKeyPressed(sf::Keyboard::Key::A))
+                go.AddComponent<RenderComponent>(RenderComponent());
+
+            m_window.clear();
 
             if (!go.ShouldDestroy())
             {
                 go.Update(0.0f);
-                if(go.IsRenderable())
+                if (go.IsRenderable())
                     go.Render();
             }
 
-            m_window.clear();
-            renderManager->Draw(shape);
             m_window.display();
         }
     }

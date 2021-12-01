@@ -18,8 +18,9 @@ namespace Game
         template<typename T>
         void AddComponent(T component) 
         {
-            assert(!HasComponent<T>() && "GameObject already has this component");
-            m_components[typeid(T).name()] = std::make_shared<T>(component);
+            //assert(!HasComponent<T>() && "GameObject already has this component");
+            if(!HasComponent<T>())
+                m_components[typeid(T).name()] = std::make_shared<T>(component);
 
             if (typeid(T).name() == typeid(RenderComponent).name())
                 m_isRenderable = true;

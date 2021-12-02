@@ -2,6 +2,7 @@
 #include "Components/IComponent.h"
 
 #include <unordered_map>
+#include <queue>
 #include <memory>
 #include <assert.h>
 #include <type_traits>
@@ -25,7 +26,7 @@ namespace Game
         }
         
         template<typename T>
-        std::shared_ptr<T> GetComponent()
+        std::weak_ptr<T> GetComponent()
         {
             if constexpr (IComponent::is_derived<T>())
             {
@@ -50,7 +51,7 @@ namespace Game
 
         // --------------------------
         void Destroy() { m_shouldDestroy = true; }
-        bool ShouldDestroy() { return m_shouldDestroy; }
+        bool ShouldDestroy() const { return m_shouldDestroy; }
 
         void Update(float dt);
 

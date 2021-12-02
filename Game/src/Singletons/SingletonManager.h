@@ -16,6 +16,8 @@ namespace Game
         const auto GetInputManager() { return m_inputManager; };
 
     private:
+        SingletonManager() = default;
+        ~SingletonManager() = default;
         void Init(Application& app);
 
         std::shared_ptr<RenderManager> m_renderManager;

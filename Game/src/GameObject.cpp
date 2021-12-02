@@ -1,6 +1,5 @@
 #include "GameObject.h"
-#include "Components/RenderComponent.h"
-
+#include <iostream>
 namespace Game
 {
     void GameObject::Update(float dt)
@@ -11,7 +10,7 @@ namespace Game
 
     void GameObject::Render()
     {
-        if(HasComponent<RenderComponent>())
-            GetComponent<RenderComponent>()->Render();
+        for (auto renderableComponent : m_renderableComponents)
+            renderableComponent.second->Render();
     }
 };

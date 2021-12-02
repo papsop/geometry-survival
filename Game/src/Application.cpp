@@ -2,9 +2,10 @@
 #include "Singletons/SingletonManager.h"
 #include "GameObject.h"
 #include "Components/TransformComponent.h"
-#include "Components/RenderComponent.h"
+#include "Components/SpriteComponent.h"
 
 #include <iostream>
+#include <type_traits>
 
 namespace Game
 {
@@ -19,10 +20,14 @@ namespace Game
 
 
         GameObject go;
-        go.AddComponent<TransformComponent>(TransformComponent(sf::Vector2f(0.0f, 1.0f), sf::Vector2f(0.0f, 1.0f)));
+        go.AddComponent<TransformComponent>(TransformComponent(go, sf::Vector2f(0.0f, 1.0f), sf::Vector2f(0.0f, 1.0f)));
+        go.AddComponent<SpriteComponent>(SpriteComponent(go));
 
+        sf::Clock clock;
         while (m_window.isOpen())
         {
+            sf::Time elapsed = clock.restart();
+
             sf::Event event;
             while (m_window.pollEvent(event))
             {
@@ -43,18 +48,12 @@ namespace Game
             if (inputManager->IsKeyPressed(sf::Keyboard::Key::Escape))
                 m_window.close();
 
-            if (inputManager->IsKeyPressed(sf::Keyboard::Key::E))
-                go.RemoveComponent<RenderComponent>();
-            if (inputManager->IsKeyPressed(sf::Keyboard::Key::A))
-                go.AddComponent<RenderComponent>(RenderComponent());
-
             m_window.clear();
 
             if (!go.ShouldDestroy())
             {
-                go.Update(0.0f);
-                if (go.IsRenderable())
-                    go.Render();
+                go.Update(elapsed.asSeconds());
+                go.Render();
             }
 
             m_window.display();

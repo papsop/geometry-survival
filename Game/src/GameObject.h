@@ -1,10 +1,10 @@
 #pragma once
 #include "Components/IComponent.h"
-#include "Components/RenderComponent.h"
 
 #include <unordered_map>
 #include <memory>
 #include <assert.h>
+#include <type_traits>
 
 namespace Game
 {
@@ -18,43 +18,49 @@ namespace Game
         template<typename T>
         void AddComponent(T component) 
         {
-            //assert(!HasComponent<T>() && "GameObject already has this component");
-            if(!HasComponent<T>())
+            if constexpr(IComponent::is_derived<T>())
                 m_components[typeid(T).name()] = std::make_shared<T>(component);
-
-            if (typeid(T).name() == typeid(RenderComponent).name())
-                m_isRenderable = true;
+            if constexpr(IRenderableComponent::is_derived<T>())
+                m_renderableComponents[typeid(T).name()] = std::make_shared<T>(component);
         }
         
         template<typename T>
         std::shared_ptr<T> GetComponent()
         {
-            auto component = m_components[typeid(T).name()];
-            return std::static_pointer_cast<T>(component);
+            if constexpr (IComponent::is_derived<T>())
+            {
+                auto component = m_components[typeid(T).name()];
+                return std::static_pointer_cast<T>(component);
+            }
+            else if constexpr (IRenderableComponent::is_derived<T>())
+            {
+                auto renderableComponent = m_renderableComponents[typeid(T).name()];
+                return std::static_pointer_cast<T>(renderableComponent);
+            }
         }
 
         template<typename T>
         void RemoveComponent()
         {
-            if (HasComponent<T>())
+            if constexpr (IComponent::is_derived<T>())
                 m_components.erase(typeid(T).name());
-
-            if (typeid(T).name() == typeid(RenderComponent).name())
-                m_isRenderable = false;
+            else if constexpr (IRenderableComponent::is_derived<T>())
+                m_renderableComponents.erase(typeid(T).name());
         }
+
         // --------------------------
         void Destroy() { m_shouldDestroy = true; }
         bool ShouldDestroy() { return m_shouldDestroy; }
-        bool IsRenderable() { return m_isRenderable; }
 
         void Update(float dt);
 
         void Render();
 
     private:
+        // maybe unique_ptr and pass weak_ptr so this gameObject controls the resource?
         std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components;
+        std::unordered_map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
-        bool m_isRenderable = false;
     };
 };
 

@@ -4,15 +4,18 @@
 
 namespace Game 
 {
+    class GameObject;
+
     class TransformComponent : public IComponent
     {
     public:
-        TransformComponent(sf::Vector2f pos, sf::Vector2f scale) 
-            : m_position(pos)
+        TransformComponent(GameObject &obj, sf::Vector2f pos, sf::Vector2f scale) 
+            : IComponent(obj)
+            , m_position(pos)
             , m_scale(scale) 
         {};
 
-        ~TransformComponent() override;
+        ~TransformComponent() override = default;
 
         void Update(float dt) override;
 

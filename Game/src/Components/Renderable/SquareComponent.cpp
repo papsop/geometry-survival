@@ -6,24 +6,27 @@
 
 namespace Game
 {
-    SquareComponent::SquareComponent(GameObject &obj) : IRenderableComponent(obj)
+    SquareComponent::SquareComponent(GameObject &obj, int zIndex) : IRenderableComponent(obj, zIndex)
     {
         m_renderManager = SingletonManager::Instance().GetRenderManager();
 
         m_transformComponent = obj.GetComponent<TransformComponent>();
+
+        if (auto tmp = m_transformComponent.lock())
+        {
+            m_shape = std::make_shared<sf::CircleShape>(30.0f, 4);
+            m_shape->setOrigin(sf::Vector2f(15.0f, 15.0f));
+            m_shape->setScale(tmp->GetScale());
+            m_shape->setFillColor(sf::Color::Green);
+        }
     }
 
     void SquareComponent::Render()
     {
         if (auto tmp = m_transformComponent.lock())
         {
-            // just placeholder to test it out
-            sf::CircleShape shape(30.0f, 4);
-            shape.setOrigin(sf::Vector2f(15.0f, 15.0f));
-            shape.setPosition(tmp->GetPosition());
-            shape.setScale(tmp->GetScale());
-            shape.setFillColor(sf::Color::Green);
-            m_renderManager->Draw(shape);
+            m_shape->setPosition(tmp->GetPosition());
+            m_renderManager->RequestRender(m_zIndex, m_shape);
         }
     }
 };

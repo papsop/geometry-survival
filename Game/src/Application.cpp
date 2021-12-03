@@ -49,6 +49,7 @@ namespace Game
             m_window.clear();
             scene.UpdateGameObjects(elapsed.asSeconds());
             scene.RenderGameObjects();
+            renderManager->RenderAll();
             m_window.display();
         }
     }

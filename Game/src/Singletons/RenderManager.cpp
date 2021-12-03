@@ -1,10 +1,26 @@
 #include "RenderManager.h"
+#include <algorithm>
 #include <iostream>
 
 namespace Game
 {
-    void RenderManager::Draw(const sf::Drawable& drawable, const sf::RenderStates& states)
+    void RenderManager::RequestRender(int zIndex, std::weak_ptr<sf::CircleShape> shape)
     {
-        m_application.Draw(drawable, states);
+        m_renderQueue.emplace_back(std::make_pair(zIndex, shape));
+    }
+
+    void RenderManager::RenderAll()
+    {
+        std::sort(m_renderQueue.begin(), m_renderQueue.end(), 
+            [](const RenderPair& a, const RenderPair& b) 
+            {
+                return a.first < b.first;
+            });
+
+        for (auto renderPair : m_renderQueue)
+        {
+            if (auto tmp = renderPair.second.lock())
+                m_application.Draw(*tmp);
+        }
     }
 };

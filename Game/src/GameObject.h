@@ -56,7 +56,7 @@ namespace Game
         }
         // --------------------------
         GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName) {};
-        ~GameObject() = default;
+        ~GameObject() {};
 
         const uint32_t ID;
         const char* DebugName;
@@ -69,7 +69,7 @@ namespace Game
 
     private:
         std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components = {};
-        std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents = {};
+        std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
     };
 };

@@ -2,6 +2,7 @@
 #include "Components/IComponent.h"
 
 #include <unordered_map>
+#include <map>
 #include <queue>
 #include <memory>
 #include <assert.h>
@@ -48,19 +49,22 @@ namespace Game
             else if constexpr (IRenderableComponent::is_derived<T>())
                 m_renderableComponents.erase(typeid(T).name());
         }
-
         // --------------------------
+        GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName) {};
+        ~GameObject() = default;
+
+        const uint32_t ID;
+        const char* DebugName;
+
+        void Update(float dt);
+        void Render();
+
         void Destroy() { m_shouldDestroy = true; }
         bool ShouldDestroy() const { return m_shouldDestroy; }
 
-        void Update(float dt);
-
-        void Render();
-
     private:
-        // maybe unique_ptr and pass weak_ptr so this gameObject controls the resource?
-        std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components;
-        std::unordered_map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
+        std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components = {};
+        std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents = {};
         bool m_shouldDestroy = false;
     };
 };

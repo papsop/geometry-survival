@@ -3,7 +3,8 @@
 #include "GameObject.h"
 #include "Components/TransformComponent.h"
 #include "Components/SpriteComponent.h"
-
+#include "Scene.h"
+#include "Factories/GameObjectFactories.h"
 #include <iostream>
 #include <type_traits>
 
@@ -18,16 +19,15 @@ namespace Game
         auto inputManager = SingletonManager::Instance().GetInputManager();
         // ---------------------------------------
 
-
-        GameObject go;
-        go.AddComponent<TransformComponent>(TransformComponent(go, sf::Vector2f(0.0f, 1.0f), sf::Vector2f(0.0f, 1.0f)));
-        go.AddComponent<SpriteComponent>(SpriteComponent(go));
+        Scene scene;
+        scene.AddGameObjectViaFactory(PlayerFactory());
 
         sf::Clock clock;
         while (m_window.isOpen())
         {
             sf::Time elapsed = clock.restart();
 
+            // todo it's own handling
             sf::Event event;
             while (m_window.pollEvent(event))
             {
@@ -49,13 +49,8 @@ namespace Game
                 m_window.close();
 
             m_window.clear();
-
-            if (!go.ShouldDestroy())
-            {
-                go.Update(elapsed.asSeconds());
-                go.Render();
-            }
-
+            scene.UpdateGameObjects(elapsed.asSeconds());
+            scene.RenderGameObjects();
             m_window.display();
         }
     }

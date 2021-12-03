@@ -11,7 +11,7 @@ namespace Game
     class SpriteComponent : public IRenderableComponent
     {
     public:
-        SpriteComponent(GameObject &obj);
+        SpriteComponent(GameObject& obj);
         ~SpriteComponent() override = default;
 
         void Render() override;

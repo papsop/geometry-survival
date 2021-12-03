@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Factories\GameObjectFactories.cpp" />
+    <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Components\SpriteComponent.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Singletons\InputManager.cpp" />
@@ -29,6 +31,8 @@
     <ClCompile Include="src\Components\TransformComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Factories\GameObjectFactories.h" />
+    <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Components\SpriteComponent.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Components\IComponent.h" />

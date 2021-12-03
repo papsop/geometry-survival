@@ -9,7 +9,7 @@ namespace Game
     class TransformComponent : public IComponent
     {
     public:
-        TransformComponent(GameObject &obj, sf::Vector2f pos, sf::Vector2f scale) 
+        TransformComponent(GameObject& obj, sf::Vector2f pos, sf::Vector2f scale)
             : IComponent(obj)
             , m_position(pos)
             , m_scale(scale) 

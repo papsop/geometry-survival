@@ -1,5 +1,6 @@
 #pragma once
 #include <type_traits>
+#include <functional>
 
 namespace Game
 {
@@ -31,5 +32,6 @@ namespace Game
         virtual void Render() = 0;
     protected:
         GameObject& m_owner;
+        int m_zIndex; // todo
     };
 };

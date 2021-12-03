@@ -11,11 +11,7 @@ namespace Game
 
     void RenderManager::RenderAll()
     {
-        std::sort(m_renderQueue.begin(), m_renderQueue.end(), 
-            [](const RenderPair& a, const RenderPair& b) 
-            {
-                return a.first < b.first;
-            });
+        std::sort(m_renderQueue.begin(), m_renderQueue.end(), RenderPairCompare);
 
         for (auto renderPair : m_renderQueue)
         {

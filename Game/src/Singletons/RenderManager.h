@@ -18,7 +18,8 @@ namespace Game
 
     private:
         Application& m_application;
-        //std::priority_queue<RenderRequest, std::vector<RenderRequest>, RenderRequest> m_renderQueue;
+
+        static bool RenderPairCompare(const RenderPair& a, const RenderPair& b) { return a.first < b.first; }
         std::vector<RenderPair> m_renderQueue;
 
     friend class Application;

@@ -19,8 +19,8 @@ namespace Game
 
         void Update(float dt) override;
 
-        sf::Vector2f GetPosition() { return m_position; }
-        sf::Vector2f GetScale() { return m_scale; }
+        const sf::Vector2f GetPosition() const { return m_position; }
+        const sf::Vector2f GetScale() const { return m_scale; }
 
     private:
         sf::Vector2f m_position;

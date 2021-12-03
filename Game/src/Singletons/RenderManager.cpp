@@ -18,5 +18,6 @@ namespace Game
             if (auto tmp = renderPair.second.lock())
                 m_application.Draw(*tmp);
         }
+        m_renderQueue.clear();
     }
 };

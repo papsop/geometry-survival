@@ -1,8 +1,6 @@
 #include "Application.h"
 #include "Singletons/SingletonManager.h"
 #include "GameObject.h"
-#include "Components/TransformComponent.h"
-#include "Components/SpriteComponent.h"
 #include "Scene.h"
 #include "Factories/GameObjectFactories.h"
 #include <iostream>

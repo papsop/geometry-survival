@@ -1,4 +1,6 @@
 #pragma once
+#include "../Singletons/SingletonManager.h"
+
 #include <type_traits>
 #include <functional>
 

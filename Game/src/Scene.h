@@ -9,32 +9,14 @@ namespace Game
     class Scene
     {
     public:
-        static uint32_t GetNewGameObjectID()
-        {
-            static uint32_t ID = 0;
-            return ID++;
-        }
+        static uint32_t GetNewGameObjectID();
 
-        void AddGameObject(std::shared_ptr<GameObject> go)
-        {
-            m_gameObjects[go->ID] = go;
-        }
+        void AddGameObject(std::shared_ptr<GameObject> go);
+        void AddGameObjectViaFactory(const IGameObjectFactory& factory);
 
-        void AddGameObjectViaFactory(const IGameObjectFactory &factory)
-        {
-            AddGameObject(factory.CreateGameObject());
-        }
+        void UpdateGameObjects(float dt);
+        void RenderGameObjects();
 
-        void UpdateGameObjects(float dt)
-        {
-            for (auto gameObject : m_gameObjects)
-                gameObject.second->Update(dt);
-        }
-        void RenderGameObjects()
-        {
-            for (auto gameObject : m_gameObjects)
-                gameObject.second->Render();
-        }
     private:
         std::unordered_map<uint32_t, std::shared_ptr<GameObject>> m_gameObjects;
     };

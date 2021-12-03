@@ -1,6 +1,7 @@
 #include "GameObjectFactories.h"
-#include "../Components/SpriteComponent.h"
-#include "../Components/TransformComponent.h"
+#include "../Components/Renderable/SquareComponent.h"
+#include "../Components/Renderable/TriangleComponent.h"
+#include "../Components/Normal/TransformComponent.h"
 #include "../Scene.h"
 
 namespace Game
@@ -10,8 +11,10 @@ namespace Game
     std::shared_ptr<GameObject> PlayerFactory::CreateGameObject() const
     {
         auto obj = std::make_shared<GameObject>(Scene::GetNewGameObjectID(), "Player");
-        obj->AddComponent<TransformComponent>(TransformComponent(*obj, sf::Vector2f(0.0f, 1.0f), sf::Vector2f(0.0f, 1.0f)));
-        obj->AddComponent<SpriteComponent>(SpriteComponent(*obj));
+        obj->AddComponent<TransformComponent>(TransformComponent(*obj, sf::Vector2f(100.0f, 100.0f), sf::Vector2f(1.0f, 1.0f)));
+        obj->AddComponent<TriangleComponent>(TriangleComponent(*obj));
+        obj->AddComponent<SquareComponent>(SquareComponent(*obj));
+        
         return obj;
     }
     // /PlayerFactory

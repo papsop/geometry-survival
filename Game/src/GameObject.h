@@ -31,14 +31,19 @@ namespace Game
         {
             if constexpr (IComponent::is_derived<T>())
             {
-                auto component = m_components[typeid(T).name()];
-                return std::static_pointer_cast<T>(component);
+                if (m_components.find(typeid(T).name()) != m_components.end())
+                    return std::static_pointer_cast<T>(m_components[typeid(T).name()]);
+                else
+                    return {};
             }
             else if constexpr (IRenderableComponent::is_derived<T>())
             {
-                auto renderableComponent = m_renderableComponents[typeid(T).name()];
-                return std::static_pointer_cast<T>(renderableComponent);
+                if (m_renderableComponents.find(typeid(T).name()) != m_renderableComponents.end())
+                    return std::static_pointer_cast<T>(m_renderableComponents[typeid(T).name()]);
+                else
+                    return {};
             }
+            return {};
         }
 
         template<typename T>

@@ -54,6 +54,8 @@ namespace Game
             else if constexpr (IRenderableComponent::is_derived<T>())
                 m_renderableComponents.erase(typeid(T).name());
         }
+
+        void InitAllComponents();
         // --------------------------
         GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName) {};
         ~GameObject() {};

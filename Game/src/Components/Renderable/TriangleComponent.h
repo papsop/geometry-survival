@@ -13,6 +13,7 @@ namespace Game
         TriangleComponent(GameObject& obj, int zIndex);
         ~TriangleComponent() override = default;
 
+        void Init() override;
         void Render() override;
     private:
         std::shared_ptr<RenderManager> m_renderManager;

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Normal\PlayerControllerComponent.cpp" />
+    <ClCompile Include="src\Components\Normal\ActorComponent.cpp" />
     <ClCompile Include="src\Factories\GameObjectFactories.cpp" />
     <ClCompile Include="src\Scene.cpp" />
     <ClCompile Include="src\Components\Renderable\SquareComponent.cpp" />
@@ -32,6 +34,8 @@
     <ClCompile Include="src\Components\Renderable\TriangleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Normal\PlayerControllerComponent.h" />
+    <ClInclude Include="src\Components\Normal\ActorComponent.h" />
     <ClInclude Include="src\Factories\GameObjectFactories.h" />
     <ClInclude Include="src\Scene.h" />
     <ClInclude Include="src\Components\Renderable\SquareComponent.h" />

@@ -17,6 +17,7 @@ namespace Game
         IComponent(GameObject& obj) : m_owner(obj) {};
         virtual ~IComponent() = default;
 
+        virtual void Init() = 0;
         virtual void Update(float dt) = 0;
     protected:
         GameObject& m_owner;
@@ -31,6 +32,7 @@ namespace Game
         IRenderableComponent(GameObject& obj, int zIndex) : m_owner(obj), m_zIndex(zIndex){};
         virtual ~IRenderableComponent() = default;
 
+        virtual void Init() = 0;
         virtual void Render() = 0;
 
         const int GetZIndex() const { return m_zIndex; }

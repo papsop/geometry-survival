@@ -6,7 +6,7 @@ namespace Game
     class Application
     {
     public:
-        Application() : m_window(sf::VideoMode(200, 200), "SFML works!") {}
+        Application();
         void Run();
 
         void Draw(const sf::Drawable& drawable, const sf::RenderStates& states = sf::RenderStates::Default);

@@ -8,6 +8,11 @@
 
 namespace Game
 {
+
+    Application::Application() : m_window(sf::VideoMode(800, 600), "Dungeons & Geometry")
+    {
+    }
+
     void Application::Run()
     {
         SingletonManager& singletonManager = SingletonManager::Instance();

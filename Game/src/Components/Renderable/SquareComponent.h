@@ -13,6 +13,7 @@ namespace Game
         SquareComponent(GameObject& obj, int zIndex);
         ~SquareComponent() override = default;
 
+        void Init() override;
         void Render() override;
     private:
         std::shared_ptr<RenderManager> m_renderManager;

@@ -10,11 +10,14 @@ namespace Game
     {
         m_renderManager = SingletonManager::Instance().GetRenderManager();
 
-        m_transformComponent = obj.GetComponent<TransformComponent>();
-
         m_shape = std::make_shared<sf::CircleShape>(30.0f, 3);
         m_shape->setOrigin(sf::Vector2f(15.0f, 15.0f));
         m_shape->setFillColor(sf::Color::Red);
+    }
+
+    void TriangleComponent::Init()
+    {
+        m_transformComponent = m_owner.GetComponent<TransformComponent>();
     }
 
     void TriangleComponent::Render()

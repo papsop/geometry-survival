@@ -1,6 +1,6 @@
 #pragma once
 #include "../IComponent.h"
-#include "../Normal/TransformComponent.h"
+#include "RigidbodyComponent.h"
 #include <memory>
 
 namespace Game
@@ -13,10 +13,11 @@ namespace Game
 
         void Init() override;
         void Update(float dt) override;
-        void SetMovementVector(sf::Vector2f);
+        void SetMovementVector(sf::Vector2f movement);
+        void RotateTo(sf::Vector2f target);
     private:
-        std::weak_ptr<TransformComponent> m_transformComponent;
         float m_movementSpeed = 200.0f;
+        std::weak_ptr<RigidbodyComponent> m_rigidbodyComponent;
     };
 };
 

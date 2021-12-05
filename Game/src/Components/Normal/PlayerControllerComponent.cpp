@@ -16,25 +16,30 @@ namespace Game
 
     void PlayerControllerComponent::Update(float dt)
     {
-        sf::Vector2f movement(0.0f, 0.0f);
-
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::W))
-            movement.y -= dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::S))
-            movement.y += dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::A))
-            movement.x -= dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::D))
-            movement.x += dt;
-
-        // normalize myself since the library doesnt include it zZz
-        float movementVecLength = sqrt(movement.x * movement.x + movement.y * movement.y);
-        if (movementVecLength != 0)
-            movement /= movementVecLength;
-
-        if (auto tmp = m_actorComponent.lock())
+        if (auto tmpInput = m_inputManager.lock())
         {
-            tmp->SetMovementVector(movement);
+            // keyboard
+            sf::Vector2f movement(0.0f, 0.0f);
+
+            if (tmpInput->IsKeyPressed(sf::Keyboard::Key::W))
+                movement.y -= dt;
+            if (tmpInput->IsKeyPressed(sf::Keyboard::Key::S))
+                movement.y += dt;
+            if (tmpInput->IsKeyPressed(sf::Keyboard::Key::A))
+                movement.x -= dt;
+            if (tmpInput->IsKeyPressed(sf::Keyboard::Key::D))
+                movement.x += dt;
+
+            // normalize myself since the library doesnt include it zZz
+            float movementVecLength = sqrt(movement.x * movement.x + movement.y * movement.y);
+            if (movementVecLength != 0)
+                movement /= movementVecLength;
+
+            if (auto tmp = m_actorComponent.lock())
+            {
+                tmp->RotateTo(tmpInput->GetMousePos());
+                tmp->SetMovementVector(movement);
+            }
         }
     }
 };

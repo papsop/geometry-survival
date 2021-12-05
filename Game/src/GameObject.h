@@ -1,5 +1,6 @@
 #pragma once
 #include "Components/IComponent.h"
+#include "Components/Transform.h"
 
 #include <unordered_map>
 #include <map>
@@ -57,22 +58,24 @@ namespace Game
 
         void InitAllComponents();
         // --------------------------
-        GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName) {};
+        GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName), m_transform() {};
         ~GameObject() {};
 
         const uint32_t ID;
         const char* DebugName;
+        Transform& GetTransform() { return m_transform; }
 
         void Update(float dt);
         void Render();
 
         void Destroy() { m_shouldDestroy = true; }
         bool ShouldDestroy() const { return m_shouldDestroy; }
-
+    
     private:
         std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components = {};
         std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
+        Transform m_transform;
     };
 };
 

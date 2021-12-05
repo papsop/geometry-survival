@@ -14,6 +14,9 @@ namespace Game
 
     void GameObject::Update(float dt)
     {
+        if (m_transform.Rotation > 360.0f || m_transform.Rotation < -360.0f)
+            m_transform.Rotation = fmod(m_transform.Rotation, 360);
+
         for (auto component : m_components)
             component.second->Update(dt);
     }

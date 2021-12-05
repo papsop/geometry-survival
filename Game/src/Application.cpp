@@ -13,6 +13,11 @@ namespace Game
     {
     }
 
+    sf::Vector2i Application::GetMousePosition()
+    {
+        return sf::Mouse::getPosition(m_window);
+    }
+
     void Application::Run()
     {
         SingletonManager& singletonManager = SingletonManager::Instance();

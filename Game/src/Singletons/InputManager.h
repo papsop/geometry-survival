@@ -1,5 +1,5 @@
-#pragma once
-#include <SFML/Window/Keyboard.hpp>
+ #pragma once
+#include <SFML/Window.hpp>
 #include <array>
 
 #include "../Application.h"
@@ -8,9 +8,15 @@ namespace Game {
     class InputManager
     {
     public:
-        const bool IsKeyPressed(sf::Keyboard::Key key) const { return m_keys[key]; };
+        InputManager(Application& app) 
+            : m_application(app)
+            , m_keys() {};
 
+        const bool IsKeyPressed(sf::Keyboard::Key key) const { return m_keys[key]; };
+        sf::Vector2f GetMousePos();
     private:
+        Application& m_application;
+
         void KeyPressed(sf::Keyboard::Key key) { m_keys[key] = true; }
         void KeyReleased(sf::Keyboard::Key key) { m_keys[key] = false; }
 

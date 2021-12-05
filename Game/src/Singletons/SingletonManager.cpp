@@ -12,6 +12,6 @@ namespace Game
     void SingletonManager::Init(Application& app)
     {
         m_renderManager = std::make_shared<RenderManager>(app);
-        m_inputManager = std::make_shared<InputManager>();
+        m_inputManager = std::make_shared<InputManager>(app);
     }
 };

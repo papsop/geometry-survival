@@ -8,14 +8,14 @@ namespace Game
 {
     class GameObject; 
 
-    class IComponent
+    class IUpdatableComponent
     {
     public:
         template<typename T>
-        static constexpr bool is_derived() { return std::is_base_of<IComponent, T>::value; }
+        static constexpr bool is_derived() { return std::is_base_of<IUpdatableComponent, T>::value; }
 
-        IComponent(GameObject& obj) : m_owner(obj) {};
-        virtual ~IComponent() = default;
+        IUpdatableComponent(GameObject& obj) : m_owner(obj) {};
+        virtual ~IUpdatableComponent() = default;
 
         virtual void Init() = 0;
         virtual void Update(float dt) = 0;

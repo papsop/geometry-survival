@@ -4,7 +4,7 @@
 
 namespace Game
 {
-    class RigidbodyComponent : public IComponent
+    class RigidbodyComponent : public IUpdatableComponent
     {
     public:
         RigidbodyComponent(GameObject& obj);

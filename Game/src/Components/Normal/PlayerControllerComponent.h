@@ -5,7 +5,7 @@
 
 namespace Game
 {
-    class PlayerControllerComponent : public IComponent
+    class PlayerControllerComponent : public IUpdatableComponent
     {
     public:
         PlayerControllerComponent(GameObject& obj);

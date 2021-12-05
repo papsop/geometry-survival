@@ -4,7 +4,7 @@
 
 namespace Game
 {
-    PlayerControllerComponent::PlayerControllerComponent(GameObject &obj) : IComponent(obj) 
+    PlayerControllerComponent::PlayerControllerComponent(GameObject &obj) : IUpdatableComponent(obj)
     {
         m_inputManager = SingletonManager::Instance().GetInputManager();
     }

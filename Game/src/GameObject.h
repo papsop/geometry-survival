@@ -21,7 +21,7 @@ namespace Game
         template<typename T>
         void AddComponent(T component) 
         {
-            if constexpr(IComponent::is_derived<T>())
+            if constexpr(IUpdatableComponent::is_derived<T>())
                 m_components[typeid(T).name()] = std::make_shared<T>(component);
             if constexpr(IRenderableComponent::is_derived<T>())
                 m_renderableComponents[typeid(T).name()] = std::make_shared<T>(component);
@@ -30,7 +30,7 @@ namespace Game
         template<typename T>
         std::weak_ptr<T> GetComponent()
         {
-            if constexpr (IComponent::is_derived<T>())
+            if constexpr (IUpdatableComponent::is_derived<T>())
             {
                 if (m_components.find(typeid(T).name()) != m_components.end())
                     return std::static_pointer_cast<T>(m_components[typeid(T).name()]);
@@ -50,7 +50,7 @@ namespace Game
         template<typename T>
         void RemoveComponent()
         {
-            if constexpr (IComponent::is_derived<T>())
+            if constexpr (IUpdatableComponent::is_derived<T>())
                 m_components.erase(typeid(T).name());
             else if constexpr (IRenderableComponent::is_derived<T>())
                 m_renderableComponents.erase(typeid(T).name());
@@ -72,7 +72,7 @@ namespace Game
         bool ShouldDestroy() const { return m_shouldDestroy; }
     
     private:
-        std::unordered_map<const char*, std::shared_ptr<IComponent>> m_components = {};
+        std::unordered_map<const char*, std::shared_ptr<IUpdatableComponent>> m_components = {};
         std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
         Transform m_transform;

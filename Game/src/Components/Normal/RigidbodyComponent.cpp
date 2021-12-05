@@ -6,7 +6,7 @@
 namespace Game
 {
     RigidbodyComponent::RigidbodyComponent(GameObject& obj)
-        : IComponent(obj)
+        : IUpdatableComponent(obj)
         , m_ownerTransform(m_owner.GetTransform())
         , m_targetRotationAngle(m_ownerTransform.Rotation)
     {

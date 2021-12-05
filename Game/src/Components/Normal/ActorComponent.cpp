@@ -6,7 +6,7 @@
 namespace Game
 {
 
-    ActorComponent::ActorComponent(GameObject &obj) : IComponent(obj)
+    ActorComponent::ActorComponent(GameObject &obj) : IUpdatableComponent(obj)
     {
     }
 

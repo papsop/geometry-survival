@@ -34,15 +34,11 @@ namespace Game
             {
                 if (m_components.find(typeid(T).name()) != m_components.end())
                     return std::static_pointer_cast<T>(m_components[typeid(T).name()]);
-                else
-                    return {};
             }
             else if constexpr (IRenderableComponent::is_derived<T>())
             {
                 if (m_renderableComponents.find(typeid(T).name()) != m_renderableComponents.end())
                     return std::static_pointer_cast<T>(m_renderableComponents[typeid(T).name()]);
-                else
-                    return {};
             }
             return {};
         }

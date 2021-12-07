@@ -14,9 +14,9 @@ namespace Game
 
         void Init() override;
         void Render() override;
-    private:
-        std::weak_ptr<RenderManager> m_renderManager;
 
+    private:
+        // Can't copy a unique_ptr class, add copy constructor or use raw pointer?
         std::shared_ptr<sf::CircleShape> m_shape;
     };
 

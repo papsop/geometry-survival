@@ -29,7 +29,12 @@ namespace Game
         template<typename T>
         static constexpr bool is_derived() { return std::is_base_of<IRenderableComponent, T>::value; }
 
-        IRenderableComponent(GameObject& obj, int zIndex) : m_owner(obj), m_zIndex(zIndex){};
+        IRenderableComponent(GameObject& obj, int zIndex) 
+            : m_owner(obj)
+            , m_zIndex(zIndex)
+            , m_renderManager(SingletonManager::Instance().GetRenderManager())
+        {};
+
         virtual ~IRenderableComponent() = default;
 
         virtual void Init() = 0;
@@ -38,6 +43,7 @@ namespace Game
         const int GetZIndex() const { return m_zIndex; }
     protected:
         GameObject& m_owner;
+        RenderManager* m_renderManager;
         const int m_zIndex; // should be changeable?
     };
 };

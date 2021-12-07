@@ -19,4 +19,12 @@ namespace Game
 
         std::shared_ptr<GameObject> CreateGameObject() const override;
     };
+
+    class SeekingEnemyFactory : public IGameObjectFactory
+    {
+    public:
+        ~SeekingEnemyFactory() override = default;
+        std::shared_ptr<GameObject> CreateGameObject() const override;
+    private:
+    };
 };

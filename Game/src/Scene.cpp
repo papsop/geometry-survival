@@ -13,9 +13,11 @@ namespace Game
         m_gameObjects[go->ID] = go;
     }
 
-    void Scene::AddGameObjectViaFactory(const IGameObjectFactory& factory)
+    std::weak_ptr<GameObject> Scene::AddGameObjectViaFactory(const IGameObjectFactory& factory)
     {
-        AddGameObject(factory.CreateGameObject());
+        auto createdObj = factory.CreateGameObject();
+        AddGameObject(createdObj);
+        return createdObj;
     }
 
     void Scene::UpdateGameObjects(float dt)

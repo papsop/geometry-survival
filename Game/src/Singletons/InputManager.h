@@ -11,6 +11,7 @@ namespace Game {
         InputManager(Application& app) 
             : m_application(app)
             , m_keys() {};
+        ~InputManager() = default;
 
         const bool IsKeyPressed(sf::Keyboard::Key key) const { return m_keys[key]; };
         sf::Vector2f GetMousePos();

@@ -11,7 +11,14 @@ namespace Game
 
     void SingletonManager::Init(Application& app)
     {
-        m_renderManager = std::make_shared<RenderManager>(app);
-        m_inputManager = std::make_shared<InputManager>(app);
+        if (m_renderManager.get() == nullptr && m_inputManager.get() == nullptr)
+        {
+            m_renderManager = std::make_unique<RenderManager>(app);
+            m_inputManager = std::make_unique<InputManager>(app);
+        }
+        else
+        {
+            // error already initialized
+        }
     }
 };

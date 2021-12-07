@@ -16,7 +16,7 @@ namespace Game
         void SetMovementVector(sf::Vector2f movement);
         void RotateTo(sf::Vector2f target);
     private:
-        float m_movementSpeed = 200.0f;
+        float m_movementSpeed = 500.0f;
         std::weak_ptr<RigidbodyComponent> m_rigidbodyComponent;
     };
 };

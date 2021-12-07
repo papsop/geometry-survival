@@ -17,7 +17,7 @@ namespace Game
         Transform& m_ownerTransform;
 
         float m_maxRotationSpeed = 270.0f;
-        float m_maxMovementSpeed = 200.0f;
+        float m_maxMovementSpeed = 500.0f;
 
         float m_targetRotationAngle = 0.0f;
         float m_rotationLerpT = 0.0f;

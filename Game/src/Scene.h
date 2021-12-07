@@ -12,7 +12,7 @@ namespace Game
         static uint32_t GetNewGameObjectID();
 
         void AddGameObject(std::shared_ptr<GameObject> go);
-        void AddGameObjectViaFactory(const IGameObjectFactory& factory);
+        std::weak_ptr<GameObject> AddGameObjectViaFactory(const IGameObjectFactory& factory);
 
         void UpdateGameObjects(float dt);
         void RenderGameObjects();

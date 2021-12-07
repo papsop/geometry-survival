@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Normal\SeekingEnemyController.cpp" />
     <ClCompile Include="src\Components\Normal\RigidbodyComponent.cpp" />
     <ClCompile Include="src\Components\Normal\PlayerControllerComponent.cpp" />
     <ClCompile Include="src\Components\Normal\ActorComponent.cpp" />
@@ -34,6 +35,7 @@
     <ClCompile Include="src\Components\Renderable\TriangleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Normal\SeekingEnemyController.h" />
     <ClInclude Include="src\Components\Normal\RigidbodyComponent.h" />
     <ClInclude Include="src\Components\Normal\PlayerControllerComponent.h" />
     <ClInclude Include="src\Components\Normal\ActorComponent.h" />

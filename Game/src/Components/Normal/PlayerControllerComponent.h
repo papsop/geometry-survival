@@ -14,7 +14,7 @@ namespace Game
         void Init() override;
         void Update(float dt) override;
     private:
-        std::weak_ptr<InputManager> m_inputManager;
+        InputManager* m_inputManager;
         std::weak_ptr<ActorComponent> m_actorComponent;
     };
 };

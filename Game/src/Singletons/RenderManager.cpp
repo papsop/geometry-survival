@@ -4,7 +4,7 @@
 
 namespace Game
 {
-    void RenderManager::RequestRender(int zIndex, std::weak_ptr<sf::CircleShape> shape)
+    void RenderManager::RequestRender(int zIndex, sf::Drawable *shape)
     {
         m_renderQueue.emplace_back(std::make_pair(zIndex, shape));
     }
@@ -15,8 +15,7 @@ namespace Game
 
         for (auto renderPair : m_renderQueue)
         {
-            if (auto tmp = renderPair.second.lock())
-                m_application.Draw(*tmp);
+            m_application.Draw(*renderPair.second);
         }
         m_renderQueue.clear();
     }

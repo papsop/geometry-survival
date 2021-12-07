@@ -3,6 +3,7 @@
 #include "GameObject.h"
 #include "Scene.h"
 #include "Factories/GameObjectFactories.h"
+#include "Components/Normal/SeekingEnemyController.h"
 #include <iostream>
 #include <type_traits>
 
@@ -28,7 +29,11 @@ namespace Game
         // ---------------------------------------
 
         Scene scene;
-        scene.AddGameObjectViaFactory(PlayerFactory());
+        auto playerObj = scene.AddGameObjectViaFactory(PlayerFactory());
+        auto enemy = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
+        if (auto tmp = enemy.lock())
+            if (auto tmpII = tmp->GetComponent<SeekingEnemyController>().lock())
+               tmpII->SetSeekTarget(playerObj);
 
         sf::Clock clock;
         while (m_window.isOpen())

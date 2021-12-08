@@ -30,7 +30,7 @@ namespace Game
             Transform& transform = m_owner.GetTransform();
             auto dirToMouse = target - transform.Position;
             float angle = atan2(dirToMouse.y, dirToMouse.x);
-            tmpRigidbody->RotateToAngle(angle * 180.0f / 3.14259f + 90.0f);
+            tmpRigidbody->RotateToAngle(angle * 180.0f / 3.14259f);
         }
     }
 

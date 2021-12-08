@@ -13,11 +13,12 @@ namespace Game
         void Init() override;
         void RotateToAngle(float targetAngle);
         void Move(sf::Vector2f moveDirection);
+        float m_maxMovementSpeed = 500.0f;
     private:
         Transform& m_ownerTransform;
 
         float m_maxRotationSpeed = 270.0f;
-        float m_maxMovementSpeed = 500.0f;
+        
 
         float m_targetRotationAngle = 0.0f;
         float m_rotationLerpT = 0.0f;

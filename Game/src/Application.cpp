@@ -10,7 +10,7 @@
 namespace Game
 {
 
-    Application::Application() : m_window(sf::VideoMode(800, 600), "Dungeons & Geometry")
+    Application::Application() : m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
     {
     }
 

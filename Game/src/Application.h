@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <memory>
 
 namespace Game
 {
@@ -13,7 +14,7 @@ namespace Game
 
         sf::Vector2i GetMousePosition();
     private:
-        sf::RenderWindow m_window;
+        std::unique_ptr<sf::RenderWindow> m_window;
     };
 };
 

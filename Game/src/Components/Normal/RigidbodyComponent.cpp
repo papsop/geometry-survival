@@ -21,7 +21,7 @@ namespace Game
         {
             m_timeToRotate = abs(m_ownerTransform.Rotation - m_targetRotationAngle) / m_maxRotationSpeed;
             m_rotationLerpT = 0.0f;
-            m_targetRotationAngle = targetAngle;
+            m_targetRotationAngle = targetAngle + 90.0f;
         }
     }
 

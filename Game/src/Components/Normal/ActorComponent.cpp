@@ -3,6 +3,9 @@
 #include "../../GameObject.h"
 #include "../../Utils/Vec2f.h"
 #include <iostream>
+#define _USE_MATH_DEFINES
+#include<math.h>
+
 namespace Game
 {
 
@@ -30,7 +33,7 @@ namespace Game
             Transform& transform = m_owner.GetTransform();
             auto dirToMouse = target - transform.Position;
             float angle = atan2(dirToMouse.y, dirToMouse.x);
-            tmpRigidbody->RotateToAngle(angle * 180.0f / 3.14259f);
+            tmpRigidbody->RotateToAngle(angle * 180 / M_PI + 90);
         }
     }
 

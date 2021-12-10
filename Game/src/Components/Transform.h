@@ -1,6 +1,8 @@
 #pragma once
 #include <math.h>
 #include <SFML/System/Vector2.hpp>
+#define _USE_MATH_DEFINES
+#include<math.h>
 
 namespace Game
 {

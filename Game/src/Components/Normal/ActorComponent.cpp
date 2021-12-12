@@ -9,11 +9,12 @@
 namespace Game
 {
 
-    ActorComponent::ActorComponent(GameObject &obj) : IUpdatableComponent(obj)
+    ActorComponent::ActorComponent(GameObject &obj) 
+        : IComponent(obj)
     {
     }
 
-    void ActorComponent::Init()
+    void ActorComponent::OnGameObjectChanged()
     {
         m_rigidbodyComponent = m_owner.GetComponent<RigidbodyComponent>();
     }

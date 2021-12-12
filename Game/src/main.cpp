@@ -2,11 +2,7 @@
 
 int main()
 {
-    Game::Application app;
-    app.Run();
+    Game::Application::Instance().Run();
 
     return 0;
-
-
-
 }

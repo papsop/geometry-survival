@@ -5,14 +5,14 @@
 
 namespace Game
 {
-    class SeekingEnemyController : public IUpdatableComponent
+    class SeekingEnemyController : public IComponent
     {
     public:
         SeekingEnemyController(GameObject& obj);
         ~SeekingEnemyController() override = default;
 
         void SetSeekTarget(std::weak_ptr<GameObject> seekTarget) { m_seekTarget = seekTarget; }
-        void Init() override;
+        void OnGameObjectChanged() override;
         void Update(float dt) override;
     private:
         std::weak_ptr<GameObject> m_seekTarget;

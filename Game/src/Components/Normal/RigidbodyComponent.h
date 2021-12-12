@@ -4,13 +4,13 @@
 
 namespace Game
 {
-    class RigidbodyComponent : public IUpdatableComponent
+    class RigidbodyComponent : public IComponent
     {
     public:
         RigidbodyComponent(GameObject& obj);
 
         void Update(float dt) override;
-        void Init() override;
+        void OnGameObjectChanged() override;
         void RotateToAngle(float targetAngle);
         void Move(sf::Vector2f moveDirection);
         float m_maxMovementSpeed = 500.0f;

@@ -2,32 +2,31 @@
 
 namespace Game
 {
-    uint32_t Scene::GetNewGameObjectID()
+    void Scene::AddGameObject(uint32_t ID)
     {
-        static uint32_t ID = 0;
-        return ID++;
+        m_sceneEntities.insert(ID);
     }
 
-    void Scene::AddGameObject(std::shared_ptr<GameObject> go)
+    void Scene::RemoveGameObject(uint32_t ID)
     {
-        m_gameObjects[go->ID] = go;
+        m_sceneEntities.erase(ID);
     }
 
-    std::weak_ptr<GameObject> Scene::AddGameObjectViaFactory(const IGameObjectFactory& factory)
+    uint32_t Scene::AddGameObjectViaFactory(const IGameObjectFactory& factory)
     {
-        auto createdObj = factory.CreateGameObject();
-        AddGameObject(createdObj);
-        return createdObj;
+        auto createdID = factory.CreateGameObject();
+        AddGameObject(createdID);
+        return createdID;
     }
 
     void Scene::UpdateGameObjects(float dt)
     {
-        for (auto gameObject : m_gameObjects)
-            gameObject.second->Update(dt);
+        //for (auto gameObject : m_gameObjects)
+        //    gameObject.second->Update(dt);
     }
     void Scene::RenderGameObjects()
     {
-        for (auto gameObject : m_gameObjects)
-            gameObject.second->Render();
+        //for (auto gameObject : m_gameObjects)
+        //    gameObject.second->Render();
     }
 };

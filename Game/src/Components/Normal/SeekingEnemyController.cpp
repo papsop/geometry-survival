@@ -5,11 +5,11 @@
 namespace Game
 {
     SeekingEnemyController::SeekingEnemyController(GameObject& obj)
-        : IUpdatableComponent(obj)
+        : IComponent(obj)
     {
     }
 
-    void SeekingEnemyController::Init()
+    void SeekingEnemyController::OnGameObjectChanged()
     {
         m_actorComponent = m_owner.GetComponent<ActorComponent>();
         if (auto tmpRigidbody = m_owner.GetComponent<RigidbodyComponent>().lock())

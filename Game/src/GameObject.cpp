@@ -1,29 +1,30 @@
 #include "GameObject.h"
+#include "Components/Normal/RigidbodyComponent.h"
+#include "Components/Normal/ActorComponent.h"
+#include "Components/Normal/PlayerControllerComponent.h"
+#include "Components/Normal/SeekingEnemyController.h"
 #include <iostream>
 namespace Game
 {
 
-    void GameObject::InitAllComponents()
+    void GameObject::NotifyComponents()
     {
         for (auto component : m_components)
-            component.second->Init();
-
-        for (auto component : m_renderableComponents)
-            component.second->Init();
+            component.second->OnGameObjectChanged();
     }
 
     void GameObject::Update(float dt)
     {
-        if (m_transform.Rotation > 360.0f || m_transform.Rotation < -360.0f)
-            m_transform.Rotation = fmod(m_transform.Rotation, 360);
-
-        for (auto component : m_components)
-            component.second->Update(dt);
+        // Order of component's updates
+        UpdateComponentIfExists<SeekingEnemyController>(dt);
+        UpdateComponentIfExists<PlayerControllerComponent>(dt);
+        UpdateComponentIfExists<ActorComponent>(dt);
+        UpdateComponentIfExists<RigidbodyComponent>(dt);
     }
 
     void GameObject::Render()
     {
-        for (auto renderableComponent : m_renderableComponents)
-            renderableComponent.second->Render();
+        //for (auto renderableComponent : m_renderableComponents)
+        //    renderableComponent.second->Render();
     }
 };

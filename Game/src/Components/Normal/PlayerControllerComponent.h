@@ -5,16 +5,16 @@
 
 namespace Game
 {
-    class PlayerControllerComponent : public IUpdatableComponent
+    class PlayerControllerComponent : public IComponent
     {
     public:
         PlayerControllerComponent(GameObject& obj);
         ~PlayerControllerComponent() override = default;
         
-        void Init() override;
+        void OnGameObjectChanged() override;
         void Update(float dt) override;
     private:
-        InputManager* m_inputManager;
+        InputManager& m_inputManager;
         std::weak_ptr<ActorComponent> m_actorComponent;
     };
 };

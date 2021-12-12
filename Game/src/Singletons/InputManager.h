@@ -2,20 +2,19 @@
 #include <SFML/Window.hpp>
 #include <array>
 
-#include "../Application.h"
-
 namespace Game {
+
+    class Application;
+
     class InputManager
     {
     public:
-        InputManager(Application& app) 
-            : m_application(app)
-            , m_keys() {};
         ~InputManager() = default;
-
         const bool IsKeyPressed(sf::Keyboard::Key key) const { return m_keys[key]; };
         sf::Vector2f GetMousePos();
     private:
+        InputManager(Application& app);
+
         Application& m_application;
 
         void KeyPressed(sf::Keyboard::Key key) { m_keys[key] = true; }
@@ -23,6 +22,6 @@ namespace Game {
 
         std::array<bool, sf::Keyboard::Key::KeyCount> m_keys;
 
-    friend class Application;
+    friend class Application;   // only Application can create a manager
     };
 };

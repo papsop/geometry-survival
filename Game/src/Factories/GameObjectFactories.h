@@ -9,7 +9,7 @@ namespace Game
         IGameObjectFactory() = default;
         virtual ~IGameObjectFactory() = default;
 
-        virtual std::shared_ptr<GameObject> CreateGameObject() const = 0;
+        virtual uint32_t CreateGameObject() const = 0;
     };
 
     class PlayerFactory : public IGameObjectFactory
@@ -17,14 +17,14 @@ namespace Game
     public:
         ~PlayerFactory() override = default;
 
-        std::shared_ptr<GameObject> CreateGameObject() const override;
+        uint32_t CreateGameObject() const override;
     };
 
     class SeekingEnemyFactory : public IGameObjectFactory
     {
     public:
         ~SeekingEnemyFactory() override = default;
-        std::shared_ptr<GameObject> CreateGameObject() const override;
+        uint32_t CreateGameObject() const override;
     private:
     };
 };

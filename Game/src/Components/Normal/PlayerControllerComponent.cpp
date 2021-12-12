@@ -1,16 +1,17 @@
 #include "PlayerControllerComponent.h"
 
 #include "../../GameObject.h"
+#include "../../Application.h"
 
 namespace Game
 {
     PlayerControllerComponent::PlayerControllerComponent(GameObject &obj) 
-        : IUpdatableComponent(obj)
-        , m_inputManager(SingletonManager::Instance().GetInputManager())
+        : IComponent(obj)
+        , m_inputManager(Application::Instance().GetInputManager())
     {
     }
 
-    void PlayerControllerComponent::Init() 
+    void PlayerControllerComponent::OnGameObjectChanged()
     {
         m_actorComponent = m_owner.GetComponent<ActorComponent>();
     }
@@ -21,13 +22,13 @@ namespace Game
         // keyboard
         sf::Vector2f movement(0.0f, 0.0f);
 
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::W))
+        if (m_inputManager.IsKeyPressed(sf::Keyboard::Key::W))
             movement.y -= dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::S))
+        if (m_inputManager.IsKeyPressed(sf::Keyboard::Key::S))
             movement.y += dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::A))
+        if (m_inputManager.IsKeyPressed(sf::Keyboard::Key::A))
             movement.x -= dt;
-        if (m_inputManager->IsKeyPressed(sf::Keyboard::Key::D))
+        if (m_inputManager.IsKeyPressed(sf::Keyboard::Key::D))
             movement.x += dt;
 
         // normalize myself since the library doesnt include it zZz
@@ -37,7 +38,7 @@ namespace Game
 
         if (auto tmp = m_actorComponent.lock())
         {
-            tmp->RotateTo(m_inputManager->GetMousePos());
+            tmp->RotateTo(m_inputManager.GetMousePos());
             tmp->SetMovementVector(movement);
         }
         else

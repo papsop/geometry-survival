@@ -6,14 +6,14 @@
 namespace Game
 {
     RigidbodyComponent::RigidbodyComponent(GameObject& obj)
-        : IUpdatableComponent(obj)
+        : IComponent(obj)
         , m_ownerTransform(m_owner.GetTransform())
         , m_targetRotationAngle(m_ownerTransform.Rotation)
     {
 
     }
 
-    void RigidbodyComponent::Init() {}
+    void RigidbodyComponent::OnGameObjectChanged() {}
 
     void RigidbodyComponent::RotateToAngle(float targetAngle)
     {
@@ -32,6 +32,7 @@ namespace Game
 
     void RigidbodyComponent::Update(float dt)
     {
+        //std::cout << "RigidBodyComponent.Update()" << std::endl;
         //Movement
         m_ownerTransform.Position += m_velocity * dt;
 

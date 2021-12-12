@@ -16,43 +16,39 @@ namespace Game
     public:
         // Components Management
         template<typename T>
-        bool HasComponent() { return m_components.find(typeid(T).name()) != m_components.end(); }
-
-        template<typename T>
-        void AddComponent(T component) 
+        bool HasComponent()
         {
-            if constexpr(IUpdatableComponent::is_derived<T>())
-                m_components[typeid(T).name()] = std::make_shared<T>(component);
-            if constexpr(IRenderableComponent::is_derived<T>())
-                m_renderableComponents[typeid(T).name()] = std::make_shared<T>(component);
+            auto compID = IComponent::GetComponentID<T>();
+            return m_components.find(compID) != m_components.end();
         }
-        
-        template<typename T>
-        std::weak_ptr<T> GetComponent()
+
+        template<typename T, typename ... Args>
+        void AddComponent(Args&& ... args)
         {
-            if constexpr (IUpdatableComponent::is_derived<T>())
-            {
-                if (m_components.find(typeid(T).name()) != m_components.end())
-                    return std::static_pointer_cast<T>(m_components[typeid(T).name()]);
-            }
-            else if constexpr (IRenderableComponent::is_derived<T>())
-            {
-                if (m_renderableComponents.find(typeid(T).name()) != m_renderableComponents.end())
-                    return std::static_pointer_cast<T>(m_renderableComponents[typeid(T).name()]);
-            }
-            return {};
+            m_components[IComponent::GetComponentID<T>()] = std::make_shared<T>(std::forward<Args>(args) ...);
+
+            NotifyComponents();
         }
 
         template<typename T>
         void RemoveComponent()
         {
-            if constexpr (IUpdatableComponent::is_derived<T>())
-                m_components.erase(typeid(T).name());
-            else if constexpr (IRenderableComponent::is_derived<T>())
-                m_renderableComponents.erase(typeid(T).name());
+            if(HasComponent<T>())
+                m_components.erase(IComponent::GetComponentID<T>());
+
+            NotifyComponents();
         }
 
-        void InitAllComponents();
+        template<typename T>
+        std::weak_ptr<T> GetComponent()
+        {
+            if (HasComponent<T>())
+                return std::static_pointer_cast<T>(m_components[IComponent::GetComponentID<T>()]);
+            else
+                return {};
+        }
+
+
         // --------------------------
         GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName), m_transform() {};
         ~GameObject() {};
@@ -66,13 +62,21 @@ namespace Game
 
         void Destroy() { m_shouldDestroy = true; }
         bool ShouldDestroy() const { return m_shouldDestroy; }
-    
+
     private:
-        std::unordered_map<const char*, std::shared_ptr<IUpdatableComponent>> m_components = {};
-        std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
+        std::unordered_map<uint32_t, std::shared_ptr<IComponent>> m_components = {};
+        //std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
         Transform m_transform;
+
+        void NotifyComponents();
+
+        template<typename T>
+        void UpdateComponentIfExists(float dt)
+        {
+            if (HasComponent<T>())
+                m_components[IComponent::GetComponentID<T>()]->Update(dt);
+        }
     };
 };
-
 

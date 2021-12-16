@@ -34,6 +34,8 @@ namespace Game
         Application();
         ~Application() = default;
 
+        void HandleWindowEvent(const sf::Event& event);
+
         sf::RenderWindow m_window;
 
         std::unique_ptr<InputManager> m_inputManager;

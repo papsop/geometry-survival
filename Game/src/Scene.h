@@ -9,7 +9,7 @@ namespace Game
     class Scene
     {
     public:
-        void AddGameObject(std::shared_ptr<GameObject> go);
+        void AddGameObject(uint32_t ID);
         uint32_t AddGameObjectViaFactory(const IGameObjectFactory& factory);
 
         void UpdateGameObjects(float dt);

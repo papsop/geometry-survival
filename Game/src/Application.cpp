@@ -26,15 +26,21 @@ namespace Game
 
     sf::Vector2i Application::GetMousePosition()
     {
-        return sf::Mouse::getPosition(*m_window);
+        return sf::Mouse::getPosition(m_window);
+    }
+
+    void Application::HandleWindowEvent(const sf::Event& event)
+    {
+        switch (event.type)
+        {
+        case sf::Event::Closed:
+            m_window.close();
+            break;
+        }
     }
 
     void Application::Run()
     {
-        auto renderManager = GetRenderManager();
-        auto inputManager = GetInputManager();
-        // ---------------------------------------
-
         Scene scene;
         auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
 
@@ -61,41 +67,26 @@ namespace Game
         {
             sf::Time elapsed = clock.restart();
 
-            // todo it's own handling
             sf::Event event;
-            while (m_window->pollEvent(event))
-            {
-                switch (event.type)
-                {
-                case sf::Event::Closed:
-                    m_window->close();
-                    break;
-                case sf::Event::KeyPressed:
-                    inputManager.KeyPressed(event.key.code);
-                    break;
-                case sf::Event::KeyReleased:
-                    inputManager.KeyReleased(event.key.code);
-                    break;
-                }
-            }
+            while (m_window.pollEvent(event))
+                HandleWindowEvent(event);
+
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
                 m_window.close();
 
             m_window.clear();
-
-
             for (auto entityID : scene.GetSceneGameObjects())
                 if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
                     tmp->Update(elapsed.asSeconds());
 
-            sf::Text text;
-            text.setFont(font);
-            float fps = (1000 / elapsed.asSeconds());
-            std::string debugString = std::to_string(fps) + " fps";
-            text.setString(debugString);
-            text.setCharacterSize(16);
-            text.setFillColor(sf::Color::Red);
-            m_window.draw(text);
+            //sf::Text text;
+            //text.setFont(font);
+            //float fps = (1000 / elapsed.asSeconds());
+            //std::string debugString = std::to_string(fps) + " fps";
+            //text.setString(debugString);
+            //text.setCharacterSize(16);
+            //text.setFillColor(sf::Color::Red);
+            //m_window.draw(text);
 
             m_window.display();
         }
@@ -103,6 +94,6 @@ namespace Game
 
     void Application::Draw(const sf::Drawable& drawable, const sf::RenderStates& states)
     {
-        m_window->draw(drawable, states);
+        m_window.draw(drawable, states);
     }
 };

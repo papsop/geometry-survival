@@ -53,6 +53,9 @@
     <ClInclude Include="src\Systems\ISystem.h" />
     <ClInclude Include="src\Utils\Vec2f.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
     <Keyword>Win32Proj</Keyword>

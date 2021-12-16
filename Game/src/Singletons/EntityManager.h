@@ -12,7 +12,6 @@ namespace Game
         uint32_t                  CreateEntityReturnID(const char* name="Unknown");
 
         std::weak_ptr<GameObject> GetEntityByID(uint32_t ID);
-
     private:
         EntityManager() = default;
 

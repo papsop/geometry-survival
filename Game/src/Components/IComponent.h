@@ -1,6 +1,8 @@
 #pragma once
+#include "Transform.h"
 #include "../Singletons/InputManager.h"
 #include "../Singletons/RenderManager.h"
+#include "../utils.h"
 
 #include <type_traits>
 #include <functional>
@@ -30,27 +32,27 @@ namespace Game
         GameObject& m_owner;
     };
 
-    //class IRenderableComponent
-    //{
-    //public:
-    //    template<typename T>
-    //    static constexpr bool is_derived() { return std::is_base_of<IRenderableComponent, T>::value; }
+    class IRenderableShape
+    {
+    public:
+        IRenderableShape() = default;
+        ~IRenderableShape() = default;
 
-    //    IRenderableComponent(GameObject& obj, int zIndex) 
-    //        : m_owner(obj)
-    //        , m_zIndex(zIndex)
-    //        , m_renderManager(SingletonManager::Instance().GetRenderManager())
-    //    {};
+        virtual const view::Shape& GetRenderableShape() = 0;
 
-    //    virtual ~IRenderableComponent() = default;
+    protected:
+        view::Shape m_renderableShape;
+    };
 
-    //    virtual void Init() = 0;
-    //    virtual void Render() = 0;
+    class IRenderableText
+    {
+    public:
+        IRenderableText() = default;
+        ~IRenderableText() = default;
 
-    //    const int GetZIndex() const { return m_zIndex; }
-    //protected:
-    //    GameObject& m_owner;
-    //    RenderManager* m_renderManager;
-    //    const int m_zIndex; // should be changeable?
-    //};
+        std::string GetRenderableText() const { return m_renderableText; };
+    private:
+        std::string m_renderableText;
+    };
+
 };

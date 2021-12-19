@@ -16,7 +16,7 @@ namespace Game
 
         sf::Vector2f Forward()
         {
-            return { cos((Rotation - 90.0f) * 3.14159f / 180.0f), sin((Rotation - 90.0f) * 3.14159f / 180.0f) };
+            return { cosf((Rotation - 90.0f) * 3.14159f / 180.0f), sinf((Rotation - 90.0f) * 3.14159f / 180.0f) };
         }
     };
 };

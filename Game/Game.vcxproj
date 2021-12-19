@@ -19,42 +19,50 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Commands.cpp" />
+    <ClCompile Include="src\Components\SquareComponent.cpp" />
+    <ClCompile Include="src\View\ConsoleViewStrategy.cpp" />
     <ClCompile Include="src\Singletons\EntityManager.cpp" />
-    <ClCompile Include="src\Components\Normal\SeekingEnemyController.cpp" />
-    <ClCompile Include="src\Components\Normal\RigidbodyComponent.cpp" />
-    <ClCompile Include="src\Components\Normal\PlayerControllerComponent.cpp" />
-    <ClCompile Include="src\Components\Normal\ActorComponent.cpp" />
+    <ClCompile Include="src\Components\RigidbodyComponent.cpp" />
+    <ClCompile Include="src\Components\ActorComponent.cpp" />
     <ClCompile Include="src\Factories\GameObjectFactories.cpp" />
     <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\Components\Renderable\SquareComponent.cpp" />
     <ClCompile Include="src\GameObject.cpp" />
     <ClCompile Include="src\Singletons\InputManager.cpp" />
     <ClCompile Include="src\Singletons\RenderManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\Components\Renderable\TriangleComponent.cpp" />
+    <ClCompile Include="src\View\ViewManager.cpp" />
+    <ClCompile Include="src\View\WindowViewStrategy.cpp" />
+    <ClCompile Include="src\Components\TriangleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Commands.h" />
+    <ClInclude Include="src\Components\SquareComponent.h" />
+    <ClInclude Include="src\View\ConsoleViewStrategy.h" />
     <ClInclude Include="src\Singletons\EntityManager.h" />
-    <ClInclude Include="src\Components\Normal\SeekingEnemyController.h" />
-    <ClInclude Include="src\Components\Normal\RigidbodyComponent.h" />
-    <ClInclude Include="src\Components\Normal\PlayerControllerComponent.h" />
-    <ClInclude Include="src\Components\Normal\ActorComponent.h" />
+    <ClInclude Include="src\Components\RigidbodyComponent.h" />
+    <ClInclude Include="src\Components\ActorComponent.h" />
     <ClInclude Include="src\Components\Transform.h" />
     <ClInclude Include="src\Factories\GameObjectFactories.h" />
     <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\Components\Renderable\SquareComponent.h" />
     <ClInclude Include="src\GameObject.h" />
     <ClInclude Include="src\Components\IComponent.h" />
     <ClInclude Include="src\Singletons\InputManager.h" />
     <ClInclude Include="src\Singletons\RenderManager.h" />
     <ClInclude Include="src\Application.h" />
-    <ClInclude Include="src\Components\Renderable\TriangleComponent.h" />
     <ClInclude Include="src\Systems\ISystem.h" />
-    <ClInclude Include="src\Utils\Vec2f.h" />
+    <ClInclude Include="src\utils.h" />
+    <ClInclude Include="src\View\IViewStrategy.h" />
+    <ClInclude Include="src\View\ViewManager.h" />
+    <ClInclude Include="src\View\WindowViewStrategy.h" />
+    <ClInclude Include="src\Components\TriangleComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="arial.ttf" />
+  </ItemGroup>
+  <ItemGroup>
+    <Text Include="todo.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

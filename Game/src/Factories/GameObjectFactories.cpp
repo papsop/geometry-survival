@@ -1,10 +1,8 @@
 #include "GameObjectFactories.h"
-#include "../Components/Renderable/SquareComponent.h"
-#include "../Components/Renderable/TriangleComponent.h"
-#include "../Components/Normal/ActorComponent.h"
-#include "../Components/Normal/PlayerControllerComponent.h"
-#include "../Components/Normal/RigidbodyComponent.h"
-#include "../Components/Normal/SeekingEnemyController.h"
+#include "../Components/ActorComponent.h"
+#include "../Components/RigidbodyComponent.h"
+#include "../Components/SquareComponent.h"
+#include "../Components/TriangleComponent.h"
 #include "../Scene.h"
 #include "../Application.h"
 
@@ -19,8 +17,10 @@ namespace Game
         if (auto tmp = obj.lock())
         {
             objID = tmp->ID;
-            tmp->GetTransform().Position = sf::Vector2f(200.0f, 200.0f);
+            tmp->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
+            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Magenta);
             tmp->AddComponent<RigidbodyComponent>(*tmp);
+            tmp->AddComponent<TriangleComponent>(*tmp, sf::Color::Black);
             tmp->AddComponent<ActorComponent>(*tmp);
             return tmp->ID;
         }

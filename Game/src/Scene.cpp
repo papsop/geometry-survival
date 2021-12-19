@@ -2,9 +2,9 @@
 
 namespace Game
 {
-    void Scene::AddGameObject(uint32_t ID)
+    void Scene::AddGameObject(uint32_t id)
     {
-        m_sceneEntities.insert(ID);
+        m_sceneEntities.insert(id);
     }
 
     void Scene::RemoveGameObject(uint32_t ID)

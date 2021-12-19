@@ -5,6 +5,7 @@
 #include "Singletons/InputManager.h"
 #include "Singletons/RenderManager.h"
 #include "Singletons/EntityManager.h"
+#include "View/ViewManager.h"
 
 namespace Game
 {
@@ -36,11 +37,10 @@ namespace Game
 
         void HandleWindowEvent(const sf::Event& event);
 
-        sf::RenderWindow m_window;
-
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<RenderManager> m_renderManager;
         std::unique_ptr<EntityManager> m_entityManager;
+        std::unique_ptr<view::ViewManager> m_viewManager;
     };
 };
 

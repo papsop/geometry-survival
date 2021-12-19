@@ -57,6 +57,8 @@ namespace Game
         const char* DebugName;
         Transform& GetTransform() { return m_transform; }
 
+        std::unordered_map<uint32_t, std::shared_ptr<IComponent>> GetAllComponents() { return m_components; }
+
         void Update(float dt);
         void Render();
 
@@ -65,7 +67,6 @@ namespace Game
 
     private:
         std::unordered_map<uint32_t, std::shared_ptr<IComponent>> m_components = {};
-        //std::map<const char*, std::shared_ptr<IRenderableComponent>> m_renderableComponents;
         bool m_shouldDestroy = false;
         Transform m_transform;
 

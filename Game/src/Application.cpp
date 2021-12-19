@@ -3,8 +3,13 @@
 #include "Singletons/RenderManager.h"
 #include "GameObject.h"
 #include "Scene.h"
-#include "Factories/GameObjectFactories.h"
-#include "Components/Normal/SeekingEnemyController.h"
+#include "View/WindowViewStrategy.h"
+#include "View/ConsoleViewStrategy.h"
+
+#include "Components/ActorComponent.h"
+
+#include "Components/Commands.h"
+
 #include <iostream>
 #include <type_traits>
 #include <memory>
@@ -15,10 +20,9 @@ namespace Game
     uint32_t IComponent::m_nextComponentID = 0;
 
     Application::Application()
-        : m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
-        , m_inputManager(std::unique_ptr<InputManager>(new InputManager(*this)))
-        , m_renderManager(std::unique_ptr<RenderManager>(new RenderManager(*this)))
+        : m_inputManager(std::unique_ptr<InputManager>(new InputManager(*this)))
         , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
+        , m_viewManager(std::unique_ptr<view::ViewManager>(new view::ViewManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
         // and link Application as friend class (won't work with make_unique)
@@ -26,7 +30,7 @@ namespace Game
 
     sf::Vector2i Application::GetMousePosition()
     {
-        return sf::Mouse::getPosition(m_window);
+        return { 0, 0 };
     }
 
     void Application::HandleWindowEvent(const sf::Event& event)
@@ -34,7 +38,6 @@ namespace Game
         switch (event.type)
         {
         case sf::Event::Closed:
-            m_window.close();
             break;
         }
     }
@@ -43,6 +46,13 @@ namespace Game
     {
         Scene scene;
         auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
+
+        m_viewManager->SetViewStrategy<view::WindowViewStrategy>(
+            [&](const sf::Event& event)
+            {
+                this->HandleWindowEvent(event);
+            }
+        );
 
         //for (auto entity : scene.GetSceneGameObjects())
         //    std::cout << entity << std::endl;
@@ -63,37 +73,59 @@ namespace Game
             return;
         }
 
-        while (m_window.isOpen())
+        while (true)
         {
             sf::Time elapsed = clock.restart();
 
-            sf::Event event;
-            while (m_window.pollEvent(event))
-                HandleWindowEvent(event);
+            m_viewManager->PollEvents();
 
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Key::Escape))
-                m_window.close();
+            if(auto tmpEnt = m_entityManager->GetEntityByID(playerID).lock())
+                if (auto tmpComp = tmpEnt->GetComponent<ActorComponent>().lock())
+                {
+                    MoveCommand moveCommand(1.0f, 0.0f);
+                    tmpComp->AddCommand(moveCommand);
+                }
 
-            m_window.clear();
+//            m_window.clear();
             for (auto entityID : scene.GetSceneGameObjects())
                 if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
                     tmp->Update(elapsed.asSeconds());
 
+            m_viewManager->PreRender();
+
+            // TODO
+            // - viewManager's cache of components to render
+            // - possibility of zIndex
+            // - LET'S NOT DYNAMIC CAST EVERY SINGLE COMPONENT EVERY FRAME
+            for (auto entityID : scene.GetSceneGameObjects())
+                if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
+                    for (auto comp : tmp->GetAllComponents())
+                    {
+                        if (auto c = std::dynamic_pointer_cast<IRenderableShape>(comp.second))
+                        {
+                            m_viewManager->Render(c->GetRenderableShape());
+                        }
+                    }
+
+            m_viewManager->PostRender();
+
+            //m_viewManager->Render();
             //sf::Text text;
             //text.setFont(font);
             //float fps = (1000 / elapsed.asSeconds());
+            //std::cout << std::to_string(fps) + " fps" << std::endl;
             //std::string debugString = std::to_string(fps) + " fps";
             //text.setString(debugString);
             //text.setCharacterSize(16);
             //text.setFillColor(sf::Color::Red);
             //m_window.draw(text);
 
-            m_window.display();
+  //          m_window.display();
         }
     }
 
     void Application::Draw(const sf::Drawable& drawable, const sf::RenderStates& states)
     {
-        m_window.draw(drawable, states);
+        //m_window.draw(drawable, states);
     }
 };

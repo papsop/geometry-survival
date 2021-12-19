@@ -1,8 +1,6 @@
 #include "GameObject.h"
-#include "Components/Normal/RigidbodyComponent.h"
-#include "Components/Normal/ActorComponent.h"
-#include "Components/Normal/PlayerControllerComponent.h"
-#include "Components/Normal/SeekingEnemyController.h"
+#include "Components/RigidbodyComponent.h"
+#include "Components/ActorComponent.h"
 #include <iostream>
 namespace Game
 {
@@ -16,8 +14,6 @@ namespace Game
     void GameObject::Update(float dt)
     {
         // Order of component's updates
-        UpdateComponentIfExists<SeekingEnemyController>(dt);
-        UpdateComponentIfExists<PlayerControllerComponent>(dt);
         UpdateComponentIfExists<ActorComponent>(dt);
         UpdateComponentIfExists<RigidbodyComponent>(dt);
     }

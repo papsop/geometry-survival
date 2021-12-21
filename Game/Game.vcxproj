@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\InputComponent.cpp" />
     <ClCompile Include="src\Components\Commands.cpp" />
     <ClCompile Include="src\Components\SquareComponent.cpp" />
     <ClCompile Include="src\View\ConsoleViewStrategy.cpp" />
@@ -37,6 +38,7 @@
     <ClCompile Include="src\Components\TriangleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\InputComponent.h" />
     <ClInclude Include="src\Components\Commands.h" />
     <ClInclude Include="src\Components\SquareComponent.h" />
     <ClInclude Include="src\View\ConsoleViewStrategy.h" />

@@ -20,7 +20,7 @@ namespace Game
     uint32_t IComponent::m_nextComponentID = 0;
 
     Application::Application()
-        : m_inputManager(std::unique_ptr<InputManager>(new InputManager(*this)))
+        : m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
         , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_viewManager(std::unique_ptr<view::ViewManager>(new view::ViewManager()))
     {
@@ -38,6 +38,10 @@ namespace Game
         switch (event.type)
         {
         case sf::Event::Closed:
+            m_applicationIsRunning = false;
+            break;
+        default:
+            m_inputManager->HandleWindowEvent(event);
             break;
         }
     }
@@ -73,23 +77,22 @@ namespace Game
             return;
         }
 
-        while (true)
+        while (m_applicationIsRunning)
         {
             sf::Time elapsed = clock.restart();
+            float lastFrameMS = elapsed.asSeconds();
 
+            // Input
             m_viewManager->PollEvents();
+            m_inputManager->Update();
 
-            if(auto tmpEnt = m_entityManager->GetEntityByID(playerID).lock())
-                if (auto tmpComp = tmpEnt->GetComponent<ActorComponent>().lock())
-                {
-                    MoveCommand moveCommand(1.0f, 0.0f);
-                    tmpComp->AddCommand(moveCommand);
-                }
-
+            // debug exit
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) break;
+           
 //            m_window.clear();
             for (auto entityID : scene.GetSceneGameObjects())
                 if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
-                    tmp->Update(elapsed.asSeconds());
+                    tmp->Update(lastFrameMS);
 
             m_viewManager->PreRender();
 

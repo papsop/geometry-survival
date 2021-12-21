@@ -14,6 +14,7 @@ namespace Game
     void GameObject::Update(float dt)
     {
         // Order of component's updates
+        UpdateComponentIfExists<InputComponent>(dt);
         UpdateComponentIfExists<ActorComponent>(dt);
         UpdateComponentIfExists<RigidbodyComponent>(dt);
     }

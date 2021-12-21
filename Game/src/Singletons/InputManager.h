@@ -1,26 +1,53 @@
- #pragma once
+#pragma once
 #include <SFML/Window.hpp>
 #include <array>
+#include <unordered_map>
 
 namespace Game {
 
     class Application;
+    class InputComponent;
 
     class InputManager
     {
     public:
+        enum class Axis
+        {
+            Unknown,
+            Horizontal,
+            Vertical
+        };
+
+        enum class Action
+        {
+            Unknown,
+            MoveLeft,
+            MoveRight,
+            MoveUp,
+            MoveDown,
+            Fire1,
+            Fire2,
+            Use,
+
+            // always last
+            NumberOfActions
+        };
+
         ~InputManager() = default;
-        const bool IsKeyPressed(sf::Keyboard::Key key) const { return m_keys[key]; };
-        sf::Vector2f GetMousePos();
+
+        float GetAxis(Axis axis);
+        bool GetAction(Action action);
+
     private:
-        InputManager(Application& app);
+        InputManager();
 
-        Application& m_application;
+        Action GetActionFromKey(sf::Keyboard::Key);
+        void HandleWindowEvent(const sf::Event& event);
+        void Update();
 
-        void KeyPressed(sf::Keyboard::Key key) { m_keys[key] = true; }
-        void KeyReleased(sf::Keyboard::Key key) { m_keys[key] = false; }
-
-        std::array<bool, sf::Keyboard::Key::KeyCount> m_keys;
+        std::array<float, 3> m_axis = {};
+        std::array<bool, static_cast<size_t>(Action::NumberOfActions)> m_actions = {};
+        std::unordered_map<sf::Keyboard::Key, Action> m_mapKeyToAction = {};
 
     friend class Application;   // only Application can create a manager
     };

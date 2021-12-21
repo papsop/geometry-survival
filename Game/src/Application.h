@@ -35,6 +35,8 @@ namespace Game
         Application();
         ~Application() = default;
 
+        bool m_applicationIsRunning = true;
+
         void HandleWindowEvent(const sf::Event& event);
 
         std::unique_ptr<InputManager> m_inputManager;

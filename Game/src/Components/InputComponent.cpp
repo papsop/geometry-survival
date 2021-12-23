@@ -23,8 +23,7 @@ namespace Game
         
         if (auto tmp = m_actorComponent.lock())
         {
-            MoveCommand command(horizontal, vertical);
-            tmp->AddCommand(command);
+            tmp->AddCommand(MoveCommand(horizontal, vertical));
         }
     }
 

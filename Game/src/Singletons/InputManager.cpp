@@ -15,6 +15,11 @@ namespace Game
         m_mapKeyToAction[sf::Keyboard::D] = Action::MoveRight;
         m_mapKeyToAction[sf::Keyboard::W] = Action::MoveUp;
         m_mapKeyToAction[sf::Keyboard::S] = Action::MoveDown;
+
+        m_mapKeyToAction[sf::Keyboard::Left] = Action::MoveLeft;
+        m_mapKeyToAction[sf::Keyboard::Right] = Action::MoveRight;
+        m_mapKeyToAction[sf::Keyboard::Up] = Action::MoveUp;
+        m_mapKeyToAction[sf::Keyboard::Down] = Action::MoveDown;
     }
 
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)

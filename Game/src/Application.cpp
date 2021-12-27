@@ -1,14 +1,14 @@
 #include "Application.h"
 #include "Singletons/InputManager.h"
 #include "Singletons/RenderManager.h"
-#include "GameObject.h"
-#include "Scene.h"
+#include "Core/GameObject.h"
+#include "Core/Scene.h"
 #include "View/WindowViewStrategy.h"
 #include "View/ConsoleViewStrategy.h"
 
-#include "Components/ActorComponent.h"
+#include "Components/AllComponents.h"
 
-#include "Components/Commands.h"
+#include "Debug/Logger.h"
 
 #include <iostream>
 #include <type_traits>
@@ -48,6 +48,7 @@ namespace Game
 
     void Application::Run()
     {
+        LOG_INFO("Starting Application");
         Scene scene;
         auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
 
@@ -107,6 +108,10 @@ namespace Game
                         if (auto c = std::dynamic_pointer_cast<IRenderableShape>(comp.second))
                         {
                             m_viewManager->Render(c->GetRenderableShape());
+                        } 
+                        else if (auto c = std::dynamic_pointer_cast<IRenderableText>(comp.second))
+                        {
+                            m_viewManager->Render(c->GetRenderableText());
                         }
                     }
 

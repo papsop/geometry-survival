@@ -1,13 +1,13 @@
 #include "SquareComponent.h"
 
-#include "../GameObject.h"
+#include "../../Core/GameObject.h"
 
 namespace Game
 {
     SquareComponent::SquareComponent(GameObject& obj, sf::Color color)
         : IComponent(obj)
         , IRenderableShape()
-        , m_ownerTransform(m_owner.GetTransform())
+        , m_ownerTransform(obj.GetTransform())
     {
         m_shape.PointCount = 4;
         m_shape.Color = color;

@@ -1,5 +1,6 @@
 #include "WindowViewStrategy.h"
 
+#include <iostream>
 namespace Game
 {
     class Application;
@@ -9,6 +10,7 @@ namespace Game
             : IViewStrategy(handleEvent)
             , m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
         {
+            m_font.loadFromFile("arial.ttf");
         }
 
         WindowViewStrategy::~WindowViewStrategy()
@@ -31,6 +33,11 @@ namespace Game
         void WindowViewStrategy::Render(const Shape &shape)
         {
             m_window.draw(static_cast<sf::CircleShape>(shape));   
+        }
+
+        void WindowViewStrategy::Render(const Text& text)
+        {
+            m_window.draw(static_cast<sf::Text>(text));
         }
 
         void WindowViewStrategy::PostRender()

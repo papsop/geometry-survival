@@ -1,5 +1,5 @@
 #pragma once
-#include "../GameObject.h"
+#include "../Core/GameObject.h"
 #include <unordered_map>
 
 namespace Game

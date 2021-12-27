@@ -1,5 +1,5 @@
 #pragma once
-#include "../utils.h"
+#include "../utils/ViewUtils.h"
 
 #include <SFML/window.hpp>
 #include <functional>
@@ -22,6 +22,7 @@ namespace Game
             virtual void PollEvents() = 0;
             virtual void PreRender() = 0;
             virtual void Render(const Shape &shape) = 0;
+            virtual void Render(const Text& text) = 0;
             virtual void PostRender() = 0;
         protected:
             std::function<void(const sf::Event& event)> m_handleEventLambda;

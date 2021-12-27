@@ -1,7 +1,7 @@
 #pragma once
-#include "IComponent.h"
-#include "ActorComponent.h"
-#include "../Singletons/InputManager.h"
+#include "../Core.h"
+#include "../Actor.h"
+#include "../../Singletons/InputManager.h"
 
 namespace Game
 {

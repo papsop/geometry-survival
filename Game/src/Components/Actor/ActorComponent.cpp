@@ -1,15 +1,14 @@
 #include "ActorComponent.h"
 
-#include "../GameObject.h"
+#include "../../Core/GameObject.h"
 #include <iostream>
-#define _USE_MATH_DEFINES
-#include<math.h>
 
 namespace Game
 {
 
     ActorComponent::ActorComponent(GameObject &obj) 
         : IComponent(obj)
+        , m_commandsQueue()
     {
     }
 
@@ -18,9 +17,9 @@ namespace Game
         m_rigidbodyComponent = m_owner.GetComponent<RigidbodyComponent>();
     }
 
-    void ActorComponent::AddCommand(ICommand& command)
+    void ActorComponent::AddCommand(std::unique_ptr<ICommand> command)
     {
-        command.Execute(*this);
+        m_commandsQueue.push(std::move(command));
     }
      
     void ActorComponent::Move(float dX, float dY)
@@ -31,5 +30,10 @@ namespace Game
 
     void ActorComponent::Update(float dt)
     {
+        while (!m_commandsQueue.empty())
+        {
+            m_commandsQueue.front()->Execute(*this);
+            m_commandsQueue.pop();
+        }
     }
 };

@@ -5,7 +5,6 @@ namespace Game
     std::weak_ptr<GameObject> EntityManager::CreateEntityReturnEntity(const char *name)
     {
         uint32_t ID = m_nextEntityID++;
-        std::cout << "Creating entity '" << name << "' with ID: " << ID << std::endl;
         std::shared_ptr<GameObject> newGameObject = std::make_shared<GameObject>(ID, name);
         m_entities[ID] = newGameObject;
         return newGameObject;

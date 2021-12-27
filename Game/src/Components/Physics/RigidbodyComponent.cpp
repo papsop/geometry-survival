@@ -1,5 +1,5 @@
 #include "RigidbodyComponent.h"
-#include "../GameObject.h"
+#include "../../Core/GameObject.h"
 #include <cmath>
 #include <iostream>
 
@@ -7,8 +7,8 @@ namespace Game
 {
     RigidbodyComponent::RigidbodyComponent(GameObject& obj)
         : IComponent(obj)
-        , m_ownerTransform(m_owner.GetTransform())
-        , m_targetRotationAngle(m_ownerTransform.Rotation)
+        , m_ownerTransform(obj.GetTransform())
+        , m_targetRotationAngle(obj.GetTransform().Rotation)
     {
 
     }
@@ -31,6 +31,7 @@ namespace Game
         //Movement
         m_ownerTransform.Position += Velocity * dt;
 
+        m_ownerTransform.Rotation += 45.0f * dt;
         // Rotation
         //if (m_timeToRotate > 0.0f)
         //{

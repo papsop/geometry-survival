@@ -1,6 +1,6 @@
 #include "Commands.h"
 
-#include "ActorComponent.h"
+#include "../Actor.h"
 
 namespace Game
 {

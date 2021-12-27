@@ -1,10 +1,6 @@
 #include "GameObjectFactories.h"
-#include "../Components/ActorComponent.h"
-#include "../Components/RigidbodyComponent.h"
-#include "../Components/InputComponent.h"
-#include "../Components/SquareComponent.h"
-#include "../Components/TriangleComponent.h"
-#include "../Scene.h"
+#include "../Components/AllComponents.h"
+#include "../Core/Scene.h"
 #include "../Application.h"
 
 namespace Game
@@ -24,6 +20,7 @@ namespace Game
             tmp->AddComponent<TriangleComponent>(*tmp, sf::Color::Black);
             tmp->AddComponent<ActorComponent>(*tmp);
             tmp->AddComponent<InputComponent>(*tmp);
+            tmp->AddComponent<DebugNameComponent>(*tmp);
             return tmp->ID;
         }
         assert(false && "Error creating an entity");

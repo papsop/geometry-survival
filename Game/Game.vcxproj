@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
   <ItemGroup Label="ProjectConfigurations">
     <ProjectConfiguration Include="Debug|Win32">
@@ -19,46 +19,61 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Components\InputComponent.cpp" />
-    <ClCompile Include="src\Components\Commands.cpp" />
-    <ClCompile Include="src\Components\SquareComponent.cpp" />
+    <ClCompile Include="src\Components\Physics\BoxCollider.cpp" />
+    <ClCompile Include="src\Debug\Logger.cpp" />
+    <ClCompile Include="src\Components\View\DebugNameComponent.cpp" />
+    <ClCompile Include="src\Components\Player\InputComponent.cpp" />
+    <ClCompile Include="src\Components\Core\Commands.cpp" />
+    <ClCompile Include="src\Components\View\SquareComponent.cpp" />
     <ClCompile Include="src\View\ConsoleViewStrategy.cpp" />
     <ClCompile Include="src\Singletons\EntityManager.cpp" />
-    <ClCompile Include="src\Components\RigidbodyComponent.cpp" />
-    <ClCompile Include="src\Components\ActorComponent.cpp" />
+    <ClCompile Include="src\Components\Physics\RigidbodyComponent.cpp" />
+    <ClCompile Include="src\Components\Actor\ActorComponent.cpp" />
     <ClCompile Include="src\Factories\GameObjectFactories.cpp" />
-    <ClCompile Include="src\Scene.cpp" />
-    <ClCompile Include="src\GameObject.cpp" />
+    <ClCompile Include="src\Core\Scene.cpp" />
+    <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Singletons\InputManager.cpp" />
     <ClCompile Include="src\Singletons\RenderManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
     <ClCompile Include="src\View\ViewManager.cpp" />
     <ClCompile Include="src\View\WindowViewStrategy.cpp" />
-    <ClCompile Include="src\Components\TriangleComponent.cpp" />
+    <ClCompile Include="src\Components\View\TriangleComponent.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Components\InputComponent.h" />
-    <ClInclude Include="src\Components\Commands.h" />
-    <ClInclude Include="src\Components\SquareComponent.h" />
+    <ClInclude Include="src\Components\Physics\BoxCollider.h" />
+    <ClInclude Include="src\Components\Actor.h" />
+    <ClInclude Include="src\Components\AI.h" />
+    <ClInclude Include="src\Components\AllComponents.h" />
+    <ClInclude Include="src\Components\Core.h" />
+    <ClInclude Include="src\Components\Physics.h" />
+    <ClInclude Include="src\Components\Player.h" />
+    <ClInclude Include="src\Components\View.h" />
+    <ClInclude Include="src\Debug\Logger.h" />
+    <ClInclude Include="src\Components\View\DebugNameComponent.h" />
+    <ClInclude Include="src\Components\Player\InputComponent.h" />
+    <ClInclude Include="src\Components\Core\Commands.h" />
+    <ClInclude Include="src\Components\View\SquareComponent.h" />
+    <ClInclude Include="src\Utils\AllUtils.h" />
+    <ClInclude Include="src\Utils\VectorUtils.h" />
+    <ClInclude Include="src\Utils\ViewUtils.h" />
     <ClInclude Include="src\View\ConsoleViewStrategy.h" />
     <ClInclude Include="src\Singletons\EntityManager.h" />
-    <ClInclude Include="src\Components\RigidbodyComponent.h" />
-    <ClInclude Include="src\Components\ActorComponent.h" />
-    <ClInclude Include="src\Components\Transform.h" />
+    <ClInclude Include="src\Components\Physics\RigidbodyComponent.h" />
+    <ClInclude Include="src\Components\Actor\ActorComponent.h" />
+    <ClInclude Include="src\Components\Core\Transform.h" />
     <ClInclude Include="src\Factories\GameObjectFactories.h" />
-    <ClInclude Include="src\Scene.h" />
-    <ClInclude Include="src\GameObject.h" />
-    <ClInclude Include="src\Components\IComponent.h" />
+    <ClInclude Include="src\Core\Scene.h" />
+    <ClInclude Include="src\Core\GameObject.h" />
+    <ClInclude Include="src\Components\Core\IComponent.h" />
     <ClInclude Include="src\Singletons\InputManager.h" />
     <ClInclude Include="src\Singletons\RenderManager.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Systems\ISystem.h" />
-    <ClInclude Include="src\utils.h" />
     <ClInclude Include="src\View\IViewStrategy.h" />
     <ClInclude Include="src\View\ViewManager.h" />
     <ClInclude Include="src\View\WindowViewStrategy.h" />
-    <ClInclude Include="src\Components\TriangleComponent.h" />
+    <ClInclude Include="src\Components\View\TriangleComponent.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="arial.ttf" />

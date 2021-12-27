@@ -1,15 +1,14 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include "IComponent.h"
-#include "../utils.h"
+#include "../Core.h"
 
 namespace Game
 {
-    class TriangleComponent : public IComponent, public IRenderableShape
+    class SquareComponent : public IComponent, public IRenderableShape
     {
     public:
-        TriangleComponent(GameObject& obj, sf::Color color);
-        ~TriangleComponent() = default;
+        SquareComponent(GameObject& obj, sf::Color color);
+        ~SquareComponent() = default;
 
         void OnGameObjectChanged() override {};
         void Update(float dt) override {};

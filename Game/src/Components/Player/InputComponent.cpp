@@ -1,6 +1,5 @@
 #include "InputComponent.h"
-#include "../Components/Commands.h"
-#include "../Application.h"
+#include "../../Application.h"
 
 #include <iostream>
 namespace Game
@@ -23,7 +22,7 @@ namespace Game
         
         if (auto tmp = m_actorComponent.lock())
         {
-            tmp->AddCommand(MoveCommand(horizontal, vertical));
+            tmp->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
         }
     }
 

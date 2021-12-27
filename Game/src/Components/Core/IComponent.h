@@ -1,9 +1,10 @@
 #pragma once
 #include "Transform.h"
-#include "../Singletons/InputManager.h"
-#include "../Singletons/RenderManager.h"
-#include "../utils.h"
+#include "../../Singletons/InputManager.h"
+#include "../../Singletons/RenderManager.h"
+#include "../../utils/ViewUtils.h"
 
+#include "../../Debug/Logger.h"
 #include <type_traits>
 #include <functional>
 
@@ -50,9 +51,9 @@ namespace Game
         IRenderableText() = default;
         ~IRenderableText() = default;
 
-        std::string GetRenderableText() const { return m_renderableText; };
-    private:
-        std::string m_renderableText;
+        virtual const view::Text& GetRenderableText() = 0;
+    protected:
+        view::Text m_renderableText;
     };
 
 };

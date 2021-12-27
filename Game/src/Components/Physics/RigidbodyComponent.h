@@ -1,6 +1,5 @@
 #pragma once
-#include "IComponent.h"
-#include "Transform.h"
+#include "../Core.h"
 
 namespace Game
 {

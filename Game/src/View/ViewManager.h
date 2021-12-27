@@ -1,6 +1,6 @@
 #pragma once
 #include "IViewStrategy.h"
-#include "../Components/IComponent.h"
+#include "../Components/Core.h"
 #include <SFML/Window.hpp>
 #include <functional>
 #include <memory>
@@ -27,7 +27,13 @@ namespace Game
             void RegisterComponent(IComponent *component);
 
             void PreRender();
-            void Render(const view::Shape& shape);
+
+            template<typename... Args>
+            void Render(Args&& ...args)
+            {
+                m_viewStrategy->Render(std::forward<Args>(args) ...);
+            }
+
             void PostRender();
 
             void RenderRegisteredComponents();

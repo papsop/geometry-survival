@@ -1,6 +1,6 @@
 #pragma once
 #include "GameObject.h"
-#include "Factories/GameObjectFactories.h"
+#include "../Factories/GameObjectFactories.h"
 #include <memory>
 #include <unordered_set>
 

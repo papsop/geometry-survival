@@ -1,6 +1,6 @@
 #include "InputManager.h"
 #include "../Application.h"
-#include "../Components/InputComponent.h"
+#include "../Components/Player.h"
 
 #include <algorithm>
 #include <iostream>

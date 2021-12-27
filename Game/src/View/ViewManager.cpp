@@ -1,6 +1,6 @@
 #include "ViewManager.h"
-#include "../Components/IComponent.h"
-#include "../GameObject.h"
+#include "../Components/Core.h"
+#include "../Core/GameObject.h"
 #include <memory>
 #include <assert.h>
 
@@ -20,11 +20,6 @@ namespace Game
         }
 
         void ViewManager::PreRender() { m_viewStrategy->PreRender(); }
-        
-        void ViewManager::Render(const view::Shape &shape)
-        {
-            m_viewStrategy->Render(shape);
-        }
         
         void ViewManager::PostRender() { m_viewStrategy->PostRender(); }
 

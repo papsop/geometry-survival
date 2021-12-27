@@ -1,6 +1,6 @@
 #pragma once
-#include "Components/IComponent.h"
-#include "Components/Transform.h"
+#include "../Components/AllComponents.h"
+#include "../Debug/Logger.h"
 
 #include <unordered_map>
 #include <map>
@@ -25,9 +25,11 @@ namespace Game
         template<typename T, typename ... Args>
         void AddComponent(Args&& ... args)
         {
-            m_components[IComponent::GetComponentID<T>()] = std::make_shared<T>(std::forward<Args>(args) ...);
-
-            NotifyComponents();
+            if (!HasComponent<T>())
+            {
+                m_components[IComponent::GetComponentID<T>()] = std::make_shared<T>(std::forward<Args>(args) ...);
+                NotifyComponents();
+            }
         }
 
         template<typename T>
@@ -50,12 +52,12 @@ namespace Game
 
 
         // --------------------------
-        GameObject(uint32_t id, const char* debugName) : ID(id), DebugName(debugName), m_transform() {};
+        GameObject(uint32_t id, const char* debugName);
         ~GameObject() {};
 
         const uint32_t ID;
         const char* DebugName;
-        Transform& GetTransform() { return m_transform; }
+        Transform& GetTransform() {   return m_transform; }
 
         std::unordered_map<uint32_t, std::shared_ptr<IComponent>> GetAllComponents() { return m_components; }
 

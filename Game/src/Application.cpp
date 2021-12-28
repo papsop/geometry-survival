@@ -1,6 +1,6 @@
 #include "Application.h"
-#include "Singletons/InputManager.h"
-#include "Singletons/RenderManager.h"
+#include "Managers/InputManager.h"
+#include "Managers/RenderManager.h"
 #include "Core/GameObject.h"
 #include "Core/Scene.h"
 #include "View/WindowViewStrategy.h"
@@ -23,6 +23,7 @@ namespace Game
         : m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
         , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_viewManager(std::unique_ptr<view::ViewManager>(new view::ViewManager()))
+        , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
         // and link Application as friend class (won't work with make_unique)
@@ -58,7 +59,6 @@ namespace Game
                 this->HandleWindowEvent(event);
             }
         );
-
         //for (auto entity : scene.GetSceneGameObjects())
         //    std::cout << entity << std::endl;
 
@@ -91,9 +91,12 @@ namespace Game
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) break;
            
 //            m_window.clear();
-            for (auto entityID : scene.GetSceneGameObjects())
-                if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
-                    tmp->Update(lastFrameMS);
+
+            //for (auto entityID : scene.GetSceneGameObjects())
+            //    if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
+            //        tmp->Update(lastFrameMS);
+
+            m_subsystemManager->Update(lastFrameMS);
 
             m_viewManager->PreRender();
 
@@ -101,19 +104,20 @@ namespace Game
             // - viewManager's cache of components to render
             // - possibility of zIndex
             // - LET'S NOT DYNAMIC CAST EVERY SINGLE COMPONENT EVERY FRAME
-            for (auto entityID : scene.GetSceneGameObjects())
-                if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
-                    for (auto comp : tmp->GetAllComponents())
-                    {
-                        if (auto c = std::dynamic_pointer_cast<IRenderableShape>(comp.second))
-                        {
-                            m_viewManager->Render(c->GetRenderableShape());
-                        } 
-                        else if (auto c = std::dynamic_pointer_cast<IRenderableText>(comp.second))
-                        {
-                            m_viewManager->Render(c->GetRenderableText());
-                        }
-                    }
+
+            //for (auto entityID : scene.GetSceneGameObjects())
+            //    if (auto tmp = GetEntityManager().GetEntityByID(entityID).lock())
+            //        for (auto comp : tmp->GetAllComponents())
+            //        {
+            //            if (auto c = std::dynamic_pointer_cast<IRenderableShape>(comp.second))
+            //            {
+            //                m_viewManager->Render(c->GetRenderableShape());
+            //            } 
+            //            else if (auto c = std::dynamic_pointer_cast<IRenderableText>(comp.second))
+            //            {
+            //                m_viewManager->Render(c->GetRenderableText());
+            //            }
+            //        }
 
             m_viewManager->PostRender();
 

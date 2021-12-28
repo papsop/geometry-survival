@@ -1,7 +1,6 @@
 #pragma once
-#include "../Components/AllComponents.h"
 #include "../Debug/Logger.h"
-
+#include "../Components/AllComponents.h"
 #include <unordered_map>
 #include <map>
 #include <queue>
@@ -18,6 +17,7 @@ namespace Game
         template<typename T>
         bool HasComponent()
         {
+            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             auto compID = IComponent::GetComponentID<T>();
             return m_components.find(compID) != m_components.end();
         }
@@ -25,6 +25,7 @@ namespace Game
         template<typename T, typename ... Args>
         void AddComponent(Args&& ... args)
         {
+            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (!HasComponent<T>())
             {
                 m_components[IComponent::GetComponentID<T>()] = std::make_shared<T>(std::forward<Args>(args) ...);
@@ -35,6 +36,7 @@ namespace Game
         template<typename T>
         void RemoveComponent()
         {
+            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if(HasComponent<T>())
                 m_components.erase(IComponent::GetComponentID<T>());
 
@@ -44,6 +46,7 @@ namespace Game
         template<typename T>
         std::weak_ptr<T> GetComponent()
         {
+            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (HasComponent<T>())
                 return std::static_pointer_cast<T>(m_components[IComponent::GetComponentID<T>()]);
             else
@@ -59,10 +62,7 @@ namespace Game
         const char* DebugName;
         Transform& GetTransform() {   return m_transform; }
 
-        std::unordered_map<uint32_t, std::shared_ptr<IComponent>> GetAllComponents() { return m_components; }
-
-        void Update(float dt);
-        void Render();
+//        std::unordered_map<uint32_t, std::shared_ptr<IComponent>> GetAllComponents() { return m_components; }
 
         void Destroy() { m_shouldDestroy = true; }
         bool ShouldDestroy() const { return m_shouldDestroy; }
@@ -77,6 +77,7 @@ namespace Game
         template<typename T>
         void UpdateComponentIfExists(float dt)
         {
+            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (HasComponent<T>())
                 m_components[IComponent::GetComponentID<T>()]->Update(dt);
         }

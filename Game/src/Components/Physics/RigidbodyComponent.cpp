@@ -1,5 +1,6 @@
 #include "RigidbodyComponent.h"
 #include "../../Core/GameObject.h"
+#include "../../Application.h"
 #include <cmath>
 #include <iostream>
 
@@ -10,7 +11,13 @@ namespace Game
         , m_ownerTransform(obj.GetTransform())
         , m_targetRotationAngle(obj.GetTransform().Rotation)
     {
+        Application::Instance().GetSubsystemManager().m_physics->RegisterComponent(this);
 
+    }
+
+    RigidbodyComponent::~RigidbodyComponent()
+    {
+        Application::Instance().GetSubsystemManager().m_physics->UnregisterComponent(this);
     }
 
     void RigidbodyComponent::OnGameObjectChanged() {}
@@ -27,7 +34,6 @@ namespace Game
 
     void RigidbodyComponent::Update(float dt)
     {
-        //std::cout << "RigidBodyComponent.Update()" << std::endl;
         //Movement
         m_ownerTransform.Position += Velocity * dt;
 

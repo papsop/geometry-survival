@@ -1,7 +1,6 @@
 #pragma once
 #include "Transform.h"
-#include "../../Singletons/InputManager.h"
-#include "../../Singletons/RenderManager.h"
+//#include "../../Managers/AllManagers.h"
 #include "../../utils/ViewUtils.h"
 
 #include "../../Debug/Logger.h"
@@ -28,9 +27,11 @@ namespace Game
 
         virtual void OnGameObjectChanged() = 0;
         virtual void Update(float dt) = 0;
+
+        GameObject& m_owner;
     protected:
         static uint32_t m_nextComponentID;
-        GameObject& m_owner;
+        
     };
 
     class IRenderableShape

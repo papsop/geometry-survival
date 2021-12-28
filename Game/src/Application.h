@@ -2,9 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "Singletons/InputManager.h"
-#include "Singletons/RenderManager.h"
-#include "Singletons/EntityManager.h"
+#include "Managers/AllManagers.h"
 #include "View/ViewManager.h"
 
 namespace Game
@@ -25,6 +23,7 @@ namespace Game
         InputManager& GetInputManager() { return *m_inputManager; }
         RenderManager& GetRenderManager() { return *m_renderManager; }
         EntityManager& GetEntityManager() { return *m_entityManager; }
+        SubsystemManager& GetSubsystemManager() { return *m_subsystemManager; }
 
         void Run();
 
@@ -39,10 +38,12 @@ namespace Game
 
         void HandleWindowEvent(const sf::Event& event);
 
+        // Order is important because of destructions
+        std::unique_ptr<SubsystemManager> m_subsystemManager;
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<RenderManager> m_renderManager;
-        std::unique_ptr<EntityManager> m_entityManager;
         std::unique_ptr<view::ViewManager> m_viewManager;
+        std::unique_ptr<EntityManager> m_entityManager;
     };
 };
 

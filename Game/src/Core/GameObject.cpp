@@ -17,18 +17,4 @@ namespace Game
         for (auto component : m_components)
             component.second->OnGameObjectChanged();
     }
-
-    void GameObject::Update(float dt)
-    {
-        // Order of component's updates
-        UpdateComponentIfExists<InputComponent>(dt);
-        UpdateComponentIfExists<ActorComponent>(dt);
-        UpdateComponentIfExists<RigidbodyComponent>(dt);
-    }
-
-    void GameObject::Render()
-    {
-        //for (auto renderableComponent : m_renderableComponents)
-        //    renderableComponent.second->Render();
-    }
 };

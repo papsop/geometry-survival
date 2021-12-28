@@ -7,6 +7,7 @@ namespace Game
     {
     public:
         RigidbodyComponent(GameObject& obj);
+        ~RigidbodyComponent() override;
 
         void Update(float dt) override;
         void OnGameObjectChanged() override;

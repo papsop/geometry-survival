@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core.h"
 #include "../Actor.h"
-#include "../../Singletons/InputManager.h"
+#include "../../Managers/InputManager.h"
 
 namespace Game
 {
@@ -19,8 +19,6 @@ namespace Game
     private:
         InputManager& m_inputManager;
         std::weak_ptr<ActorComponent> m_actorComponent;
-
-
     };
 };
 

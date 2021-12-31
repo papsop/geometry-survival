@@ -15,7 +15,11 @@ namespace Game
 
         void Update(float dt);
 
+        
         std::unique_ptr<PhysicsSubsystem> m_physics;
+        std::unique_ptr<ActorSubsystem> m_actor;
+        std::unique_ptr<ViewSubsystem> m_view;
+
     private:
         SubsystemManager();
 

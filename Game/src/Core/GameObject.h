@@ -31,6 +31,7 @@ namespace Game
                 m_components[IComponent::GetComponentID<T>()] = std::make_shared<T>(std::forward<Args>(args) ...);
                 NotifyComponents();
             }
+            else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());
         }
 
         template<typename T>

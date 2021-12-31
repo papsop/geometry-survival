@@ -18,6 +18,7 @@ namespace Game
             void PreRender() override;
             void Render(const Shape& shape) override;
             void PostRender() override;
+            sf::Vector2i GetMousePosition() override { return { 0,0 }; }; // placeholder
         };
     };
 };

@@ -12,6 +12,14 @@ namespace Game
         virtual uint32_t CreateGameObject() const = 0;
     };
 
+    class DebugGOFactory : public IGameObjectFactory
+    {
+    public:
+        ~DebugGOFactory() override = default;
+        uint32_t CreateGameObject() const override;
+    private:
+    };
+
     class PlayerFactory : public IGameObjectFactory
     {
     public:

@@ -10,7 +10,7 @@ namespace Game
     {
     public:
         ActorComponent(GameObject& obj);
-        ~ActorComponent() override = default;
+        ~ActorComponent() override;
 
         void OnGameObjectChanged() override;
         void Update(float dt) override;
@@ -18,6 +18,7 @@ namespace Game
         void AddCommand(std::unique_ptr<ICommand> command);
         
         void Move(float dX, float dY);
+        void Rotate(float angle);
 
     private:
         float m_movementSpeed = 500.0f;

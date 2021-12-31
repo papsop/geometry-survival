@@ -11,7 +11,7 @@ namespace Game
     {
     public:
         InputComponent(GameObject& obj);
-        ~InputComponent() override = default;
+        ~InputComponent() override;
 
         void Update(float dt) override;
         void OnGameObjectChanged() override;

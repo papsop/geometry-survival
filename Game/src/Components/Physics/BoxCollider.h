@@ -3,7 +3,7 @@
 
 namespace Game
 {
-    class BoxCollider : public IComponent, public IRenderableShape
+    class BoxCollider : public IRenderableShapeComponent
     {
     public:
         BoxCollider(GameObject &obj);
@@ -11,7 +11,9 @@ namespace Game
 
         void OnGameObjectChanged() {};
         void Update(float dt) {};
+
+        const view::Shape& GetRenderableShape() override;
     private:
-        Transform& m_ownerTransform;
+        view::Shape m_shape;
     };
 };

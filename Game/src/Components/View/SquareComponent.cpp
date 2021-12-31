@@ -1,22 +1,27 @@
 #include "SquareComponent.h"
-
+#include "../../Application.h"
 #include "../../Core/GameObject.h"
 
 namespace Game
 {
     SquareComponent::SquareComponent(GameObject& obj, sf::Color color)
-        : IComponent(obj)
-        , IRenderableShape()
-        , m_ownerTransform(obj.GetTransform())
+        : IRenderableShapeComponent(obj, 1)
+        , m_shape(obj.GetTransform())
     {
-        m_shape.PointCount = 4;
+        m_shape.PointCount = 3;
         m_shape.Color = color;
         m_shape.Radius = 50;
+
+        VIEWSUBSYSTEM_REGISTER(this);
+    }
+
+    SquareComponent::~SquareComponent()
+    {
+        VIEWSUBSYSTEM_UNREGISTER(this);
     }
 
     const view::Shape& SquareComponent::GetRenderableShape()
     {
-        m_shape.ImportTransform(m_ownerTransform);
         return m_shape;
     }
 };

@@ -5,9 +5,14 @@
 namespace Game
 {
     BoxCollider::BoxCollider(GameObject& obj)
-        : IComponent(obj)
-        , m_ownerTransform(obj.GetTransform())
+        : IRenderableShapeComponent(obj, 20)
+        , m_shape(obj.GetTransform())
     {
 
+    }
+
+    const view::Shape& BoxCollider::GetRenderableShape()
+    {
+        return m_shape;
     }
 };

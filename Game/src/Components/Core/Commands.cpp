@@ -15,4 +15,17 @@ namespace Game
     {
         actor.Move(m_dx, m_dy);
     }
+
+    // --------------------------------------------------------
+
+    RotateCommand::RotateCommand(float angle)
+        : m_angle(angle)
+    {
+
+    }
+
+    void RotateCommand::Execute(ActorComponent& actor)
+    {
+        actor.Rotate(m_angle);
+    }
 };

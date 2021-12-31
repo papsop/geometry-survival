@@ -11,13 +11,12 @@ namespace Game
         , m_ownerTransform(obj.GetTransform())
         , m_targetRotationAngle(obj.GetTransform().Rotation)
     {
-        Application::Instance().GetSubsystemManager().m_physics->RegisterComponent(this);
-
+        PHYSICSSUBSYSTEM_REGISTER(this);
     }
 
     RigidbodyComponent::~RigidbodyComponent()
     {
-        Application::Instance().GetSubsystemManager().m_physics->UnregisterComponent(this);
+        PHYSICSSUBSYSTEM_UNREGISTER(this);
     }
 
     void RigidbodyComponent::OnGameObjectChanged() {}
@@ -36,8 +35,6 @@ namespace Game
     {
         //Movement
         m_ownerTransform.Position += Velocity * dt;
-
-        m_ownerTransform.Rotation += 45.0f * dt;
         // Rotation
         //if (m_timeToRotate > 0.0f)
         //{

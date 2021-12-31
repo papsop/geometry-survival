@@ -9,6 +9,10 @@ namespace Game
 {
 
     InputManager::InputManager()
+        : m_actions()
+        , m_axis()
+        , m_mapKeyToAction()
+        , m_mousePosition(0, 0)
     {
         // TODO own config file
         m_mapKeyToAction[sf::Keyboard::A] = Action::MoveLeft;
@@ -20,6 +24,11 @@ namespace Game
         m_mapKeyToAction[sf::Keyboard::Right] = Action::MoveRight;
         m_mapKeyToAction[sf::Keyboard::Up] = Action::MoveUp;
         m_mapKeyToAction[sf::Keyboard::Down] = Action::MoveDown;
+    }
+
+    void InputManager::SetViewSubsystem(ViewSubsystem* viewSubsystem)
+    {
+        m_viewSubsystem = viewSubsystem;
     }
 
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)
@@ -52,6 +61,10 @@ namespace Game
 
     void InputManager::Update()
     {
+        // mouse position update
+        DD_ASSERT(m_viewSubsystem != nullptr, "InputManager doesn't have ViewSubsystem set");
+        m_mousePosition = m_viewSubsystem->GetMousePosition();
+
         // Axis check
         float horizontal = 0;
         if (GetAction(Action::MoveLeft))
@@ -79,5 +92,10 @@ namespace Game
     bool InputManager::GetAction(Action action)
     {
         return m_actions[static_cast<size_t>(action)];
+    }
+
+    sf::Vector2i InputManager::GetMousePosition()
+    {
+        return m_mousePosition;
     }
 };

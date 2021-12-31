@@ -5,25 +5,34 @@
 
 namespace Game
 {
-
+    // DebugGO impl
+    uint32_t DebugGOFactory::CreateGameObject() const
+    {
+        auto obj = Application::Instance().GetEntityManager().CreateEntityReturnEntity("Debug");
+        uint32_t objID = 0;
+        if (auto tmp = obj.lock())
+        {
+            objID = tmp->ID;
+            tmp->GetTransform().Position = sf::Vector2f(50.0f, 50.0f);
+            tmp->AddComponent<FpsCounterComponent>(*tmp);
+            return tmp->ID;
+        }
+    }
     // PlayerFactory impl
     uint32_t PlayerFactory::CreateGameObject() const
     {
-        auto obj = Application::Instance().GetEntityManager().CreateEntityReturnEntity();
+        auto obj = Application::Instance().GetEntityManager().CreateEntityReturnEntity("Player");
         uint32_t objID = 0;
         if (auto tmp = obj.lock())
         {
             objID = tmp->ID;
             tmp->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
-            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Magenta);
+            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Yellow);
             tmp->AddComponent<RigidbodyComponent>(*tmp);
-            tmp->AddComponent<TriangleComponent>(*tmp, sf::Color::Black);
             tmp->AddComponent<ActorComponent>(*tmp);
             tmp->AddComponent<InputComponent>(*tmp);
-            tmp->AddComponent<DebugNameComponent>(*tmp);
             return tmp->ID;
         }
-        assert(false && "Error creating an entity");
     }
     // /PlayerFactory
 

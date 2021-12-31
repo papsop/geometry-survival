@@ -1,5 +1,6 @@
 #include "WindowViewStrategy.h"
 
+#include "../Debug/Logger.h"
 #include <iostream>
 namespace Game
 {
@@ -10,7 +11,7 @@ namespace Game
             : IViewStrategy(handleEvent)
             , m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
         {
-            m_font.loadFromFile("arial.ttf");
+            LOG_INFO("Created WindowViewStrategy");
         }
 
         WindowViewStrategy::~WindowViewStrategy()
@@ -37,12 +38,23 @@ namespace Game
 
         void WindowViewStrategy::Render(const Text& text)
         {
-            m_window.draw(static_cast<sf::Text>(text));
+            sf::Font font;
+            if (!font.loadFromFile("arial.ttf"))
+            {
+                auto sftext = static_cast<sf::Text>(text);
+                sftext.setFont(font);
+                m_window.draw(sftext);
+            }         
         }
 
         void WindowViewStrategy::PostRender()
         {
             m_window.display();
+        }
+
+        sf::Vector2i WindowViewStrategy::GetMousePosition()
+        {
+            return sf::Mouse::getPosition(m_window);
         }
     };
 };

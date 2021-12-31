@@ -12,12 +12,17 @@ namespace Game
         LOG_INFO("Created PhysicsSubsystem");
     }
 
+    PhysicsSubsystem::~PhysicsSubsystem()
+    {
+        LOG_INFO("Destroyed PhysicsSubsystem");
+    }
+
     void PhysicsSubsystem::RegisterComponent(IComponent* component)
     {
         if (auto rigidbodyComponent = dynamic_cast<RigidbodyComponent*>(component))
         {
             m_rigidBodies.emplace_back(rigidbodyComponent);
-            LOG_INFO("{PhysicsSubsystem} registered RigidBodyComponent from ID: %d", rigidbodyComponent->m_owner.ID);
+            LOG_INFO("{PhysicsSubsystem} registered RigidBodyComponent from ID: %d", rigidbodyComponent->Owner.ID);
         }
     }
 
@@ -25,7 +30,7 @@ namespace Game
     {
         if (auto rbComp = dynamic_cast<RigidbodyComponent*>(component))
         {
-            LOG_INFO("{PhysicsSubsystem} unregistered RigidBodyComponent from ID: %d", rbComp->m_owner.ID);
+            LOG_INFO("{PhysicsSubsystem} unregistered RigidBodyComponent from ID: %d", rbComp->Owner.ID);
             m_rigidBodies.erase(std::remove(m_rigidBodies.begin(), m_rigidBodies.end(), rbComp), m_rigidBodies.end());
         }
     }

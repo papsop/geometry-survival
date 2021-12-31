@@ -19,11 +19,13 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\View\FpsCounterComponent.cpp" />
+    <ClCompile Include="src\Subsystems\ActorSubsystem.cpp" />
+    <ClCompile Include="src\Components\Core\IComponent.cpp" />
     <ClCompile Include="src\Subsystems\PhysicsSubsystem.cpp" />
     <ClCompile Include="src\Core\Message.cpp" />
     <ClCompile Include="src\Components\Physics\BoxCollider.cpp" />
     <ClCompile Include="src\Debug\Logger.cpp" />
-    <ClCompile Include="src\Components\View\DebugNameComponent.cpp" />
     <ClCompile Include="src\Components\Player\InputComponent.cpp" />
     <ClCompile Include="src\Components\Core\Commands.cpp" />
     <ClCompile Include="src\Components\View\SquareComponent.cpp" />
@@ -36,15 +38,15 @@
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Managers\InputManager.cpp" />
-    <ClCompile Include="src\Managers\RenderManager.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\main.cpp" />
-    <ClCompile Include="src\View\ViewManager.cpp" />
     <ClCompile Include="src\View\WindowViewStrategy.cpp" />
-    <ClCompile Include="src\Components\View\TriangleComponent.cpp" />
     <ClCompile Include="src\Managers\SubsystemManager.cpp" />
+    <ClCompile Include="src\Subsystems\ViewSubsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\View\FpsCounterComponent.h" />
+    <ClInclude Include="src\Subsystems\ActorSubsystem.h" />
     <ClInclude Include="src\Subsystems\PhysicsSubsystem.h" />
     <ClInclude Include="src\Core\Message.h" />
     <ClInclude Include="src\Components\Physics\BoxCollider.h" />
@@ -56,14 +58,12 @@
     <ClInclude Include="src\Components\Player.h" />
     <ClInclude Include="src\Components\View.h" />
     <ClInclude Include="src\Debug\Logger.h" />
-    <ClInclude Include="src\Components\View\DebugNameComponent.h" />
     <ClInclude Include="src\Components\Player\InputComponent.h" />
     <ClInclude Include="src\Components\Core\Commands.h" />
     <ClInclude Include="src\Components\View\SquareComponent.h" />
     <ClInclude Include="src\Managers\AllManagers.h" />
     <ClInclude Include="src\Utils\AllUtils.h" />
     <ClInclude Include="src\Utils\VectorUtils.h" />
-    <ClInclude Include="src\Utils\ViewUtils.h" />
     <ClInclude Include="src\View\ConsoleViewStrategy.h" />
     <ClInclude Include="src\Managers\EntityManager.h" />
     <ClInclude Include="src\Components\Physics\RigidbodyComponent.h" />
@@ -74,19 +74,15 @@
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Components\Core\IComponent.h" />
     <ClInclude Include="src\Managers\InputManager.h" />
-    <ClInclude Include="src\Managers\RenderManager.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\View\IViewStrategy.h" />
-    <ClInclude Include="src\View\ViewManager.h" />
+    <ClInclude Include="src\View\Renderables.h" />
     <ClInclude Include="src\View\WindowViewStrategy.h" />
-    <ClInclude Include="src\Components\View\TriangleComponent.h" />
     <ClInclude Include="src\Managers\SubsystemManager.h" />
+    <ClInclude Include="src\Subsystems\ViewSubsystem.h" />
   </ItemGroup>
   <ItemGroup>
     <Font Include="arial.ttf" />
-  </ItemGroup>
-  <ItemGroup>
-    <Text Include="todo.txt" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>
@@ -207,6 +203,8 @@
     <Link>
       <SubSystem>Console</SubSystem>
       <GenerateDebugInformation>true</GenerateDebugInformation>
+      <AdditionalDependencies>sfml-graphics-d.lib;sfml-window-d.lib;sfml-system-d.lib;%(AdditionalDependencies)</AdditionalDependencies>
+      <AdditionalLibraryDirectories>$(SolutionDir)lib\;%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
     </Link>
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">

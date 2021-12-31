@@ -21,6 +21,16 @@ namespace Game
         float m_dx;
         float m_dy;
     };
+
+    class RotateCommand : public ICommand
+    {
+    public:
+        RotateCommand(float angle);
+        ~RotateCommand() override = default;
+        void Execute(ActorComponent& actor) override;
+    private:
+        float m_angle;
+    };
 };
 
 

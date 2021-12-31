@@ -1,7 +1,7 @@
 #pragma once
 #include "Transform.h"
 //#include "../../Managers/AllManagers.h"
-#include "../../utils/ViewUtils.h"
+#include "../../View/Renderables.h"
 
 #include "../../Debug/Logger.h"
 #include <type_traits>
@@ -22,39 +22,39 @@ namespace Game
             return componentID;
         }
 
-        IComponent(GameObject& obj) : m_owner(obj) {};
+        IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
 
         virtual void OnGameObjectChanged() = 0;
         virtual void Update(float dt) = 0;
 
-        GameObject& m_owner;
+        GameObject& Owner;
     protected:
         static uint32_t m_nextComponentID;
-        
     };
 
-    class IRenderableShape
+    class IRenderableShapeComponent : public IComponent
     {
     public:
-        IRenderableShape() = default;
-        ~IRenderableShape() = default;
+        IRenderableShapeComponent(GameObject& obj, int zIndex);
+         
+        ~IRenderableShapeComponent() override = default;
 
         virtual const view::Shape& GetRenderableShape() = 0;
-
+        const int ZIndex;
     protected:
-        view::Shape m_renderableShape;
+        Transform& m_ownerTransform;
     };
 
-    class IRenderableText
+    class IRenderableTextComponent : public IComponent
     {
     public:
-        IRenderableText() = default;
-        ~IRenderableText() = default;
+        IRenderableTextComponent(GameObject& obj);
+
+        ~IRenderableTextComponent() override = default;
 
         virtual const view::Text& GetRenderableText() = 0;
     protected:
-        view::Text m_renderableText;
+        Transform& m_ownerTransform;
     };
-
 };

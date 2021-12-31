@@ -1,5 +1,5 @@
 #pragma once
-#include <memory>
+
 #include <vector>
 #include "../Components/Physics.h"
 
@@ -10,7 +10,7 @@ namespace Game
     class PhysicsSubsystem
     {
     public:
-        ~PhysicsSubsystem() = default;
+        ~PhysicsSubsystem();
 
         void RegisterComponent(IComponent* component);
         void UnregisterComponent(IComponent* component);

@@ -19,9 +19,12 @@ namespace Game
         
         void Move(float dX, float dY);
         void Rotate(float angle);
+        void Fire();
 
     private:
         float m_movementSpeed = 500.0f;
+        float m_defaultShootingCooldown = 3.0f;
+        float m_currentShootingCooldown = -1.0f;
         std::weak_ptr<RigidbodyComponent> m_rigidbodyComponent;
         std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     };

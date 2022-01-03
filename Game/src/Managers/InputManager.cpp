@@ -24,6 +24,8 @@ namespace Game
         m_mapKeyToAction[sf::Keyboard::Right] = Action::MoveRight;
         m_mapKeyToAction[sf::Keyboard::Up] = Action::MoveUp;
         m_mapKeyToAction[sf::Keyboard::Down] = Action::MoveDown;
+
+        m_mapKeyToAction[sf::Keyboard::Space] = Action::Fire1;
     }
 
     void InputManager::SetViewSubsystem(ViewSubsystem* viewSubsystem)

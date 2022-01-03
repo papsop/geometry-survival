@@ -1,6 +1,5 @@
 #include "InputComponent.h"
 #include "../../Application.h"
-#include "../../Utils/VectorUtils.h"
 
 #include <iostream>
 namespace Game
@@ -9,12 +8,12 @@ namespace Game
         : IComponent(obj)
         , m_inputManager(Application::Instance().GetInputManager())
     {
-        Application::Instance().GetSubsystemManager().m_actor->RegisterComponent(this);
+        ACTORSUBSYSTEM_REGISTER(this);
     }
 
     InputComponent::~InputComponent()
     {
-        Application::Instance().GetSubsystemManager().m_actor->UnregisterComponent(this);
+        ACTORSUBSYSTEM_UNREGISTER(this);
     }
 
     void InputComponent::OnGameObjectChanged()
@@ -28,7 +27,7 @@ namespace Game
         auto cursorPos = static_cast<sf::Vector2f>(m_inputManager.GetMousePosition());
         auto dirToCursor = Owner.GetTransform().Position - cursorPos;
         
-        float angle = RAD_TO_DEG(atan2(dirToCursor.y, dirToCursor.x));
+        float angle = math::RAD_TO_DEG(atan2(dirToCursor.y, dirToCursor.x));
         
         if (auto tmp = m_actorComponent.lock())
         {
@@ -43,6 +42,13 @@ namespace Game
         {
             tmp->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
         }
+
+        // shooting
+        if(m_inputManager.GetAction(InputManager::Action::Fire1))
+            if (auto tmp = m_actorComponent.lock())
+            {
+                tmp->AddCommand(std::make_unique<FireCommand>());
+            }
     }
 
 };

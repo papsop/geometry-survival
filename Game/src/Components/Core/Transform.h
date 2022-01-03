@@ -1,8 +1,7 @@
 #pragma once
 #include <math.h>
 #include <SFML/System/Vector2.hpp>
-#define _USE_MATH_DEFINES
-#include<math.h>
+#include "../../Utils/VectorUtils.h"
 
 namespace Game
 {
@@ -16,7 +15,7 @@ namespace Game
 
         sf::Vector2f Forward()
         {
-            return { cosf((Rotation - 90.0f) * 3.14159f / 180.0f), sinf((Rotation - 90.0f) * 3.14159f / 180.0f) };
+            return { cosf(math::DEG_TO_RAD(Rotation)), sinf(math::DEG_TO_RAD(Rotation)) };
         }
     };
 };

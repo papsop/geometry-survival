@@ -31,6 +31,16 @@ namespace Game
     private:
         float m_angle;
     };
+
+    class FireCommand : public ICommand
+    {
+    public:
+        FireCommand();
+        ~FireCommand() override = default;
+        void Execute(ActorComponent& actor) override;
+    private:
+
+    };
 };
 
 

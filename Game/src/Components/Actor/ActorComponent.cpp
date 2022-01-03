@@ -42,6 +42,15 @@ namespace Game
         //    tmp->Rotation = angle;
     }
 
+    void ActorComponent::Fire()
+    {
+        if (m_currentShootingCooldown <= 0.0f)
+        {
+            LOG_WARN("Firing");
+            m_currentShootingCooldown = m_defaultShootingCooldown;
+        }
+    }
+
     void ActorComponent::Update(float dt)
     {
         while (!m_commandsQueue.empty())
@@ -49,5 +58,7 @@ namespace Game
             m_commandsQueue.front()->Execute(*this);
             m_commandsQueue.pop();
         }
+
+        m_currentShootingCooldown -= dt;
     }
 };

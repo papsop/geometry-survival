@@ -28,4 +28,15 @@ namespace Game
     {
         actor.Rotate(m_angle);
     }
+
+    // --------------------------------------------------------
+
+    FireCommand::FireCommand()
+    {
+    }
+
+    void FireCommand::Execute(ActorComponent& actor)
+    {
+        actor.Fire();
+    }
 };

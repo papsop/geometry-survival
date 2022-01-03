@@ -1,7 +1,5 @@
 #pragma once
-#include <math.h>
 #include <SFML/Graphics.hpp>
-#include <SFML/System/Vector2.hpp>
 #include <stdint.h>
 #include "../Components/Core/Transform.h"
 

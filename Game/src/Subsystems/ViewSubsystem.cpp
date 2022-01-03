@@ -1,5 +1,6 @@
 #include "ViewSubsystem.h"
 
+#include "../Core/GameObject.h"
 #include "../Debug/Logger.h"
 
 namespace Game
@@ -37,12 +38,12 @@ namespace Game
         if (auto shapeComponent = dynamic_cast<IRenderableShapeComponent*>(component))
         {
             m_shapes.insert(shapeComponent);
-            LOG_INFO("{ViewSubsystem} registered IRenderableShape");
+            LOG_INFO("{ViewSubsystem} registered IRenderableShape from ID: %d", shapeComponent->Owner.ID);
         }
         else if (auto textComponent = dynamic_cast<IRenderableTextComponent*>(component))
         {
             m_texts.emplace_back(textComponent);
-            LOG_INFO("{ViewSubsystem} registered IRenderableText");
+            LOG_INFO("{ViewSubsystem} registered IRenderableText from ID: %d", textComponent->Owner.ID);
         }
     }
 
@@ -51,12 +52,12 @@ namespace Game
         if (auto shapeComponent = dynamic_cast<IRenderableShapeComponent*>(component))
         {
             m_shapes.erase(shapeComponent);
-            LOG_INFO("{ViewSubsystem} unregistered IRenderableShape");
+            LOG_INFO("{ViewSubsystem} unregistered IRenderableShape from ID: %d", shapeComponent->Owner.ID);
         }
         else if (auto textComponent = dynamic_cast<IRenderableTextComponent*>(component))
         {
             m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), textComponent), m_texts.end());
-            LOG_INFO("{ViewSubsystem} unregistered IRenderableText");
+            LOG_INFO("{ViewSubsystem} unregistered IRenderableText from ID: %d", textComponent->Owner.ID);
         }
     }
 

@@ -14,9 +14,6 @@
 namespace Game
 {
 
-    //class InputManager;
-    //class RenderManager;
-
     class Application
     {
     public:

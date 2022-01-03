@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\Actor\BulletComponent.cpp" />
+    <ClCompile Include="src\Components\Actor\ShootingComponent.cpp" />
     <ClCompile Include="src\Components\View\FpsCounterComponent.cpp" />
     <ClCompile Include="src\Subsystems\ActorSubsystem.cpp" />
     <ClCompile Include="src\Components\Core\IComponent.cpp" />
@@ -46,6 +48,8 @@
     <ClCompile Include="src\Subsystems\ViewSubsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\Actor\BulletComponent.h" />
+    <ClInclude Include="src\Components\Actor\ShootingComponent.h" />
     <ClInclude Include="src\Components\View\FpsCounterComponent.h" />
     <ClInclude Include="src\Subsystems\ActorSubsystem.h" />
     <ClInclude Include="src\Subsystems\PhysicsSubsystem.h" />

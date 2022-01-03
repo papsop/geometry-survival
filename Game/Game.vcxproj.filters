@@ -90,6 +90,12 @@
     <ClCompile Include="src\Utils\VectorUtils.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\Actor\ShootingComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\Actor\BulletComponent.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Application.h">
@@ -195,6 +201,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\View\FpsCounterComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\Actor\ShootingComponent.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\Actor\BulletComponent.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

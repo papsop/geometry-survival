@@ -15,13 +15,16 @@ namespace Game
 
         void Update(float dt);
 
-        
-        std::unique_ptr<PhysicsSubsystem> m_physics;
-        std::unique_ptr<ActorSubsystem> m_actor;
-        std::unique_ptr<ViewSubsystem> m_view;
+        ViewSubsystem& GetViewSubsystem() { return *m_view; }
+        PhysicsSubsystem& GetPhysicsSubsystem() { return *m_physics; }
+        ActorSubsystem& GetActorSubsystem() { return *m_actor; }
 
     private:
         SubsystemManager();
+
+        std::unique_ptr<PhysicsSubsystem> m_physics;
+        std::unique_ptr<ActorSubsystem> m_actor;
+        std::unique_ptr<ViewSubsystem> m_view;
 
     friend class Application; // only Application can create a manager
     };

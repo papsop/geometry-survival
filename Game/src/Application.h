@@ -4,12 +4,12 @@
 
 #include "Managers/AllManagers.h"
 
-#define PHYSICSSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().m_physics->RegisterComponent((c));
-#define PHYSICSSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().m_physics->UnregisterComponent((c));
-#define ACTORSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().m_actor->RegisterComponent((c));
-#define ACTORSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().m_actor->UnregisterComponent((c));
-#define VIEWSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().m_view->RegisterComponent((c));
-#define VIEWSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().m_view->UnregisterComponent((c));
+#define PHYSICSSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().GetPhysicsSubsystem().RegisterComponent((c));
+#define PHYSICSSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().GetPhysicsSubsystem().UnregisterComponent((c));
+#define ACTORSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().GetActorSubsystem().RegisterComponent((c));
+#define ACTORSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().GetActorSubsystem().UnregisterComponent((c));
+#define VIEWSUBSYSTEM_REGISTER(c) Game::Application::Instance().GetSubsystemManager().GetViewSubsystem().RegisterComponent((c));
+#define VIEWSUBSYSTEM_UNREGISTER(c) Game::Application::Instance().GetSubsystemManager().GetViewSubsystem().UnregisterComponent((c));
 
 namespace Game
 {

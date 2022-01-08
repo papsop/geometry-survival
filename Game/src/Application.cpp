@@ -42,6 +42,7 @@ namespace Game
 
     void Application::Run()
     {
+
         sf::Font font;
         if (!font.loadFromFile("arial.ttf"))
         {

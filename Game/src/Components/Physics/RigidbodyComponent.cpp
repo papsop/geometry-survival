@@ -8,6 +8,7 @@ namespace Game
 {
     RigidbodyComponent::RigidbodyComponent(GameObject& obj)
         : IComponent(obj)
+        , IDebugDrawComponent()
         , m_ownerTransform(obj.GetTransform())
         , m_targetRotationAngle(obj.GetTransform().Rotation)
     {
@@ -48,5 +49,16 @@ namespace Game
         //    else
         //        m_timeToRotate = 0.0f;
         //}
+    }
+
+    void RigidbodyComponent::DebugDraw(view::IViewStrategy* viewStrategy)
+    {
+        // draw forward vector
+        sf::Vector2f secondPos = m_ownerTransform.Position + m_ownerTransform.Forward() * 50.0f;
+        view::Line line;
+        line.Points[0] = sf::Vertex(m_ownerTransform.Position);
+        line.Points[1] = sf::Vertex(secondPos);
+
+        viewStrategy->Render(line);
     }
 };

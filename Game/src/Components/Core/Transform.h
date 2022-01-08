@@ -2,7 +2,7 @@
 #include <math.h>
 #include <SFML/System/Vector2.hpp>
 #include "../../Utils/VectorUtils.h"
-
+#include "../../Debug/Logger.h"
 namespace Game
 {
     struct Transform
@@ -15,7 +15,7 @@ namespace Game
 
         sf::Vector2f Forward()
         {
-            return { cosf(math::DEG_TO_RAD(Rotation)), sinf(math::DEG_TO_RAD(Rotation)) };
+            return { cosf(math::DEG_TO_RAD(Rotation)), -sinf(math::DEG_TO_RAD(Rotation)) };
         }
     };
 };

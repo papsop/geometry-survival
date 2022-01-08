@@ -23,7 +23,9 @@ namespace Game
                 obj.setRadius(Radius);
                 obj.setFillColor(Color);
                 obj.setPosition(Transform.Position);
-                obj.setRotation(Transform.Rotation - 90.0f); // to make up for the SFML angle offset
+                // SFML uses Bearings, north is 0 and east is 90 (the fuck?)
+                float angle = 360.0f - (Transform.Rotation - 90.0f);
+                obj.setRotation(angle);
                 obj.setScale(Transform.Scale);
                 obj.setOrigin(Radius, Radius);
                 return obj;
@@ -51,6 +53,11 @@ namespace Game
                 obj.setScale(Transform.Scale);
                 return obj;
             }
+        };
+
+        struct Line
+        {
+            sf::Vertex Points[2];
         };
     };
 };

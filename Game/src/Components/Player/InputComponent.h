@@ -7,7 +7,7 @@ namespace Game
 {
     class GameObject;
 
-    class InputComponent : public IComponent
+    class InputComponent : public IComponent, public IDebugDrawComponent
     {
     public:
         InputComponent(GameObject& obj);
@@ -15,6 +15,7 @@ namespace Game
 
         void Update(float dt) override;
         void OnGameObjectChanged() override;
+        void DebugDraw(view::IViewStrategy* viewStrategy);
 
     private:
         InputManager& m_inputManager;

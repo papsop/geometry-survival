@@ -1,6 +1,7 @@
 #pragma once
 #include "Transform.h"
 #include "../../View/Renderables.h"
+#include "../../View/IViewStrategy.h"
 
 #include "../../Debug/Logger.h"
 #include <type_traits>
@@ -55,5 +56,14 @@ namespace Game
         virtual const view::Text& GetRenderableText() = 0;
     protected:
         Transform& m_ownerTransform;
+    };
+
+    class IDebugDrawComponent
+    {
+    public:
+        IDebugDrawComponent();
+        virtual ~IDebugDrawComponent();
+
+        virtual void DebugDraw(view::IViewStrategy* viewStrategy) {};
     };
 };

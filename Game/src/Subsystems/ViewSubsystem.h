@@ -15,8 +15,13 @@ namespace Game
     public:
         ~ViewSubsystem();
 
-        void RegisterComponent(IComponent* component);
-        void UnregisterComponent(IComponent* component);
+        void RegisterComponent(IRenderableShapeComponent* component);
+        void RegisterComponent(IRenderableTextComponent* component);
+        void RegisterComponent(IDebugDrawComponent* component);
+
+        void UnregisterComponent(IRenderableShapeComponent* component);
+        void UnregisterComponent(IRenderableTextComponent* component);
+        void UnregisterComponent(IDebugDrawComponent* component);
 
         // Application's interface to ViewStrategy
         void PollEvents();
@@ -38,6 +43,7 @@ namespace Game
         std::unique_ptr<view::IViewStrategy> m_viewStrategy;
         std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
         std::vector< IRenderableTextComponent* > m_texts;
+        std::vector< IDebugDrawComponent* > m_debugs;
         
 
     friend class SubsystemManager;

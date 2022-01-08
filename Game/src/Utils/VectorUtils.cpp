@@ -6,12 +6,12 @@ namespace Game
     {
         float RAD_TO_DEG(float angle)
         {
-            return (angle * 180.0f) / M_PI_F;
+            return angle * (180.0f / M_PI_F);
         };
 
         float DEG_TO_RAD(float angle)
         {
-            return (angle * M_PI_F) / 180.0f;
+            return angle * (M_PI_F / 180.0f);
         };
 
         float V2fLengthSquared(const Vec2& v)

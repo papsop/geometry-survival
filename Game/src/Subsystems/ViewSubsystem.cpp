@@ -33,32 +33,40 @@ namespace Game
         return m_viewStrategy->GetMousePosition();
     }
 
-    void ViewSubsystem::RegisterComponent(IComponent *component)
+    void ViewSubsystem::RegisterComponent(IRenderableShapeComponent *component)
     {
-        if (auto shapeComponent = dynamic_cast<IRenderableShapeComponent*>(component))
-        {
-            m_shapes.insert(shapeComponent);
-            LOG_INFO("{ViewSubsystem} registered IRenderableShape from ID: %d", shapeComponent->Owner.ID);
-        }
-        else if (auto textComponent = dynamic_cast<IRenderableTextComponent*>(component))
-        {
-            m_texts.emplace_back(textComponent);
-            LOG_INFO("{ViewSubsystem} registered IRenderableText from ID: %d", textComponent->Owner.ID);
-        }
+        m_shapes.insert(component);
+        LOG_INFO("{ViewSubsystem} registered IRenderableShape from ID: %d", component->Owner.ID);
     }
 
-    void ViewSubsystem::UnregisterComponent(IComponent* component)
+    void ViewSubsystem::RegisterComponent(IRenderableTextComponent* component)
     {
-        if (auto shapeComponent = dynamic_cast<IRenderableShapeComponent*>(component))
-        {
-            m_shapes.erase(shapeComponent);
-            LOG_INFO("{ViewSubsystem} unregistered IRenderableShape from ID: %d", shapeComponent->Owner.ID);
-        }
-        else if (auto textComponent = dynamic_cast<IRenderableTextComponent*>(component))
-        {
-            m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), textComponent), m_texts.end());
-            LOG_INFO("{ViewSubsystem} unregistered IRenderableText from ID: %d", textComponent->Owner.ID);
-        }
+        m_texts.emplace_back(component);
+        LOG_INFO("{ViewSubsystem} registered IRenderableText from ID: %d", component->Owner.ID);
+    }
+
+    void ViewSubsystem::RegisterComponent(IDebugDrawComponent* component)
+    {
+        m_debugs.emplace_back(component);
+        LOG_INFO("{ViewSubsystem} registered IDebugDrawComponent from ID");
+    }
+
+    void ViewSubsystem::UnregisterComponent(IRenderableShapeComponent* component)
+    {
+        m_shapes.erase(component);
+        LOG_INFO("{ViewSubsystem} unregistered IRenderableShape from ID: %d", component->Owner.ID);
+    }
+
+    void ViewSubsystem::UnregisterComponent(IRenderableTextComponent* component)
+    {
+        m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), component), m_texts.end());
+        LOG_INFO("{ViewSubsystem} unregistered IRenderableText from ID: %d", component->Owner.ID);
+    }
+
+    void ViewSubsystem::UnregisterComponent(IDebugDrawComponent* component)
+    {
+        m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
+        LOG_INFO("{ViewSubsystem} unregistered IDebugDrawComponent");
     }
 
     void ViewSubsystem::Update(float dt)
@@ -70,6 +78,10 @@ namespace Game
 
         for (auto t : m_texts)
             m_viewStrategy->Render(t->GetRenderableText());
+
+        // debug draws for registered components
+        for (auto d : m_debugs)
+            d->DebugDraw(m_viewStrategy.get());
 
         m_viewStrategy->PostRender();
     }

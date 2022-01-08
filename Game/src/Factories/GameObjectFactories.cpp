@@ -27,7 +27,7 @@ namespace Game
         {
             objID = tmp->ID;
             tmp->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
-            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Yellow);
+            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Red);
             tmp->AddComponent<RigidbodyComponent>(*tmp);
             tmp->AddComponent<ActorComponent>(*tmp);
             tmp->AddComponent<InputComponent>(*tmp);

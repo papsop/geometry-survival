@@ -87,7 +87,7 @@
     <ClInclude Include="src\Subsystems\ViewSubsystem.h" />
   </ItemGroup>
   <ItemGroup>
-    <Font Include="arial.ttf" />
+    <Font Include="src\arial.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

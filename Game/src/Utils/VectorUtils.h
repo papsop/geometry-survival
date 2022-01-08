@@ -8,7 +8,6 @@ namespace Game
     {
         const float M_PI_F = 3.14159274101257324219f;
 
-
         typedef sf::Vector2f Vec2;
 
         float RAD_TO_DEG(float angle);

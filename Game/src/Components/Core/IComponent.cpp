@@ -1,6 +1,7 @@
 #include "IComponent.h"
 
 #include "../../Core/GameObject.h"
+#include "../../Application.h"
 
 namespace Game
 {
@@ -14,4 +15,13 @@ namespace Game
         : IComponent(obj)
         , m_ownerTransform(obj.GetTransform())
     {};
+
+    IDebugDrawComponent::IDebugDrawComponent()
+    {
+        VIEWSUBSYSTEM_REGISTER(this);
+    }
+    IDebugDrawComponent::~IDebugDrawComponent()
+    {
+        VIEWSUBSYSTEM_UNREGISTER(this);
+    }
 };

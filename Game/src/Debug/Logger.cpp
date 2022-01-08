@@ -20,7 +20,7 @@ namespace Game
 {
     Logger::Logger()
     {
-        Log(LEVEL::INFO, "Created Logger");
+        Log(LEVEL::INFO, __func__, "Created Logger");
     }
 
     Logger& Logger::Instance()
@@ -30,8 +30,11 @@ namespace Game
     }
 
     // TODO: actually filter levels
-    bool Logger::Log(LEVEL level, const char* format, ...)
+    void Logger::Log(LEVEL level, const char* source, const char* format, ...)
     {
+        // ignore lower LEVEL
+        if (level < m_levelFilter) return;
+
         // format va arguments
         char log_message[1024];
         va_list arg;
@@ -42,16 +45,15 @@ namespace Game
         // print colored log
         if (level == LEVEL::INFO)
         {
-            printf(ANSI_COLOR_CYAN "[INFO] %s\n" ANSI_COLOR_RESET, log_message);
+            printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }
         else if (level == LEVEL::WARN)
         {
-            printf(ANSI_COLOR_YELLOW "[WARN] %s\n" ANSI_COLOR_RESET, log_message);
+            printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }
         else if (level == LEVEL::ERROR)
         {
-            printf(ANSI_COLOR_RED "[ERROR] %s\n" ANSI_COLOR_RESET, log_message);
+            printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }
-        return true;
     }
 };

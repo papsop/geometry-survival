@@ -211,6 +211,6 @@
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
-    <Font Include="arial.ttf" />
+    <Font Include="src\arial.ttf" />
   </ItemGroup>
 </Project>

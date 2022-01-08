@@ -25,10 +25,13 @@ namespace Game
     {
         // rotation
         auto cursorPos = static_cast<sf::Vector2f>(m_inputManager.GetMousePosition());
-        auto dirToCursor = Owner.GetTransform().Position - cursorPos;
+        auto dirToCursor = cursorPos - Owner.GetTransform().Position;
         
-        float angle = math::RAD_TO_DEG(atan2(dirToCursor.y, dirToCursor.x));
-        
+        float angle = -math::RAD_TO_DEG(atan2(dirToCursor.y, dirToCursor.x));
+        if (angle < 0)
+            angle += 360.0f;
+
+        LOG_INFO("Angle: %f", angle);
         if (auto tmp = m_actorComponent.lock())
         {
             tmp->AddCommand(std::make_unique<RotateCommand>(angle));
@@ -49,6 +52,20 @@ namespace Game
             {
                 tmp->AddCommand(std::make_unique<FireCommand>());
             }
+    }
+
+    void InputComponent::DebugDraw(view::IViewStrategy* viewStrategy)
+    {
+        // rotation
+        auto cursorPos = static_cast<sf::Vector2f>(m_inputManager.GetMousePosition());
+        auto dirToCursor = cursorPos - Owner.GetTransform().Position;
+
+        view::Line line;
+        line.Points[0] = sf::Vertex(Owner.GetTransform().Position);
+        line.Points[1] = sf::Vertex(Owner.GetTransform().Position + (dirToCursor * 100.0f));
+        //line.Points[1] = sf::Vertex(cursorPos)
+
+       // viewStrategy->Render(line);
     }
 
 };

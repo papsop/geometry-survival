@@ -47,6 +47,11 @@ namespace Game
             }         
         }
 
+        void WindowViewStrategy::Render(const Line& line)
+        {
+            m_window.draw(line.Points, 2, sf::Lines);
+        }
+
         void WindowViewStrategy::PostRender()
         {
             m_window.display();

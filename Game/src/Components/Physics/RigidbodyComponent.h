@@ -3,7 +3,7 @@
 
 namespace Game
 {
-    class RigidbodyComponent : public IComponent
+    class RigidbodyComponent : public IComponent, public IDebugDrawComponent
     {
     public:
         RigidbodyComponent(GameObject& obj);
@@ -12,6 +12,7 @@ namespace Game
         void Update(float dt) override;
         void OnGameObjectChanged() override;
 
+        void DebugDraw(view::IViewStrategy* viewStrategy) override;
         //void RotateToAngle(float targetAngle);
         //void Move(sf::Vector2f moveDirection);
         sf::Vector2f Velocity = sf::Vector2f(0.0f, 0.0f);

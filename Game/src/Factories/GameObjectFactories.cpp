@@ -27,7 +27,7 @@ namespace Game
         {
             objID = tmp->ID;
             tmp->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
-            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Red);
+            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Red, 1);
             tmp->AddComponent<RigidbodyComponent>(*tmp);
             tmp->AddComponent<ActorComponent>(*tmp);
             tmp->AddComponent<InputComponent>(*tmp);
@@ -39,16 +39,18 @@ namespace Game
     // RotatingEnemyFactory impl
     uint32_t SeekingEnemyFactory::CreateGameObject() const
     {
-        //auto obj = std::make_shared<GameObject>(1, "SeekingEnemy");
-        //obj->GetTransform().Position = sf::Vector2f(400.0f, 400.0f);
-        //obj->AddComponent<RigidbodyComponent>(*obj);
-        //obj->AddComponent<ActorComponent>(*obj);
-        ////obj->AddComponent<SeekingEnemyController>(*obj);
-        ////obj->AddComponent<TriangleComponent>(*obj, 1);
-        ////obj->AddComponent<SquareComponent>(*obj, 0);
-
-        //return obj;
-        return 0;
+        auto obj = Application::Instance().GetEntityManager().CreateEntityReturnEntity("Enemy1");
+        uint32_t objID = 0;
+        if (auto tmp = obj.lock())
+        {
+            objID = tmp->ID;
+            tmp->GetTransform().Position = sf::Vector2f(500.0f, 350.0f);
+            tmp->AddComponent<SquareComponent>(*tmp, sf::Color::Blue, 0);
+            tmp->AddComponent<RigidbodyComponent>(*tmp);
+            tmp->AddComponent<ActorComponent>(*tmp);
+            //tmp->AddComponent<InputComponent>(*tmp);
+            return tmp->ID;
+        }
     }
     // /RotatingEnemyFactory
 

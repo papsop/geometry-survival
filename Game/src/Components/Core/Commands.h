@@ -1,4 +1,5 @@
 #pragma once
+#include "../../Utils/VectorUtils.h"
 
 namespace Game
 {
@@ -18,8 +19,7 @@ namespace Game
         ~MoveCommand() override = default;
         void Execute(ActorComponent& actor) override;
     private:
-        float m_dx;
-        float m_dy;
+        math::Vec2 m_dir;
     };
 
     class RotateCommand : public ICommand

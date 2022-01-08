@@ -14,6 +14,8 @@ namespace Game
 
         float DEG_TO_RAD(float angle);
 
+        float AngleBetweenVecs(Vec2 a, Vec2 b);
+
         float V2fLengthSquared(const Vec2& v);
 
         float V2fLength(const Vec2& v);

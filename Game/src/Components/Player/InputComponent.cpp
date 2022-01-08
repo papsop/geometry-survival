@@ -24,14 +24,8 @@ namespace Game
     void InputComponent::Update(float dt)
     {
         // rotation
-        auto cursorPos = static_cast<sf::Vector2f>(m_inputManager.GetMousePosition());
-        auto dirToCursor = cursorPos - Owner.GetTransform().Position;
-        
-        float angle = -math::RAD_TO_DEG(atan2(dirToCursor.y, dirToCursor.x));
-        if (angle < 0)
-            angle += 360.0f;
+        float angle = math::AngleBetweenVecs(Owner.GetTransform().Position, static_cast<sf::Vector2f>(m_inputManager.GetMousePosition()));
 
-        LOG_INFO("Angle: %f", angle);
         if (auto tmp = m_actorComponent.lock())
         {
             tmp->AddCommand(std::make_unique<RotateCommand>(angle));
@@ -41,10 +35,16 @@ namespace Game
         float horizontal = m_inputManager.GetAxis(InputManager::Axis::Horizontal);
         float vertical = m_inputManager.GetAxis(InputManager::Axis::Vertical);
 
-        if (auto tmp = m_actorComponent.lock())
+        if (m_previousUpdateHorizontal != horizontal || m_previousUpdateVertical != vertical )
         {
-            tmp->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
+            if (auto tmp = m_actorComponent.lock())
+            {
+                tmp->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
+                m_previousUpdateHorizontal = horizontal;
+                m_previousUpdateVertical = vertical;
+            }
         }
+
 
         // shooting
         if(m_inputManager.GetAction(InputManager::Action::Fire1))

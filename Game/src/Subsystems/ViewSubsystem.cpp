@@ -35,8 +35,13 @@ namespace Game
 
     void ViewSubsystem::RegisterComponent(IRenderableShapeComponent *component)
     {
-        m_shapes.insert(component);
-        LOG_INFO("{ViewSubsystem} registered IRenderableShape from ID: %d", component->Owner.ID);
+        
+        if (m_shapes.insert(component).second == false)
+        {
+            LOG_WARN("{ViewSubsystem} IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.ID, component->ZIndex);
+        }
+        else
+            LOG_INFO("{ViewSubsystem} registered IRenderableShape from ID: %d, zIndex: '%d'", component->Owner.ID, component->ZIndex);
     }
 
     void ViewSubsystem::RegisterComponent(IRenderableTextComponent* component)

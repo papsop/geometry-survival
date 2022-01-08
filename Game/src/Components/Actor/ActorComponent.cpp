@@ -28,10 +28,10 @@ namespace Game
         m_commandsQueue.push(std::move(command));
     }
      
-    void ActorComponent::Move(float dX, float dY)
+    void ActorComponent::Move(math::Vec2 dir)
     {
         if (auto tmp = m_rigidbodyComponent.lock())
-            tmp->Velocity = sf::Vector2f(dX, dY) * m_movementSpeed;
+            tmp->Velocity = dir * m_movementSpeed;
     }
 
     void ActorComponent::Rotate(float angle)

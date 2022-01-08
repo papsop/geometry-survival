@@ -87,6 +87,8 @@
     <ClInclude Include="src\Subsystems\ViewSubsystem.h" />
   </ItemGroup>
   <ItemGroup>
+    <Font Include="OpenSans-Bold.ttf" />
+    <Font Include="OpenSans-Regular.ttf" />
     <Font Include="src\arial.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">

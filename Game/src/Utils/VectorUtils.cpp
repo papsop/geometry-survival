@@ -14,6 +14,15 @@ namespace Game
             return angle * (M_PI_F / 180.0f);
         };
 
+        float AngleBetweenVecs(Vec2 a, Vec2 b)
+        {
+            Vec2 AB = b - a;
+            float angle = -math::RAD_TO_DEG(atan2(AB.y, AB.x));
+            if (angle < 0)
+                angle += 360.0f;
+            return angle;
+        }
+
         float V2fLengthSquared(const Vec2& v)
         {
             return v.x * v.x + v.y * v.y;

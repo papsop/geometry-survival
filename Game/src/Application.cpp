@@ -44,7 +44,7 @@ namespace Game
     {
 
         sf::Font font;
-        if (!font.loadFromFile("arial.ttf"))
+        if (!font.loadFromFile("OpenSans-Regular.ttf"))
         {
             LOG_INFO("loaded font");
         }
@@ -54,6 +54,7 @@ namespace Game
         Scene scene;
         auto debugID = scene.AddGameObjectViaFactory(DebugGOFactory());
         auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
+        auto enemyID = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
 
         // Create and set ViewStrategy
         m_subsystemManager->m_view->SetViewStrategy(

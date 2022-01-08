@@ -6,7 +6,7 @@ namespace Game
     class SquareComponent : public IRenderableShapeComponent
     {
     public:
-        SquareComponent(GameObject& obj, sf::Color color);
+        SquareComponent(GameObject& obj, sf::Color color, int zIndex);
         ~SquareComponent();
 
         void OnGameObjectChanged() override {};

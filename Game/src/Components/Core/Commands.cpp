@@ -2,18 +2,17 @@
 
 #include "../Actor.h"
 
+
 namespace Game
 {
     MoveCommand::MoveCommand(float dx, float dy)
-        : m_dx(dx)
-        , m_dy(dy)
     {
-
+        m_dir = math::V2fNormalize(sf::Vector2f(dx, dy));
     }
 
     void MoveCommand::Execute(ActorComponent& actor)
     {
-        actor.Move(m_dx, m_dy);
+        actor.Move(m_dir);
     }
 
     // --------------------------------------------------------

@@ -4,8 +4,8 @@
 
 namespace Game
 {
-    SquareComponent::SquareComponent(GameObject& obj, sf::Color color)
-        : IRenderableShapeComponent(obj, 1)
+    SquareComponent::SquareComponent(GameObject& obj, sf::Color color, int zIndex)
+        : IRenderableShapeComponent(obj, zIndex)
         , m_shape(obj.GetTransform())
     {
         m_shape.PointCount = 3;

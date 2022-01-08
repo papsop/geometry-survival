@@ -212,5 +212,7 @@
   </ItemGroup>
   <ItemGroup>
     <Font Include="src\arial.ttf" />
+    <Font Include="OpenSans-Bold.ttf" />
+    <Font Include="OpenSans-Regular.ttf" />
   </ItemGroup>
 </Project>

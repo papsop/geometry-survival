@@ -38,13 +38,8 @@ namespace Game
 
         void WindowViewStrategy::Render(const Text& text)
         {
-            sf::Font font;
-            if (!font.loadFromFile("arial.ttf"))
-            {
-                auto sftext = static_cast<sf::Text>(text);
-                sftext.setFont(font);
-                m_window.draw(sftext);
-            }         
+            auto sftext = static_cast<sf::Text>(text);
+            m_window.draw(sftext);
         }
 
         void WindowViewStrategy::Render(const Line& line)

@@ -20,6 +20,9 @@ namespace Game
     private:
         InputManager& m_inputManager;
         std::weak_ptr<ActorComponent> m_actorComponent;
+
+        float m_previousUpdateHorizontal = 0.0f;
+        float m_previousUpdateVertical = 0.0f;
     };
 };
 

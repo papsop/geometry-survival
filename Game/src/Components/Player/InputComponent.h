@@ -23,6 +23,8 @@ namespace Game
 
         float m_previousUpdateHorizontal = 0.0f;
         float m_previousUpdateVertical = 0.0f;
+
+        float m_previousUpdateRotation = 0.0f;
     };
 };
 

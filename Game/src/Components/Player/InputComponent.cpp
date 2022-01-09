@@ -7,6 +7,7 @@ namespace Game
     InputComponent::InputComponent(GameObject& obj)
         : IComponent(obj)
         , m_inputManager(Application::Instance().GetInputManager())
+        , m_previousUpdateRotation(Owner.GetTransform().Rotation)
     {
         ACTORSUBSYSTEM_REGISTER(this);
     }
@@ -26,11 +27,15 @@ namespace Game
         // rotation
         float angle = math::AngleBetweenVecs(Owner.GetTransform().Position, static_cast<sf::Vector2f>(m_inputManager.GetMousePosition()));
 
-        if (auto tmp = m_actorComponent.lock())
+        if (m_previousUpdateRotation != angle)
         {
-            tmp->AddCommand(std::make_unique<RotateCommand>(angle));
+            if (auto tmp = m_actorComponent.lock())
+            {
+                tmp->AddCommand(std::make_unique<RotateCommand>(angle));
+                m_previousUpdateRotation = angle;
+            }
         }
-
+        
         // movement
         float horizontal = m_inputManager.GetAxis(InputManager::Axis::Horizontal);
         float vertical = m_inputManager.GetAxis(InputManager::Axis::Vertical);

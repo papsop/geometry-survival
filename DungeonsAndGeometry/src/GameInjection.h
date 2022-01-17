@@ -22,17 +22,12 @@ namespace Game
 
         void BeforeGameLoop(Engine::Application& app) override
         {
-            auto obj = Engine::EntityManager::Get().CreateEntityReturnEntity("Player");
-            uint32_t objID = 0;
-            if (auto tmp = obj.lock())
-            {
-                objID = tmp->ID;
-                tmp->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
-                tmp->AddComponent<Engine::RigidbodyComponent>(*tmp);
-                tmp->AddComponent<Engine::TriangleComponent>(*tmp, sf::Color::Blue, 0);
-                tmp->AddComponent<InputComponent>(*tmp);
-                tmp->AddComponent<ActorComponent>(*tmp);
-            }
+            auto player = Engine::EntityManager::Get().CreateEntity("Player");
+            player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
+            player->AddComponent<Engine::RigidbodyComponent>();
+            player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
+            player->AddComponent<InputComponent>();
+            player->AddComponent<ActorComponent>();
         }
     };
 }

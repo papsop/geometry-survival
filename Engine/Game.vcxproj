@@ -36,6 +36,7 @@
     <ClCompile Include="src\Subsystems\ViewSubsystem.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Debug\LoggerLevel.h" />
     <ClInclude Include="src\Subsystems\PhysicsSubsystem.h" />
     <ClInclude Include="src\Core\ApplicationInjection.h" />
     <ClInclude Include="src\Subsystems\ComponentSubsystem.h" />
@@ -60,11 +61,6 @@
     <ClInclude Include="src\View\WindowViewStrategy.h" />
     <ClInclude Include="src\Managers\SubsystemManager.h" />
     <ClInclude Include="src\Subsystems\ViewSubsystem.h" />
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="OpenSans-Bold.ttf" />
-    <Font Include="OpenSans-Regular.ttf" />
-    <Font Include="src\arial.ttf" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

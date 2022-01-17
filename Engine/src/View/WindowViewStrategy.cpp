@@ -1,6 +1,7 @@
 #include "WindowViewStrategy.h"
 
 #include "../Debug/Logger.h"
+#include <SFML/Graphics.hpp>
 #include <iostream>
 namespace Engine
 {

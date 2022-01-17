@@ -175,6 +175,9 @@
     <ClInclude Include="src\GameInjection.h" />
     <ClInclude Include="src\Components\Player\InputComponent.h" />
   </ItemGroup>
+  <ItemGroup>
+    <Font Include="arial.ttf" />
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
   </ImportGroup>

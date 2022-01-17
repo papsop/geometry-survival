@@ -134,10 +134,8 @@
     <ClInclude Include="src\Subsystems\PhysicsSubsystem.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-  </ItemGroup>
-  <ItemGroup>
-    <Font Include="src\arial.ttf" />
-    <Font Include="OpenSans-Bold.ttf" />
-    <Font Include="OpenSans-Regular.ttf" />
+    <ClInclude Include="src\Debug\LoggerLevel.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

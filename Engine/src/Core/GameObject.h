@@ -30,7 +30,7 @@ namespace Engine
             static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (!HasComponent<T>())
             {
-                m_components[IComponent::GetComponentID<T>()] = std::make_unique<T>(std::forward<Args>(args) ...);
+                m_components[IComponent::GetComponentID<T>()] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
                 NotifyComponents();
             }
             else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());

@@ -64,6 +64,6 @@ namespace Engine
         IDebugDrawComponent();
         virtual ~IDebugDrawComponent();
 
-        virtual void DebugDraw(view::IViewStrategy* viewStrategy) {};
+        virtual void DebugDraw(view::IViewStrategy* viewStrategy) = 0;
     };
 };

@@ -20,7 +20,7 @@ namespace Engine
 {
     Logger::Logger()
     {
-        Log(LEVEL::INFO, __func__, "Created Logger");
+        Log(LOGGER_LEVEL::INFO, __func__, "Created Logger");
     }
 
     Logger& Logger::Instance()
@@ -29,11 +29,10 @@ namespace Engine
         return instance;
     }
 
-    void Logger::Log(LEVEL level, const char* source, const char* format, ...)
+    void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
     {
         if (level < m_levelFilter) return;
 
-        // format va arguments
         char log_message[1024];
         va_list arg;
         va_start(arg, format);
@@ -41,15 +40,15 @@ namespace Engine
         va_end(arg);
 
         // print colored log
-        if (level == LEVEL::INFO)
+        if (level == LOGGER_LEVEL::INFO)
         {
             printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }
-        else if (level == LEVEL::WARN)
+        else if (level == LOGGER_LEVEL::WARN)
         {
             printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }
-        else if (level == LEVEL::ERROR)
+        else if (level == LOGGER_LEVEL::ERROR)
         {
             printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
         }

@@ -43,7 +43,6 @@ namespace Engine
         std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
         std::vector< IRenderableTextComponent* > m_texts;
         std::vector< IDebugDrawComponent* > m_debugs;
-        
 
     friend class SubsystemManager;
     };

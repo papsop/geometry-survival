@@ -57,13 +57,4 @@ namespace Engine
     protected:
         Transform& m_ownerTransform;
     };
-
-    class IDebugDrawComponent
-    {
-    public:
-        IDebugDrawComponent();
-        virtual ~IDebugDrawComponent();
-
-        virtual void DebugDraw(view::IViewStrategy* viewStrategy) = 0;
-    };
 };

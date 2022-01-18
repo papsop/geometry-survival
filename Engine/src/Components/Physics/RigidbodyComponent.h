@@ -1,9 +1,10 @@
 #pragma once
 #include "../Core.h"
+#include "../../Debug/IDebuggable.h"
 
 namespace Engine
 {
-    class RigidbodyComponent : public IComponent, public IDebugDrawComponent
+    class RigidbodyComponent : public IComponent, public IDebuggable
     {
     public:
         RigidbodyComponent(GameObject& obj);
@@ -12,7 +13,7 @@ namespace Engine
         void Update(float dt) override;
         void OnGameObjectChanged() override;
 
-        void DebugDraw(view::IViewStrategy* viewStrategy) override;
+        void Debug(view::IViewStrategy* viewStrategy) override;
         //void RotateToAngle(float targetAngle);
         //void Move(sf::Vector2f moveDirection);
         sf::Vector2f Velocity = sf::Vector2f(0.0f, 0.0f);

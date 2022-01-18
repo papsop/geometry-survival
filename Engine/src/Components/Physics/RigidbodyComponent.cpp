@@ -8,7 +8,7 @@ namespace Engine
 {
     RigidbodyComponent::RigidbodyComponent(GameObject& obj)
         : IComponent(obj)
-        , IDebugDrawComponent()
+        , IDebuggable()
         , m_ownerTransform(obj.GetTransform())
         , m_targetRotationAngle(obj.GetTransform().Rotation)
     {
@@ -51,7 +51,7 @@ namespace Engine
         //}
     }
 
-    void RigidbodyComponent::DebugDraw(view::IViewStrategy* viewStrategy)
+    void RigidbodyComponent::Debug(view::IViewStrategy* viewStrategy)
     {
         // draw forward vector
         sf::Vector2f secondPos = m_ownerTransform.Position + m_ownerTransform.Forward() * 50.0f;

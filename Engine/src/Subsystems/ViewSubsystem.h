@@ -1,6 +1,7 @@
 #pragma once
 #include "../Components/View.h"
 #include "../View/IViewStrategy.h"
+#include "../Debug/IDebuggable.h"
 
 #include <vector>
 #include <set>
@@ -17,11 +18,11 @@ namespace Engine
 
         void RegisterComponent(IRenderableShapeComponent* component);
         void RegisterComponent(IRenderableTextComponent* component);
-        void RegisterComponent(IDebugDrawComponent* component);
+        void RegisterComponent(IDebuggable* component);
 
         void UnregisterComponent(IRenderableShapeComponent* component);
         void UnregisterComponent(IRenderableTextComponent* component);
-        void UnregisterComponent(IDebugDrawComponent* component);
+        void UnregisterComponent(IDebuggable* component);
 
         // Application's interface to ViewStrategy
         void PollEvents();
@@ -42,7 +43,7 @@ namespace Engine
         std::unique_ptr<view::IViewStrategy> m_viewStrategy;
         std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
         std::vector< IRenderableTextComponent* > m_texts;
-        std::vector< IDebugDrawComponent* > m_debugs;
+        std::vector< IDebuggable* > m_debugs;
 
     friend class SubsystemManager;
     };

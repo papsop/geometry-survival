@@ -1,4 +1,5 @@
 #include "Logger.h"
+#include "Backend/ConsoleBackendStrategy.h"
 
 #include <ctime>
 #include <chrono>
@@ -20,6 +21,7 @@ namespace Engine
 {
     Logger::Logger()
     {
+        m_backend = std::make_unique<ConsoleBackendStrategy>(); // default
         Log(LOGGER_LEVEL::INFO, __func__, "Created Logger");
     }
 
@@ -29,8 +31,14 @@ namespace Engine
         return instance;
     }
 
+    void Logger::SetBackend(std::unique_ptr<IBackendStrategy> backend)
+    {
+        m_backend = std::move(backend);
+    }
+
     void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
     {
+        DD_ASSERT(m_backend != nullptr, "Logger backened not set");
         if (level < m_levelFilter) return;
 
         char log_message[1024];
@@ -39,18 +47,19 @@ namespace Engine
         vsprintf_s(log_message, format, arg);
         va_end(arg);
 
+        m_backend->WriteText(level, source, log_message);
         // print colored log
-        if (level == LOGGER_LEVEL::INFO)
-        {
-            printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        }
-        else if (level == LOGGER_LEVEL::WARN)
-        {
-            printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        }
-        else if (level == LOGGER_LEVEL::ERROR)
-        {
-            printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        }
+        //if (level == LOGGER_LEVEL::INFO)
+        //{
+        //    printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+        //}
+        //else if (level == LOGGER_LEVEL::WARN)
+        //{
+        //    printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+        //}
+        //else if (level == LOGGER_LEVEL::ERROR)
+        //{
+        //    printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+        //}
     }
 };

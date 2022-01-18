@@ -40,6 +40,12 @@ namespace Engine
         void WindowViewStrategy::Render(const Text& text)
         {
             auto sftext = static_cast<sf::Text>(text);
+            sf::Font font;
+            if (!font.loadFromFile("arial.ttf"))
+            {
+                // error...
+            }
+            sftext.setFont(font);
             m_window.draw(sftext);
         }
 

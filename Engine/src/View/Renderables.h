@@ -37,6 +37,7 @@ namespace Engine
             std::string Value;
             bool UseTransform;
             sf::Color Color;
+            unsigned int Size;
             const Engine::Transform& Transform;
 
             Text(const Engine::Transform& transform) : Transform(transform) {};
@@ -46,8 +47,8 @@ namespace Engine
                 // todo font, text doesnt work atm
                 auto obj = sf::Text();
                 obj.setString(Value);
-                obj.setCharacterSize(24);
-                obj.setFillColor(sf::Color::White);
+                obj.setCharacterSize(Size);
+                obj.setFillColor(Color);
                 obj.setPosition(Transform.Position);
                 obj.setRotation(Transform.Rotation);
                 obj.setScale(Transform.Scale);

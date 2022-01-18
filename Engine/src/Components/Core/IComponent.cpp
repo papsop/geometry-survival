@@ -17,12 +17,4 @@ namespace Engine
         : IComponent(obj)
         , m_ownerTransform(obj.GetTransform())
     {};
-
-    IDebugDrawComponent::IDebugDrawComponent()
-    {
-        Application::Instance().GetSubsystemManager().GetViewSubsystem().RegisterComponent(this);
-    }
-    IDebugDrawComponent::~IDebugDrawComponent()
-    {
-    }
 };

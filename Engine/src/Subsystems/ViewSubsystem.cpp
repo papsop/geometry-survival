@@ -51,7 +51,7 @@ namespace Engine
         LOG_INFO("registered IRenderableText from ID: %d", component->Owner.ID);
     }
 
-    void ViewSubsystem::RegisterComponent(IDebugDrawComponent* component)
+    void ViewSubsystem::RegisterComponent(IDebuggable* component)
     {
         m_debugs.emplace_back(component);
         LOG_INFO("registered IDebugDrawComponent from ID");
@@ -69,7 +69,7 @@ namespace Engine
         LOG_INFO("unregistered IRenderableText from ID: %d", component->Owner.ID);
     }
 
-    void ViewSubsystem::UnregisterComponent(IDebugDrawComponent* component)
+    void ViewSubsystem::UnregisterComponent(IDebuggable* component)
     {
         m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
         LOG_INFO("unregistered IDebugDrawComponent");
@@ -87,7 +87,7 @@ namespace Engine
 
         // debug draws for registered components
         for (auto d : m_debugs)
-            d->DebugDraw(m_viewStrategy.get());
+            d->Debug(m_viewStrategy.get());
 
         m_viewStrategy->PostRender();
     }

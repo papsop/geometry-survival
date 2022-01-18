@@ -1,6 +1,5 @@
 #include "ConsoleBackendStrategy.h"
-#include "Logger.h"
-#include <iostream>
+#include <stdio.h>
 
 #define ANSI_COLOR_RED     "\x1b[31m"
 #define ANSI_COLOR_GREEN   "\x1b[32m"
@@ -15,7 +14,6 @@ namespace Engine
 {
     void ConsoleBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)
     {
-        // print colored log
         if (level == LOGGER_LEVEL::INFO)
         {
             printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, text);

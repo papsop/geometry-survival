@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Debug\Backend\ConsoleBackendStrategy.cpp" />
+    <ClCompile Include="src\Debug\IDebuggable.cpp" />
     <ClCompile Include="src\Subsystems\PhysicsSubsystem.cpp" />
     <ClCompile Include="src\Components\Core\IComponent.cpp" />
     <ClCompile Include="src\Debug\Logger.cpp" />
@@ -34,8 +36,12 @@
     <ClCompile Include="src\View\WindowViewStrategy.cpp" />
     <ClCompile Include="src\Managers\SubsystemManager.cpp" />
     <ClCompile Include="src\Subsystems\ViewSubsystem.cpp" />
+    <ClCompile Include="src\Debug\Backend\WindowBackendStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Debug\Backend\ConsoleBackendStrategy.h" />
+    <ClInclude Include="src\Debug\Backend\IBackendStrategy.h" />
+    <ClInclude Include="src\Debug\IDebuggable.h" />
     <ClInclude Include="src\Debug\LoggerLevel.h" />
     <ClInclude Include="src\Subsystems\PhysicsSubsystem.h" />
     <ClInclude Include="src\Core\ApplicationInjection.h" />
@@ -61,6 +67,7 @@
     <ClInclude Include="src\View\WindowViewStrategy.h" />
     <ClInclude Include="src\Managers\SubsystemManager.h" />
     <ClInclude Include="src\Subsystems\ViewSubsystem.h" />
+    <ClInclude Include="src\Debug\Backend\WindowBackendStrategy.h" />
   </ItemGroup>
   <PropertyGroup Label="Globals">
     <VCProjectVersion>16.0</VCProjectVersion>

@@ -5,6 +5,7 @@
 #include "View/ConsoleViewStrategy.h"
 
 #include "Debug/Logger.h"
+#include "Debug/Backend/WindowBackendStrategy.h"
 
 #include <iostream>
 #include <type_traits>
@@ -40,6 +41,8 @@ namespace Engine
     void Application::Run(ApplicationInjection& injection)
     {
         LOG_INFO("Starting Application");
+
+        Logger::Instance().SetBackend(std::make_unique<WindowBackendStrategy>());
 
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);

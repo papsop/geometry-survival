@@ -30,6 +30,7 @@ namespace Engine {
             Fire1,
             Fire2,
             Use,
+            ShowConsole,
 
             // always last
             NumberOfActions

@@ -15,7 +15,14 @@ namespace Engine
         void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
     private:
-        std::vector<std::string> m_texts;
+        struct DebugEntry
+        {
+            sf::Color Color;
+            std::string Text;
+        };
+
+        std::vector<DebugEntry> m_entries;
+        size_t m_maxLinesConsole = 10;
     };
 }
 

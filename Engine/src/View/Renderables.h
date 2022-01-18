@@ -35,7 +35,6 @@ namespace Engine
         struct Text
         {
             std::string Value;
-            bool UseTransform;
             sf::Color Color;
             unsigned int Size;
             const Engine::Transform& Transform;

@@ -1,5 +1,6 @@
 #include "ComponentSubsystem.h"
 
+#include "../Core/GameObject.h"
 
 namespace Engine
 {
@@ -18,6 +19,7 @@ namespace Engine
     void ComponentSubsystem::Update(float dt) 
     {
         for (auto c : m_registeredComponents)
-            c->Update(dt);
+            if(c->Owner.ShouldUpdate())
+                c->Update(dt);
     };
 };

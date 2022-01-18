@@ -65,11 +65,16 @@ namespace Engine
         Transform& GetTransform() {   return m_transform; }
 
         void Destroy() { m_shouldDestroy = true; }
+        void SetActive(bool a) { m_isActive = a; }
+
         bool ShouldDestroy() const { return m_shouldDestroy; }
+        bool IsActive() const { return m_isActive; }
+        bool ShouldUpdate() const { return m_isActive && !m_shouldDestroy; }
 
     private:
         std::unordered_map<uint32_t, std::unique_ptr<IComponent>> m_components = {};
         bool m_shouldDestroy = false;
+        bool m_isActive = false;
         Transform m_transform;
 
         void NotifyComponents();

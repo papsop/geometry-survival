@@ -22,6 +22,7 @@ namespace Engine
     void PhysicsSubsystem::Update(float dt)
     {
         for (auto c : m_rigidbodies)
-            c->Update(dt);
+            if (c->Owner.ShouldUpdate())
+               c->Update(dt);
     }
 }

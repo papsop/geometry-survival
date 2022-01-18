@@ -14,7 +14,7 @@ namespace Engine
         entry.Text = "" + std::string(source) + " - " + std::string(text);
 
         if (level == LOGGER_LEVEL::INFO)
-            entry.Color = sf::Color::Blue;
+            entry.Color = sf::Color::Cyan;
         else if (level == LOGGER_LEVEL::WARN)
             entry.Color = sf::Color::Yellow;
         else if (level == LOGGER_LEVEL::ERROR)

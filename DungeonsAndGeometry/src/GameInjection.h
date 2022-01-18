@@ -28,6 +28,7 @@ namespace Game
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<InputComponent>();
             player->AddComponent<ActorComponent>();
+            player->SetActive(true);
         }
     };
 }

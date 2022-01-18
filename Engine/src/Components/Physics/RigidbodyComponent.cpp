@@ -53,6 +53,7 @@ namespace Engine
 
     void RigidbodyComponent::Debug(view::IViewStrategy* viewStrategy)
     {
+        if (!Owner.ShouldUpdate()) return;
         // draw forward vector
         sf::Vector2f secondPos = m_ownerTransform.Position + m_ownerTransform.Forward() * 50.0f;
         view::Line line;

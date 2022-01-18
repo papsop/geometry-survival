@@ -80,10 +80,12 @@ namespace Engine
         m_viewStrategy->PreRender();
 
         for (auto r : m_shapes)
-            m_viewStrategy->Render(r->GetRenderableShape());
+            if (r->Owner.ShouldUpdate())
+                m_viewStrategy->Render(r->GetRenderableShape());
 
         for (auto t : m_texts)
-            m_viewStrategy->Render(t->GetRenderableText());
+            if (t->Owner.ShouldUpdate())
+                m_viewStrategy->Render(t->GetRenderableText());
 
         // debug draws for registered components
         for (auto d : m_debugs)

@@ -58,7 +58,7 @@ namespace Engine
 
         // --------------------------
         GameObject(uint32_t id, const char* debugName);
-        ~GameObject() {};
+        ~GameObject() = default;
 
         const uint32_t ID;
         const char* DebugName;

@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Managers\SceneManager.cpp" />
+    <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Debug\Backend\ConsoleBackendStrategy.cpp" />
     <ClCompile Include="src\Debug\IDebuggable.cpp" />
     <ClCompile Include="src\Subsystems\PhysicsSubsystem.cpp" />
@@ -39,6 +41,8 @@
     <ClCompile Include="src\Debug\Backend\WindowBackendStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Managers\SceneManager.h" />
+    <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Debug\Backend\ConsoleBackendStrategy.h" />
     <ClInclude Include="src\Debug\Backend\IBackendStrategy.h" />
     <ClInclude Include="src\Debug\IDebuggable.h" />

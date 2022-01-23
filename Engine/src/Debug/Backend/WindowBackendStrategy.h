@@ -14,6 +14,7 @@ namespace Engine
 
         void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
+
     private:
         struct DebugEntry
         {
@@ -22,7 +23,10 @@ namespace Engine
         };
 
         std::vector<DebugEntry> m_entries;
+
         size_t m_maxLinesConsole = 10;
+        bool m_shouldShowConsole = false;
+        bool m_pressedLastFrame = false;
     };
 }
 

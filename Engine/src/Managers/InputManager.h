@@ -35,13 +35,20 @@ namespace Engine {
             // always last
             NumberOfActions
         };
-
+        struct ActionEntry
+        {
+            bool Pressed = false;
+            bool PressedThisFrame = false;
+            bool ReleasedThisFrame = false;
+            bool WasPressedLastFrame = false;
+        };
         ~InputManager() = default;
 
         static InputManager& Get();
 
         float GetAxis(Axis axis);
-        bool GetAction(Action action);
+        const ActionEntry& GetAction(Action action);
+
         sf::Vector2i GetMousePosition();
 
     private:
@@ -50,11 +57,14 @@ namespace Engine {
         Action GetActionFromKey(sf::Keyboard::Key);
         void HandleWindowEvent(const sf::Event& event);
         void Update();
+        void PostUpdate();
 
         void SetViewSubsystem(ViewSubsystem* viewSubsystem);
 
         std::array<float, 3> m_axis;
-        std::array<bool, static_cast<size_t>(Action::NumberOfActions)> m_actions;
+
+        std::array<ActionEntry, static_cast<size_t>(Action::NumberOfActions)> m_actions;
+
         std::unordered_map<sf::Keyboard::Key, Action> m_mapKeyToAction;
         sf::Vector2i m_mousePosition;
 

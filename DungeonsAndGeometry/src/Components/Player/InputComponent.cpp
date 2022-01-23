@@ -47,7 +47,7 @@ namespace Game
         }
 
         // shooting
-        if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1))
+        if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
             actorComponent->AddCommand(std::make_unique<FireCommand>());
     }
 };

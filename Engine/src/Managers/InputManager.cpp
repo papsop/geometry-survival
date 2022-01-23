@@ -51,7 +51,9 @@ namespace Engine
             auto action = GetActionFromKey(event.key.code);
             if (action != Action::Unknown)
             {
-                m_actions[static_cast<size_t>(action)] = true;
+                auto& entry = m_actions[static_cast<size_t>(action)];
+                entry.Pressed = true;
+                if (!entry.WasPressedLastFrame) entry.PressedThisFrame = true;
             }
         }
         else if (event.type == sf::Event::KeyReleased)
@@ -59,7 +61,9 @@ namespace Engine
             auto action = GetActionFromKey(event.key.code);
             if (action != Action::Unknown)
             {
-                m_actions[static_cast<size_t>(action)] = false;
+                auto& entry = m_actions[static_cast<size_t>(action)];
+                entry.Pressed = false;
+                if (entry.WasPressedLastFrame) entry.ReleasedThisFrame = true;
             }
         }
     }
@@ -72,21 +76,31 @@ namespace Engine
 
         // Axis check
         float horizontal = 0;
-        if (GetAction(Action::MoveLeft))
+        if (GetAction(Action::MoveLeft).Pressed)
             horizontal -= 1;
-        if (GetAction(Action::MoveRight))
+        if (GetAction(Action::MoveRight).Pressed)
             horizontal += 1;
 
         float vertical = 0;
-        if (GetAction(Action::MoveUp))
+        if (GetAction(Action::MoveUp).Pressed)
             vertical -= 1;
-        if (GetAction(Action::MoveDown))
+        if (GetAction(Action::MoveDown).Pressed)
             vertical += 1;
 
         m_axis[static_cast<size_t>(Axis::Horizontal)] = horizontal;
         m_axis[static_cast<size_t>(Axis::Vertical)] = vertical;
     }
 
+    void InputManager::PostUpdate()
+    {
+        // update last frame states
+        for (auto& entry : m_actions)
+        {
+            entry.WasPressedLastFrame = entry.Pressed;
+            entry.PressedThisFrame = false;
+            entry.ReleasedThisFrame = false;
+        }
+    }
 
     // Public
     float InputManager::GetAxis(Axis axis)
@@ -94,7 +108,7 @@ namespace Engine
         return m_axis[static_cast<size_t>(axis)];
     }
     
-    bool InputManager::GetAction(Action action)
+    const InputManager::ActionEntry& InputManager::GetAction(Action action)
     {
         return m_actions[static_cast<size_t>(action)];
     }

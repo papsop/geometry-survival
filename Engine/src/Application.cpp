@@ -76,6 +76,9 @@ namespace Engine
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) break;
            
             m_subsystemManager->Update(lastFrameMS);
+
+            // reset input for this frame
+            m_inputManager->PostUpdate();
 //         
         }
         LOG_INFO("----------------------------- Stopping Application, time to destroy");

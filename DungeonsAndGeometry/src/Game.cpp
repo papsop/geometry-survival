@@ -8,11 +8,12 @@ int main()
 {
     //Game::GameInjection inj;
     //Engine::Application::Instance().Run(inj);
+    WritePrivateProfileString(L"settings", L"action_fire", L"1337", L"./config.ini");
 
     int number = GetPrivateProfileInt(L"settings", L"action_fire", 0, L"./config.ini");
     std::cout << number << std::endl;
     std::cin.get();
-//    WritePrivateProfileString(L"settings", L"action_fire", L"1337", L"./config.ini");
+
 
     return 0;
 }

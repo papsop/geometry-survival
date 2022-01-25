@@ -12,8 +12,6 @@ int main()
 
     int number = GetPrivateProfileInt(L"settings", L"action_fire", 0, L"./config.ini");
     std::cout << number << std::endl;
-    std::cin.get();
-
 
     return 0;
 }

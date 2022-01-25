@@ -17,7 +17,8 @@ namespace Engine
 {
 
     Application::Application()
-        : m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
+        : m_configManager(std::unique_ptr<ConfigManager>(new ConfigManager()))
+        , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
     {
@@ -58,7 +59,7 @@ namespace Engine
         );
         m_inputManager->SetViewSubsystem(GetSubsystemManager().GetViewSubsystemPointer());
 
-        // Let game initialize scene/gameobjects/etc.
+        // Let the game initialize scene/gameobjects/etc.
         injection.BeforeGameLoop(*this);
 
         // Start updating

@@ -6,7 +6,7 @@
 namespace Game
 {
 
-    ActorComponent::ActorComponent(Engine::GameObject &obj)
+    ActorComponent::ActorComponent(Engine::GameObject& obj)
         : IComponent(obj)
         , m_commandsQueue()
     {

@@ -44,7 +44,7 @@ namespace Engine
             return Action::Unknown;
     }
 
-    void InputManager::HandleWindowEvent(const sf::Event &event)
+    void InputManager::HandleWindowEvent(const sf::Event& event)
     {
         if (event.type == sf::Event::KeyPressed)
         {

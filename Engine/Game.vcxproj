@@ -19,7 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
-    <ClCompile Include="src\Managers\ConfigManager.cpp" />
+    <ClCompile Include="src\Managers\DatabaseManager.cpp" />
     <ClCompile Include="src\Managers\SceneManager.cpp" />
     <ClCompile Include="src\Core\Scene.cpp" />
     <ClCompile Include="src\Debug\Backend\ConsoleBackendStrategy.cpp" />
@@ -29,6 +29,7 @@
     <ClCompile Include="src\Debug\Logger.cpp" />
     <ClCompile Include="src\Components\View\TriangleComponent.cpp" />
     <ClCompile Include="src\Subsystems\ComponentSubsystem.cpp" />
+    <ClCompile Include="src\Utils\pugixml.cpp" />
     <ClCompile Include="src\Utils\VectorUtils.cpp" />
     <ClCompile Include="src\View\ConsoleViewStrategy.cpp" />
     <ClCompile Include="src\Managers\EntityManager.cpp" />
@@ -42,7 +43,7 @@
     <ClCompile Include="src\Debug\Backend\WindowBackendStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="src\Managers\ConfigManager.h" />
+    <ClInclude Include="src\Managers\DatabaseManager.h" />
     <ClInclude Include="src\Managers\SceneManager.h" />
     <ClInclude Include="src\Core\Scene.h" />
     <ClInclude Include="src\Debug\Backend\ConsoleBackendStrategy.h" />
@@ -59,6 +60,8 @@
     <ClInclude Include="src\Components\View\TriangleComponent.h" />
     <ClInclude Include="src\Managers\AllManagers.h" />
     <ClInclude Include="src\Utils\AllUtils.h" />
+    <ClInclude Include="src\Utils\pugiconfig.hpp" />
+    <ClInclude Include="src\Utils\pugixml.hpp" />
     <ClInclude Include="src\Utils\VectorUtils.h" />
     <ClInclude Include="src\View\ConsoleViewStrategy.h" />
     <ClInclude Include="src\Managers\EntityManager.h" />

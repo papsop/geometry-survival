@@ -17,7 +17,7 @@ namespace Engine
 {
 
     Application::Application()
-        : m_configManager(std::unique_ptr<ConfigManager>(new ConfigManager()))
+        : m_databaseManager(std::unique_ptr<DatabaseManager>(new DatabaseManager()))
         , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))

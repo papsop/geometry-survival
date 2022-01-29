@@ -20,7 +20,6 @@ namespace Engine
         InputManager& GetInputManager() { return *m_inputManager; }
         EntityManager& GetEntityManager() { return *m_entityManager; }
         SubsystemManager& GetSubsystemManager() { return *m_subsystemManager; }
-        ConfigManager& GetConfigManager() { return *m_configManager; }
 
         void Run(ApplicationInjection& injection);
 
@@ -33,7 +32,7 @@ namespace Engine
         void HandleViewEvent(const sf::Event& event);
 
         // Order is important because of destructions
-        std::unique_ptr<ConfigManager> m_configManager;             // first, because other managers might need it already initialized
+        std::unique_ptr<DatabaseManager> m_databaseManager;             // first, because other managers might need it already initialized
         std::unique_ptr<SubsystemManager> m_subsystemManager;
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<EntityManager> m_entityManager;

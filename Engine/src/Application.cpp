@@ -21,6 +21,7 @@ namespace Engine
         , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
+        , m_sceneManager(std::unique_ptr<SceneManager>(new SceneManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
         // and link Application as friend class (won't work with make_unique)

@@ -13,6 +13,7 @@ namespace Engine
         void Load();
         void Unload();
         const uint32_t ID;
+        bool IsLoaded() const { return m_isLoaded; }
 
     private:
         bool m_isLoaded = false;

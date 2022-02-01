@@ -21,7 +21,7 @@ namespace Engine
         void RegisterComponentType()
         {
             auto ID = ComponentSubsystem::GetSubsystemID<T>();
-            LOG_INFO("Registered component type '%s'", typeid(T).name());
+            LOG_DEBUG("Registered component type '%s'", typeid(T).name());
             m_subsystems.emplace_back(std::make_unique<ComponentSubsystem>());
         }
 
@@ -30,7 +30,7 @@ namespace Engine
         {
             auto ID = ComponentSubsystem::GetSubsystemID<T>();
             DD_ASSERT(ID < m_subsystems.size(), "ComponentSubsystem for this component isn't registered");
-            LOG_INFO("Registered component '%s'", typeid(T).name());
+            LOG_DEBUG("Registered component '%s'", typeid(T).name());
             m_subsystems[ID]->RegisterComponent(component);
         }
 
@@ -39,7 +39,7 @@ namespace Engine
         {
             auto ID = ComponentSubsystem::GetSubsystemID<T>();
             DD_ASSERT(ID < m_subsystems.size(), "ComponentSubsystem for this component isn't registered");
-            LOG_INFO("Unregistered component '%s'", typeid(T).name());
+            LOG_DEBUG("Unregistered component '%s'", typeid(T).name());
             m_subsystems[ID]->UnregisterComponent(component);
         }
 

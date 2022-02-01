@@ -162,6 +162,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\SplashScreen\SplashTitle.cpp" />
+    <ClCompile Include="src\Components\SplashScreen\SplashBackground.cpp" />
     <ClCompile Include="src\Components\Actor\ActorComponent.cpp" />
     <ClCompile Include="src\Components\Actor\Commands.cpp" />
     <ClCompile Include="src\Components\Player\InputComponent.cpp" />
@@ -173,6 +175,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\SplashScreen\SplashTitle.h" />
+    <ClInclude Include="src\Components\SplashScreen\SplashBackground.h" />
     <ClInclude Include="src\Components\Actor\ActorComponent.h" />
     <ClInclude Include="src\Components\Actor\Commands.h" />
     <ClInclude Include="src\GameInjection.h" />

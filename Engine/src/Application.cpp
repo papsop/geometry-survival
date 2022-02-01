@@ -18,9 +18,9 @@ namespace Engine
 
     Application::Application()
         : m_databaseManager(std::unique_ptr<DatabaseManager>(new DatabaseManager()))
-        , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
+        , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
         , m_sceneManager(std::unique_ptr<SceneManager>(new SceneManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
@@ -42,9 +42,7 @@ namespace Engine
 
     void Application::Run(ApplicationInjection& injection)
     {
-        LOG_INFO("Starting Application");
-
-        Logger::Instance().SetBackend(std::make_unique<WindowBackendStrategy>());
+        LOG_DEBUG("Starting Application");
 
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);
@@ -67,6 +65,11 @@ namespace Engine
         sf::Clock clock;
         while (m_applicationIsRunning)
         {
+            if(sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) SceneManager::Get().SetActiveScene(0);
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) SceneManager::Get().SetActiveScene(1);
+
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Home)) SceneManager::Get().LoadSceneAdditively(1);
+
             sf::Time elapsed = clock.restart();
             float lastFrameMS = elapsed.asSeconds();
             
@@ -83,6 +86,6 @@ namespace Engine
             m_inputManager->PostUpdate();
 //         
         }
-        LOG_INFO("----------------------------- Stopping Application, time to destroy");
+        LOG_DEBUG("----------------------------- Stopping Application, time to destroy");
     }
 };

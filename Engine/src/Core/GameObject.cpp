@@ -9,7 +9,7 @@ namespace Engine
         , DebugName(debugName)
         , m_transform() 
     {
-       LOG_INFO("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
+       LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 
     void GameObject::NotifyComponents()

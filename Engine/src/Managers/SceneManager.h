@@ -2,6 +2,7 @@
 #include "../Core/Scene.h"
 
 #include <vector>
+#include "../Debug/IDebuggable.h"
 
 namespace Engine
 {
@@ -28,10 +29,12 @@ namespace Engine
 
         ~SceneManager() = default;
 
+        //void Debug(view::IViewStrategy* viewStrategy) override;
+
     private:
         SceneManager() = default;
 
-        std::vector< Scene > m_scenes;
+        std::vector< std::unique_ptr<Scene> > m_scenes;
         uint32_t m_nextSceneID = 0;
 
     friend class Application;

@@ -5,6 +5,10 @@
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
+#include "Components/SplashScreen/SplashBackground.h"
+#include "Components/SplashScreen/SplashTitle.h"
+
+#include "Debug/Backend/WindowBackendStrategy.h"
 namespace Game
 {
     class Engine::Application;
@@ -20,8 +24,22 @@ namespace Game
 
         void BeforeGameLoop(Engine::Application& app) override
         {
+            // setup logger
+            Engine::Logger::Instance().SetBackend(std::make_unique<Engine::WindowBackendStrategy>());
+            Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
-            auto& scene = Engine::SceneManager::Get().CreateScene();
+            // Scene 0 ==============================================================================
+            auto& scene0 = Engine::SceneManager::Get().CreateScene();
+
+            auto splashScreen = Engine::EntityManager::Get().CreateEntity("SplashScreen");
+            splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
+            splashScreen->AddComponent<SplashBackground>();
+            splashScreen->AddComponent<SplashTitle>();
+
+            scene0.AddGameObject(splashScreen);
+
+            // Scene 1 ==============================================================================
+            auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
             auto player = Engine::EntityManager::Get().CreateEntity("Player");
             player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
@@ -32,11 +50,10 @@ namespace Game
 
             auto enemy = Engine::EntityManager::Get().CreateEntity("Enemy");
 
-            scene.AddGameObject(player);
-            scene.AddGameObject(enemy);
+            scene1.AddGameObject(player);
+            scene1.AddGameObject(enemy);
 
-
-            Engine::SceneManager::Get().SetActiveScene(scene.ID);
+            Engine::SceneManager::Get().SetActiveScene(scene0.ID);
         }
     };
 }

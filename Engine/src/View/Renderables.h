@@ -38,19 +38,19 @@ namespace Engine
             sf::Color Color;
             unsigned int Size;
             const Engine::Transform& Transform;
+            bool ShouldCenter = false;
 
             Text(const Engine::Transform& transform) : Transform(transform) {};
 
             operator sf::Text() const
             {
-                // todo font, text doesnt work atm
                 auto obj = sf::Text();
                 obj.setString(Value);
                 obj.setCharacterSize(Size);
                 obj.setFillColor(Color);
-                obj.setPosition(Transform.Position);
                 obj.setRotation(Transform.Rotation);
                 obj.setScale(Transform.Scale);
+                obj.setPosition(Transform.Position);
                 return obj;
             }
         };

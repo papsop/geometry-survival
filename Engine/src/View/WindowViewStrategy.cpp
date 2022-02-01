@@ -12,7 +12,7 @@ namespace Engine
             : IViewStrategy(handleEvent)
             , m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
         {
-            LOG_INFO("Created WindowViewStrategy");
+            LOG_DEBUG("Created WindowViewStrategy");
         }
 
         WindowViewStrategy::~WindowViewStrategy()
@@ -46,6 +46,14 @@ namespace Engine
                 // error...
             }
             sftext.setFont(font);
+
+            if (text.ShouldCenter)
+            {
+                // center text, need to do it after setting font
+                sf::FloatRect textRect = sftext.getLocalBounds();
+                sftext.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+            }
+
             m_window.draw(sftext);
         }
 

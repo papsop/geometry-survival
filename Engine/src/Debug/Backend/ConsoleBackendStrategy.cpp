@@ -14,17 +14,21 @@ namespace Engine
 {
     void ConsoleBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)
     {
-        if (level == LOGGER_LEVEL::INFO)
+        if (level == LOGGER_LEVEL::DEBUG)
+        {
+            printf(ANSI_COLOR_GREEN "[DEBUG-%s] %s\n" ANSI_COLOR_RESET, source, text);
+        }
+        else if (level == LOGGER_LEVEL::INFO)
         {
             printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, text);
         }
         else if (level == LOGGER_LEVEL::WARN)
         {
-            printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, text);
+            printf(ANSI_COLOR_YELLOW "[WARN-%s] %s\n" ANSI_COLOR_RESET, source, text);
         }
         else if (level == LOGGER_LEVEL::ERROR)
         {
-            printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, text);
+            printf(ANSI_COLOR_RED "[ERROR-%s] %s\n" ANSI_COLOR_RESET, source, text);
         }
     }
 };

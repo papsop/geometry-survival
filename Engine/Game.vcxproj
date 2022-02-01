@@ -19,6 +19,7 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Managers\DatabaseManager.cpp" />
     <ClCompile Include="src\Managers\SceneManager.cpp" />
     <ClCompile Include="src\Core\Scene.cpp" />
@@ -36,13 +37,13 @@
     <ClCompile Include="src\Components\Physics\RigidbodyComponent.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Managers\InputManager.cpp" />
-    <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\View\WindowViewStrategy.cpp" />
     <ClCompile Include="src\Managers\SubsystemManager.cpp" />
     <ClCompile Include="src\Subsystems\ViewSubsystem.cpp" />
     <ClCompile Include="src\Debug\Backend\WindowBackendStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Managers\DatabaseManager.h" />
     <ClInclude Include="src\Managers\SceneManager.h" />
     <ClInclude Include="src\Core\Scene.h" />
@@ -70,7 +71,6 @@
     <ClInclude Include="src\Core\GameObject.h" />
     <ClInclude Include="src\Components\Core\IComponent.h" />
     <ClInclude Include="src\Managers\InputManager.h" />
-    <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\View\IViewStrategy.h" />
     <ClInclude Include="src\View\Renderables.h" />
     <ClInclude Include="src\View\WindowViewStrategy.h" />

@@ -13,7 +13,9 @@ namespace Engine
         DebugEntry entry;
         entry.Text = "" + std::string(source) + " - " + std::string(text);
 
-        if (level == LOGGER_LEVEL::INFO)
+        if (level == LOGGER_LEVEL::DEBUG)
+            entry.Color = sf::Color::Green;
+        else if (level == LOGGER_LEVEL::INFO)
             entry.Color = sf::Color::Cyan;
         else if (level == LOGGER_LEVEL::WARN)
             entry.Color = sf::Color::Yellow;

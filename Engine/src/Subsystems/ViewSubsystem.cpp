@@ -11,12 +11,12 @@ namespace Engine
         , m_texts()
         , m_viewStrategy()
     {
-        LOG_INFO("Created ViewSubsystem");
+        LOG_DEBUG("Created ViewSubsystem");
     }
 
     ViewSubsystem::~ViewSubsystem()
     {
-        LOG_INFO("Destroyed ViewSubsystem");
+        LOG_DEBUG("Destroyed ViewSubsystem");
     }
 
     void ViewSubsystem::SetViewStrategy(view::IViewStrategy* viewStrategy)
@@ -42,37 +42,37 @@ namespace Engine
             LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.ID, component->ZIndex);
         }
         else
-            LOG_INFO("registered IRenderableShape from ID: %d, zIndex: '%d'", component->Owner.ID, component->ZIndex);
+            LOG_DEBUG("registered IRenderableShape from ID: %d, zIndex: '%d'", component->Owner.ID, component->ZIndex);
     }
 
     void ViewSubsystem::RegisterComponent(IRenderableTextComponent* component)
     {
         m_texts.emplace_back(component);
-        LOG_INFO("registered IRenderableText from ID: %d", component->Owner.ID);
+        LOG_DEBUG("registered IRenderableText from ID: %d", component->Owner.ID);
     }
 
     void ViewSubsystem::RegisterComponent(IDebuggable* component)
     {
         m_debugs.emplace_back(component);
-        LOG_INFO("registered IDebugDrawComponent from ID");
+        LOG_DEBUG("registered IDebugDrawComponent from ID");
     }
 
     void ViewSubsystem::UnregisterComponent(IRenderableShapeComponent* component)
     {
         m_shapes.erase(component);
-        LOG_INFO("unregistered IRenderableShape from ID: %d", component->Owner.ID);
+        LOG_DEBUG("unregistered IRenderableShape from ID: %d", component->Owner.ID);
     }
 
     void ViewSubsystem::UnregisterComponent(IRenderableTextComponent* component)
     {
         m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), component), m_texts.end());
-        LOG_INFO("unregistered IRenderableText from ID: %d", component->Owner.ID);
+        LOG_DEBUG("unregistered IRenderableText from ID: %d", component->Owner.ID);
     }
 
     void ViewSubsystem::UnregisterComponent(IDebuggable* component)
     {
         m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
-        LOG_INFO("unregistered IDebugDrawComponent");
+        LOG_DEBUG("unregistered IDebugDrawComponent");
     }
 
     void ViewSubsystem::Update(float dt)

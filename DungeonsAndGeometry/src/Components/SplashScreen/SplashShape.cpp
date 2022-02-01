@@ -23,9 +23,6 @@ namespace Game
     void SplashShape::Update(float dt)
     {
         m_timeToDie -= dt;
-        if (m_timeToDie <= 0.0f)
-        {
-            Owner.Destroy();
-        }
+        if (m_timeToDie <= 0.0f) Owner.Destroy();
     }
 }

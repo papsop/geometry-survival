@@ -35,7 +35,7 @@ namespace Game
             auto newTriangle = Engine::EntityManager::Get().CreateEntity("SplashShape");
             newTriangle->AddComponent<SplashShape>(rand() % 7 + 3, GetRandomColor(), m_triangleZIndex++);
             newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
-            newTriangle->GetTransform().Rotation = rand() % 366;
+            newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);
 
             newTriangle->AddComponent<Engine::RigidbodyComponent>();
 
@@ -54,37 +54,37 @@ namespace Game
 
     sf::Vector2f SplashController::GetRandomPositionOutsideWindow()
     {
-        float rq = static_cast <float> (rand()) / static_cast <float> (RAND_MAX);
+        int rq = rand() % 4;
         float chosenX = 0.0f;
         float chosenY = 0.0f;
         // 4 quadrants outside of window
-        //    1
+        //    0
         //   +--+
-        // 4 |  | 2
+        // 3 |  | 1
         //   +--+
-        //    3
+        //    2
 
-        // == 1 ==
-        if (rq < 0.25f)
+        // == 0 ==
+        if (rq == 0)
         {
             chosenY = -75.0f;
             // shouldn't be a number, change into config window width etc.. same for next quadrants
             chosenX = static_cast <float> (rand() % 1025);
         }
-        // == 2 ==
-        else if (rq < 0.5f)
+        // == 1 ==
+        else if (rq == 1)
         {
             chosenY = static_cast <float> (rand() % 769);
             chosenX = 1024.0f + 75.0f;
         }
-        // == 3 ==
-        else if (rq < 0.75f)
+        // == 2 ==
+        else if (rq == 2)
         {
             chosenY = 768.0f + 75.0f;
             chosenX = static_cast <float> (rand() % 1025);
         }
-        // == 4 ==
-        else if (rq <= 1.0f)
+        // == 3 ==
+        else if (rq == 3)
         {
             chosenY = static_cast <float> (rand() % 769);
             chosenX = -75.0f;

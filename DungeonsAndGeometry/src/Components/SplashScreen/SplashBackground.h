@@ -9,7 +9,7 @@ namespace Game
     {
     public:
         SplashBackground(Engine::GameObject& obj);
-        ~SplashBackground();
+        ~SplashBackground() override;
 
         void OnGameObjectChanged() override {};
         void Update(float dt) override {};

@@ -12,6 +12,8 @@
 
 namespace Engine
 {
+    class Scene;
+
     class GameObject
     {
     public:
@@ -71,11 +73,16 @@ namespace Engine
         bool IsActive() const { return m_isActive; }
         bool ShouldUpdate() const { return m_isActive && !m_shouldDestroy; }
 
+        void SetScene(Scene* scene) { m_scene = scene; }
+        Scene& GetScene() { return *m_scene; }
+
     private:
         std::unordered_map<uint32_t, std::unique_ptr<IComponent>> m_components = {};
         bool m_shouldDestroy = false;
         bool m_isActive = false;
+
         Transform m_transform;
+        Scene* m_scene;
 
         void NotifyComponents();
     };

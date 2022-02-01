@@ -162,6 +162,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="src\Components\SplashScreen\SplashShape.cpp" />
+    <ClCompile Include="src\Components\SplashScreen\SplashController.cpp" />
     <ClCompile Include="src\Components\SplashScreen\SplashTitle.cpp" />
     <ClCompile Include="src\Components\SplashScreen\SplashBackground.cpp" />
     <ClCompile Include="src\Components\Actor\ActorComponent.cpp" />
@@ -175,6 +177,8 @@
     </ProjectReference>
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Components\SplashScreen\SplashShape.h" />
+    <ClInclude Include="src\Components\SplashScreen\SplashController.h" />
     <ClInclude Include="src\Components\SplashScreen\SplashTitle.h" />
     <ClInclude Include="src\Components\SplashScreen\SplashBackground.h" />
     <ClInclude Include="src\Components\Actor\ActorComponent.h" />

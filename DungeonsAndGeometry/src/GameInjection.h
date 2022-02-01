@@ -7,6 +7,8 @@
 #include "Components/Actor/ActorComponent.h"
 #include "Components/SplashScreen/SplashBackground.h"
 #include "Components/SplashScreen/SplashTitle.h"
+#include "Components/SplashScreen/SplashController.h"
+#include "Components/SplashScreen/SplashShape.h"
 
 #include "Debug/Backend/WindowBackendStrategy.h"
 namespace Game
@@ -18,8 +20,10 @@ namespace Game
         void RegisterGameComponents(Engine::Application& app) override
         {
             // Order is important
-            app.GetSubsystemManager().RegisterComponentType<InputComponent>();
-            app.GetSubsystemManager().RegisterComponentType<ActorComponent>();
+            Engine::SubsystemManager::Get().RegisterComponentType<SplashShape>();
+            Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
+            Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
+            Engine::SubsystemManager::Get().RegisterComponentType<ActorComponent>();
         }
 
         void BeforeGameLoop(Engine::Application& app) override
@@ -35,6 +39,7 @@ namespace Game
             splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
             splashScreen->AddComponent<SplashBackground>();
             splashScreen->AddComponent<SplashTitle>();
+            splashScreen->AddComponent<SplashController>();
 
             scene0.AddGameObject(splashScreen);
 

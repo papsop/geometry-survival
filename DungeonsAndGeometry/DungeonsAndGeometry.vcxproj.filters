@@ -33,6 +33,12 @@
     <ClCompile Include="src\Components\SplashScreen\SplashTitle.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="src\Components\SplashScreen\SplashController.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="src\Components\SplashScreen\SplashShape.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="src\Components\Player\InputComponent.h">
@@ -51,6 +57,12 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="src\Components\SplashScreen\SplashTitle.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\SplashScreen\SplashController.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="src\Components\SplashScreen\SplashShape.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

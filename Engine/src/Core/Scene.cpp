@@ -11,6 +11,7 @@ namespace Engine
     {
         if (m_isLoaded) obj->SetActive(m_isLoaded);
         m_gameObjects.emplace_back(obj);
+        obj->SetScene(this);
         LOG_DEBUG("GameObject %d added to Scene %d", obj->ID, ID);
     }
 

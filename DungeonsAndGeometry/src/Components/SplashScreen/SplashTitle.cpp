@@ -20,8 +20,4 @@ namespace Game
         Engine::SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
     }
 
-    const Engine::view::Text& SplashTitle::GetRenderableText()
-    {
-        return m_text;
-    }
 }

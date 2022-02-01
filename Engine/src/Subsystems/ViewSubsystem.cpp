@@ -82,6 +82,7 @@ namespace Engine
         for (auto r : m_shapes)
             if (r->Owner.ShouldUpdate())
                 m_viewStrategy->Render(r->GetRenderableShape());
+                
 
         for (auto t : m_texts)
             if (t->Owner.ShouldUpdate())

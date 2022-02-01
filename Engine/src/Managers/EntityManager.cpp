@@ -2,6 +2,8 @@
 
 #include "../Application.h"
 
+// TODO: Entity cleanup and notifications about deletion
+
 namespace Engine
 {
     EntityManager& EntityManager::Get() { return Application::Instance().GetEntityManager(); }

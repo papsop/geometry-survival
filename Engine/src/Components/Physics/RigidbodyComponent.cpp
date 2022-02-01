@@ -60,6 +60,6 @@ namespace Engine
         line.Points[0] = sf::Vertex(m_ownerTransform.Position);
         line.Points[1] = sf::Vertex(secondPos);
 
-        viewStrategy->Render(line);
+        //viewStrategy->Render(line);
     }
 };

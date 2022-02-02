@@ -86,7 +86,8 @@ namespace Engine
         Scene* m_scene;
 
         void NotifyComponents();
-        friend class EntityManager;
+
+        friend class GameObjectManager;
     };
 };
 

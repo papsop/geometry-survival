@@ -1,6 +1,6 @@
 #include "SplashController.h"
 #include "Managers/SubsystemManager.h"
-#include "Managers/EntityManager.h"
+#include "Managers/GameObjectManager.h"
 
 #include "Core/Scene.h"
 
@@ -32,7 +32,7 @@ namespace Game
         {
             auto& scene = Owner.GetScene();
 
-            auto newTriangle = Engine::EntityManager::Get().CreateEntity("SplashShape");
+            auto newTriangle = Engine::GameObjectManager::Get().CreateGameObject("SplashShape");
             newTriangle->AddComponent<SplashShape>(rand() % 7 + 3, GetRandomColor(), m_triangleZIndex++);
             newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
             newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);
@@ -43,7 +43,7 @@ namespace Game
             newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
             
 
-            scene.AddGameObject(newTriangle);
+            scene.AddGameObject(newTriangle->ID);
             m_lastTriangleSpawned = m_triangleSpawnCooldown;
         }
     }

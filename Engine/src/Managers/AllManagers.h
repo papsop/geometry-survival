@@ -1,6 +1,6 @@
 #pragma once
 
-#include "EntityManager.h"
+#include "GameObjectManager.h"
 #include "InputManager.h"
 #include "SubsystemManager.h"
 #include "DatabaseManager.h"

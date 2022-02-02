@@ -1,6 +1,6 @@
 #include "GameObject.h"
 #include "../Debug/Logger.h"
-#include "../Managers/EntityManager.h"
+#include "../Managers/GameObjectManager.h"
 #include <iostream>
 
 namespace Engine
@@ -21,6 +21,6 @@ namespace Engine
 
     void GameObject::Destroy()
     {
-        Engine::EntityManager::Get().DestroyEntity(ID);
+        Engine::GameObjectManager::Get().DestroyGameObject(ID);
     }
 };

@@ -20,7 +20,7 @@ namespace Engine
         : m_databaseManager(std::unique_ptr<DatabaseManager>(new DatabaseManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
-        , m_entityManager(std::unique_ptr<EntityManager>(new EntityManager()))
+        , m_gameObjectManager(std::unique_ptr<GameObjectManager>(new GameObjectManager()))
         , m_sceneManager(std::unique_ptr<SceneManager>(new SceneManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
@@ -84,7 +84,7 @@ namespace Engine
 
             // reset input for this frame
             m_inputManager->PostUpdate();
-            m_entityManager->CleanupEntities();
+            m_gameObjectManager->CleanupGameObjects();
 //         
         }
         LOG_DEBUG("----------------------------- Stopping Application, time to destroy");

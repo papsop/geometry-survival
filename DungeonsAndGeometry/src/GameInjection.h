@@ -35,28 +35,28 @@ namespace Game
             // Scene 0 ==============================================================================
             auto& scene0 = Engine::SceneManager::Get().CreateScene();
 
-            auto splashScreen = Engine::EntityManager::Get().CreateEntity("SplashScreen");
+            auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject("SplashScreen");
             splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
             splashScreen->AddComponent<SplashBackground>();
             splashScreen->AddComponent<SplashTitle>();
             splashScreen->AddComponent<SplashController>();
 
-            scene0.AddGameObject(splashScreen);
+            scene0.AddGameObject(splashScreen->ID);
 
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
-            auto player = Engine::EntityManager::Get().CreateEntity("Player");
+            auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
             player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
             player->AddComponent<Engine::RigidbodyComponent>();
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<InputComponent>();
             player->AddComponent<ActorComponent>();
 
-            auto enemy = Engine::EntityManager::Get().CreateEntity("Enemy");
+            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
 
-            scene1.AddGameObject(player);
-            scene1.AddGameObject(enemy);
+            scene1.AddGameObject(player->ID);
+            scene1.AddGameObject(enemy->ID);
 
             Engine::SceneManager::Get().SetActiveScene(scene0.ID);
         }

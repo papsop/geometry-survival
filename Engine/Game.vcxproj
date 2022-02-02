@@ -33,7 +33,7 @@
     <ClCompile Include="src\Utils\pugixml.cpp" />
     <ClCompile Include="src\Utils\VectorUtils.cpp" />
     <ClCompile Include="src\View\ConsoleViewStrategy.cpp" />
-    <ClCompile Include="src\Managers\EntityManager.cpp" />
+    <ClCompile Include="src\Managers\GameObjectManager.cpp" />
     <ClCompile Include="src\Components\Physics\RigidbodyComponent.cpp" />
     <ClCompile Include="src\Core\GameObject.cpp" />
     <ClCompile Include="src\Managers\InputManager.cpp" />
@@ -65,7 +65,7 @@
     <ClInclude Include="src\Utils\pugixml.hpp" />
     <ClInclude Include="src\Utils\VectorUtils.h" />
     <ClInclude Include="src\View\ConsoleViewStrategy.h" />
-    <ClInclude Include="src\Managers\EntityManager.h" />
+    <ClInclude Include="src\Managers\GameObjectManager.h" />
     <ClInclude Include="src\Components\Physics\RigidbodyComponent.h" />
     <ClInclude Include="src\Components\Core\Transform.h" />
     <ClInclude Include="src\Core\GameObject.h" />

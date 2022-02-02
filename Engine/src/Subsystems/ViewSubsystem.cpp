@@ -90,7 +90,7 @@ namespace Engine
 
         // debug draws for registered components
         for (auto d : m_debugs)
-            d->Debug(m_viewStrategy.get());
+                d->Debug(m_viewStrategy.get());
 
         m_viewStrategy->PostRender();
     }

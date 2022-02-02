@@ -20,6 +20,8 @@ namespace Engine
         void Log(LOGGER_LEVEL level, const char* source, const char* format, ...);
 
         void SetBackend(std::unique_ptr<IBackendStrategy> backend);
+        void ResetBackend();
+
         void SetLevel(LOGGER_LEVEL level) { m_levelFilter = level; }
     private:
         Logger();

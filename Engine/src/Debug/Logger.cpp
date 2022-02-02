@@ -21,7 +21,7 @@ namespace Engine
 {
     Logger::Logger()
     {
-        m_backend = std::make_unique<ConsoleBackendStrategy>(); // default
+        ResetBackend();
         Log(LOGGER_LEVEL::INFO, __func__, "Created Logger");
     }
 
@@ -34,6 +34,11 @@ namespace Engine
     void Logger::SetBackend(std::unique_ptr<IBackendStrategy> backend)
     {
         m_backend = std::move(backend);
+    }
+
+    void Logger::ResetBackend()
+    {
+        m_backend = std::make_unique<ConsoleBackendStrategy>();
     }
 
     void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)

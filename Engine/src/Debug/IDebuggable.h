@@ -7,7 +7,7 @@ namespace Engine
     {
     public:
         IDebuggable();
-        virtual ~IDebuggable() = default;
+        virtual ~IDebuggable();
 
         virtual void Debug(view::IViewStrategy* viewStrategy) = 0;
     };

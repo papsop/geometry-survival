@@ -12,6 +12,7 @@
 
 namespace Engine
 {
+    class EntityManager;
     class Scene;
 
     class GameObject
@@ -66,7 +67,7 @@ namespace Engine
         const char* DebugName;
         Transform& GetTransform() {   return m_transform; }
 
-        void Destroy() { m_shouldDestroy = true; }
+        void Destroy();
         void SetActive(bool a) { m_isActive = a; }
 
         bool ShouldDestroy() const { return m_shouldDestroy; }
@@ -85,6 +86,7 @@ namespace Engine
         Scene* m_scene;
 
         void NotifyComponents();
+        friend class EntityManager;
     };
 };
 

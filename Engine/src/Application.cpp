@@ -84,8 +84,10 @@ namespace Engine
 
             // reset input for this frame
             m_inputManager->PostUpdate();
+            m_entityManager->CleanupEntities();
 //         
         }
         LOG_DEBUG("----------------------------- Stopping Application, time to destroy");
+        Engine::Logger::Instance().ResetBackend();
     }
 };

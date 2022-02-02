@@ -1,5 +1,6 @@
 #include "GameObject.h"
 #include "../Debug/Logger.h"
+#include "../Managers/EntityManager.h"
 #include <iostream>
 
 namespace Engine
@@ -16,5 +17,10 @@ namespace Engine
     {
         for (auto&& component : m_components)
             component.second->OnGameObjectChanged();
+    }
+
+    void GameObject::Destroy()
+    {
+        Engine::EntityManager::Get().DestroyEntity(ID);
     }
 };

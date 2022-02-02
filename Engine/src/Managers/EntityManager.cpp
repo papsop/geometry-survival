@@ -20,4 +20,24 @@ namespace Engine
         return m_entities[ID].get();
     }
 
+    void EntityManager::DestroyEntity(uint32_t ID)
+    {
+        auto entity = GetEntityByID(ID);
+        entity->m_shouldDestroy = true;
+        m_entitiesToCleanup.push(entity);
+    }
+
+    void EntityManager::CleanupEntities()
+    {
+        while (!m_entitiesToCleanup.empty())
+        {
+            auto e = m_entitiesToCleanup.front();
+            LOG_INFO("DELETED %d", e->ID);
+            m_entities.erase(e->ID);
+            m_entitiesToCleanup.pop();
+            
+            // @TODO: NOTIFICATION ABOUT DELETION
+        }
+    }
+
 };

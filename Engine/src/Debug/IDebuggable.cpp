@@ -7,4 +7,9 @@ namespace Engine
     {
         SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
     }
+
+    IDebuggable::~IDebuggable()
+    {
+        SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+    }
 };

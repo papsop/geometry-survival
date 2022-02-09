@@ -19,6 +19,8 @@
     </ProjectConfiguration>
   </ItemGroup>
   <ItemGroup>
+    <ClCompile Include="src\Managers\EventManager.cpp" />
+    <ClCompile Include="src\Core\Events.cpp" />
     <ClCompile Include="src\Application.cpp" />
     <ClCompile Include="src\Managers\DatabaseManager.cpp" />
     <ClCompile Include="src\Managers\SceneManager.cpp" />
@@ -43,6 +45,8 @@
     <ClCompile Include="src\Debug\Backend\WindowBackendStrategy.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="src\Managers\EventManager.h" />
+    <ClInclude Include="src\Core\Events.h" />
     <ClInclude Include="src\Application.h" />
     <ClInclude Include="src\Managers\DatabaseManager.h" />
     <ClInclude Include="src\Managers\SceneManager.h" />

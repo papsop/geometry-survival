@@ -22,6 +22,7 @@ namespace Engine
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
         , m_gameObjectManager(std::unique_ptr<GameObjectManager>(new GameObjectManager()))
         , m_sceneManager(std::unique_ptr<SceneManager>(new SceneManager()))
+        , m_eventManager(std::unique_ptr<EventManager>(new EventManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
         // and link Application as friend class (won't work with make_unique)
@@ -88,6 +89,9 @@ namespace Engine
 //         
         }
         LOG_DEBUG("----------------------------- Stopping Application, time to destroy");
-        Engine::Logger::Instance().ResetBackend();
+        // clear backends when application.run() ends
+        // if we wait for destructor - IDebuggable will 
+        // try to unregister from subsystem that doesn't exist anymore
+        Logger::Instance().ClearBackends();
     }
 };

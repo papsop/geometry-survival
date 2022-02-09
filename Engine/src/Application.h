@@ -21,6 +21,7 @@ namespace Engine
         GameObjectManager& GetGameObjectManager() { return *m_gameObjectManager; }
         SubsystemManager& GetSubsystemManager() { return *m_subsystemManager; }
         SceneManager& GetSceneManager() { return *m_sceneManager; }
+        EventManager& GetEventManager() { return *m_eventManager; }
 
         void Run(ApplicationInjection& injection);
 
@@ -38,6 +39,7 @@ namespace Engine
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<GameObjectManager> m_gameObjectManager;
         std::unique_ptr<SceneManager> m_sceneManager;
+        std::unique_ptr<EventManager> m_eventManager;
     };
 };
 

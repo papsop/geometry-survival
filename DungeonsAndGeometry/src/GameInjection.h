@@ -11,6 +11,7 @@
 #include "Components/SplashScreen/SplashShape.h"
 
 #include "Debug/Backend/WindowBackendStrategy.h"
+#include "Debug/Backend/ConsoleBackendStrategy.h"
 namespace Game
 {
     class Engine::Application;
@@ -29,7 +30,8 @@ namespace Game
         void BeforeGameLoop(Engine::Application& app) override
         {
             // setup logger
-            Engine::Logger::Instance().SetBackend(std::make_unique<Engine::WindowBackendStrategy>());
+            Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
+            Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
             Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
             // Scene 0 ==============================================================================

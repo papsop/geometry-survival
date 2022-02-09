@@ -2,6 +2,7 @@
 #include "LoggerLevel.h"
 #include "Backend/IBackendStrategy.h"
 #include <memory>
+#include <vector>
 
 #define LOG_DEBUG(...) Engine::Logger::Instance().Log(Engine::LOGGER_LEVEL::DEBUG, __func__, ##__VA_ARGS__)
 #define LOG_INFO(...) Engine::Logger::Instance().Log(Engine::LOGGER_LEVEL::INFO, __func__, ##__VA_ARGS__)
@@ -15,22 +16,21 @@ namespace Engine
     class Logger
     {
     public:
+        ~Logger() = default;
         static Logger& Instance();
 
         void Log(LOGGER_LEVEL level, const char* source, const char* format, ...);
 
-        void SetBackend(std::unique_ptr<IBackendStrategy> backend);
-        void ResetBackend();
+        void AddBackend(std::unique_ptr<IBackendStrategy> backend);
+        void ClearBackends();
 
         void SetLevel(LOGGER_LEVEL level) { m_levelFilter = level; }
     private:
         Logger();
-        ~Logger() = default;
-
         // config file?
         LOGGER_LEVEL m_levelFilter = LOGGER_LEVEL::DEBUG;
 
-        std::unique_ptr<IBackendStrategy> m_backend;
+        std::vector< std::unique_ptr<IBackendStrategy> > m_backends;
     };
 };
 

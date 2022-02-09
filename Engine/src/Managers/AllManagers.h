@@ -5,3 +5,4 @@
 #include "SubsystemManager.h"
 #include "DatabaseManager.h"
 #include "SceneManager.h"
+#include "EventManager.h"

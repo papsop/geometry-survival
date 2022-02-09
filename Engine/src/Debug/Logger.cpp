@@ -21,8 +21,6 @@ namespace Engine
 {
     Logger::Logger()
     {
-        ResetBackend();
-        Log(LOGGER_LEVEL::INFO, __func__, "Created Logger");
     }
 
     Logger& Logger::Instance()
@@ -31,19 +29,19 @@ namespace Engine
         return instance;
     }
 
-    void Logger::SetBackend(std::unique_ptr<IBackendStrategy> backend)
+    void Logger::AddBackend(std::unique_ptr<IBackendStrategy> backend)
     {
-        m_backend = std::move(backend);
+        m_backends.emplace_back(std::move(backend));
     }
 
-    void Logger::ResetBackend()
+    void Logger::ClearBackends()
     {
-        m_backend = std::make_unique<ConsoleBackendStrategy>();
+        m_backends.clear();
     }
 
     void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
     {
-        DD_ASSERT(m_backend != nullptr, "Logger backened not set");
+        if (m_backends.size() == 0) return;
         if (level < m_levelFilter) return;
 
         char log_message[1024];
@@ -52,7 +50,9 @@ namespace Engine
         vsprintf_s(log_message, format, arg);
         va_end(arg);
 
-        m_backend->WriteText(level, source, log_message);
+        for(auto&& backend : m_backends)
+            backend->WriteText(level, source, log_message);
+
         // print colored log
         //if (level == LOGGER_LEVEL::INFO)
         //{

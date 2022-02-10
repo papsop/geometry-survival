@@ -1,6 +1,5 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-#include <stdint.h>
 #include "../Components/Core/Transform.h"
 
 namespace Engine

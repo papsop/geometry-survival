@@ -4,6 +4,7 @@
 #include "../../View/IViewStrategy.h"
 
 #include "../../Debug/Logger.h"
+#include <stdint.h>
 #include <type_traits>
 #include <functional>
 

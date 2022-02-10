@@ -35,11 +35,11 @@ namespace Engine
 
         // Order is important because of destructions
         std::unique_ptr<DatabaseManager> m_databaseManager;             // first, because other managers might need it already initialized
+        std::unique_ptr<EventManager> m_eventManager;
         std::unique_ptr<SubsystemManager> m_subsystemManager;
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<GameObjectManager> m_gameObjectManager;
         std::unique_ptr<SceneManager> m_sceneManager;
-        std::unique_ptr<EventManager> m_eventManager;
     };
 };
 

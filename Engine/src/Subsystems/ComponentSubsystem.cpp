@@ -4,8 +4,6 @@
 
 namespace Engine
 {
-    uint32_t ComponentSubsystem::m_nextSubsystemID = 0;
-
     void ComponentSubsystem::RegisterComponent(IComponent* component)
     {
         m_registeredComponents.emplace_back(component);

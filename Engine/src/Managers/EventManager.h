@@ -1,11 +1,18 @@
 #pragma once
-#include "../Core/Events.h"
+#include "../Utils/IdGenerator.h"
 
 #include <unordered_map>
 #include <vector>
 namespace Engine
 {
     class Application;
+
+    template<typename>
+    class IEventListener;
+
+    template<typename>
+    class IEventDispatcher;
+
     class EventManager
     {
     public:
@@ -13,29 +20,42 @@ namespace Engine
         ~EventManager() = default;
 
         template<typename T>
-        void RegisterEventListener(IEvent* listener)
+        void RegisterEventListener(IEventListener<T>* listener)
         {
-            uint32_t ID = IEvent::GetEventID<T>();
+            auto ID = IdGenerator<EventManager>::GetID<T>();
             
             if (m_listeners.find(ID) == m_listeners.end())
             { // first listener for this event
                 m_listeners.insert(std::pair<uint32_t, std::vector<void*>>(ID, {}));
             }
 
-            m_listeners[ID].emplace_back(listener);
+            m_listeners[ID].emplace_back(static_cast<void*>(listener));
         }
 
         template<typename T>
-        void UnregisterEventListener(IEvent* listener)
+        void UnregisterEventListener(IEventListener<T>* listener)
         {
-            uint32_t ID = IEvent::GetEventID<T>();
+            auto ID = IdGenerator<EventManager>::GetID<T>();
 
             if (m_listeners.find(ID) != m_listeners.end())
             {
                 auto& listeners = m_listeners[ID];
                 listeners.erase(std::remove(listeners.begin(), listeners.end(), listener), listeners.end());
             }
+        }
 
+        template<typename T>
+        void DispatchEvent(const T eventData)
+        {
+            auto ID = IdGenerator<EventManager>::GetID<T>();
+            
+            if (m_listeners.find(ID) != m_listeners.end())
+            {
+                for (auto& listener : m_listeners[ID])
+                {
+                    static_cast<IEventListener<T>*>(listener)->Receive(eventData);
+                }
+            }
         }
 
     private:

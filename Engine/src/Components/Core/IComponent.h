@@ -15,14 +15,6 @@ namespace Engine
     class IComponent
     {
     public:
-
-        template<typename T>
-        static uint32_t GetComponentID()
-        {
-            static uint32_t componentID = m_nextComponentID++;
-            return componentID;
-        }
-
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
 
@@ -30,8 +22,6 @@ namespace Engine
         virtual void Update(float dt) = 0;
 
         GameObject& Owner;
-    protected:
-        static uint32_t m_nextComponentID;
     };
 
     class IRenderableShapeComponent : public IComponent

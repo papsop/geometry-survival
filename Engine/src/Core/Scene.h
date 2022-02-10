@@ -6,7 +6,7 @@
 #include "Events.h"
 namespace Engine
 {
-    class Scene : public IDebuggable, public IGameObjectDeletedListener
+    class Scene : public IDebuggable, public IEventListener<GameObjectDeletedData>
     {
     public:
         Scene(uint32_t id);
@@ -17,9 +17,9 @@ namespace Engine
         void Load();
         void Unload();
         const uint32_t ID;
-        bool IsLoaded() const { return m_isLoaded; }
+        bool IsLoaded() const { return m_isLoaded; };
 
-        //void GameObjectDeletedListener(GameObjectID id) override;
+        void Receive(const GameObjectDeletedData& eventData) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
 
     private:

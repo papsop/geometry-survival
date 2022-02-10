@@ -3,6 +3,8 @@
 #include "../Components/Core.h"
 #include "../Components/Physics.h"
 #include "../Components/View.h"
+#include "../Utils/IdGenerator.h"
+
 #include <unordered_map>
 #include <map>
 #include <queue>
@@ -23,7 +25,7 @@ namespace Engine
         bool HasComponent()
         {
             static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            auto compID = IComponent::GetComponentID<T>();
+            auto compID = IdGenerator<IComponent>::GetID<T>();
             return m_components.find(compID) != m_components.end();
         }
 
@@ -33,7 +35,8 @@ namespace Engine
             static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (!HasComponent<T>())
             {
-                m_components[IComponent::GetComponentID<T>()] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
+                auto ID = IdGenerator<IComponent>::GetID<T>();
+                m_components[ID] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
                 NotifyComponents();
             }
             else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());
@@ -43,8 +46,12 @@ namespace Engine
         void RemoveComponent()
         {
             static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            if(HasComponent<T>())
-                m_components.erase(IComponent::GetComponentID<T>());
+            if (HasComponent<T>())
+            {
+                auto ID = IdGenerator<IComponent>::GetID<T>();
+                m_components.erase(ID);
+            }
+                
 
             NotifyComponents();
         }
@@ -54,7 +61,10 @@ namespace Engine
         {
             static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
             if (HasComponent<T>())
-                return dynamic_cast<T*>(m_components[IComponent::GetComponentID<T>()].get());
+            {
+                auto ID = IdGenerator<IComponent>::GetID<T>();
+                return dynamic_cast<T*>(m_components[ID].get());
+            }
             else
                 return nullptr;
         }

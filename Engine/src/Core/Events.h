@@ -1,35 +1,43 @@
 #pragma once
-#include "GameObject.h"
+#include "EventData.h"
+#include "../Managers/EventManager.h"
+
 #include <stdint.h>
 
 
 namespace Engine
 {
-    class IEvent
+
+    template<typename T>
+    class IEventDispatcher
     {
     public:
-        template<typename T>
-        static uint32_t GetEventID()
-        {
-            static uint32_t eventID = m_nextEventID++;
-            return eventID;
-        }
 
-        IEvent() = default;
-        virtual ~IEvent() = default;
-    protected:
-        static uint32_t m_nextEventID;
+        IEventDispatcher() = default;
+        virtual ~IEventDispatcher() = default;
+
+        virtual void Dispatch(const T eventData)
+        {
+            EventManager::Get().DispatchEvent<T>(eventData);
+        };
     };
 
-    // Game object manipulation
-
-    class IGameObjectDeletedListener : public IEvent
+    template<typename T>
+    class IEventListener
     {
     public:
-        IGameObjectDeletedListener();
-        ~IGameObjectDeletedListener();
+        
+        IEventListener()
+        {
+            EventManager::Get().RegisterEventListener<T>(this);
+        }
 
-        //virtual void GameObjectDeletedListener(GameObjectID id) = 0;
+        ~IEventListener()
+        {
+            EventManager::Get().UnregisterEventListener<T>(this);
+        }
+
+        virtual void Receive(const T& eventData) = 0;
     };
 }
 

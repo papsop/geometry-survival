@@ -1,6 +1,7 @@
 #include "GameObjectManager.h"
 
 #include "../Application.h"
+#include "../Core/EventData.h"
 
 // TODO: Entity cleanup and notifications about deletion
 
@@ -42,11 +43,15 @@ namespace Engine
         while (!m_gameObjectsToCleanup.empty())
         {
             auto e = m_gameObjectsToCleanup.front();
+
+            GameObjectDeletedData eventData(e->ID);
+
             LOG_INFO("DELETED %d", e->ID);
             m_gameObjects.erase(e->ID);
             m_gameObjectsToCleanup.pop();
             
-            // @TODO: NOTIFICATION ABOUT DELETION
+            
+            EventManager::Get().DispatchEvent<GameObjectDeletedData>(eventData);
         }
     }
 

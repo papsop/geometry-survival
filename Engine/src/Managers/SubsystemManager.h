@@ -2,6 +2,7 @@
 #include "../Subsystems/ViewSubsystem.h"
 #include "../Subsystems/PhysicsSubsystem.h"
 #include "../Subsystems/ComponentSubsystem.h"
+#include "../Utils/IdGenerator.h"
 
 #include <map>
 #include <memory>
@@ -20,7 +21,7 @@ namespace Engine
         template<typename T>
         void RegisterComponentType()
         {
-            auto ID = ComponentSubsystem::GetSubsystemID<T>();
+            auto ID = IdGenerator<SubsystemManager>::GetID<T>();
             LOG_DEBUG("Registered component type '%s'", typeid(T).name());
             m_subsystems.emplace_back(std::make_unique<ComponentSubsystem>());
         }
@@ -28,7 +29,7 @@ namespace Engine
         template<typename T>
         void RegisterComponent(T* component)
         {
-            auto ID = ComponentSubsystem::GetSubsystemID<T>();
+            auto ID = IdGenerator<SubsystemManager>::GetID<T>();
             DD_ASSERT(ID < m_subsystems.size(), "ComponentSubsystem for this component isn't registered");
             LOG_DEBUG("Registered component '%s'", typeid(T).name());
             m_subsystems[ID]->RegisterComponent(component);
@@ -37,7 +38,7 @@ namespace Engine
         template<typename T>
         void UnregisterComponent(T* component)
         {
-            auto ID = ComponentSubsystem::GetSubsystemID<T>();
+            auto ID = IdGenerator<SubsystemManager>::GetID<T>();
             DD_ASSERT(ID < m_subsystems.size(), "ComponentSubsystem for this component isn't registered");
             LOG_DEBUG("Unregistered component '%s'", typeid(T).name());
             m_subsystems[ID]->UnregisterComponent(component);

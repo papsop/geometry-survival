@@ -49,10 +49,10 @@ namespace Engine
         LOG_INFO("Scene ID '%d' UNLOADED, number of objects: %d", ID, m_gameObjects.size());
     }
 
-    //void Scene::GameObjectDeletedListener(GameObjectID id)
-    //{
-    //    m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), id), m_gameObjects.end());
-    //}
+    void Scene::Receive(const GameObjectDeletedData& eventData)
+    {
+        m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), eventData.ID), m_gameObjects.end());
+    }
 
     void Scene::Debug(view::IViewStrategy* viewStrategy)
     {

@@ -5,8 +5,6 @@
 
 namespace Engine
 {
-    uint32_t IComponent::m_nextComponentID = 0;
-
     IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, int zIndex)
         : IComponent(obj)
         , ZIndex(zIndex)

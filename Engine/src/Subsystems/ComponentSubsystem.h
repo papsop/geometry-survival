@@ -11,12 +11,6 @@ namespace Engine
     public:
         ComponentSubsystem() {};
         ~ComponentSubsystem() {};
-        template<typename T>
-        static uint32_t GetSubsystemID()
-        {
-            static uint32_t subsystemID = m_nextSubsystemID++;
-            return subsystemID;
-        }
 
         void RegisterComponent(IComponent* component);
         void UnregisterComponent(IComponent* component);

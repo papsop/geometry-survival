@@ -1,5 +1,5 @@
 #pragma once
-#include "../Managers/GameObjectManager.h"
+#include "GameObject.h"
 
 namespace Engine
 {

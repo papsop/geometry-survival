@@ -19,7 +19,7 @@ namespace Engine
         const uint32_t ID;
         bool IsLoaded() const { return m_isLoaded; };
 
-        void Receive(const GameObjectDeletedData& eventData) override;
+        void ReceiveEvent(const GameObjectDeletedData& eventData) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
 
     private:

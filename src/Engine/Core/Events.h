@@ -16,7 +16,7 @@ namespace Engine
         IEventDispatcher() = default;
         virtual ~IEventDispatcher() = default;
 
-        virtual void Dispatch(const T eventData)
+        virtual void DispatchEvent(const T eventData)
         {
             EventManager::Get().DispatchEvent<T>(eventData);
         };
@@ -37,7 +37,7 @@ namespace Engine
             EventManager::Get().UnregisterEventListener<T>(this);
         }
 
-        virtual void Receive(const T& eventData) = 0;
+        virtual void ReceiveEvent(const T& eventData) = 0;
     };
 }
 

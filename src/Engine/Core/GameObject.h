@@ -14,6 +14,8 @@
 
 namespace Engine
 {
+    typedef uint32_t GameObjectID;
+
     class EntityManager;
     class Scene;
 

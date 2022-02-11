@@ -44,24 +44,26 @@ namespace Engine
             }
         }
 
+
+    private:
         template<typename T>
         void DispatchEvent(const T eventData)
         {
             auto ID = IdGenerator<EventManager>::GetID<T>();
-            
+
             if (m_listeners.find(ID) != m_listeners.end())
             {
                 for (auto& listener : m_listeners[ID])
                 {
-                    static_cast<IEventListener<T>*>(listener)->Receive(eventData);
+                    static_cast<IEventListener<T>*>(listener)->ReceiveEvent(eventData);
                 }
             }
         }
-
-    private:
         EventManager();
         std::unordered_map<uint32_t, std::vector<void*>> m_listeners;
 
+    template<typename>
+    friend class IEventDispatcher;
     friend class Application;
     };
 }

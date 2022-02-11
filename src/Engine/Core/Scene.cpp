@@ -16,7 +16,6 @@ namespace Engine
             if (m_isLoaded) entity->SetActive(m_isLoaded);
             m_gameObjects.emplace_back(id);
             entity->SetScene(this);
-            LOG_DEBUG("Entity '%d' added to Scene '%d'", entity->ID, ID);
         }
 
     }
@@ -32,7 +31,6 @@ namespace Engine
             }
         }
         m_isLoaded = true;
-        LOG_INFO("Scene ID '%d' LOADED, number of objects: %d", ID, m_gameObjects.size());
     }
 
     void Scene::Unload()
@@ -46,10 +44,9 @@ namespace Engine
             }
         }
         m_isLoaded = true;
-        LOG_INFO("Scene ID '%d' UNLOADED, number of objects: %d", ID, m_gameObjects.size());
     }
 
-    void Scene::Receive(const GameObjectDeletedData& eventData)
+    void Scene::ReceiveEvent(const GameObjectDeletedData& eventData)
     {
         m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), eventData.ID), m_gameObjects.end());
     }

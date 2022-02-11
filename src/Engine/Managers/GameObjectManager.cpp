@@ -46,12 +46,10 @@ namespace Engine
 
             GameObjectDeletedData eventData(e->ID);
 
-            LOG_INFO("DELETED %d", e->ID);
             m_gameObjects.erase(e->ID);
             m_gameObjectsToCleanup.pop();
             
-            
-            EventManager::Get().DispatchEvent<GameObjectDeletedData>(eventData);
+            DispatchEvent(eventData);
         }
     }
 

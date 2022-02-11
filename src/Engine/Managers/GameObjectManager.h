@@ -1,12 +1,13 @@
 #pragma once
 #include "../Core/GameObject.h"
+#include "../Core/Events.h"
+
 #include <unordered_map>
 
 namespace Engine
 {
-    typedef uint32_t GameObjectID;
 
-    class GameObjectManager
+    class GameObjectManager : public IEventDispatcher<GameObjectDeletedData>
     {
     public:
         ~GameObjectManager() = default;

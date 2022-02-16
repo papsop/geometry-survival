@@ -35,7 +35,6 @@ filter "configurations:Release"
 project "Game"
     kind "ConsoleApp"
     location "./src/Game"
-    includedirs { "./src/Engine" }
 
     links { "Engine" }
     files {

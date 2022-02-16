@@ -1,7 +1,7 @@
 #pragma once
-#include "Components/Core/IComponent.h"
-#include "View/Renderables.h"
-#include "Core/GameObject.h"
+#include <Engine/Components/Core/IComponent.h>
+#include <Engine/View/Renderables.h>
+#include <Engine/Core/GameObject.h>
 
 namespace Game
 {

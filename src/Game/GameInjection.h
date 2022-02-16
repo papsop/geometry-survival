@@ -1,7 +1,9 @@
 #pragma once
-#include "Core/ApplicationInjection.h"
-#include "Application.h"
-#include "Core/GameObject.h"
+#include <Engine/Core/ApplicationInjection.h>
+#include <Engine/Application.h>
+#include <Engine/Core/GameObject.h>
+#include <Engine/Debug/Backend/WindowBackendStrategy.h>
+#include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -10,8 +12,7 @@
 #include "Components/SplashScreen/SplashController.h"
 #include "Components/SplashScreen/SplashShape.h"
 
-#include "Debug/Backend/WindowBackendStrategy.h"
-#include "Debug/Backend/ConsoleBackendStrategy.h"
+
 namespace Game
 {
     class Engine::Application;

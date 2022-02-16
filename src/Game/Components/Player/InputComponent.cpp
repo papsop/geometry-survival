@@ -1,7 +1,8 @@
 #include "InputComponent.h"
-#include "Application.h"
 
 #include "../Actor/ActorComponent.h"
+
+#include <Engine/Application.h>
 
 namespace Game
 {

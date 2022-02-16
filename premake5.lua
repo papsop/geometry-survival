@@ -19,7 +19,7 @@ targetdir(bindir)
 objdir(intdir)
 
 libdirs { "./lib" }
-includedirs { "./include" }
+includedirs { "./include", "./src" }
 
 filter "configurations:Debug"
     links { "sfml-graphics-d.lib", "sfml-window-d.lib", "sfml-system-d.lib" }

@@ -1,7 +1,7 @@
 #pragma once
 
-#include "Components/Core.h"
-#include "Managers/InputManager.h"
+#include <Engine/Components/Core.h>
+#include <Engine/Managers/InputManager.h>
 
 namespace Game
 {

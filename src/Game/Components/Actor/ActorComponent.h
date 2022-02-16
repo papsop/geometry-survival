@@ -1,5 +1,5 @@
 #pragma once
-#include "Components/Core.h"
+#include <Engine/Components/Core.h>
 #include "Commands.h"
 #include <queue>
 #include <memory>

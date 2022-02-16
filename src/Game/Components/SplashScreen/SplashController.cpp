@@ -1,8 +1,8 @@
 #include "SplashController.h"
-#include "Managers/SubsystemManager.h"
-#include "Managers/GameObjectManager.h"
+#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/GameObjectManager.h>
 
-#include "Core/Scene.h"
+#include <Engine/Core/Scene.h>
 
 #include "SplashShape.h"
 

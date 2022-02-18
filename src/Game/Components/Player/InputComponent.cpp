@@ -11,6 +11,8 @@ namespace Game
         , m_inputManager(Engine::InputManager::Get())
     {
         Engine::SubsystemManager::Get().RegisterComponent(this);
+
+        Requires<Engine::RigidbodyComponent, ActorComponent>();
     }
 
     InputComponent::~InputComponent()

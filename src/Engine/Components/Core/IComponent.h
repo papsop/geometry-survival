@@ -7,7 +7,7 @@
 #include <stdint.h>
 #include <type_traits>
 #include <functional>
-
+#include <iostream>
 namespace Engine
 {
     class GameObject; 
@@ -22,6 +22,22 @@ namespace Engine
         virtual void Update(float dt) = 0;
 
         GameObject& Owner;
+    protected:
+
+        // =================
+        // Requires template
+        //  - for asserting required components
+        // =================
+        template<typename First, typename... Args>
+        void Requires()
+        {
+            bool hasComponent = Owner.HasComponent<First>();
+            DD_ASSERT(hasComponent, "IComponent::Required asserted");
+
+            const int size = sizeof...(Args);
+            if constexpr (size > 0)
+                Requires<Args...>();
+        }
     };
 
     class IRenderableShapeComponent : public IComponent

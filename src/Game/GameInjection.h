@@ -53,8 +53,8 @@ namespace Game
             player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
             player->AddComponent<Engine::RigidbodyComponent>();
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
-            player->AddComponent<InputComponent>();
             player->AddComponent<ActorComponent>();
+            player->AddComponent<InputComponent>();
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
 

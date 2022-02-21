@@ -66,11 +66,6 @@ namespace Engine
         sf::Clock clock;
         while (m_applicationIsRunning)
         {
-            if(sf::Keyboard::isKeyPressed(sf::Keyboard::PageUp)) SceneManager::Get().SetActiveScene(0);
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::PageDown)) SceneManager::Get().SetActiveScene(1);
-
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::Home)) SceneManager::Get().LoadSceneAdditively(1);
-
             sf::Time elapsed = clock.restart();
             float lastFrameMS = elapsed.asSeconds();
             

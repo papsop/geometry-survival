@@ -18,18 +18,15 @@ namespace Engine
         Scene& GetSceneByIndex(uint32_t index);
 
         // Loads all objects and adds them to already loaded ones
-        void LoadSceneAdditively(uint32_t index);
-        // Unloads all loaded objects and loads the ones from this scene
-        void SetActiveScene(uint32_t index);
+        void LoadSceneByIndex(uint32_t index);
 
 
         // Unloads all objects from this particular scene
-        void UnloadSceneObjects(uint32_t index);
+        void UnloadSceneByIndex(uint32_t index);
         void UnloadAllScenes();
 
         ~SceneManager() = default;
 
-        //void Debug(view::IViewStrategy* viewStrategy) override;
 
     private:
         SceneManager() = default;

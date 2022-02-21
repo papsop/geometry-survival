@@ -3,8 +3,9 @@
 
 namespace Engine
 {
-    Scene::Scene(uint32_t id)
-        : ID(id)
+    Scene::Scene(uint32_t id, SceneType sceneType)
+        : c_ID(id)
+        , c_SceneType(sceneType)
     {
     }
 

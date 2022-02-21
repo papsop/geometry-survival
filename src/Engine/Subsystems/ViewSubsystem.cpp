@@ -39,16 +39,16 @@ namespace Engine
         
         if (m_shapes.insert(component).second == false)
         {
-            LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.ID, component->ZIndex);
+            LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.c_ID, component->ZIndex);
         }
         else
-            LOG_DEBUG("registered IRenderableShape from ID: %d, zIndex: '%d'", component->Owner.ID, component->ZIndex);
+            LOG_DEBUG("registered IRenderableShape from ID: %d, zIndex: '%d'", component->Owner.c_ID, component->ZIndex);
     }
 
     void ViewSubsystem::RegisterComponent(IRenderableTextComponent* component)
     {
         m_texts.emplace_back(component);
-        LOG_DEBUG("registered IRenderableText from ID: %d", component->Owner.ID);
+        LOG_DEBUG("registered IRenderableText from ID: %d", component->Owner.c_ID);
     }
 
     void ViewSubsystem::RegisterComponent(IDebuggable* component)
@@ -60,13 +60,13 @@ namespace Engine
     void ViewSubsystem::UnregisterComponent(IRenderableShapeComponent* component)
     {
         m_shapes.erase(component);
-        LOG_DEBUG("unregistered IRenderableShape from ID: %d", component->Owner.ID);
+        LOG_DEBUG("unregistered IRenderableShape from ID: %d", component->Owner.c_ID);
     }
 
     void ViewSubsystem::UnregisterComponent(IRenderableTextComponent* component)
     {
         m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), component), m_texts.end());
-        LOG_DEBUG("unregistered IRenderableText from ID: %d", component->Owner.ID);
+        LOG_DEBUG("unregistered IRenderableText from ID: %d", component->Owner.c_ID);
     }
 
     void ViewSubsystem::UnregisterComponent(IDebuggable* component)

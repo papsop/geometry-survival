@@ -6,8 +6,8 @@
 namespace Engine
 {
    GameObject::GameObject(uint32_t id, const char* debugName) 
-        : ID(id)
-        , DebugName(debugName)
+        : c_ID(id)
+        , c_DebugName(debugName)
         , m_transform() 
     {
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
@@ -21,6 +21,6 @@ namespace Engine
 
     void GameObject::Destroy()
     {
-        Engine::GameObjectManager::Get().DestroyGameObject(ID);
+        Engine::GameObjectManager::Get().DestroyGameObject(c_ID);
     }
 };

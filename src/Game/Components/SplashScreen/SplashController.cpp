@@ -43,7 +43,7 @@ namespace Game
             newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
             
 
-            scene.AddGameObject(newTriangle->ID);
+            scene.AddGameObject(newTriangle->c_ID);
             m_lastTriangleSpawned = m_triangleSpawnCooldown;
         }
     }

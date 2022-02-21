@@ -44,7 +44,7 @@ namespace Game
             splashScreen->AddComponent<SplashTitle>();
             splashScreen->AddComponent<SplashController>();
 
-            scene0.AddGameObject(splashScreen->ID);
+            scene0.AddGameObject(splashScreen->c_ID);
 
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
@@ -58,10 +58,10 @@ namespace Game
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
 
-            scene1.AddGameObject(player->ID);
-            scene1.AddGameObject(enemy->ID);
+            scene1.AddGameObject(player->c_ID);
+            scene1.AddGameObject(enemy->c_ID);
 
-            Engine::SceneManager::Get().SetActiveScene(scene0.ID);
+            Engine::SceneManager::Get().LoadSceneByIndex(scene0.c_ID);
         }
     };
 }

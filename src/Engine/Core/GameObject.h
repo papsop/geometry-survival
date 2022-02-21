@@ -41,7 +41,7 @@ namespace Engine
                 m_components[ID] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
                 NotifyComponents();
             }
-            else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());
+            else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", c_ID, typeid(T).name());
         }
 
         template<typename T>
@@ -75,8 +75,8 @@ namespace Engine
         GameObject(uint32_t id, const char* debugName);
         ~GameObject() = default;
 
-        const uint32_t ID;
-        const char* DebugName;
+        const uint32_t c_ID;
+        const char* c_DebugName;
         Transform& GetTransform() {   return m_transform; }
 
         void Destroy();

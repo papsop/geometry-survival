@@ -23,8 +23,6 @@ namespace Game
 
     private:
         float m_movementSpeed = 500.0f;
-        float m_defaultShootingCooldown = 3.0f;
-        float m_currentShootingCooldown = -1.0f;
         std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     };
 };

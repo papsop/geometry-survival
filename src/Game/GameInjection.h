@@ -12,6 +12,8 @@
 #include "Components/SplashScreen/SplashTitle.h"
 #include "Components/SplashScreen/SplashController.h"
 #include "Components/SplashScreen/SplashShape.h"
+#include "Components/Actor/WeaponComponent.h"
+#include "Components/Actor/Weapons/PistolWeapon.h"
 
 
 namespace Game
@@ -26,6 +28,7 @@ namespace Game
             Engine::SubsystemManager::Get().RegisterComponentType<SplashShape>();
             Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
             Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
+            Engine::SubsystemManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<ActorComponent>();
         }
 
@@ -57,13 +60,17 @@ namespace Game
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
+            player->AddComponent<WeaponComponent>();
+
+            auto weaponComponent = player->GetComponent<WeaponComponent>();
+            weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);
 
-            Engine::SceneManager::Get().LoadSceneByIndex(scene0.c_ID);
+            Engine::SceneManager::Get().LoadSceneByIndex(scene1.c_ID);
         }
     };
 }

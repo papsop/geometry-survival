@@ -1,4 +1,5 @@
 #include "ActorComponent.h"
+#include "WeaponComponent.h"
 
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject.h>
@@ -41,10 +42,10 @@ namespace Game
 
     void ActorComponent::Fire()
     {
-        if (m_currentShootingCooldown <= 0.0f)
+        auto weaponComp = Owner.GetComponent<WeaponComponent>();
+        if (weaponComp) 
         {
-            LOG_WARN("Firing");
-            m_currentShootingCooldown = m_defaultShootingCooldown;
+            weaponComp->Fire();
         }
     }
 
@@ -55,7 +56,5 @@ namespace Game
             m_commandsQueue.front()->Execute(*this);
             m_commandsQueue.pop();
         }
-
-        m_currentShootingCooldown -= dt;
     }
 };

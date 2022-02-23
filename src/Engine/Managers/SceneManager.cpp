@@ -46,4 +46,11 @@ namespace Engine
             if (s->IsLoaded())
                 s->Unload();
     }
+
+    void SceneManager::Update(float dt)
+    {
+        for (auto&& s : m_scenes)
+            if (s->IsLoaded())
+                s->Update(dt);
+    }
 }

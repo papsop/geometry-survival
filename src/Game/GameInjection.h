@@ -4,6 +4,7 @@
 #include <Engine/Core/GameObject.h>
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
+#include <Engine/Core/StateMachine/BasicSceneState.h>
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -37,13 +38,14 @@ namespace Game
 
             // Scene 0 ==============================================================================
             auto& scene0 = Engine::SceneManager::Get().CreateScene();
-
+            
             auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject("SplashScreen");
             splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
             splashScreen->AddComponent<SplashBackground>();
             splashScreen->AddComponent<SplashTitle>();
             splashScreen->AddComponent<SplashController>();
 
+            scene0.SetState(std::make_unique<Engine::BasicSceneState>(&scene0));
             scene0.AddGameObject(splashScreen->c_ID);
 
             // Scene 1 ==============================================================================

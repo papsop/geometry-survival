@@ -25,6 +25,8 @@ namespace Engine
         void UnloadSceneByIndex(uint32_t index);
         void UnloadAllScenes();
 
+        void Update(float dt);
+
         ~SceneManager() = default;
 
 

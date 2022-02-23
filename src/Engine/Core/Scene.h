@@ -2,6 +2,7 @@
 #include "GameObject.h"
 #include "../Managers/GameObjectManager.h"
 #include "../Debug/IDebuggable.h"
+#include "StateMachine/IState.h"
 
 #include "Events.h"
 namespace Engine
@@ -26,16 +27,20 @@ namespace Engine
         const uint32_t c_ID;
         const SceneType c_SceneType;
         bool IsLoaded() const { return m_isLoaded; };
+        
+        void SetState(std::unique_ptr<ISceneState> state);
 
         void ReceiveEvent(const GameObjectDeletedData& eventData) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
-
+        
     private:
         void Load();
         void Unload();
+        void Update(float dt);
 
         bool m_isLoaded = false;
         std::vector< GameObjectID > m_gameObjects; // maybe a scene graph later?
+        std::unique_ptr< ISceneState > m_state;
 
     friend class SceneManager;
     };

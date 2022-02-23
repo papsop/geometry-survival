@@ -71,7 +71,9 @@ namespace Engine
             
             m_subsystemManager->GetViewSubsystem().PollEvents();
 
+            // Update managers
             m_inputManager->Update();
+            m_sceneManager->Update(lastFrameMS);    // update scene's state machine
 
             // debug exit
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) break;

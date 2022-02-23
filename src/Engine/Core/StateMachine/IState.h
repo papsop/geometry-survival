@@ -16,7 +16,7 @@ namespace Engine
         virtual void Exit() = 0;
     };
 
-    class ISceneState : public IScene
+    class ISceneState : public IState
     {
     public:
         ISceneState(Scene* scene)

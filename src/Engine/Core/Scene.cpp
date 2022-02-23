@@ -21,6 +21,11 @@ namespace Engine
 
     }
 
+    void Scene::RemoveGameObject(GameObjectID id)
+    {
+        m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), id), m_gameObjects.end());
+    }
+
     void Scene::Load()
     {
         for (auto id : m_gameObjects)
@@ -49,7 +54,18 @@ namespace Engine
 
     void Scene::ReceiveEvent(const GameObjectDeletedData& eventData)
     {
-        m_gameObjects.erase(std::remove(m_gameObjects.begin(), m_gameObjects.end(), eventData.ID), m_gameObjects.end());
+        RemoveGameObject(eventData.ID);
+    }
+    
+    void Scene::SetState(std::unique_ptr<ISceneState> state)
+    {
+        m_state = std::move(state);
+    }
+
+    void Scene::Update(float dt)
+    {
+        if (m_state)
+            m_state->Update(dt);
     }
 
     void Scene::Debug(view::IViewStrategy* viewStrategy)

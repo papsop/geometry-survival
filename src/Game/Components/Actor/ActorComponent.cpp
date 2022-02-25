@@ -21,8 +21,6 @@ namespace Game
         Engine::SubsystemManager::Get().UnregisterComponent(this);
     }
 
-    void ActorComponent::OnGameObjectChanged(){}
-
     void ActorComponent::AddCommand(std::unique_ptr<ICommand> command)
     {
         m_commandsQueue.push(std::move(command));

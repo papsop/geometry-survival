@@ -1,5 +1,6 @@
 #include "PistolWeapon.h"
 #include <Engine/Debug/Logger.h>
+#include "../WeaponComponent.h"
 
 namespace Game
 {
@@ -7,7 +8,7 @@ namespace Game
     {
         if (m_currentShootingCooldown <= 0.0f)
         {
-            LOG_WARN("Shooting pistol");
+            ownerWeaponComponent->CreateBulletGameObject();
             m_currentShootingCooldown = m_shootingCooldown;
         }
             

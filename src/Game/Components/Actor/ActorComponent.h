@@ -12,7 +12,6 @@ namespace Game
         ActorComponent(Engine::GameObject& obj);
         ~ActorComponent() override;
 
-        void OnGameObjectChanged() override;
         void Update(float dt) override;
         
         void AddCommand(std::unique_ptr<ICommand> command);

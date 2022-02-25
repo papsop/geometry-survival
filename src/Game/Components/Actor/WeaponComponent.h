@@ -10,12 +10,12 @@ namespace Game
         WeaponComponent(Engine::GameObject& obj);
         ~WeaponComponent() override;
 
-        void OnGameObjectChanged() override;
         void Update(float dt) override;
 
         void Fire();
         
         void EquipWeapon(std::unique_ptr<IWeapon> weapon);
+        Engine::GameObject* CreateBulletGameObject();
     private:
         std::unique_ptr<IWeapon> m_equippedWeapon;
     };

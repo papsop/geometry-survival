@@ -12,7 +12,6 @@ namespace Game
         ~InputComponent() override;
 
         void Update(float dt) override;
-        void OnGameObjectChanged() override;
 
     private:
         Engine::InputManager& m_inputManager;

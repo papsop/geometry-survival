@@ -11,7 +11,6 @@ namespace Engine
         ~RigidbodyComponent() override;
 
         void Update(float dt) override;
-        void OnGameObjectChanged() override;
 
         void Debug(view::IViewStrategy* viewStrategy) override;
         //void RotateToAngle(float targetAngle);

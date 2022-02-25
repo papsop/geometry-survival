@@ -11,7 +11,6 @@ namespace Game
         SplashController(Engine::GameObject& obj);
         ~SplashController() override;
 
-        void OnGameObjectChanged() override {};
         void Update(float dt) override;
 
     private:

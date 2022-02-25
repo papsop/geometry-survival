@@ -18,7 +18,6 @@ namespace Engine
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
 
-        virtual void OnGameObjectChanged() = 0;
         virtual void Update(float dt) = 0;
 
         GameObject& Owner;

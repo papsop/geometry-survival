@@ -9,7 +9,6 @@ namespace Engine
         TriangleComponent(GameObject& obj, sf::Color color, int zIndex);
         ~TriangleComponent();
 
-        void OnGameObjectChanged() override {};
         void Update(float dt) override {};
 
         const view::Shape& GetRenderableShape() override;

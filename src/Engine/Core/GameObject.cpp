@@ -13,12 +13,6 @@ namespace Engine
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 
-    void GameObject::NotifyComponents()
-    {
-        for (auto&& component : m_components)
-            component.second->OnGameObjectChanged();
-    }
-
     void GameObject::Destroy()
     {
         Engine::GameObjectManager::Get().DestroyGameObject(c_ID);

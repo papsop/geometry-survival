@@ -11,7 +11,6 @@ namespace Game
         SplashShape(Engine::GameObject& obj, size_t pointCount, sf::Color color, int zIndex);
         ~SplashShape();
 
-        void OnGameObjectChanged() override {};
         void Update(float dt) override;
 
         const Engine::view::Shape& GetRenderableShape() override { return m_shape; };

@@ -11,7 +11,6 @@ namespace Game
         SplashTitle(Engine::GameObject& obj);
         ~SplashTitle() override;
 
-        void OnGameObjectChanged() override {};
         void Update(float dt) override {};
 
         const Engine::view::Text& GetRenderableText() override { return m_text; };

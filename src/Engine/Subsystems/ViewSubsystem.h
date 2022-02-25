@@ -32,11 +32,14 @@ namespace Engine
         void Update(float dt);
         void SetViewStrategy(view::IViewStrategy* viewStrategy);
         
+        int GetZIndexFromPool() { return m_zIndexPool++;  }
     private:
         static bool compareZIndex(const IRenderableShapeComponent* s1, const IRenderableShapeComponent* s2)
         {
             return s1->ZIndex < s2->ZIndex;
         }
+
+        int m_zIndexPool = 1000;
 
         ViewSubsystem();
         
@@ -44,6 +47,7 @@ namespace Engine
         std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
         std::vector< IRenderableTextComponent* > m_texts;
         std::vector< IDebuggable* > m_debugs;
+        
 
     friend class SubsystemManager;
     };

@@ -20,10 +20,6 @@ namespace Game
         Engine::SubsystemManager::Get().UnregisterComponent(this);
     }
 
-    void InputComponent::OnGameObjectChanged()
-    {
-    }
-
     void InputComponent::Update(float dt)
     {
         auto actorComponent = Owner.GetComponent<ActorComponent>();

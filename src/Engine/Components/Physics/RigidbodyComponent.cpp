@@ -20,7 +20,6 @@ namespace Engine
         Engine::SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
     }
 
-    void RigidbodyComponent::OnGameObjectChanged() {}
 
     //void RigidbodyComponent::RotateToAngle(float targetAngle)
     //{

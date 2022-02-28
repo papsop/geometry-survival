@@ -9,7 +9,7 @@ namespace Game
         PistolWeapon(WeaponComponent* weaponComponent)
             : IWeapon(weaponComponent) 
         {
-            m_shootingCooldown = 0.3f;
+            m_shootingCooldown = 0.001f;
         }
         ~PistolWeapon() = default;
         

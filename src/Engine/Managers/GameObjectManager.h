@@ -14,7 +14,7 @@ namespace Engine
 
         static GameObjectManager& Get();
 
-        GameObject* CreateGameObject(const char* name="Unknown");
+        GameObject* CreateGameObject(GameObject::FilterTag tag, const char* name="Unknown");
 
         GameObject* GetGameObjectByID(GameObjectID ID);
 

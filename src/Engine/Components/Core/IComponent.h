@@ -8,6 +8,7 @@
 #include <type_traits>
 #include <functional>
 #include <iostream>
+
 namespace Engine
 {
     class GameObject; 
@@ -19,6 +20,7 @@ namespace Engine
         virtual ~IComponent() = default;
 
         virtual void Update(float dt) = 0;
+        virtual void OnCollision(GameObject& other){};
 
         GameObject& Owner;
     protected:
@@ -39,12 +41,33 @@ namespace Engine
         }
     };
 
+
+    // Physics
+
+    class IColliderComponent : public IComponent
+    {
+    public:
+        IColliderComponent(GameObject& obj)
+            : IComponent(obj)
+        {}
+        ~IColliderComponent() override = default;        
+        
+        void SetRelativePosition(sf::Vector2f position);
+        sf::Vector2f GetRelativePosition() const;
+        sf::Vector2f GetAbsolutePosition() const;
+
+    private:
+        sf::Vector2f m_relativePosition;
+    };
+
+
+    // Views
     class IRenderableShapeComponent : public IComponent
     {
     public:
         IRenderableShapeComponent(GameObject& obj, int zIndex);
          
-        ~IRenderableShapeComponent() override = default;
+        ~IRenderableShapeComponent() = default;
 
         virtual const view::Shape& GetRenderableShape() = 0;
         const int ZIndex;

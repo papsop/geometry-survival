@@ -32,7 +32,7 @@ namespace Game
         {
             auto& scene = Owner.GetScene();
 
-            auto newTriangle = Engine::GameObjectManager::Get().CreateGameObject("SplashShape");
+            auto newTriangle = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashShape");
             newTriangle->AddComponent<SplashShape>(rand() % 7 + 3, GetRandomColor(), m_triangleZIndex++);
             newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
             newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);

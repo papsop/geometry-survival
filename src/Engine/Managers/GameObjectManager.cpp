@@ -9,10 +9,10 @@ namespace Engine
 {
     GameObjectManager& GameObjectManager::Get() { return Application::Instance().GetGameObjectManager(); }
 
-    GameObject* GameObjectManager::CreateGameObject(const char *name)
+    GameObject* GameObjectManager::CreateGameObject(GameObject::FilterTag tag, const char *name)
     {
         uint32_t ID = m_nextGameObjectID++;
-        m_gameObjects[ID] = std::make_unique<GameObject>(ID, name);
+        m_gameObjects[ID] = std::make_unique<GameObject>(ID, tag, name);
         return m_gameObjects[ID].get();
     };
 

@@ -5,6 +5,7 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
+#include <Engine/Components/Physics/CircleCollider.h>
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -42,7 +43,7 @@ namespace Game
             // Scene 0 ==============================================================================
             auto& scene0 = Engine::SceneManager::Get().CreateScene();
             
-            auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject("SplashScreen");
+            auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashScreen");
             splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
             splashScreen->AddComponent<SplashBackground>();
             splashScreen->AddComponent<SplashTitle>();
@@ -54,18 +55,19 @@ namespace Game
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
-            auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
+            auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
             player->AddComponent<Engine::RigidbodyComponent>();
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
+            player->AddComponent<Engine::CircleCollider>();
 
             auto weaponComponent = player->GetComponent<WeaponComponent>();
             weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
 
-            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
+            auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);

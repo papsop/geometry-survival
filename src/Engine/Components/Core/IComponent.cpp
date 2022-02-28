@@ -5,6 +5,25 @@
 
 namespace Engine
 {
+
+    // physics
+    void IColliderComponent::SetRelativePosition(sf::Vector2f position) 
+    { 
+        m_relativePosition = position; 
+    }
+
+    sf::Vector2f IColliderComponent::GetRelativePosition() const 
+    {
+        return m_relativePosition; 
+    }
+
+    sf::Vector2f IColliderComponent::GetAbsolutePosition() const 
+    {
+        return Owner.GetTransform().Position + m_relativePosition;
+    }
+
+    // view
+
     IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, int zIndex)
         : IComponent(obj)
         , ZIndex(zIndex)

@@ -5,9 +5,10 @@
 
 namespace Engine
 {
-   GameObject::GameObject(uint32_t id, const char* debugName) 
+   GameObject::GameObject(uint32_t id, FilterTag tag, const char* debugName) 
         : c_ID(id)
         , c_DebugName(debugName)
+        , c_Tag(tag)
         , m_transform() 
     {
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);

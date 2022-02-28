@@ -43,7 +43,7 @@ namespace Game
 
     Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
-        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet");
+        auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
         bullet->GetTransform().Position = Owner.GetTransform().Position;
         bullet->GetTransform().Scale = { 0.2f, 0.2f };
         bullet->AddComponent<Engine::RigidbodyComponent>();

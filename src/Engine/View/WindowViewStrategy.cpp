@@ -37,6 +37,11 @@ namespace Engine
             m_window.draw(static_cast<sf::CircleShape>(shape));   
         }
 
+        void WindowViewStrategy::Render(const Circle& circle)
+        {
+            m_window.draw(static_cast<sf::CircleShape>(circle));
+        }
+
         void WindowViewStrategy::Render(const Text& text)
         {
             auto sftext = static_cast<sf::Text>(text);

@@ -31,6 +31,33 @@ namespace Engine
             }
         };
 
+        struct Circle
+        {
+            float Radius;
+            sf::Color FillColor;
+            sf::Color OutlineColor = sf::Color(0, 0, 0, 0);
+            float OutlineThickness = 0.0f;
+            const Engine::Transform& Transform;
+
+            Circle(const Engine::Transform& transform) : Transform(transform) {};
+
+            operator sf::CircleShape() const
+            {
+                auto obj = sf::CircleShape();
+                float offSetRadius = Radius - (OutlineThickness/2);
+                obj.setPointCount(50);
+                obj.setRadius(offSetRadius);
+                obj.setFillColor(FillColor);
+                obj.setOutlineColor(OutlineColor);
+                obj.setOutlineThickness(OutlineThickness);
+
+                obj.setPosition(Transform.Position);
+                obj.setScale(Transform.Scale);
+                obj.setOrigin(offSetRadius, offSetRadius);
+                return obj;
+            }
+        };
+
         struct Text
         {
             std::string Value;

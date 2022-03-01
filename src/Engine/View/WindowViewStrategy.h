@@ -17,6 +17,7 @@ namespace Engine
 
             void PreRender() override;
             void Render(const Shape& shape) override;
+            void Render(const Circle& circle) override;
             void Render(const Text& text) override;
             void Render(const Line& line) override;
             void PostRender() override;

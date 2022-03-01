@@ -1,11 +1,12 @@
 #include "CircleCollider.h"
+#include "../../Core/GameObject.h"
 
 namespace Engine
 {
     CircleCollider::CircleCollider(GameObject& obj)
         : IColliderComponent(obj)
     {
-
+        m_radius = obj.GetComponent<TriangleComponent>()->GetRenderableShape().Radius; // oof
     }
 
     void CircleCollider::Update(float dt)
@@ -17,10 +18,11 @@ namespace Engine
     {
         Transform t;
         t.Position = GetAbsolutePosition();
-        auto circle = view::Shape(t);
-        circle.PointCount = 30;
+        auto circle = view::Circle(t);
         circle.Radius = m_radius;
-        circle.Color = sf::Color::Green;
+        circle.FillColor = sf::Color(0, 0, 0, 0);
+        circle.OutlineColor = sf::Color(255, 255, 255, 255);
+        circle.OutlineThickness = 3.0f;
 
         viewStrategy->Render(circle);
     }

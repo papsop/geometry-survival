@@ -62,7 +62,7 @@ namespace Game
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
-            player->AddComponent<Engine::CircleCollider>();
+            player->AddComponent<Engine::CircleCollider>(15.0f);
 
             auto weaponComponent = player->GetComponent<WeaponComponent>();
             weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));

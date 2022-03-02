@@ -47,17 +47,27 @@ namespace Engine
     class IColliderComponent : public IComponent
     {
     public:
-        IColliderComponent(GameObject& obj)
+        enum class LayerType // worth it?
+        {
+            GameplayArea,
+
+            COUNT // always last
+        };
+
+        IColliderComponent(GameObject& obj, LayerType layer)
             : IComponent(obj)
+            , m_layer(layer)
         {}
         ~IColliderComponent() override = default;        
         
         void SetRelativePosition(sf::Vector2f position);
         sf::Vector2f GetRelativePosition() const;
         sf::Vector2f GetAbsolutePosition() const;
+        LayerType GetLayer() { return m_layer; };
 
     private:
         sf::Vector2f m_relativePosition;
+        LayerType m_layer;
     };
 
 

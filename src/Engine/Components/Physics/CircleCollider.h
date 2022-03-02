@@ -7,7 +7,7 @@ namespace Engine
     class CircleCollider : public IColliderComponent, public IDebuggable
     {
     public:
-        CircleCollider(GameObject& obj);
+        CircleCollider(GameObject& obj, float radius);
         ~CircleCollider() override = default;
 
         void Update(float dt) override;

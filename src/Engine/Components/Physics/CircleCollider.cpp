@@ -3,10 +3,10 @@
 
 namespace Engine
 {
-    CircleCollider::CircleCollider(GameObject& obj)
-        : IColliderComponent(obj)
+    CircleCollider::CircleCollider(GameObject& obj, float radius)
+        : IColliderComponent(obj, IColliderComponent::LayerType::GameplayArea)
+        , m_radius(radius)
     {
-        m_radius = obj.GetComponent<TriangleComponent>()->GetRenderableShape().Radius; // oof
     }
 
     void CircleCollider::Update(float dt)

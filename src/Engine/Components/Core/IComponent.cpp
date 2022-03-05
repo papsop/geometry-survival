@@ -7,6 +7,19 @@ namespace Engine
 {
 
     // physics
+    IColliderComponent::IColliderComponent(GameObject& obj, CollisionLayer layer, ColliderType type)
+        : IComponent(obj)
+        , c_layer(layer)
+        , c_type(type)
+    {
+        Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
+    }
+
+    IColliderComponent::~IColliderComponent()
+    {
+        Engine::SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
+    }
+
     void IColliderComponent::SetRelativePosition(sf::Vector2f position) 
     { 
         m_relativePosition = position; 

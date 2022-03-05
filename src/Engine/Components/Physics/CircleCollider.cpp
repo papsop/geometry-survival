@@ -4,7 +4,7 @@
 namespace Engine
 {
     CircleCollider::CircleCollider(GameObject& obj, float radius)
-        : IColliderComponent(obj, IColliderComponent::LayerType::GameplayArea)
+        : IColliderComponent(obj, IColliderComponent::CollisionLayer::GameplayArea, IColliderComponent::ColliderType::Circle)
         , m_radius(radius)
     {
     }

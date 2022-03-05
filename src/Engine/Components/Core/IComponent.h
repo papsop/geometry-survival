@@ -47,27 +47,32 @@ namespace Engine
     class IColliderComponent : public IComponent
     {
     public:
-        enum class LayerType // worth it?
+        enum class CollisionLayer // worth it?
         {
             GameplayArea,
 
             COUNT // always last
         };
 
-        IColliderComponent(GameObject& obj, LayerType layer)
-            : IComponent(obj)
-            , m_layer(layer)
-        {}
-        ~IColliderComponent() override = default;        
+        enum class ColliderType
+        {
+            Circle,
+            AABB,
+
+            COUNT // always last
+        };
+
+        IColliderComponent(GameObject& obj, CollisionLayer layer, ColliderType type);
+        ~IColliderComponent() override;
         
         void SetRelativePosition(sf::Vector2f position);
         sf::Vector2f GetRelativePosition() const;
         sf::Vector2f GetAbsolutePosition() const;
-        LayerType GetLayer() { return m_layer; };
+        const CollisionLayer c_layer;
+        const ColliderType c_type;
 
     private:
         sf::Vector2f m_relativePosition;
-        LayerType m_layer;
     };
 
 

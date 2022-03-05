@@ -2,9 +2,12 @@
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
 #include <vector>
-
+#include <array>
 namespace Engine
 {
+
+    class CircleCollider;
+
     class PhysicsSubsystem
     {
     public:
@@ -20,8 +23,12 @@ namespace Engine
 
     private:
         PhysicsSubsystem();
+
+        bool CheckCollision(CircleCollider* a, CircleCollider* b);
+
         std::vector< RigidbodyComponent* > m_rigidbodies;
-        std::vector< IColliderComponent* > m_colliders;
+        
+        std::array<std::vector< IColliderComponent* >, static_cast<size_t>(IColliderComponent::CollisionLayer::COUNT)> m_colliders;
 
     friend class SubsystemManager;
     };

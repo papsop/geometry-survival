@@ -5,7 +5,7 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
-#include <Engine/Components/Physics/CircleCollider.h>
+#include <Engine/Components/Physics.h>
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -27,6 +27,7 @@ namespace Game
         {
             // Order is important
             Engine::SubsystemManager::Get().RegisterComponentType<SplashShape>();
+            Engine::SubsystemManager::Get().RegisterComponentType<Engine::TriangleComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
             Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<WeaponComponent>();
@@ -62,12 +63,17 @@ namespace Game
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
-            player->AddComponent<Engine::CircleCollider>(15.0f);
+            player->AddComponent<Engine::CircleColliderComponent>(50.0f);
 
             auto weaponComponent = player->GetComponent<WeaponComponent>();
             weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
+            enemy->GetTransform().Position = sf::Vector2f(100.0f, 600.0f);
+            enemy->AddComponent<Engine::RigidbodyComponent>();
+            enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
+            enemy->AddComponent<ActorComponent>();
+            enemy->AddComponent<Engine::CircleColliderComponent>(50.0f);
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);

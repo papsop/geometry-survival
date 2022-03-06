@@ -7,10 +7,9 @@ namespace Engine
 {
 
     // physics
-    IColliderComponent::IColliderComponent(GameObject& obj, CollisionLayer layer, ColliderType type)
+    IColliderComponent::IColliderComponent(GameObject& obj, CollisionLayer layer)
         : IComponent(obj)
         , c_layer(layer)
-        , c_type(type)
     {
         Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
     }

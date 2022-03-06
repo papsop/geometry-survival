@@ -1,13 +1,11 @@
 #pragma once
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
+
 #include <vector>
 #include <array>
 namespace Engine
 {
-
-    class CircleCollider;
-
     class PhysicsSubsystem
     {
     public:
@@ -24,7 +22,7 @@ namespace Engine
     private:
         PhysicsSubsystem();
 
-        bool CheckCollision(CircleCollider* a, CircleCollider* b);
+        bool CheckCollision(CircleColliderData a, CircleColliderData b);
 
         std::vector< RigidbodyComponent* > m_rigidbodies;
         

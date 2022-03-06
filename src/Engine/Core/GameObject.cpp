@@ -14,6 +14,12 @@ namespace Engine
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 
+    void GameObject::OnCollision(GameObject& other)
+    {
+        for (auto& c : m_components)
+            c.second->OnCollision(other);
+    }
+
     void GameObject::Destroy()
     {
         Engine::GameObjectManager::Get().DestroyGameObject(c_ID);

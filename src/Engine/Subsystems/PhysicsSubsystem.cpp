@@ -16,7 +16,7 @@ namespace Engine
 
     void PhysicsSubsystem::RegisterComponent(IColliderComponent* c)
     {
-        auto layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
+        auto& layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
         layerArray.emplace_back(c);
     }
 
@@ -27,19 +27,19 @@ namespace Engine
 
     void PhysicsSubsystem::UnregisterComponent(IColliderComponent* c)
     {
-        auto layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
+        auto& layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
         layerArray.erase(std::remove(layerArray.begin(), layerArray.end(), c), layerArray.end());
     }
 
     // Collisions between types of colliders
 
-    bool PhysicsSubsystem::CheckCollision(CircleCollider* a, CircleCollider* b)
+    bool PhysicsSubsystem::CheckCollision(CircleColliderData a, CircleColliderData b)
     {
-        auto posA = a->GetAbsolutePosition();
-        auto posB = b->GetAbsolutePosition();
+        auto posA = a.Position;
+        auto posB = b.Position;
 
-        float distanceSquared = abs(pow(posA.x - posB.x, 2) + pow(posA.y - posB.y, 2));
-        float radiiSquared = pow(a->GetRadius() + b->GetRadius(), 2);
+        float distanceSquared = abs(powf(posA.x - posB.x, 2) + powf(posA.y - posB.y, 2));
+        float radiiSquared = powf(a.Radius + b.Radius, 2);
 
         return distanceSquared <= radiiSquared;
     }
@@ -50,11 +50,26 @@ namespace Engine
         {
             for (auto& colliderA : layer)
             {
+                colliderA->Update(dt);
+                auto colliderAData = colliderA->GetColliderData();
                 for (auto& colliderB : layer)
                 {
-                    // hmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmmm
-                }
+                    if (colliderA == colliderB) continue;
+                    auto colliderBData = colliderB->GetColliderData();
+                    for (auto& circleColliderA : colliderAData.CircleColliders)
+                    {
+                        for (auto& circleColliderB : colliderBData.CircleColliders)
+                        {
+                            if (CheckCollision(circleColliderA, circleColliderB))
+                            {
+                                // notify A
+                                colliderA->Owner.OnCollision(colliderB->Owner);
+                            }
+                        }
+                    }
+                    
 
+                }
             }
         }
             

@@ -8,7 +8,7 @@
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/SubsystemManager.h>
 #include <Engine/Subsystems/ViewSubsystem.h>
-#include <Engine/Components/Physics/CircleCollider.h>
+#include <Engine/Components/Physics.h>
 
 namespace Game
 {
@@ -50,7 +50,7 @@ namespace Game
         bullet->AddComponent<Engine::RigidbodyComponent>();
         bullet->GetComponent<Engine::RigidbodyComponent>()->Velocity = { Owner.GetTransform().Forward().x * 800, Owner.GetTransform().Forward().y * 800};
         
-        bullet->AddComponent<Engine::CircleCollider>(10.0f);
+        bullet->AddComponent<Engine::CircleColliderComponent>(10.0f);
         // TODO: remove this
         bullet->AddComponent<SplashShape>(4, sf::Color::Magenta, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool() );
 

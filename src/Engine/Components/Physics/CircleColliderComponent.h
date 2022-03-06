@@ -4,15 +4,16 @@
 
 namespace Engine
 {
-    class CircleCollider : public IColliderComponent, public IDebuggable
+    class CircleColliderComponent : public IColliderComponent, public IDebuggable
     {
     public:
-        CircleCollider(GameObject& obj, float radius);
-        ~CircleCollider() override = default;
+        CircleColliderComponent(GameObject& obj, float radius);
+        ~CircleColliderComponent() override = default;
 
         void Update(float dt) override;
         void Debug(view::IViewStrategy* viewStrategy);
 
+        ColliderData GetColliderData() override;
 
         void SetRadius(float radius) { m_radius = radius; }
         float GetRadius() const { return m_radius; }

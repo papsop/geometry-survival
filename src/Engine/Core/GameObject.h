@@ -88,6 +88,8 @@ namespace Engine
 
         Transform& GetTransform() {   return m_transform; }
 
+        void OnCollision(GameObject& other);
+
         void Destroy();
         void SetActive(bool a) { m_isActive = a; }
 

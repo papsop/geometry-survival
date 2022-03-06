@@ -2,6 +2,7 @@
 #include "Transform.h"
 #include "../../View/Renderables.h"
 #include "../../View/IViewStrategy.h"
+#include "../Physics/ColliderData.h"
 
 #include "../../Debug/Logger.h"
 #include <stdint.h>
@@ -54,22 +55,15 @@ namespace Engine
             COUNT // always last
         };
 
-        enum class ColliderType
-        {
-            Circle,
-            AABB,
-
-            COUNT // always last
-        };
-
-        IColliderComponent(GameObject& obj, CollisionLayer layer, ColliderType type);
+        IColliderComponent(GameObject& obj, CollisionLayer layer);
         ~IColliderComponent() override;
         
+        virtual ColliderData GetColliderData() = 0;
+
         void SetRelativePosition(sf::Vector2f position);
         sf::Vector2f GetRelativePosition() const;
         sf::Vector2f GetAbsolutePosition() const;
         const CollisionLayer c_layer;
-        const ColliderType c_type;
 
     private:
         sf::Vector2f m_relativePosition;

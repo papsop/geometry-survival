@@ -7,7 +7,8 @@
 namespace Engine
 {
     PhysicsSubsystem::PhysicsSubsystem()
-    {}
+    {
+    }
 
     void PhysicsSubsystem::RegisterComponent(RigidbodyComponent* c)
     {

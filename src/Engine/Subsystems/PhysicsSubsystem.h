@@ -1,6 +1,7 @@
 #pragma once
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
+#include "../Core/QuadTree/QuadTree.h"
 
 #include <vector>
 #include <array>
@@ -18,7 +19,8 @@ namespace Engine
         void UnregisterComponent(IColliderComponent* c);
 
         void Update(float dt);
-
+       
+        std::unique_ptr<QTree> m_qtree;
     private:
         PhysicsSubsystem();
 
@@ -26,6 +28,7 @@ namespace Engine
 
         std::vector< RigidbodyComponent* > m_rigidbodies;
         
+
         std::array<std::vector< IColliderComponent* >, static_cast<size_t>(IColliderComponent::CollisionLayer::COUNT)> m_colliders;
 
     friend class SubsystemManager;

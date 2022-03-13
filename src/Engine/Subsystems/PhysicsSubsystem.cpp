@@ -19,6 +19,14 @@ namespace Engine
     {
         auto& layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
         layerArray.emplace_back(c);
+        if(!m_qtree)
+            m_qtree = std::make_unique<QTree>(sf::Rect(0.0f, 0.0f, 1024.0f, 768.0f));
+
+        if (c->GetColliderData().CircleColliders.size() > 0)
+        {
+            auto boundingBox = c->GetColliderData().CircleColliders[0].GetBoundingBox();
+            m_qtree->Insert(c->Owner.c_ID, boundingBox);
+        }
     }
 
     void PhysicsSubsystem::UnregisterComponent(RigidbodyComponent* c)

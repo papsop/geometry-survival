@@ -27,6 +27,7 @@ namespace Engine
         //  3 | 2
         std::array<std::unique_ptr<QTreeNode>, 4> m_children;
         std::vector<GameObjectID> m_gameObjects;
+        bool m_isSplit = false;
     };
 
     typedef std::unique_ptr<QTreeNode> ptr_QTreeNode;
@@ -35,6 +36,7 @@ namespace Engine
     {
     public:
         QTree(sf::Rect<float> rect);
+        void Insert(GameObjectID id, const sf::Rect<float> boundingBox);
 
     private:
         sf::Rect<float> m_boundingBox;

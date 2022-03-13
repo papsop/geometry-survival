@@ -1,5 +1,6 @@
 #include "QuadTree.h"
-
+#include <vector>
+#include <algorithm>
 namespace Engine
 {
     // Node stuff
@@ -7,11 +8,7 @@ namespace Engine
         : c_depth(depth)
         , m_boundingBox(rect)
     {
-        if (c_depth < 3)
-        {
-            Split();
-        }
-        
+ 
     }
 
     sf::Rect<float> QTreeNode::GenerateChildRect(size_t index)
@@ -39,6 +36,7 @@ namespace Engine
         m_children[1] = std::make_unique<QTreeNode>(depth, GenerateChildRect(1));
         m_children[2] = std::make_unique<QTreeNode>(depth, GenerateChildRect(2));
         m_children[3] = std::make_unique<QTreeNode>(depth, GenerateChildRect(3));
+        m_isSplit = true;
     }
 
     void QTreeNode::Insert(GameObjectID id, const sf::Rect<float> boundingBox)
@@ -48,15 +46,25 @@ namespace Engine
         auto bottomRight = GenerateChildRect(2);
         auto bottomLeft = GenerateChildRect(3);
 
-        bool intersectsTopLeft = topLeft.intersects(boundingBox);
-        bool intersectsTopRight= topRight.intersects(boundingBox);
-        bool intersectsBottomRight = bottomRight.intersects(boundingBox);
-        bool intersectsBottomLeft = bottomLeft.intersects(boundingBox);
-
-        if (intersectsTopLeft)
-        {
+        auto intersects = std::vector<bool>{ topLeft.intersects(boundingBox), topRight.intersects(boundingBox), bottomRight.intersects(boundingBox), bottomLeft.intersects(boundingBox) };
+        size_t intersectsCount = std::count(intersects.begin(), intersects.end(), true);
+        if (c_depth >= QTREE_MAXDEPTH || intersectsCount > 1)
+        { // intersects multiple children or depth too high
+            m_gameObjects.push_back(id);
         }
-
+        else if (intersectsCount == 1)
+        { 
+            if (!m_isSplit)
+                Split();
+            for (size_t i = 0; i < m_children.size(); ++i)
+            {
+                if (intersects[i])
+                {
+                    m_children[i]->Insert(id, boundingBox);
+                    break;
+                }
+            }
+        }
     }
 
     void QTreeNode::Debug(view::IViewStrategy* viewStrategy)
@@ -90,5 +98,10 @@ namespace Engine
         : m_boundingBox(rect)
     {
         m_root = std::make_unique<QTreeNode>(0, rect);
+    }
+
+    void QTree::Insert(GameObjectID id, const sf::Rect<float> boundingBox)
+    {
+        m_root->Insert(id, boundingBox);
     }
 };

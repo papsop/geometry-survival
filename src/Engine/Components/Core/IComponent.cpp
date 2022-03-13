@@ -11,7 +11,7 @@ namespace Engine
         : IComponent(obj)
         , c_layer(layer)
     {
-        Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
+        //Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
     }
 
     IColliderComponent::~IColliderComponent()

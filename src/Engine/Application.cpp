@@ -62,8 +62,6 @@ namespace Engine
         // Let the game initialize scene/gameobjects/etc.
         injection.BeforeGameLoop(*this);
 
-        Application::GetSubsystemManager().GetPhysicsSubsystem().m_qtree = std::make_unique<QTree>(sf::Rect(0.0f, 0.0f, 1024.0f, 768.0f));
-
         // Start updating
         sf::Clock clock;
         while (m_applicationIsRunning)

@@ -12,6 +12,10 @@ namespace Game
         m_text.Value = "Dungeons & Geometry";
         m_text.Size = 72;
         m_text.ShouldCenter = true;
+    }
+
+    void SplashTitle::OnCreate()
+    {
         Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
     }
 

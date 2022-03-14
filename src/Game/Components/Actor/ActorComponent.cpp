@@ -11,9 +11,12 @@ namespace Game
         : IComponent(obj)
         , m_commandsQueue()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
-
         Requires<Engine::RigidbodyComponent>();
+    }
+
+    void ActorComponent::OnCreate()
+    {
+        Engine::SubsystemManager::Get().RegisterComponent(this);
     }
 
     ActorComponent::~ActorComponent()

@@ -10,6 +10,10 @@ namespace Game
         m_shape.PointCount = pointCount;
         m_shape.Color = color;
         m_shape.Radius = 50;
+    }
+
+    void SplashShape::OnCreate()
+    {
         Engine::SubsystemManager::Get().RegisterComponent(this);
         Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
     }

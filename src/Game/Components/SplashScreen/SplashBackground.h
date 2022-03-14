@@ -11,6 +11,7 @@ namespace Game
         SplashBackground(Engine::GameObject& obj);
         ~SplashBackground() override;
 
+        void OnCreate() override;
         void Update(float dt) override {};
 
         const Engine::view::Shape& GetRenderableShape() override;

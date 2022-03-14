@@ -14,20 +14,22 @@
     - [x] Basic splitting
     - [x] DebugDraw
     - [ ] Dynamic insert/update/delete
-    - [ ] What to actually store inside QTreeNode?
+        - Insert is pretty fast
+        - Right now, deletion is ultra slow, need to delete it in O(1)
+          - store QTreeNodes inside collider and Delete+Insert when dirty?
+    - [x] What to actually store inside QTreeNode?
       - Pointer to IColliderComponent?
     - [ ] Query
 - [ ] RigidBodyComponent
-  - [ ] Flag GameObject (or just the rigidbody itself) dirty upon movement
+  - [x] Flag GameObject (or just the rigidbody itself) dirty upon movement
+      - flagging collider component upon transform change
   - [ ] Static RigidBody flag (f.e. walls - they will never move, so no need to update/check)
 
 ### Problems to solve
 
-- [ ] Registering colliders into PhysicsSubsystem inside Base class constructor won't work
-  - The CircleColliderComponent itself isn't yet initialized - can't ask for ColliderData at the time of component registering
-  - Maybe PhysicsSubsystem should store registered components outside of the QuadTree
-    - [ ] during update check every component for movement (dirty flag) and update QuadTree
-- [ ] When to initialize QuadTree inside PhysicsSubsystem
-  - First time a collider registers into PhysicsSubsystem?
+- [x] Registering colliders into PhysicsSubsystem inside Base class constructor won't work
+  - Added OnCreate event that gets called upon AddComponent (first thing after make_unique<>)
+- [x] When to initialize QuadTree inside PhysicsSubsystem
+  - First time a collider tries to get inserted into QTree - create it
 
 ​	

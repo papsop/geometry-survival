@@ -50,6 +50,7 @@ namespace Engine
             {
                 auto ID = IdGenerator<IComponent>::GetID<T>();
                 m_components[ID] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
+                m_components[ID]->OnCreate();
             }
             else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", c_ID, typeid(T).name());
         }

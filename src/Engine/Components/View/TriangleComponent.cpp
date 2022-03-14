@@ -11,7 +11,11 @@ namespace Engine
         m_shape.PointCount = 3;
         m_defaultColor = color;
         m_shape.Color = color;
-        m_shape.Radius = 50;
+        m_shape.Radius = 50;   
+    }
+
+    void TriangleComponent::OnCreate()
+    {
         Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
         Engine::SubsystemManager::Get().RegisterComponent(this);
     }

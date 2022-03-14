@@ -7,8 +7,9 @@ namespace Game
     {
     public:
         BulletComponent(Engine::GameObject& obj);
-        ~BulletComponent() = default;
+        ~BulletComponent();
 
+        void OnCreate() override;
         void Update(float dt) override;
     };
 }

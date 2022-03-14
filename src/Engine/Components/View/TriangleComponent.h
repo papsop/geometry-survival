@@ -10,6 +10,8 @@ namespace Engine
         TriangleComponent(GameObject& obj, sf::Color color, int zIndex);
         ~TriangleComponent();
 
+        void OnCreate() override;
+
         void Update(float dt) override 
         {
             m_shape.Color = m_defaultColor;

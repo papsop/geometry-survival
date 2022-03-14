@@ -10,7 +10,6 @@ namespace Engine
         CircleColliderComponent(GameObject& obj, float radius);
         ~CircleColliderComponent() override = default;
 
-        void Update(float dt) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
 
         ColliderData GetColliderData() override;

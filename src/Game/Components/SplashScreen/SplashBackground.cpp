@@ -10,6 +10,10 @@ namespace Game
         m_shape.PointCount = 3;
         m_shape.Color = sf::Color::Color(20, 20, 20, 255);
         m_shape.Radius = 10000;
+    }
+
+    void SplashBackground::OnCreate()
+    {
         Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
     }
 

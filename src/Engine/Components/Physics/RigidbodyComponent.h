@@ -10,6 +10,7 @@ namespace Engine
         RigidbodyComponent(GameObject& obj);
         ~RigidbodyComponent() override;
 
+        void OnCreate() override;
         void Update(float dt) override;
 
         void Debug(view::IViewStrategy* viewStrategy) override;

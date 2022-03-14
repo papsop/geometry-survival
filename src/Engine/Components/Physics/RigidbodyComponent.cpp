@@ -11,6 +11,10 @@ namespace Engine
         , IDebuggable()
         , m_ownerTransform(obj.GetTransform())
         , m_targetRotationAngle(obj.GetTransform().Rotation)
+    {   
+    }
+
+    void RigidbodyComponent::OnCreate()
     {
         Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
     }

@@ -10,6 +10,7 @@ namespace Game
         WeaponComponent(Engine::GameObject& obj);
         ~WeaponComponent() override;
 
+        void OnCreate() override;
         void Update(float dt) override;
 
         void Fire();

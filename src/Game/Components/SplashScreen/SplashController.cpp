@@ -20,6 +20,11 @@ namespace Game
         Engine::SubsystemManager::Get().RegisterComponent(this);
     }
     
+    void SplashController::OnCreate()
+    {
+        Engine::SubsystemManager::Get().RegisterComponent(this);
+    }
+
     SplashController::~SplashController()
     {
         Engine::SubsystemManager::Get().UnregisterComponent(this);

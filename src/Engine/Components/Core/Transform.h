@@ -17,5 +17,14 @@ namespace Engine
         {
             return { cosf(math::DEG_TO_RAD(Rotation)), -sinf(math::DEG_TO_RAD(Rotation)) };
         }
+
+        bool operator==(const Transform& rhs) const
+        {
+            return (rhs.Position == Position && rhs.Rotation == Rotation && rhs.Scale == Scale);
+        }
+        bool operator!=(const Transform& rhs) const
+        {
+            return !(*this == rhs);
+        }
     };
 };

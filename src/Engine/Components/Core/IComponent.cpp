@@ -10,8 +10,22 @@ namespace Engine
     IColliderComponent::IColliderComponent(GameObject& obj, CollisionLayer layer)
         : IComponent(obj)
         , c_layer(layer)
+        , m_lastFrameTransform(obj.GetTransform())
+        , m_isDirty(false)
     {
-        //Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
+    }
+
+    void IColliderComponent::OnCreate()
+    {
+        Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
+    }
+
+    void IColliderComponent::Update(float dt)
+    {
+        if (!m_isDirty)
+            m_isDirty = m_lastFrameTransform != Owner.GetTransform();
+
+        m_lastFrameTransform = Owner.GetTransform();
     }
 
     IColliderComponent::~IColliderComponent()

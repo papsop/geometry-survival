@@ -15,6 +15,7 @@
 #include "Components/SplashScreen/SplashShape.h"
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
+#include "Components/Actor/BulletComponent.h"
 
 
 namespace Game
@@ -31,6 +32,7 @@ namespace Game
             Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
             Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<WeaponComponent>();
+            Engine::SubsystemManager::Get().RegisterComponentType<BulletComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<ActorComponent>();
         }
 

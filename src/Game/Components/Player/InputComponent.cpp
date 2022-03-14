@@ -10,9 +10,12 @@ namespace Game
         : IComponent(obj)
         , m_inputManager(Engine::InputManager::Get())
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
-
         Requires<Engine::RigidbodyComponent, ActorComponent>();
+    }
+
+    void InputComponent::OnCreate()
+    {
+        Engine::SubsystemManager::Get().RegisterComponent(this);
     }
 
     InputComponent::~InputComponent()

@@ -2,6 +2,7 @@
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
 #include "../Core/QuadTree/QuadTree.h"
+#include "../Core/ColliderData.h"
 
 #include <vector>
 #include <array>
@@ -17,12 +18,15 @@ namespace Engine
 
         void UnregisterComponent(RigidbodyComponent* c);
         void UnregisterComponent(IColliderComponent* c);
-
+        
         void Update(float dt);
        
-        std::unique_ptr<QTree> m_qtree;
+        std::unique_ptr<QTree<IColliderComponent*>> m_qtree;
     private:
         PhysicsSubsystem();
+        
+        void RemoveCollider(IColliderComponent* c);
+        void InsertCollider(IColliderComponent* c);
 
         bool CheckCollision(CircleColliderData a, CircleColliderData b);
 

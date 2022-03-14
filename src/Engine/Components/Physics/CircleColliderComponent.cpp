@@ -17,11 +17,6 @@ namespace Engine
         return data;
     }
 
-    void CircleColliderComponent::Update(float dt)
-    {
-
-    }
-
     void CircleColliderComponent::Debug(view::IViewStrategy* viewStrategy)
     {
         Transform t;

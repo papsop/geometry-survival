@@ -11,6 +11,7 @@ namespace Game
         InputComponent(Engine::GameObject& obj);
         ~InputComponent() override;
 
+        void OnCreate() override;
         void Update(float dt) override;
 
     private:

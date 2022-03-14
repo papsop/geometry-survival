@@ -2,7 +2,7 @@
 #include "Transform.h"
 #include "../../View/Renderables.h"
 #include "../../View/IViewStrategy.h"
-#include "../Physics/ColliderData.h"
+#include "../../Core/ColliderData.h"
 
 #include "../../Debug/Logger.h"
 #include <stdint.h>
@@ -20,8 +20,9 @@ namespace Engine
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
 
-        virtual void Update(float dt) = 0;
-        virtual void OnCollision(GameObject& other){};
+        virtual void OnCreate() {};
+        virtual void Update(float dt) {};
+        virtual void OnCollision(GameObject& other) {};
 
         GameObject& Owner;
     protected:
@@ -58,15 +59,22 @@ namespace Engine
         IColliderComponent(GameObject& obj, CollisionLayer layer);
         ~IColliderComponent() override;
         
+        virtual void OnCreate() override final;
+        void Update(float dt) override;
         virtual ColliderData GetColliderData() = 0;
-
+        
         void SetRelativePosition(sf::Vector2f position);
         sf::Vector2f GetRelativePosition() const;
         sf::Vector2f GetAbsolutePosition() const;
         const CollisionLayer c_layer;
 
+        bool IsDirty() const { return m_isDirty; }
+        void SetDirty(bool val) { m_isDirty = val; }
+
     private:
         sf::Vector2f m_relativePosition;
+        bool m_isDirty;
+        Transform m_lastFrameTransform;
     };
 
 

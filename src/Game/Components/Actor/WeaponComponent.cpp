@@ -15,9 +15,12 @@ namespace Game
     WeaponComponent::WeaponComponent(Engine::GameObject& obj)
         : IComponent(obj)
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
-
         Requires<ActorComponent>();
+    }
+
+    void WeaponComponent::OnCreate()
+    {
+        Engine::SubsystemManager::Get().RegisterComponent(this);
     }
 
     WeaponComponent::~WeaponComponent()

@@ -31,6 +31,7 @@ namespace Engine {
             Fire2,
             Use,
             ShowConsole,
+            ShowDebugDraw,
 
             // always last
             NumberOfActions

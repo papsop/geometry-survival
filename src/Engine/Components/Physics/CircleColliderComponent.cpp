@@ -9,7 +9,7 @@ namespace Engine
     {
     }
 
-    ColliderData CircleColliderComponent::GetColliderData()
+    ColliderData CircleColliderComponent::GetColliderData() const
     {
         ColliderData data;
         CircleColliderData ccData(m_radius, GetAbsolutePosition());
@@ -28,5 +28,29 @@ namespace Engine
         circle.OutlineThickness = 3.0f;
 
         viewStrategy->Render(circle);
+
+        // aabb
+        auto circleBoundingBox = GetColliderData().CircleColliders[0].GetBoundingBox();
+        // Top
+        view::Line lineTop;
+        lineTop.Points[0] = sf::Vector2f(circleBoundingBox.left, circleBoundingBox.top);
+        lineTop.Points[1] = sf::Vector2f(circleBoundingBox.left + circleBoundingBox.width, circleBoundingBox.top);
+        // Bottom
+        view::Line lineBottom;
+        lineBottom.Points[0] = sf::Vector2f(circleBoundingBox.left, circleBoundingBox.top + circleBoundingBox.height);
+        lineBottom.Points[1] = sf::Vector2f(circleBoundingBox.left + circleBoundingBox.width, circleBoundingBox.top + circleBoundingBox.height);
+        // Left
+        view::Line lineLeft;
+        lineLeft.Points[0] = sf::Vector2f(circleBoundingBox.left, circleBoundingBox.top);
+        lineLeft.Points[1] = sf::Vector2f(circleBoundingBox.left, circleBoundingBox.top + circleBoundingBox.height);
+        // Right
+        view::Line lineRight;
+        lineRight.Points[0] = sf::Vector2f(circleBoundingBox.left + circleBoundingBox.width, circleBoundingBox.top);
+        lineRight.Points[1] = sf::Vector2f(circleBoundingBox.left + circleBoundingBox.width, circleBoundingBox.top + circleBoundingBox.height);
+
+        viewStrategy->Render(lineTop);
+        viewStrategy->Render(lineBottom);
+        viewStrategy->Render(lineLeft);
+        viewStrategy->Render(lineRight);
     }
 }

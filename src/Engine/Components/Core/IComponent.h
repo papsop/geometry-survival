@@ -61,15 +61,14 @@ namespace Engine
         
         virtual void OnCreate() override final;
         void Update(float dt) override;
-        virtual ColliderData GetColliderData() = 0;
+        virtual ColliderData GetColliderData() const = 0;
         
         void SetRelativePosition(sf::Vector2f position);
         sf::Vector2f GetRelativePosition() const;
         sf::Vector2f GetAbsolutePosition() const;
         const CollisionLayer c_layer;
 
-        bool IsDirty() const { return m_isDirty; }
-        void SetDirty(bool val) { m_isDirty = val; }
+        bool IsDirty() const;
 
     private:
         sf::Vector2f m_relativePosition;

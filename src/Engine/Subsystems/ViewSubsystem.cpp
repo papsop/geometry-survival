@@ -70,6 +70,9 @@ namespace Engine
 
     void ViewSubsystem::Update(float dt)
     {
+        if (InputManager::Get().GetAction(InputManager::Action::ShowDebugDraw).PressedThisFrame)
+            m_shouldDrawDebug = !m_shouldDrawDebug;
+
         m_viewStrategy->PreRender();
 
         for (auto r : m_shapes)
@@ -81,8 +84,11 @@ namespace Engine
                 m_viewStrategy->Render(t->GetRenderableText());
 
         // debug draws for registered components
-        for (auto d : m_debugs)
+        if (m_shouldDrawDebug)
+        {
+            for (auto d : m_debugs)
                 d->Debug(m_viewStrategy.get());
+        }
 
         m_viewStrategy->PostRender();
     }

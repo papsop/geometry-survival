@@ -52,6 +52,8 @@ namespace Engine
         //    else
         //        m_timeToRotate = 0.0f;
         //}
+        m_isDirty = m_lastFrameTransform != m_ownerTransform;
+        m_lastFrameTransform = m_ownerTransform;
     }
 
     void RigidbodyComponent::Debug(view::IViewStrategy* viewStrategy)

@@ -12,7 +12,7 @@ namespace Engine
 
         void Debug(view::IViewStrategy* viewStrategy) override;
 
-        ColliderData GetColliderData() override;
+        ColliderData GetColliderData() const override;
 
         void SetRadius(float radius) { m_radius = radius; }
         float GetRadius() const { return m_radius; }

@@ -18,8 +18,13 @@ namespace Engine
         //void Move(sf::Vector2f moveDirection);
         sf::Vector2f Velocity = sf::Vector2f(0.0f, 0.0f);
 
+        bool IsDirty() const { return m_isDirty; }
+
     private:
         Transform& m_ownerTransform;
+        Transform m_lastFrameTransform;
+
+        bool m_isDirty = false;
 
         float m_maxRotationSpeed = 270.0f;
 

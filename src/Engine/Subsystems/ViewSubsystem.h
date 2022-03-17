@@ -48,6 +48,7 @@ namespace Engine
         std::vector< IRenderableTextComponent* > m_texts;
         std::vector< IDebuggable* > m_debugs;
         
+        bool m_shouldDrawDebug = false;
 
     friend class SubsystemManager;
     };

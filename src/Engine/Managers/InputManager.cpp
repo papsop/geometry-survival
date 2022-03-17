@@ -29,6 +29,7 @@ namespace Engine
         m_mapKeyToAction[sf::Keyboard::Space] = Action::Fire1;
 
         m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
+        m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
     }
 
     void InputManager::SetViewSubsystem(ViewSubsystem* viewSubsystem)

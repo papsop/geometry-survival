@@ -27,9 +27,6 @@ namespace Engine
 
     void WindowBackendStrategy::Debug(view::IViewStrategy* viewStrategy)
     {
-        if (InputManager::Get().GetAction(InputManager::Action::ShowConsole).PressedThisFrame)
-            m_shouldShowConsole = !m_shouldShowConsole;
-
         if (m_shouldShowConsole)
         {
             size_t bottomBound = (m_entries.size() > m_maxLinesConsole) ? (m_entries.size() - m_maxLinesConsole) : 0;

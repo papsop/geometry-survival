@@ -11,7 +11,7 @@ struct CircleColliderData
 
     sf::Rect<float> GetBoundingBox()
     {
-        return { {Position.x - Radius, Position.y - Radius},  {Radius, Radius} };
+        return { {Position.x - Radius, Position.y - Radius},  {Radius * 2, Radius * 2} };
     }
 
 };

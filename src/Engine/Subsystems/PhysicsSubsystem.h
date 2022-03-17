@@ -21,14 +21,17 @@ namespace Engine
         
         void Update(float dt);
        
-        std::unique_ptr<QTree<IColliderComponent*>> m_qtree;
+        std::unique_ptr<QTree<IColliderComponent>> m_qtree;
     private:
         PhysicsSubsystem();
         
         void RemoveCollider(IColliderComponent* c);
         void InsertCollider(IColliderComponent* c);
 
+        bool CheckColliderComponentsCollision(const IColliderComponent* a, const IColliderComponent* b);
+
         bool CheckCollision(CircleColliderData a, CircleColliderData b);
+
 
         std::vector< RigidbodyComponent* > m_rigidbodies;
         

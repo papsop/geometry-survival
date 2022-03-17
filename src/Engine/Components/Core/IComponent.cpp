@@ -13,6 +13,7 @@ namespace Engine
         , m_lastFrameTransform(obj.GetTransform())
         , m_isDirty(false)
     {
+        Requires<RigidbodyComponent>();
     }
 
     void IColliderComponent::OnCreate()
@@ -22,15 +23,17 @@ namespace Engine
 
     void IColliderComponent::Update(float dt)
     {
-        if (!m_isDirty)
-            m_isDirty = m_lastFrameTransform != Owner.GetTransform();
 
-        m_lastFrameTransform = Owner.GetTransform();
     }
 
     IColliderComponent::~IColliderComponent()
     {
         Engine::SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
+    }
+
+    bool IColliderComponent::IsDirty() const
+    {
+        return Owner.GetComponent<RigidbodyComponent>()->IsDirty();
     }
 
     void IColliderComponent::SetRelativePosition(sf::Vector2f position) 

@@ -5,9 +5,12 @@
 #include <SFML/Graphics.hpp>
 #include <array>
 #include <string>
+#include <unordered_map>
+#include <unordered_set>
+
 namespace Engine
 {
-    const size_t QTREE_MAXDEPTH = 7;
+    const size_t QTREE_MAXDEPTH = 5;
 
     template<typename T>
     class QTreeNode : public IDebuggable
@@ -21,7 +24,7 @@ namespace Engine
 
         void Debug(view::IViewStrategy* viewStrategy)
         {
-            return;
+            //return;
             // Top
             view::Line lineTop;
             lineTop.Points[0] = sf::Vector2f(m_boundingBox.left, m_boundingBox.top);
@@ -59,7 +62,7 @@ namespace Engine
             
         }
 
-        void Insert(T value, const sf::Rect<float> boundingBox)
+        void Insert(T* value, const sf::Rect<float> boundingBox)
         {
             auto topLeft = GenerateChildRect(0);
             auto topRight = GenerateChildRect(1);
@@ -71,6 +74,9 @@ namespace Engine
             if (c_depth >= QTREE_MAXDEPTH || intersectsCount > 1)
             { // intersects multiple children or depth too high
                 m_values.push_back(value);
+
+                auto& nodes = QTree<T>::m_colliderToNodes[value];
+                nodes.push_back(this);
             }
             else if (intersectsCount == 1)
             {
@@ -87,13 +93,26 @@ namespace Engine
             }
         }
 
-        void Remove(T value)
+        void Remove(T* value)
         {
             m_values.erase(std::remove(m_values.begin(), m_values.end(), value), m_values.end());
-            for (size_t i = 0; i < m_children.size(); ++i)
+        }
+
+        void QueryIntersections(sf::Rect<float> rect, std::unordered_set<T*>& values)
+        {
+            if (!m_boundingBox.intersects(rect)) return;
+
+            for (auto& value : m_values)
             {
-                if (m_children[i])
-                    m_children[i]->Remove(value);
+                values.insert(value);
+            }
+
+            if (m_isSplit)
+            {
+                for (size_t i = 0; i < m_children.size(); ++i)
+                {
+                    m_children[i]->QueryIntersections(rect, values);
+                }
             }
         }
 
@@ -133,7 +152,7 @@ namespace Engine
         // -------
         //  3 | 2
         std::array<std::unique_ptr<QTreeNode<T>>, 4> m_children;
-        std::vector<T> m_values;
+        std::vector<T*> m_values;
         bool m_isSplit = false;
     };
 
@@ -147,14 +166,28 @@ namespace Engine
             m_root = std::make_unique<QTreeNode<T>>(0, rect);
         }
 
-        void Insert(T value, const sf::Rect<float> boundingBox)
+        void Insert(T* value, const sf::Rect<float> boundingBox)
         {
             m_root->Insert(value, boundingBox);
         }
 
-        void Remove(T value)
+        void Remove(T* value)
         {
-            m_root->Remove(value);
+            auto& arrNodes = m_colliderToNodes[value];
+            for (auto& node : arrNodes)
+            {
+                node->Remove(value);
+            }
+            arrNodes.clear();
+        }
+
+        static std::unordered_map<void*, std::vector<QTreeNode<T>*>> m_colliderToNodes;
+
+        std::unordered_set<T*> FindPossibleIntersections(sf::Rect<float> rect)
+        {
+            auto values = std::unordered_set<T*>();
+            m_root->QueryIntersections(rect, values);
+            return values;
         }
 
     private:

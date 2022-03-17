@@ -41,7 +41,7 @@ namespace Engine
     void PhysicsSubsystem::InsertCollider(IColliderComponent* c)
     {
         if (!m_qtree)
-            m_qtree = std::make_unique<QTree<IColliderComponent*>>(sf::Rect(0.0f, 0.0f, 1024.0f, 768.0f)); // config
+            m_qtree = std::make_unique<QTree<IColliderComponent>>(sf::Rect(0.0f, 0.0f, 1024.0f, 768.0f)); // config
 
         auto colliderData = c->GetColliderData();
         for (CircleColliderData ccd : colliderData.CircleColliders)
@@ -70,8 +70,34 @@ namespace Engine
         return distanceSquared <= radiiSquared;
     }
 
+
+    bool PhysicsSubsystem::CheckColliderComponentsCollision(const IColliderComponent* a, const IColliderComponent* b)
+    {
+        if (a == b) return false;
+        bool result = false;
+        auto colliderData_A = a->GetColliderData();
+        auto colliderData_B = b->GetColliderData();
+
+        for (auto& circleColliderA : colliderData_A.CircleColliders)
+        {
+            for (auto& circleColliderB : colliderData_B.CircleColliders)
+            {
+                if (CheckCollision(circleColliderA, circleColliderB))
+                    result = true;
+            }
+        }
+
+        return result;
+    }
+
     void PhysicsSubsystem::Update(float dt)
     {
+        // order?
+
+        for (auto c : m_rigidbodies)
+            if (c->Owner.ShouldUpdate())
+                c->Update(dt);
+
         for (auto& layer : m_colliders)
         {
             for (auto& collider : layer)
@@ -79,43 +105,30 @@ namespace Engine
                 collider->Update(dt);
                 if (collider->IsDirty())
                 {
-                    //RemoveCollider(collider);
+                    RemoveCollider(collider);
                     InsertCollider(collider);
-                    collider->SetDirty(false);
                 }
             }
         }
 
-        //for (auto& layer : m_colliders)
-        //{
-        //    for (auto& colliderA : layer)
-        //    {
-        //        colliderA->Update(dt);
-        //        auto colliderAData = colliderA->GetColliderData();
-        //        for (auto& colliderB : layer)
-        //        {
-        //            if (colliderA == colliderB) continue;
-        //            auto colliderBData = colliderB->GetColliderData();
-        //            for (auto& circleColliderA : colliderAData.CircleColliders)
-        //            {
-        //                for (auto& circleColliderB : colliderBData.CircleColliders)
-        //                {
-        //                    if (CheckCollision(circleColliderA, circleColliderB))
-        //                    {
-        //                        // notify A
-        //                        colliderA->Owner.OnCollision(colliderB->Owner);
-        //                    }
-        //                }
-        //            }
-        //            
-
-        //        }
-        //    }
-        //}
-            
-
-        for (auto c : m_rigidbodies)
-            if (c->Owner.ShouldUpdate())
-               c->Update(dt);
+        for (auto& layer : m_colliders)
+        {
+            for (auto& colliderA : layer)
+            {
+                colliderA->Update(dt);
+                auto colliderAData = colliderA->GetColliderData();
+                for (auto circle : colliderAData.CircleColliders)
+                {
+                    auto possibleIntersections = m_qtree->FindPossibleIntersections(circle.GetBoundingBox());
+                    for (auto& colliderB : possibleIntersections)
+                    {
+                        if (CheckColliderComponentsCollision(colliderA, colliderB))
+                        {
+                            colliderA->Owner.OnCollision(colliderB->Owner);
+                        }
+                    }
+                }
+            }
+        }
     }
 }

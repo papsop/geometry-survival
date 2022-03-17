@@ -11,6 +11,8 @@ namespace Game
 
         void OnCreate() override;
         void Update(float dt) override;
+    private:
+        float m_timeToDie = 2.0f;
     };
 }
 

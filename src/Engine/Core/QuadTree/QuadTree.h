@@ -10,7 +10,7 @@
 
 namespace Engine
 {
-    const size_t QTREE_MAXDEPTH = 5;
+    const size_t QTREE_MAXDEPTH = 10;
 
     template<typename T>
     class QTreeNode : public IDebuggable

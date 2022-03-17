@@ -24,5 +24,9 @@ namespace Game
     }
 
     void BulletComponent::Update(float dt)
-    {}
+    {
+        m_timeToDie -= dt;
+        if (m_timeToDie <= 0.0f)
+            Owner.Destroy();
+    }
 }

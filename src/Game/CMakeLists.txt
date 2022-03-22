@@ -1,23 +1,29 @@
+set(GAME_PROJECT Game)
+set(GAME_PROJECT Game PARENT_SCOPE)
+
 project(
-    Game
+    ${GAME_PROJECT}
     VERSION 1.0
     LANGUAGES CXX
-)
-
-# COMPONENTS
-set(SRC_GAME_COMPONENTS
-
 )
 
 add_executable(
     ${PROJECT_NAME}
     Game.cpp
 	GameInjection.h
-	${SRC_GAME_COMPONENTS}
+ )
+
+add_subdirectory(Components)
+
+target_include_directories(
+    ${GAME_PROJECT}
+    PRIVATE
+    ${CMAKE_SOURCE_DIR}/src
+    ${SFML_INCLUDE}
 )
 
- target_link_libraries(
-	${PROJECT_NAME} 
-	PUBLIC 
-	Engine
+target_link_libraries(
+	${GAME_PROJECT}
+    PRIVATE
+    ${ENGINE_PROJECT}
 )

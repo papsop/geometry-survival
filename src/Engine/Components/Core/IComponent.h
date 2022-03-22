@@ -37,9 +37,9 @@ namespace Engine
             bool hasComponent = Owner.HasComponent<First>();
             DD_ASSERT(hasComponent, "IComponent::Required asserted");
 
-            const int size = sizeof...(Args);
-            if constexpr (size > 0)
-                Requires<Args...>();
+            //const int size = sizeof...(Args);
+            //if constexpr (size > 0)
+            //    Requires<Args...>();
         }
     };
 

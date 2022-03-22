@@ -1,0 +1,21 @@
+set(SOURCES
+	ApplicationInjection.h
+	ColliderData.h
+	EventData.h
+	Events.h
+	GameObject.h
+	GameObject.cpp
+	Scene.h
+	Scene.cpp
+
+	QuadTree/QuadTree.h
+	QuadTree/QuadTree.cpp
+
+	StateMachine/IState.h
+	StateMachine/BasicSceneState.h
+	StateMachine/BasicSceneState.cpp
+)
+
+target_sources(${ENGINE_PROJECT} PUBLIC 
+	${SOURCES}
+)

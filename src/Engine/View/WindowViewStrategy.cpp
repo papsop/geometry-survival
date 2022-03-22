@@ -46,7 +46,7 @@ namespace Engine
         {
             auto sftext = static_cast<sf::Text>(text);
             sf::Font font;
-            if (!font.loadFromFile("arial.ttf"))
+            if (!font.loadFromFile("assets/arial.ttf"))
             {
                 // error...
             }

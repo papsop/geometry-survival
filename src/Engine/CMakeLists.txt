@@ -1,23 +1,38 @@
+set(ENGINE_PROJECT Engine)
+set(ENGINE_PROJECT Engine PARENT_SCOPE)
+
 project(
-    Engine
+    ${ENGINE_PROJECT}
     VERSION 1.0
     LANGUAGES CXX
 )
 
-# COMPONENTS
-SET(SRC_ENGINE_COMPONENTS
-    Core/ApplicationInjection.h
-)
-
 add_library(
-    ${PROJECT_NAME}
+    ${ENGINE_PROJECT} STATIC
     Application.cpp
     Application.h
-    ${SRC_ENGINE_COMPONENTS}
 )
 
+add_subdirectory(Subsystems)
+add_subdirectory(Managers)
+add_subdirectory(Debug)
+add_subdirectory(Components)
+add_subdirectory(Utils)
+add_subdirectory(View)
+add_subdirectory(Core)
+
+# PRIVATE because we don't want to propagate
 target_include_directories(
-    ${PROJECT_NAME}
-    INTERFACE
-    ${CMAKE_CURRENT_LIST_DIR}/..
+    ${ENGINE_PROJECT}
+    PRIVATE
+    ${SFML_INCLUDE}
+)
+
+# PUBLIC because we want to propagate SFML into Game as well without explicit linking there
+target_link_libraries(
+	${ENGINE_PROJECT}
+	PUBLIC
+    sfml-graphics
+    sfml-window
+    sfml-system
 )

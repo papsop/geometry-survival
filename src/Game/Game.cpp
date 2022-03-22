@@ -3,7 +3,6 @@
 #include <windows.h>
 #include <WinBase.h>
 #include <iostream>
-#include <pugixml.hpp>
 
 int main()
 {

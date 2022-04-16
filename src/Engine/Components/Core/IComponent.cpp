@@ -5,52 +5,6 @@
 
 namespace Engine
 {
-
-    // physics
-    IColliderComponent::IColliderComponent(GameObject& obj, CollisionLayer layer)
-        : IComponent(obj)
-        , c_layer(layer)
-        , m_lastFrameTransform(obj.GetTransform())
-        , m_isDirty(false)
-    {
-        Requires<RigidbodyComponent>();
-    }
-
-    void IColliderComponent::OnCreate()
-    {
-        Engine::SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
-    }
-
-    void IColliderComponent::Update(float dt)
-    {
-
-    }
-
-    IColliderComponent::~IColliderComponent()
-    {
-        Engine::SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
-    }
-
-    bool IColliderComponent::IsDirty() const
-    {
-        return Owner.GetComponent<RigidbodyComponent>()->IsDirty();
-    }
-
-    void IColliderComponent::SetRelativePosition(sf::Vector2f position) 
-    { 
-        m_relativePosition = position; 
-    }
-
-    sf::Vector2f IColliderComponent::GetRelativePosition() const 
-    {
-        return m_relativePosition; 
-    }
-
-    sf::Vector2f IColliderComponent::GetAbsolutePosition() const 
-    {
-        return Owner.GetTransform().Position + m_relativePosition;
-    }
-
     // view
 
     IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, int zIndex)

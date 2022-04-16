@@ -42,10 +42,10 @@ namespace Game
             newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
             newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);
 
-            newTriangle->AddComponent<Engine::RigidbodyComponent>();
+            //newTriangle->AddComponent<Engine::RigidbodyComponent>();
 
-            auto dir = GetRandomPositionInsideWindow() - newTriangle->GetTransform().Position;
-            newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
+			auto dir = GetRandomPositionInsideWindow() - newTriangle->GetTransform().Position;
+			//newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
             
 
             scene.AddGameObject(newTriangle->c_ID);

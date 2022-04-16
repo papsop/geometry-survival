@@ -43,40 +43,6 @@ namespace Engine
         }
     };
 
-
-    // Physics
-
-    class IColliderComponent : public IComponent
-    {
-    public:
-        enum class CollisionLayer // worth it?
-        {
-            GameplayArea,
-
-            COUNT // always last
-        };
-
-        IColliderComponent(GameObject& obj, CollisionLayer layer);
-        ~IColliderComponent() override;
-        
-        virtual void OnCreate() override final;
-        void Update(float dt) override;
-        virtual ColliderData GetColliderData() const = 0;
-        
-        void SetRelativePosition(sf::Vector2f position);
-        sf::Vector2f GetRelativePosition() const;
-        sf::Vector2f GetAbsolutePosition() const;
-        const CollisionLayer c_layer;
-
-        bool IsDirty() const;
-
-    private:
-        sf::Vector2f m_relativePosition;
-        bool m_isDirty;
-        Transform m_lastFrameTransform;
-    };
-
-
     // Views
     class IRenderableShapeComponent : public IComponent
     {

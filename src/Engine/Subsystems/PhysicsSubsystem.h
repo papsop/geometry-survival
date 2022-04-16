@@ -1,8 +1,8 @@
 #pragma once
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
-#include "../Core/QuadTree/QuadTree.h"
-#include "../Core/ColliderData.h"
+
+#include <box2d/b2_world.h>
 
 #include <vector>
 #include <array>
@@ -13,30 +13,18 @@ namespace Engine
     public:
         ~PhysicsSubsystem() = default;
 
-        void RegisterComponent(RigidbodyComponent *c);
-        void RegisterComponent(IColliderComponent* c);
+        void RegisterComponent(PhysicsBodyComponent* component);
+        void UnregisterComponent(PhysicsBodyComponent* component);
 
-        void UnregisterComponent(RigidbodyComponent* c);
-        void UnregisterComponent(IColliderComponent* c);
-        
         void Update(float dt);
-       
-        std::unique_ptr<QTree<IColliderComponent>> m_qtree;
+        b2Body* CreateBody(const b2BodyDef* def);
+
     private:
         PhysicsSubsystem();
         
-        void RemoveCollider(IColliderComponent* c);
-        void InsertCollider(IColliderComponent* c);
 
-        bool CheckColliderComponentsCollision(const IColliderComponent* a, const IColliderComponent* b);
-
-        bool CheckCollision(CircleColliderData a, CircleColliderData b);
-
-
-        std::vector< RigidbodyComponent* > m_rigidbodies;
-        
-
-        std::array<std::vector< IColliderComponent* >, static_cast<size_t>(IColliderComponent::CollisionLayer::COUNT)> m_colliders;
+        std::unique_ptr<b2World> m_b2World;
+        std::vector<PhysicsBodyComponent*> m_physicsBodies;
 
     friend class SubsystemManager;
     };

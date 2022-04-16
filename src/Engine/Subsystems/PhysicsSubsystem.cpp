@@ -3,132 +3,42 @@
 #include "../Core/GameObject.h"
 
 #include "../Components/Physics.h"
+#include <box2d/b2_body.h>
+
 
 namespace Engine
 {
     PhysicsSubsystem::PhysicsSubsystem()
     {
+        b2Vec2 gravity(0, -9.8);
+        m_b2World = std::make_unique<b2World>(gravity);
     }
 
-    // Component registration
+	void PhysicsSubsystem::RegisterComponent(PhysicsBodyComponent* component)
+	{
+        m_physicsBodies.emplace_back(component);
+	}
 
-    void PhysicsSubsystem::RegisterComponent(RigidbodyComponent* c)
+	void PhysicsSubsystem::UnregisterComponent(PhysicsBodyComponent* component)
+	{
+        DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
+        m_b2World->DestroyBody(component->GetB2Body());
+        m_physicsBodies.erase(std::remove(m_physicsBodies.begin(), m_physicsBodies.end(), component), m_physicsBodies.end());
+	}
+
+    b2Body* PhysicsSubsystem::CreateBody(const b2BodyDef* def)
     {
-        m_rigidbodies.emplace_back(c);
-    }
-
-    void PhysicsSubsystem::RegisterComponent(IColliderComponent* c)
-    {
-        auto& layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
-        layerArray.emplace_back(c);
-        InsertCollider(c);
-    }
-
-    void PhysicsSubsystem::UnregisterComponent(RigidbodyComponent* c)
-    {
-        m_rigidbodies.erase(std::remove(m_rigidbodies.begin(), m_rigidbodies.end(), c), m_rigidbodies.end());
-    }
-
-    void PhysicsSubsystem::UnregisterComponent(IColliderComponent* c)
-    {
-        auto& layerArray = m_colliders[static_cast<size_t>(c->c_layer)];
-        layerArray.erase(std::remove(layerArray.begin(), layerArray.end(), c), layerArray.end());
-        RemoveCollider(c);
-    }
-
-    // ======================================================================
-
-    void PhysicsSubsystem::InsertCollider(IColliderComponent* c)
-    {
-        if (!m_qtree)
-            m_qtree = std::make_unique<QTree<IColliderComponent>>(sf::Rect(0.0f, 0.0f, 1024.0f, 768.0f)); // config
-
-        auto colliderData = c->GetColliderData();
-        for (CircleColliderData ccd : colliderData.CircleColliders)
-        {
-            m_qtree->Insert(c, ccd.GetBoundingBox());
-        }
-        
-    }
-
-    void PhysicsSubsystem::RemoveCollider(IColliderComponent* c)
-    {
-        if (m_qtree)
-            m_qtree->Remove(c);
-    }
-
-    // Collisions between types of colliders
-
-    bool PhysicsSubsystem::CheckCollision(CircleColliderData a, CircleColliderData b)
-    {
-        auto posA = a.Position;
-        auto posB = b.Position;
-
-        float distanceSquared = abs(powf(posA.x - posB.x, 2) + powf(posA.y - posB.y, 2));
-        float radiiSquared = powf(a.Radius + b.Radius, 2);
-
-        return distanceSquared <= radiiSquared;
-    }
-
-
-    bool PhysicsSubsystem::CheckColliderComponentsCollision(const IColliderComponent* a, const IColliderComponent* b)
-    {
-        if (a == b) return false;
-        bool result = false;
-        auto colliderData_A = a->GetColliderData();
-        auto colliderData_B = b->GetColliderData();
-
-        for (auto& circleColliderA : colliderData_A.CircleColliders)
-        {
-            for (auto& circleColliderB : colliderData_B.CircleColliders)
-            {
-                if (CheckCollision(circleColliderA, circleColliderB))
-                    result = true;
-            }
-        }
-
-        return result;
+        DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
+        m_b2World->CreateBody(def);
     }
 
     void PhysicsSubsystem::Update(float dt)
     {
-        // order?
+        m_b2World->Step(dt, 8, 3);
 
-        for (auto c : m_rigidbodies)
-            if (c->Owner.ShouldUpdate())
-                c->Update(dt);
+        m_b2World->GetBodyList();
 
-        for (auto& layer : m_colliders)
-        {
-            for (auto& collider : layer)
-            {
-                collider->Update(dt);
-                if (collider->IsDirty())
-                {
-                    RemoveCollider(collider);
-                    InsertCollider(collider);
-                }
-            }
-        }
-
-        for (auto& layer : m_colliders)
-        {
-            for (auto& colliderA : layer)
-            {
-                colliderA->Update(dt);
-                auto colliderAData = colliderA->GetColliderData();
-                for (auto circle : colliderAData.CircleColliders)
-                {
-                    auto possibleIntersections = m_qtree->FindPossibleIntersections(circle.GetBoundingBox());
-                    for (auto& colliderB : possibleIntersections)
-                    {
-                        if (CheckColliderComponentsCollision(colliderA, colliderB))
-                        {
-                            colliderA->Owner.OnCollision(colliderB->Owner);
-                        }
-                    }
-                }
-            }
-        }
+        for (auto& body : m_physicsBodies)
+            body->Update(dt);
     }
 }

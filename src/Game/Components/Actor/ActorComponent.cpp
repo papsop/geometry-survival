@@ -11,7 +11,6 @@ namespace Game
         : IComponent(obj)
         , m_commandsQueue()
     {
-        Requires<Engine::RigidbodyComponent>();
     }
 
     void ActorComponent::OnCreate()
@@ -31,9 +30,9 @@ namespace Game
      
     void ActorComponent::Move(Engine::math::Vec2 dir)
     {
-        auto rb = Owner.GetComponent<Engine::RigidbodyComponent>();
-        if(rb != nullptr)
-            rb->Velocity = dir * m_movementSpeed;
+        //auto rb = Owner.GetComponent<Engine::RigidbodyComponent>();
+        //if(rb != nullptr)
+        //    rb->Velocity = dir * m_movementSpeed;
     }
 
     void ActorComponent::Rotate(float angle)

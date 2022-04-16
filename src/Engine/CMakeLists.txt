@@ -11,7 +11,7 @@ add_library(
     ${ENGINE_PROJECT} STATIC
     Application.cpp
     Application.h
-)
+ "Components/Physics/PhysicsBodyComponent.h" "Components/Physics/PhysicsBodyComponent.cpp")
 
 add_subdirectory(Subsystems)
 add_subdirectory(Managers)
@@ -35,4 +35,5 @@ target_link_libraries(
     sfml-graphics
     sfml-window
     sfml-system
+    box2d
 )

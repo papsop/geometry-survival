@@ -50,10 +50,7 @@ namespace Game
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
         bullet->GetTransform().Position = Owner.GetTransform().Position;
         bullet->GetTransform().Scale = { 0.2f, 0.2f };
-        bullet->AddComponent<Engine::RigidbodyComponent>();
-        bullet->GetComponent<Engine::RigidbodyComponent>()->Velocity = { Owner.GetTransform().Forward().x * 800, Owner.GetTransform().Forward().y * 800};
-        
-        bullet->AddComponent<Engine::CircleColliderComponent>(10.0f);
+
         // TODO: remove this
         bullet->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool());
         //bullet->AddComponent<SplashShape>(4, sf::Color::Magenta, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool() );

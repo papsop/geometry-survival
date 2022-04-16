@@ -1,7 +1,6 @@
 #include "BulletComponent.h"
 
 #include <Engine/Core/GameObject.h>
-#include <Engine/Components/Physics/RigidbodyComponent.h>
 #include <Engine/Managers/SubsystemManager.h>
 
 namespace Game
@@ -10,7 +9,6 @@ namespace Game
     BulletComponent::BulletComponent(Engine::GameObject& obj)
         : IComponent(obj)
     {
-        Requires<Engine::RigidbodyComponent>();
     }
 
     void BulletComponent::OnCreate()

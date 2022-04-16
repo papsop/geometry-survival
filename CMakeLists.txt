@@ -18,16 +18,23 @@ project(Dungeons&Geometry)
 add_subdirectory(libs)
 add_subdirectory(src)
 
+# copy assets/dlls
 file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})
+# we want to build box2d.dll inside bin dir
+set_target_properties(box2d
+    PROPERTIES
+        LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+        RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
+)
 
 # cleanup for visual studio
-#set_target_properties(imgui PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(glad PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(glfw PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(sajson PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(testbed PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(unit_test PROPERTIES FOLDER "Libraries/Box2D")
-#set_target_properties(box2d PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(imgui PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(glad PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(glfw PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(sajson PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(testbed PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(unit_test PROPERTIES FOLDER "Libraries/Box2D")
+set_target_properties(box2d PROPERTIES FOLDER "Libraries/Box2D")
 
 set_target_properties(sfml-audio PROPERTIES FOLDER "Libraries/SFML")
 set_target_properties(sfml-graphics PROPERTIES FOLDER "Libraries/SFML")

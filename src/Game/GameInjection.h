@@ -60,22 +60,21 @@ namespace Game
 
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
-            player->AddComponent<Engine::RigidbodyComponent>();
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
-            player->AddComponent<Engine::CircleColliderComponent>(50.0f);
 
             auto weaponComponent = player->GetComponent<WeaponComponent>();
             weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
-            enemy->GetTransform().Position = sf::Vector2f(100.0f, 600.0f);
-            enemy->AddComponent<Engine::RigidbodyComponent>();
-            enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
+			enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
             enemy->AddComponent<ActorComponent>();
-            enemy->AddComponent<Engine::CircleColliderComponent>(50.0f);
+            b2BodyDef myBodyDef;
+            myBodyDef.type = b2_dynamicBody;
+            myBodyDef.position.Set(300, 300);
+            enemy->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);

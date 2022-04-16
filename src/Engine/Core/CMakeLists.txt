@@ -8,9 +8,6 @@ set(SOURCES
 	Scene.h
 	Scene.cpp
 
-	QuadTree/QuadTree.h
-	QuadTree/QuadTree.cpp
-
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h
 	StateMachine/BasicSceneState.cpp

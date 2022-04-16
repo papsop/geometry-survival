@@ -10,7 +10,6 @@ namespace Game
         : IComponent(obj)
         , m_inputManager(Engine::InputManager::Get())
     {
-        Requires<Engine::RigidbodyComponent, ActorComponent>();
     }
 
     void InputComponent::OnCreate()

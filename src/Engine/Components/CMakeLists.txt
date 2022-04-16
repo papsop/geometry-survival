@@ -7,10 +7,8 @@ set(SOURCES
 	Core/IComponent.h
 	Core/IComponent.cpp
 
-	Physics/RigidbodyComponent.h
-	Physics/RigidbodyComponent.cpp
-	Physics/CircleColliderComponent.h
-	Physics/CircleColliderComponent.cpp
+	Physics/PhysicsBodyComponent.h
+	Physics/PhysicsBodyComponent.cpp
 
 	View/TriangleComponent.h
 	View/TriangleComponent.cpp

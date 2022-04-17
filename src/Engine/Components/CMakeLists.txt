@@ -9,6 +9,8 @@ set(SOURCES
 
 	Physics/PhysicsBodyComponent.h
 	Physics/PhysicsBodyComponent.cpp
+	Physics/CircleFixtureComponent.h
+	Physics/CircleFixtureComponent.cpp
 
 	View/TriangleComponent.h
 	View/TriangleComponent.cpp

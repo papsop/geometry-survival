@@ -27,6 +27,9 @@ namespace Engine
             virtual void Render(const Line& line) = 0;
             virtual void PostRender() = 0;
 
+            virtual void DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color) = 0;
+            virtual void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) = 0;
+
             virtual sf::Vector2i GetMousePosition() = 0;
         protected:
             std::function<void(const sf::Event& event)> m_handleEventLambda;

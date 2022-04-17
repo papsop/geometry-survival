@@ -75,6 +75,7 @@ namespace Game
             myBodyDef.type = b2_dynamicBody;
             myBodyDef.position.Set(300, 300);
             enemy->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
+            enemy->AddComponent<Engine::CircleFixtureComponent>(50);
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);

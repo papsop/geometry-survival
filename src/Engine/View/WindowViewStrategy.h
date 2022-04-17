@@ -23,6 +23,10 @@ namespace Engine
             void PostRender() override;
 
             sf::Vector2i GetMousePosition() override;
+
+            void DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color) override;
+            void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) override;
+
         private:
             sf::RenderWindow m_window;
             sf::Font m_font;

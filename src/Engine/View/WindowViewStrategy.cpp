@@ -66,6 +66,32 @@ namespace Engine
         {
             m_window.draw(line.Points, 2, sf::Lines);
         }
+        
+        // ==================================================================================
+        // Debug Renders
+
+        void WindowViewStrategy::DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color)
+		{
+            sf::Vertex line[] = {
+                sf::Vertex(a, color),
+                sf::Vertex(b, color)
+            };
+            m_window.draw(line, 2, sf::Lines);
+		}
+
+		void WindowViewStrategy::DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color)
+		{
+            sf::CircleShape circle(radius);
+            circle.setOutlineColor(color);
+            circle.setOutlineThickness(2.0f);
+            circle.setFillColor(sf::Color(0, 0, 0, 0));
+            circle.setOrigin({radius, radius});
+            circle.setPosition(center);
+            m_window.draw(circle);
+		}
+
+        // ==================================================================================
+
 
         void WindowViewStrategy::PostRender()
         {
@@ -76,5 +102,6 @@ namespace Engine
         {
             return sf::Mouse::getPosition(m_window);
         }
-    };
+
+	};
 };

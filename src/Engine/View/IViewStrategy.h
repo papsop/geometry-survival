@@ -30,6 +30,7 @@ namespace Engine
             virtual void DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color) = 0;
             virtual void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) = 0;
 
+            virtual void SetView(const sf::View& view) = 0;
             virtual sf::Vector2i GetMousePosition() = 0;
         protected:
             std::function<void(const sf::Event& event)> m_handleEventLambda;

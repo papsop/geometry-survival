@@ -12,6 +12,9 @@ set(SOURCES
 	Physics/CircleFixtureComponent.h
 	Physics/CircleFixtureComponent.cpp
 
+	View/CameraComponent.h
+	View/CameraComponent.cpp
+
 	View/TriangleComponent.h
 	View/TriangleComponent.cpp
 )

@@ -34,6 +34,8 @@ namespace Engine
         return m_viewStrategy->GetMousePosition();
     }
 
+    // ==================================================================
+
     void ViewSubsystem::RegisterComponent(IRenderableShapeComponent *component)
     {
         
@@ -53,6 +55,13 @@ namespace Engine
         m_debugs.emplace_back(component);
     }
 
+	void ViewSubsystem::RegisterComponent(CameraComponent* component)
+	{
+		m_cameras.emplace_back(component);
+	}
+
+    // ==================================================================
+
     void ViewSubsystem::UnregisterComponent(IRenderableShapeComponent* component)
     {
         m_shapes.erase(component);
@@ -68,12 +77,23 @@ namespace Engine
         m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
     }
 
+	void ViewSubsystem::UnregisterComponent(CameraComponent* component)
+	{
+        m_cameras.erase(std::remove(m_cameras.begin(), m_cameras.end(), component), m_cameras.end());
+	}
+
+    // ==================================================================
+
     void ViewSubsystem::Update(float dt)
     {
         if (InputManager::Get().GetAction(InputManager::Action::ShowDebugDraw).PressedThisFrame)
             m_shouldDrawDebug = !m_shouldDrawDebug;
 
         m_viewStrategy->PreRender();
+
+        for (auto c : m_cameras)
+            if (c->Owner.ShouldUpdate())
+                c->Update(dt);
 
         for (auto r : m_shapes)
             if (r->Owner.ShouldUpdate())

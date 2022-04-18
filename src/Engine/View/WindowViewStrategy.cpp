@@ -98,6 +98,11 @@ namespace Engine
             m_window.display();
         }
 
+        void WindowViewStrategy::SetView(const sf::View& view)
+        {
+            m_window.setView(view);
+        }
+
         sf::Vector2i WindowViewStrategy::GetMousePosition()
         {
             return sf::Mouse::getPosition(m_window);

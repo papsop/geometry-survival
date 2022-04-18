@@ -11,7 +11,7 @@ add_library(
     ${ENGINE_PROJECT} STATIC
     Application.cpp
     Application.h
- "Components/Physics/PhysicsBodyComponent.h" "Components/Physics/PhysicsBodyComponent.cpp" "Components/Physics/CircleFixtureComponent.cpp")
+ "Components/Physics/PhysicsBodyComponent.h" "Components/Physics/PhysicsBodyComponent.cpp" "Components/Physics/CircleFixtureComponent.cpp" "Components/View/CameraComponent.h")
 
 add_subdirectory(Subsystems)
 add_subdirectory(Managers)

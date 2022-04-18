@@ -5,6 +5,7 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
+#include <Engine/Components/View/CameraComponent.h>
 #include <Engine/Components/Physics.h>
 
 #include "Components/Player/InputComponent.h"
@@ -64,6 +65,7 @@ namespace Game
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
+            
 
             auto weaponComponent = player->GetComponent<WeaponComponent>();
             weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
@@ -76,6 +78,7 @@ namespace Game
             myBodyDef.position.Set(300, 300);
             enemy->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
             enemy->AddComponent<Engine::CircleFixtureComponent>(50);
+            enemy->AddComponent<Engine::CameraComponent>();
 
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);

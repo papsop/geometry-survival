@@ -1,5 +1,6 @@
 #pragma once
 #include <SFML/Graphics.hpp>
+#include <SFML/System/Angle.hpp>
 #include "../Components/Core/Transform.h"
 
 namespace Engine
@@ -24,9 +25,9 @@ namespace Engine
                 obj.setPosition(Transform.Position);
                 // SFML uses bearings, north is 0 and east is 90 (the fuck?)
                 float angle = 360.0f - (Transform.Rotation - 90.0f);
-                obj.setRotation(angle);
+                obj.setRotation(sf::Angle(angle));
                 obj.setScale(Transform.Scale);
-                obj.setOrigin(Radius, Radius);
+                obj.setOrigin(sf::Vector2f(Radius, Radius));
                 return obj;
             }
         };
@@ -53,7 +54,7 @@ namespace Engine
 
                 obj.setPosition(Transform.Position);
                 obj.setScale(Transform.Scale);
-                obj.setOrigin(offSetRadius, offSetRadius);
+                obj.setOrigin(sf::Vector2f(offSetRadius, offSetRadius));
                 return obj;
             }
         };

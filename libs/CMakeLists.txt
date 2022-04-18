@@ -1,9 +1,9 @@
 set(SFML_VER
-	SFML-2.5.1
+	SFML
 )
 
 set(BOX2D_VER
-	box2d-2.4.1
+	box2d
 )
 
 set(SFML_INCLUDE

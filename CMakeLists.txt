@@ -27,6 +27,10 @@ set_target_properties(box2d
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
+if(NOT TARGET box2d OR NOT TARGET sfml-system)
+    message(FATAL_ERROR "Forgot to git submodule update?")
+endif()
+
 # cleanup for visual studio
 set_target_properties(imgui PROPERTIES FOLDER "Libraries/Box2D")
 set_target_properties(glad PROPERTIES FOLDER "Libraries/Box2D")

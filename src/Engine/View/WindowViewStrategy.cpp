@@ -103,9 +103,10 @@ namespace Engine
             m_window.setView(view);
         }
 
-        sf::Vector2i WindowViewStrategy::GetMousePosition()
+        sf::Vector2f WindowViewStrategy::GetMousePosition()
         {
-            return sf::Mouse::getPosition(m_window);
+            auto pos = sf::Mouse::getPosition(m_window);
+            return m_window.mapPixelToCoords(pos);
         }
 
 	};

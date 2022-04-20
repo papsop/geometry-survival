@@ -27,7 +27,7 @@ namespace Engine
 			void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) override;
 
             void SetView(const sf::View& view) override;
-            sf::Vector2i GetMousePosition() override;
+            sf::Vector2f GetMousePosition() override;
         private:
             sf::RenderWindow m_window;
             sf::Font m_font;

@@ -114,7 +114,7 @@ namespace Engine
         return m_actions[static_cast<size_t>(action)];
     }
 
-    sf::Vector2i InputManager::GetMousePosition()
+    sf::Vector2f InputManager::GetMousePosition()
     {
         return m_mousePosition;
     }

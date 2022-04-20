@@ -29,7 +29,7 @@ namespace Engine
         m_viewStrategy->PollEvents();
     }
 
-    sf::Vector2i ViewSubsystem::GetMousePosition()
+    sf::Vector2f ViewSubsystem::GetMousePosition()
     {
         return m_viewStrategy->GetMousePosition();
     }

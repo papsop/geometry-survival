@@ -10,7 +10,7 @@ namespace Engine
 {
     PhysicsSubsystem::PhysicsSubsystem()
     {
-        b2Vec2 gravity(0, -9.8);
+        b2Vec2 gravity(0.f, -9.8f);
         m_b2World = std::make_unique<b2World>(gravity);
     }
 

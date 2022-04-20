@@ -29,7 +29,7 @@ namespace Engine
 
         // Application's interface to ViewStrategy
         void PollEvents();
-        sf::Vector2i GetMousePosition();
+        sf::Vector2f GetMousePosition();
 
 
         void Update(float dt);

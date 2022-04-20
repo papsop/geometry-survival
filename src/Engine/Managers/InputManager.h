@@ -50,7 +50,7 @@ namespace Engine {
         float GetAxis(Axis axis);
         const ActionEntry& GetAction(Action action);
 
-        sf::Vector2i GetMousePosition();
+        sf::Vector2f GetMousePosition();
 
     private:
         InputManager();
@@ -67,7 +67,7 @@ namespace Engine {
         std::array<ActionEntry, static_cast<size_t>(Action::NumberOfActions)> m_actions;
 
         std::unordered_map<sf::Keyboard::Key, Action> m_mapKeyToAction;
-        sf::Vector2i m_mousePosition;
+        sf::Vector2f m_mousePosition;
 
         ViewSubsystem* m_viewSubsystem = nullptr;
 

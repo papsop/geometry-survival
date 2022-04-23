@@ -36,8 +36,6 @@ namespace Engine
     {
         m_b2World->Step(dt, 8, 3);
 
-        m_b2World->GetBodyList();
-
         for (auto& body : m_physicsBodies)
             body->Update(dt);
     }

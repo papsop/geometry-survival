@@ -2,6 +2,7 @@
 
 #include "../../Managers/SubsystemManager.h"
 #include "../../Core/GameObject.h"
+#include "../../Utils/AllUtils.h"
 
 #include <box2d/b2_circle_shape.h>
 #include <box2d/b2_fixture.h>
@@ -14,7 +15,7 @@ namespace Engine
 		, m_b2Body(SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(bodyDef))
 	{
 		b2CircleShape circleShape;
-		circleShape.m_p.Set(0, 0); //position, relative to body position
+		circleShape.m_p = Owner.GetTransform().Position; //position, relative to body position
 		circleShape.m_radius = 5; //radius
 
 		b2FixtureDef myFixtureDef;
@@ -37,6 +38,6 @@ namespace Engine
 
 	void PhysicsBodyComponent::Update(float dt)
 	{
-		Owner.GetTransform().Position = sf::Vector2f(m_b2Body->GetPosition().x, m_b2Body->GetPosition().y);
+		Owner.GetTransform().Position = m_b2Body->GetPosition();
 	}
 };

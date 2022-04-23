@@ -29,6 +29,12 @@ namespace Engine
             void SetView(const sf::View& view) override;
             sf::Vector2f GetMousePosition() override;
         private:
+            // conversions
+            sf::CircleShape CircleToSFMLCircleShape(const view::Circle& circle);
+			sf::CircleShape ShapeToSFMLCircleShape(const view::Shape& shape);
+            sf::Text        TextToSFMLText(const view::Text& text);
+            // ==============
+
             sf::RenderWindow m_window;
             sf::Font m_font;
         };

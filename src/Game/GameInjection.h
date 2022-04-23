@@ -7,6 +7,7 @@
 #include <Engine/Core/StateMachine/BasicSceneState.h>
 #include <Engine/Components/View/CameraComponent.h>
 #include <Engine/Components/Physics.h>
+#include <Engine/Utils/VectorUtils.h>
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -17,6 +18,7 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
+
 
 
 namespace Game
@@ -45,39 +47,35 @@ namespace Game
             Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
             // Scene 0 ==============================================================================
-            auto& scene0 = Engine::SceneManager::Get().CreateScene();
-            
-            auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashScreen");
-            splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
-            splashScreen->AddComponent<SplashBackground>();
-            splashScreen->AddComponent<SplashTitle>();
-            splashScreen->AddComponent<SplashController>();
+            //auto& scene0 = Engine::SceneManager::Get().CreateScene();
+            //
+            //auto splashScreen = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashScreen");
+            //splashScreen->GetTransform().Position = sf::Vector2f(512.0f, 384.0f);
+            //splashScreen->AddComponent<SplashBackground>();
+            //splashScreen->AddComponent<SplashTitle>();
+            //splashScreen->AddComponent<SplashController>();
 
-            scene0.SetState(std::make_unique<Engine::BasicSceneState>(&scene0));
-            scene0.AddGameObject(splashScreen->c_ID);
+            //scene0.SetState(std::make_unique<Engine::BasicSceneState>(&scene0));
+            //scene0.AddGameObject(splashScreen->c_ID);
 
             // Scene 1 ==============================================================================
+			b2BodyDef myBodyDef;
+			myBodyDef.type = b2_dynamicBody;
+			myBodyDef.position.Set(0, 0);
+
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
-            player->GetTransform().Position = sf::Vector2f(400.0f, 200.0f);
+            player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
-            player->AddComponent<ActorComponent>();
-            player->AddComponent<InputComponent>();
-            player->AddComponent<WeaponComponent>();
-            
-
-            auto weaponComponent = player->GetComponent<WeaponComponent>();
-            weaponComponent->EquipWeapon(std::make_unique<PistolWeapon>(weaponComponent));
+            player->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
+            //player->AddComponent<ActorComponent>();
+            //player->AddComponent<InputComponent>();
+            //player->AddComponent<WeaponComponent>();
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
 			enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
-            enemy->AddComponent<ActorComponent>();
-            b2BodyDef myBodyDef;
-            myBodyDef.type = b2_dynamicBody;
-            myBodyDef.position.Set(300, 300);
             enemy->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
-            //enemy->AddComponent<Engine::CircleFixtureComponent>(50);
             enemy->AddComponent<Engine::CameraComponent>();
 
             scene1.AddGameObject(player->c_ID);

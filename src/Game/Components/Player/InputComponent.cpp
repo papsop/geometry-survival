@@ -28,7 +28,8 @@ namespace Game
         if (actorComponent == nullptr) return;
 
         // rotation
-        float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, static_cast<sf::Vector2f>(m_inputManager.GetMousePosition()));
+        float angle = 0;
+            //Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, static_cast<sf::Vector2f>(m_inputManager.GetMousePosition()));
 
         if (m_previousUpdateRotation != angle)
         {

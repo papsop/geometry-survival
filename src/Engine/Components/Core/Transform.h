@@ -1,17 +1,19 @@
 #pragma once
 #include <math.h>
-#include <SFML/System/Vector2.hpp>
+#include "../../Utils/VectorUtils.h"
 #include "../../Utils/VectorUtils.h"
 #include "../../Debug/Logger.h"
 namespace Engine
 {
     struct Transform
     {
-        sf::Vector2f Position;
+        math::Vec2 Position;
         float Rotation;
-        sf::Vector2f Scale;
+        math::Vec2 Scale;
 
-        Transform() : Position(sf::Vector2f(0.0f, 0.0f)), Rotation(0.0f), Scale(sf::Vector2f(1.0f, 1.0f)) {}
+        Transform() : Position(math::Vec2(0.0f, 0.0f)), Rotation(0.0f), Scale(math::Vec2(1.0f, 1.0f)) {}
+
+        void SetPosition(math::Vec2 pos) { Position = pos; }
 
         sf::Vector2f Forward()
         {

@@ -6,7 +6,7 @@ namespace Engine
 
 	CameraComponent::CameraComponent(GameObject& obj)
 		: IComponent(obj)
-		, m_view(Owner.GetTransform().Position, sf::Vector2f(800.0f, 600.0f))
+		, m_view({0.0f, 0.0f}, sf::Vector2f(800.0f, 600.0f))
 	{
 	}
 
@@ -22,7 +22,7 @@ namespace Engine
 
 	void CameraComponent::Update(float dt)
 	{
-		m_view.setCenter(Owner.GetTransform().Position);
+		m_view.setCenter({ 0.0f, 0.0f });
 		SubsystemManager::Get().GetViewSubsystem().GetViewStrategy()->SetView(m_view);
 	
 	}

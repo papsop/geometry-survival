@@ -14,7 +14,7 @@ namespace Engine
         LOG_DEBUG("Created ViewSubsystem");
     }
 
-    ViewSubsystem::~ViewSubsystem()
+	ViewSubsystem::~ViewSubsystem()
     {
         LOG_DEBUG("Destroyed ViewSubsystem");
     }
@@ -32,9 +32,29 @@ namespace Engine
     sf::Vector2f ViewSubsystem::GetMousePosition()
     {
         return m_viewStrategy->GetMousePosition();
-    }
+	}
 
-    // ==================================================================
+	sf::Vector2f ViewSubsystem::coordsToPixels(b2Vec2 coords)
+	{
+		return { coords.x * PIXELS_PER_METER, -coords.y * PIXELS_PER_METER };
+	}
+
+	b2Vec2 ViewSubsystem::pixelsToCoords(sf::Vector2f pixels)
+	{
+		return { pixels.x / PIXELS_PER_METER, -pixels.y / PIXELS_PER_METER };
+	}
+
+	float ViewSubsystem::coordToPixel(float coord)
+	{
+        return coord * PIXELS_PER_METER;
+	}
+
+	float ViewSubsystem::pixelToCoord(float pixel)
+	{
+        return pixel / PIXELS_PER_METER;
+	}
+
+	// ==================================================================
 
     void ViewSubsystem::RegisterComponent(IRenderableShapeComponent *component)
     {

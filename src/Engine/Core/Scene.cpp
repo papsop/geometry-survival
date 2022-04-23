@@ -1,5 +1,6 @@
 #include "Scene.h"
 #include <string>
+#include "../Utils/VectorUtils.h"
 
 namespace Engine
 {
@@ -72,7 +73,7 @@ namespace Engine
     {
         if (!m_isLoaded) return;
         Transform t;
-        t.Position = sf::Vector2f(500.0f, 0.0f);
+        t.Position = math::Vec2(500.0f, 0.0f);
         view::Text text(t);
         text.Size = 12;
         text.Color = sf::Color::Green;

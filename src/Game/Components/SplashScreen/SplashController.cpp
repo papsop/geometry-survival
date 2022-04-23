@@ -35,21 +35,21 @@ namespace Game
         m_lastTriangleSpawned -= dt;
         if (m_lastTriangleSpawned <= 0.0f)
         {
-            auto& scene = Owner.GetScene();
+   //         auto& scene = Owner.GetScene();
 
-            auto newTriangle = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashShape");
-            newTriangle->AddComponent<SplashShape>(rand() % 7 + 3, GetRandomColor(), m_triangleZIndex++);
-            newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
-            newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);
+   //         auto newTriangle = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "SplashShape");
+   //         newTriangle->AddComponent<SplashShape>(rand() % 7 + 3, GetRandomColor(), m_triangleZIndex++);
+   //         newTriangle->GetTransform().Position = GetRandomPositionOutsideWindow();
+   //         newTriangle->GetTransform().Rotation = static_cast<float>(rand() % 366);
 
-            //newTriangle->AddComponent<Engine::RigidbodyComponent>();
+   //         //newTriangle->AddComponent<Engine::RigidbodyComponent>();
 
-			auto dir = GetRandomPositionInsideWindow() - newTriangle->GetTransform().Position;
-			//newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
-            
+			//auto dir = GetRandomPositionInsideWindow() - newTriangle->GetTransform().Position;
+			////newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
+   //         
 
-            scene.AddGameObject(newTriangle->c_ID);
-            m_lastTriangleSpawned = m_triangleSpawnCooldown;
+   //         scene.AddGameObject(newTriangle->c_ID);
+   //         m_lastTriangleSpawned = m_triangleSpawnCooldown;
         }
     }
 

@@ -1,14 +1,14 @@
 #pragma once
 #include <math.h>
 #include <SFML/System/Vector2.hpp>
-
+#include <box2d/b2_math.h>
 namespace Engine
 {
     namespace math
     {
         const float M_PI_F = 3.14159274101257324219f;
 
-        typedef sf::Vector2f Vec2;
+        typedef b2Vec2 Vec2;
 
         float RAD_TO_DEG(float angle);
 

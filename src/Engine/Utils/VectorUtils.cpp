@@ -4,6 +4,8 @@ namespace Engine
 {
     namespace math
     {
+        const int PixelsPerMeter = 50;
+
         float RAD_TO_DEG(float angle)
         {
             return angle * (180.0f / M_PI_F);
@@ -38,7 +40,11 @@ namespace Engine
             if (V2fLengthSquared(v) == 0)
                 return v;
             else
-                return v / V2fLength(v);
+            {
+                auto length = V2fLength(v);
+                return {v.x/length, v.y/length};
+            }
+                
         }
 
         float V2fDot(const Vec2& v1, const Vec2& v2)
@@ -50,5 +56,6 @@ namespace Engine
         {
             return v1.x * v2.y - v1.y * v2.x;
         }
+
     };
 };

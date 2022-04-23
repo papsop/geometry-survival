@@ -7,7 +7,7 @@ namespace Game
 {
     MoveCommand::MoveCommand(float dx, float dy)
     {
-        m_dir = Engine::math::V2fNormalize(sf::Vector2f(dx, dy));
+        m_dir = Engine::math::V2fNormalize(Engine::math::Vec2(dx, dy));
     }
 
     void MoveCommand::Execute(ActorComponent& actor)

@@ -32,12 +32,19 @@ namespace Engine
         sf::Vector2f GetMousePosition();
 
 
+        sf::Vector2f coordsToPixels(b2Vec2 coords);
+        b2Vec2       pixelsToCoords(sf::Vector2f pixels);
+        float        coordToPixel(float coord);
+        float        pixelToCoord(float pixel);
+
         void Update(float dt);
         void SetViewStrategy(view::IViewStrategy* viewStrategy);
         view::IViewStrategy* GetViewStrategy() { return m_viewStrategy.get(); };
 
         int GetZIndexFromPool() { return m_zIndexPool++;  }
+
     private:
+        const int PIXELS_PER_METER = 10; // config?
         static bool compareZIndex(const IRenderableShapeComponent* s1, const IRenderableShapeComponent* s2)
         {
             return s1->ZIndex < s2->ZIndex;

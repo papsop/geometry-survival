@@ -1,5 +1,5 @@
 #include "WindowBackendStrategy.h"
-
+#include "../../Utils/VectorUtils.h"
 #include "../../Components/Core.h"
 #include "../../View/Renderables.h"
 #include "../../Managers/InputManager.h"
@@ -33,7 +33,7 @@ namespace Engine
             for (size_t i = bottomBound; i < m_entries.size(); ++i)
             {
                 Transform t;
-                t.Position = sf::Vector2f(5.0f, 13.0f * (i - bottomBound));
+                t.Position = math::Vec2(5.0f, 13.0f * (i - bottomBound));
                 view::Text text(t);
                 text.Size = 12;
                 text.Color = m_entries[i].Color;

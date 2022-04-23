@@ -11,7 +11,7 @@ namespace Engine
         m_shape.PointCount = 3;
         m_defaultColor = color;
         m_shape.Color = color;
-        m_shape.Radius = 50;   
+        m_shape.Radius = 1;   
     }
 
     void TriangleComponent::OnCreate()

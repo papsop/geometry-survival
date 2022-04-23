@@ -67,7 +67,7 @@ namespace Engine
 			float angle = 360.0f - (shape.Transform.Rotation - 90.0f);
 			obj.setRotation(angle);
 			obj.setScale(sfmlScale);
-			obj.setOrigin(sf::Vector2f(shape.Radius, shape.Radius));
+            obj.setOrigin({ sfmlRadius, sfmlRadius });
 			return obj;
 		}
 
@@ -121,23 +121,26 @@ namespace Engine
         // ==================================================================================
         // Debug Renders
 
-        void WindowViewStrategy::DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color)
+        void WindowViewStrategy::DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color)
 		{
-            sf::Vertex line[] = {
-                sf::Vertex(a, color),
-                sf::Vertex(b, color)
-            };
-            m_window.draw(line, 2, sf::Lines);
+            //sf::Vertex line[] = {
+            //    sf::Vertex(a, color),
+            //    sf::Vertex(b, color)
+            //};
+            //m_window.draw(line, 2, sf::Lines);
 		}
 
-		void WindowViewStrategy::DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color)
+		void WindowViewStrategy::DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color)
 		{
-            sf::CircleShape circle(radius);
+			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(center);
+			auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(radius);
+
+            sf::CircleShape circle(sfmlRadius);
             circle.setOutlineColor(color);
             circle.setOutlineThickness(2.0f);
             circle.setFillColor(sf::Color(0, 0, 0, 0));
-            circle.setOrigin({radius, radius});
-            circle.setPosition(center);
+            circle.setOrigin({ sfmlRadius, sfmlRadius });
+            circle.setPosition(sfmlPosition);
             m_window.draw(circle);
 		}
 
@@ -149,8 +152,14 @@ namespace Engine
             m_window.display();
         }
 
-        void WindowViewStrategy::SetView(const sf::View& view)
+        void WindowViewStrategy::SetView(const CameraData& cameraData)
         {
+            sf::View view;
+            view.setCenter(SubsystemManager::Get().GetViewSubsystem().coordsToPixels(cameraData.Center));
+            auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(cameraData.Size);
+            sfmlSize.y *= -1; // because coordsToPixels reverts y;
+            view.setSize(sfmlSize);
+            view.setViewport({ .0f, .0f, 1.f, 1.f });
             m_window.setView(view);
         }
 

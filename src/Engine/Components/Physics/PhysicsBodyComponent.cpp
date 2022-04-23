@@ -10,20 +10,13 @@
 namespace Engine
 {
 
-	PhysicsBodyComponent::PhysicsBodyComponent(GameObject& obj, const b2BodyDef* bodyDef)
+	PhysicsBodyComponent::PhysicsBodyComponent(GameObject& obj, b2BodyType bodyType)
 		: IComponent(obj)
-		, m_b2Body(SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(bodyDef))
 	{
-		b2CircleShape circleShape;
-		circleShape.m_p = Owner.GetTransform().Position; //position, relative to body position
-		circleShape.m_radius = 5; //radius
-
-		b2FixtureDef myFixtureDef;
-		myFixtureDef.shape = &circleShape; //this is a pointer to the shape above
-		myFixtureDef.density = 1.0f;
-		myFixtureDef.friction = 0.3f;
-
-		m_b2Body->CreateFixture(&myFixtureDef);
+		b2BodyDef bodyDef;
+		bodyDef.type = bodyType;
+		bodyDef.position = Owner.GetTransform().Position;
+		m_b2Body = SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(&bodyDef);
 	}
 
 	void PhysicsBodyComponent::OnCreate()

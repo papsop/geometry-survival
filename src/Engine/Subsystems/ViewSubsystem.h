@@ -11,7 +11,6 @@ namespace Engine
 {
     class SubsystemManager;
     class CameraComponent;
-
     class ViewSubsystem
     {
     public:

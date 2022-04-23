@@ -8,7 +8,7 @@ namespace Engine
 	class PhysicsBodyComponent : public IComponent
 	{
 	public:
-		PhysicsBodyComponent(GameObject& obj, const b2BodyDef* bodyDef);
+		PhysicsBodyComponent(GameObject& obj, b2BodyType bodyType);
 		~PhysicsBodyComponent() override;
 
 		void Update(float dt) override;

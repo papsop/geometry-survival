@@ -7,6 +7,7 @@ set(SOURCES
 	GameObject.cpp
 	Scene.h
 	Scene.cpp
+	CameraData.h
 
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h

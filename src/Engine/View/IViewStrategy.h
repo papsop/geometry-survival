@@ -1,6 +1,6 @@
 #pragma once
 #include "../View/Renderables.h"
-
+#include "../Core/CameraData.h"
 #include <SFML/window.hpp>
 #include <functional>
 
@@ -27,10 +27,10 @@ namespace Engine
             virtual void Render(const Line& line) = 0;
             virtual void PostRender() = 0;
 
-            virtual void DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color) = 0;
-            virtual void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) = 0;
+            virtual void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) = 0;
+            virtual void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) = 0;
 
-            virtual void SetView(const sf::View& view) = 0;
+            virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;
         protected:
             std::function<void(const sf::Event& event)> m_handleEventLambda;

@@ -23,10 +23,10 @@ namespace Engine
             void PostRender() override;
 
 
-			void DebugRenderLine(sf::Vector2f a, sf::Vector2f b, sf::Color color) override;
-			void DebugRenderCircle(sf::Vector2f center, float radius, sf::Color color) override;
+			void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) override;
+			void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) override;
 
-            void SetView(const sf::View& view) override;
+            void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
         private:
             // conversions

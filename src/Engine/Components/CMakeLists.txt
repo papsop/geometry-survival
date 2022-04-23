@@ -11,6 +11,8 @@ set(SOURCES
 	Physics/PhysicsBodyComponent.cpp
 	Physics/CircleFixtureComponent.h
 	Physics/CircleFixtureComponent.cpp
+	Physics/RectangleFixtureComponent.h
+	Physics/RectangleFixtureComponent.cpp
 
 	View/CameraComponent.h
 	View/CameraComponent.cpp

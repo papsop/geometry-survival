@@ -59,23 +59,21 @@ namespace Game
             //scene0.AddGameObject(splashScreen->c_ID);
 
             // Scene 1 ==============================================================================
-			b2BodyDef myBodyDef;
-			myBodyDef.type = b2_dynamicBody;
-			myBodyDef.position.Set(0, 0);
-
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
-            player->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
+            player->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
+            player->AddComponent<Engine::CircleFixtureComponent>(5);
             //player->AddComponent<ActorComponent>();
             //player->AddComponent<InputComponent>();
             //player->AddComponent<WeaponComponent>();
 
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
 			enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
-            enemy->AddComponent<Engine::PhysicsBodyComponent>(&myBodyDef);
+            enemy->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
+            enemy->AddComponent<Engine::CircleFixtureComponent>(5);
             enemy->AddComponent<Engine::CameraComponent>();
 
             scene1.AddGameObject(player->c_ID);

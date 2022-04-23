@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core.h"
 #include "../../Core/GameObject.h"
+#include "../../Subsystems/ViewSubsystem.h"
 
 namespace Engine
 {
@@ -14,6 +15,6 @@ namespace Engine
 		void OnCollision(GameObject& other) override;
 
 	private:
-		sf::View m_view;
+		CameraData m_cameraData;
 	};
 }

@@ -5,7 +5,7 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
-#include <Engine/Components/View/CameraComponent.h>
+#include <Engine/Components/View.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
 
@@ -19,8 +19,6 @@
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
 
-
-
 namespace Game
 {
     class Engine::Application;
@@ -31,7 +29,6 @@ namespace Game
         {
             // Order is important
             Engine::SubsystemManager::Get().RegisterComponentType<SplashShape>();
-            Engine::SubsystemManager::Get().RegisterComponentType<Engine::TriangleComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
             Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
             Engine::SubsystemManager::Get().RegisterComponentType<WeaponComponent>();
@@ -58,26 +55,38 @@ namespace Game
             //scene0.SetState(std::make_unique<Engine::BasicSceneState>(&scene0));
             //scene0.AddGameObject(splashScreen->c_ID);
 
+            Engine::ShapeViewDef shapeViewDef;
+            shapeViewDef.Color = sf::Color::Green;
+            shapeViewDef.PointCount = 5;
+            shapeViewDef.Radius = 2;
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
+            auto centerCamera = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "MainCamera");
+            centerCamera->GetTransform().SetPosition({ 0.0f, 0.0f });
+            centerCamera->AddComponent<Engine::CameraComponent>();
+
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
-            player->AddComponent<Engine::TriangleComponent>(sf::Color::Blue, 0);
             player->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
-            player->AddComponent<Engine::CircleFixtureComponent>(5);
-            //player->AddComponent<ActorComponent>();
-            //player->AddComponent<InputComponent>();
-            //player->AddComponent<WeaponComponent>();
+            player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
+            player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
 
+            shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
-			enemy->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, 1);
             enemy->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
-            enemy->AddComponent<Engine::CircleFixtureComponent>(5);
-            enemy->AddComponent<Engine::CameraComponent>();
+            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
+            enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
 
+            auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
+            bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });
+            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_staticBody);
+            bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
+
+            scene1.AddGameObject(centerCamera->c_ID);
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);
+            scene1.AddGameObject(bottomBox->c_ID);
 
             Engine::SceneManager::Get().LoadSceneByIndex(scene1.c_ID);
         }

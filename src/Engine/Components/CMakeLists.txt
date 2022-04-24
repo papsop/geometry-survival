@@ -17,8 +17,10 @@ set(SOURCES
 	View/CameraComponent.h
 	View/CameraComponent.cpp
 
-	View/TriangleComponent.h
-	View/TriangleComponent.cpp
+	View/ShapeViewComponent.h
+	View/ShapeViewComponent.cpp
+	View/RectangleViewComponent.h
+	View/RectangleViewComponent.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

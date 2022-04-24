@@ -52,7 +52,6 @@ namespace Game
         bullet->GetTransform().Scale = { 0.2f, 0.2f };
 
         // TODO: remove this
-        bullet->AddComponent<Engine::TriangleComponent>(sf::Color::Yellow, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool());
         //bullet->AddComponent<SplashShape>(4, sf::Color::Magenta, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool() );
 
         // TODO: make this renderable

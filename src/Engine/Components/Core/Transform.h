@@ -1,7 +1,6 @@
 #pragma once
 #include <math.h>
 #include "../../Utils/VectorUtils.h"
-#include "../../Utils/VectorUtils.h"
 #include "../../Debug/Logger.h"
 namespace Engine
 {
@@ -27,6 +26,13 @@ namespace Engine
         bool operator!=(const Transform& rhs) const
         {
             return !(*this == rhs);
+        }
+        Transform operator+(Transform const& rhs)
+        {
+            this->Position += rhs.Position;
+            this->Rotation += rhs.Rotation;
+            this->Scale    += rhs.Scale;
+            return *this;
         }
     };
 };

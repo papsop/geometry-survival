@@ -71,6 +71,8 @@ namespace Game
             player->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
+            player->AddComponent<ActorComponent>();
+            player->AddComponent<InputComponent>();
 
             shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");

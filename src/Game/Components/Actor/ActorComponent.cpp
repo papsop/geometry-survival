@@ -1,6 +1,6 @@
 #include "ActorComponent.h"
 #include "WeaponComponent.h"
-
+#include <Engine/Components/Physics.h>
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject.h>
 
@@ -11,6 +11,7 @@ namespace Game
         : IComponent(obj)
         , m_commandsQueue()
     {
+        Requires<Engine::PhysicsBodyComponent>();
     }
 
     void ActorComponent::OnCreate()
@@ -30,9 +31,10 @@ namespace Game
      
     void ActorComponent::Move(Engine::math::Vec2 dir)
     {
-        //auto rb = Owner.GetComponent<Engine::RigidbodyComponent>();
-        //if(rb != nullptr)
-        //    rb->Velocity = dir * m_movementSpeed;
+        auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+        dir.x *= 50;
+        dir.y *= 50;
+        physBody->ApplyImpulse(dir, { 0.0f, 0.0f });
     }
 
     void ActorComponent::Rotate(float angle)

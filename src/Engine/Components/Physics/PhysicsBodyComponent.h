@@ -15,6 +15,7 @@ namespace Engine
 		void OnCreate() override;
 		void OnCollision(GameObject& other) override {};
 
+		void ApplyImpulse(const math::Vec2& impulse, const math::Vec2 point);
 		b2Body* GetB2Body() { return m_b2Body; }
 	private:
 		b2Body* m_b2Body;

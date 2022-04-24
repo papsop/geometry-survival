@@ -39,7 +39,7 @@ namespace Game
 
         // movement
         float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
-        float vertical = m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
+        float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
 
         if (m_previousUpdateHorizontal != horizontal || m_previousUpdateVertical != vertical)
         {

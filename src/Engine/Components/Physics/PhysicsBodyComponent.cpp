@@ -24,6 +24,11 @@ namespace Engine
 		SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
 	}
 
+	void PhysicsBodyComponent::ApplyImpulse(const math::Vec2& impulse, const math::Vec2 point)
+	{
+		m_b2Body->ApplyLinearImpulse(impulse, point, true);
+	}
+
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
 		SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);

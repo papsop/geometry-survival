@@ -24,9 +24,9 @@ namespace Engine
 		SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
 	}
 
-	void PhysicsBodyComponent::ApplyImpulse(const math::Vec2& impulse, const math::Vec2 point)
+	void PhysicsBodyComponent::ApplyImpulseToCenter(const math::Vec2& impulse)
 	{
-		m_b2Body->ApplyLinearImpulse(impulse, point, true);
+		m_b2Body->ApplyLinearImpulse(impulse, m_b2Body->GetWorldCenter(), true);
 	}
 
 	PhysicsBodyComponent::~PhysicsBodyComponent()

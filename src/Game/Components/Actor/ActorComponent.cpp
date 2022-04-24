@@ -29,12 +29,19 @@ namespace Game
         m_commandsQueue.push(std::move(command));
     }
      
+    // https://www.iforce2d.net/b2dtut/constant-speed
     void ActorComponent::Move(Engine::math::Vec2 dir)
     {
         auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
-        dir.x *= 50;
-        dir.y *= 50;
-        physBody->ApplyImpulse(dir, { 0.0f, 0.0f });
+        auto mass = physBody->GetMass();
+
+        auto actualVelicity = physBody->GetLinearVelocity();
+        dir *= 15;
+        auto desiredVelocity = dir;
+
+        auto impulse = (desiredVelocity - actualVelicity);
+        impulse *= mass;
+        physBody->ApplyImpulseToCenter(impulse);
     }
 
     void ActorComponent::Rotate(float angle)

@@ -47,14 +47,15 @@ namespace Engine
     class IRenderableShapeComponent : public IComponent
     {
     public:
-        IRenderableShapeComponent(GameObject& obj, int zIndex);
+        IRenderableShapeComponent(GameObject& obj, view::RENDERABLE_TYPE renderableType, int zIndex);
          
         ~IRenderableShapeComponent() = default;
 
-        virtual const view::Shape& GetRenderableShape() = 0;
+        const view::Renderable& GetRenderable() { return m_renderable; };
         const int ZIndex;
     protected:
-        Transform& m_ownerTransform;
+        view::Renderable m_renderable;
+        Transform m_renderableTransform;
     };
 
     class IRenderableTextComponent : public IComponent

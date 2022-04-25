@@ -33,9 +33,9 @@ namespace Engine
 		sf::CircleShape WindowViewStrategy::CircleToSFMLCircleShape(const view::Circle& circle)
 		{
             // convert box2d to sfml
-            auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(circle.Transform.Position);
+            auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(circle.Transform->Position);
             auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(circle.Radius);
-            auto sfmlScale = sf::Vector2f(circle.Transform.Scale.x, circle.Transform.Scale.y);
+            auto sfmlScale = sf::Vector2f(circle.Transform->Scale.x, circle.Transform->Scale.y);
 
             // create sfml circle shape
 			auto obj = sf::CircleShape();
@@ -44,7 +44,7 @@ namespace Engine
 			obj.setFillColor(circle.FillColor);
 			obj.setPosition(sfmlPosition);
 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-			float angle = 360.0f - (circle.Transform.Rotation - 90.0f);
+			float angle = 360.0f - (circle.Transform->Rotation - 90.0f);
 			obj.setRotation(angle);
 			obj.setScale(sfmlScale);
 			obj.setOrigin(sf::Vector2f(circle.Radius, circle.Radius));
@@ -54,9 +54,9 @@ namespace Engine
 		sf::CircleShape WindowViewStrategy::ShapeToSFMLCircleShape(const view::Shape& shape)
 		{
 			// convert box2d to sfml
-			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(shape.Transform.Position);
+			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(shape.Transform->Position);
             auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(shape.Radius);
-			auto sfmlScale = sf::Vector2f(shape.Transform.Scale.x, shape.Transform.Scale.y);
+			auto sfmlScale = sf::Vector2f(shape.Transform->Scale.x, shape.Transform->Scale.y);
 
 			// create sfml circle shape
 			auto obj = sf::CircleShape();
@@ -64,11 +64,31 @@ namespace Engine
 			obj.setRadius(sfmlRadius);
 			obj.setPosition(sfmlPosition);
 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-			float angle = 360.0f - (shape.Transform.Rotation - 90.0f);
+			float angle = 360.0f - (shape.Transform->Rotation - 90.0f);
 			obj.setRotation(angle);
 			obj.setScale(sfmlScale);
             obj.setOrigin({ sfmlRadius, sfmlRadius });
 			return obj;
+		}
+
+		sf::RectangleShape WindowViewStrategy::RectangleToSFMLRectangleShape(const view::Rectangle& rectangle)
+		{
+            //convert box2d to sfml
+			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Transform->Position);
+			auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Size);
+            sfmlSize.y *= -1;
+			auto sfmlScale = sf::Vector2f(rectangle.Transform->Scale.x, rectangle.Transform->Scale.y);
+
+            // create SFML rectangle
+            auto obj = sf::RectangleShape();
+            obj.setFillColor(rectangle.FillColor);
+            obj.setSize(sfmlSize);
+			float angle = 360.0f - (rectangle.Transform->Rotation - 90.0f);
+			obj.setRotation(angle);
+            obj.setScale(sfmlScale);
+            obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
+            obj.setPosition(sfmlPosition);
+            return obj;
 		}
 
 		sf::Text WindowViewStrategy::TextToSFMLText(const view::Text& text)
@@ -83,6 +103,22 @@ namespace Engine
             m_window.clear();
         }
 
+		void WindowViewStrategy::RenderRenderable(const Renderable& renderable)
+		{
+            switch (renderable.type)
+            {
+            case view::RENDERABLE_TYPE::SHAPE: 
+                Render(renderable.shape); 
+                break;
+            case view::RENDERABLE_TYPE::CIRCLE:
+				Render(renderable.circle);
+				break;
+            case view::RENDERABLE_TYPE::RECTANGLE:
+				Render(renderable.rectangle);
+				break;
+            }
+		}
+
         void WindowViewStrategy::Render(const Shape &shape)
         {
             m_window.draw(ShapeToSFMLCircleShape(shape));   
@@ -92,6 +128,11 @@ namespace Engine
         {
             m_window.draw(CircleToSFMLCircleShape(circle));
         }
+
+		void WindowViewStrategy::Render(const Rectangle& rectangle)
+		{
+			m_window.draw(RectangleToSFMLRectangleShape(rectangle));
+		}
 
         void WindowViewStrategy::Render(const Text& text)
         {

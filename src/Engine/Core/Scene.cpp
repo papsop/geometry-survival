@@ -74,7 +74,7 @@ namespace Engine
         if (!m_isLoaded) return;
         Transform t;
         t.Position = math::Vec2(500.0f, 0.0f);
-        view::Text text(t);
+        view::Text text(&t);
         text.Size = 12;
         text.Color = sf::Color::Green;
         std::string val = "Active GameObjects in scene: " + std::to_string(m_gameObjects.size());

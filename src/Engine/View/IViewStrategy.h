@@ -21,9 +21,11 @@ namespace Engine
 
             virtual void PollEvents() = 0;
             virtual void PreRender() = 0;
+            virtual void RenderRenderable(const Renderable& renderable) = 0;
             virtual void Render(const Shape& shape) = 0;
             virtual void Render(const Circle& circle) = 0;
             virtual void Render(const Text& text) = 0;
+            virtual void Render(const Rectangle& rectangle) = 0;
             virtual void Render(const Line& line) = 0;
             virtual void PostRender() = 0;
 

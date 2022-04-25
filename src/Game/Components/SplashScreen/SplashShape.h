@@ -13,8 +13,6 @@ namespace Game
 
         void OnCreate() override;
         void Update(float dt) override;
-
-        const Engine::view::Shape& GetRenderableShape() override { return m_shape; };
     private:
         Engine::view::Shape m_shape;
         float m_timeToDie = 5.0f;

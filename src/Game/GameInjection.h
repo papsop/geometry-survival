@@ -80,10 +80,15 @@ namespace Game
             enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
 
+			Engine::RectangleViewDef rectangleViewDef;
+            rectangleViewDef.Color = sf::Color::Cyan;
+            rectangleViewDef.Size = {10.0f, 1.0f};
+
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });
             bottomBox->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_staticBody);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
+            bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);
 
             scene1.AddGameObject(centerCamera->c_ID);
             scene1.AddGameObject(player->c_ID);

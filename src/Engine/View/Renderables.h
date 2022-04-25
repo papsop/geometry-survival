@@ -11,9 +11,9 @@ namespace Engine
             size_t PointCount;
             float Radius;
             sf::Color Color;
-            const Engine::Transform& Transform;
+            Engine::Transform* Transform;
 
-            Shape(const Engine::Transform& transform) : Transform(transform) {};
+            Shape(Engine::Transform* transform) : Transform(transform) {};
         };
 
         struct Circle
@@ -22,9 +22,18 @@ namespace Engine
             sf::Color FillColor;
             sf::Color OutlineColor = sf::Color(0, 0, 0, 0);
             float OutlineThickness = 0.0f;
-            const Engine::Transform& Transform;
+            Engine::Transform* Transform;
 
-            Circle(const Engine::Transform& transform) : Transform(transform) {};
+            Circle(Engine::Transform* transform) : Transform(transform) {};
+        };
+
+        struct Rectangle
+        {
+            math::Vec2 Size;
+            sf::Color FillColor;
+            Engine::Transform* Transform;
+
+            Rectangle(Engine::Transform* transform) : Transform(transform) {};
         };
 
         struct Text
@@ -32,15 +41,32 @@ namespace Engine
             std::string Value;
             sf::Color Color;
             unsigned int Size;
-            const Engine::Transform& Transform;
+            Engine::Transform* Transform;
             bool ShouldCenter = false;
 
-            Text(const Engine::Transform& transform) : Transform(transform) {};
+            Text(Engine::Transform* transform) : Transform(transform) {};
         };
 
         struct Line
         {
             sf::Vertex Points[2];
         };
+        
+        enum class RENDERABLE_TYPE
+		{
+			SHAPE, CIRCLE, RECTANGLE
+		};
+		struct Renderable
+		{
+            RENDERABLE_TYPE type;
+			union
+			{
+				Shape shape;
+				Circle circle;
+				Rectangle rectangle;
+			};
+
+            Renderable(RENDERABLE_TYPE type) : type(type) {};
+		};
     };
 };

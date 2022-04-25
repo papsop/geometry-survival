@@ -29,7 +29,6 @@ namespace Game
         m_commandsQueue.push(std::move(command));
     }
      
-    // https://www.iforce2d.net/b2dtut/constant-speed
     void ActorComponent::Move(Engine::math::Vec2 dir)
     {
         auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();

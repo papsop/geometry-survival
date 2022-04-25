@@ -34,7 +34,7 @@ namespace Engine
             {
                 Transform t;
                 t.Position = math::Vec2(5.0f, 13.0f * (i - bottomBound));
-                view::Text text(t);
+                view::Text text(&t);
                 text.Size = 12;
                 text.Color = m_entries[i].Color;
                 text.Value = m_entries[i].Text;

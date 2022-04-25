@@ -4,8 +4,8 @@
 namespace Game
 {
     SplashBackground::SplashBackground(Engine::GameObject& obj)
-        : IRenderableShapeComponent(obj, 10000)
-        , m_shape(obj.GetTransform())
+		: IRenderableShapeComponent(obj, Engine::view::RENDERABLE_TYPE::SHAPE, 10000)
+		, m_shape(&obj.GetTransform())
     {
         m_shape.PointCount = 3;
         m_shape.Color = sf::Color::Color(20, 20, 20, 255);
@@ -20,10 +20,5 @@ namespace Game
     SplashBackground::~SplashBackground()
     {
         Engine::SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
-    }
-
-    const Engine::view::Shape& SplashBackground::GetRenderableShape()
-    {
-        return m_shape;
     }
 }

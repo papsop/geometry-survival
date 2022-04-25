@@ -119,7 +119,7 @@ namespace Engine
             if (r->Owner.ShouldUpdate())
             {
                 r->Update(dt);
-                m_viewStrategy->Render(r->GetRenderableShape());
+                m_viewStrategy->RenderRenderable(r->GetRenderable());
             }
                 
         for (auto t : m_texts)

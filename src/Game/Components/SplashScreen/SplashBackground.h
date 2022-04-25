@@ -13,9 +13,6 @@ namespace Game
 
         void OnCreate() override;
         void Update(float dt) override {};
-
-        const Engine::view::Shape& GetRenderableShape() override;
-
     private:
         Engine::view::Shape m_shape;
     };

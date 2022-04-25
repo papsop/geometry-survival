@@ -30,13 +30,7 @@ namespace Engine
 		void OnCreate() override;
 		void Update(float dt) override;
 		void OnCollision(GameObject& other) override {};
-		const view::Shape& GetRenderableShape() override { return m_shape; };
-
 	private:
-		// Color and PointCount are stored inside m_shape
-		Transform m_shapeTransform;
-		view::Shape m_shape;
-
 		bool m_useAbsoluteTransform = false;
 		Transform m_localTransform;
 	};

@@ -6,7 +6,7 @@ namespace Game
 
     SplashTitle::SplashTitle(Engine::GameObject& obj)
         : IRenderableTextComponent(obj)
-        , m_text(obj.GetTransform())
+        , m_text(&obj.GetTransform())
     {
         m_text.Color = sf::Color::Color(80, 80, 80, 255);
         m_text.Value = "Dungeons & Geometry";

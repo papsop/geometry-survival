@@ -16,9 +16,11 @@ namespace Engine
             void PollEvents() override;
 
             void PreRender() override;
+            void RenderRenderable(const Renderable& renderable) override;
             void Render(const Shape& shape) override;
             void Render(const Circle& circle) override;
             void Render(const Text& text) override;
+            void Render(const Rectangle& rectangle) override;
             void Render(const Line& line) override;
             void PostRender() override;
 
@@ -30,9 +32,10 @@ namespace Engine
             sf::Vector2f GetMousePosition() override;
         private:
             // conversions
-            sf::CircleShape CircleToSFMLCircleShape(const view::Circle& circle);
-			sf::CircleShape ShapeToSFMLCircleShape(const view::Shape& shape);
-            sf::Text        TextToSFMLText(const view::Text& text);
+            sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);
+			sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
+            sf::RectangleShape  RectangleToSFMLRectangleShape(const view::Rectangle& rectangle);
+            sf::Text            TextToSFMLText(const view::Text& text);
             // ==============
 
             sf::RenderWindow m_window;

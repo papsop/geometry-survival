@@ -59,6 +59,12 @@ namespace Game
             shapeViewDef.Color = sf::Color::Green;
             shapeViewDef.PointCount = 5;
             shapeViewDef.Radius = 2;
+
+            Engine::PhysicsBodyDef physBodyDef;
+            physBodyDef.BodyType = b2_dynamicBody;
+            physBodyDef.CategoryBits = 0x1;
+            physBodyDef.MaskBits = 0x1;
+
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
@@ -68,7 +74,7 @@ namespace Game
 
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
-            player->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
+            player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
             player->AddComponent<ActorComponent>();
@@ -76,17 +82,18 @@ namespace Game
 
             shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
-            enemy->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
+            enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
 
 			Engine::RectangleViewDef rectangleViewDef;
             rectangleViewDef.Color = sf::Color::Cyan;
             rectangleViewDef.Size = {10.0f, 1.0f};
+            //physBodyDef.BodyType = b2_staticBody;
 
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });
-            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
+            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
             bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);
 

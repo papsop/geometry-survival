@@ -27,9 +27,12 @@ namespace Engine
 
 			void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) override;
 			void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) override;
+            void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color) override;
 
             void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
+            
+
         private:
             // conversions
             sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);

@@ -10,11 +10,13 @@
 namespace Engine
 {
 
-	PhysicsBodyComponent::PhysicsBodyComponent(GameObject& obj, b2BodyType bodyType)
+	PhysicsBodyComponent::PhysicsBodyComponent(GameObject& obj, PhysicsBodyDef& def)
 		: IComponent(obj)
+		, m_categoryBits(def.CategoryBits)
+		, m_maskBits(def.MaskBits)
 	{
 		b2BodyDef bodyDef;
-		bodyDef.type = bodyType;
+		bodyDef.type = def.BodyType;
 		bodyDef.position = Owner.GetTransform().Position;
 		//bodyDef.fixedRotation = true;
 		bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&Owner);

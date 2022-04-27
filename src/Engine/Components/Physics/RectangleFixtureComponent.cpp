@@ -11,6 +11,7 @@ namespace Engine
 
 	void RectangleFixtureComponent::OnCreate()
 	{
+		auto physBody = Owner.GetComponent<PhysicsBodyComponent>();
 		b2PolygonShape polygonShape;
 		polygonShape.SetAsBox(10.0f, 1.0f);
 
@@ -18,6 +19,8 @@ namespace Engine
 		fixtureDef.shape = &polygonShape;
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.3f;
+		fixtureDef.filter.categoryBits = physBody->GetCategoryBits();
+		fixtureDef.filter.maskBits = physBody->GetMaskBits();
 
 		m_fixture = Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->CreateFixture(&fixtureDef);
 	}
@@ -29,6 +32,6 @@ namespace Engine
 
 	void RectangleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
 	{
-		//viewStrategy->DebugRenderCircle(Owner.GetTransform().Position, 2.0f, sf::Color::Green);
+		viewStrategy->DebugRenderRectangle(Owner.GetTransform().Position, math::Vec2(10.0f, 1.0f), m_fixture->GetBody()->GetAngle(), sf::Color::Green);
 	}
 }

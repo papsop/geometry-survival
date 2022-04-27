@@ -14,6 +14,7 @@ namespace Engine
 
 	void CircleFixtureComponent::OnCreate() 
 	{
+		auto physBody = Owner.GetComponent<PhysicsBodyComponent>();
 		b2CircleShape circleShape;
 		circleShape.m_p.Set(0.0f, 0.0f);
 		circleShape.m_radius = m_radius;
@@ -22,6 +23,8 @@ namespace Engine
 		fixtureDef.shape = &circleShape;
 		fixtureDef.density = 1.0f;
 		fixtureDef.friction = 0.3f;
+		fixtureDef.filter.categoryBits = physBody->GetCategoryBits();
+		fixtureDef.filter.maskBits = physBody->GetMaskBits();
 
 		m_fixture = Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->CreateFixture(&fixtureDef);
 	}

@@ -1,9 +1,7 @@
 set(SOURCES
 	AllUtils.h
+	json.hpp
 	IdGenerator.h
-	pugiconfig.hpp
-	pugixml.hpp
-	pugixml.cpp
 	VectorUtils.h
 	VectorUtils.cpp
 )

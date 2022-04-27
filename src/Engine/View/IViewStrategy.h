@@ -31,6 +31,7 @@ namespace Engine
 
             virtual void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) = 0;
             virtual void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) = 0;
+            virtual void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color) = 0;
 
             virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;

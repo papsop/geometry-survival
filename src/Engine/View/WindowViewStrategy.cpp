@@ -191,6 +191,27 @@ namespace Engine
             m_window.draw(circle);
 		}
 
+		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color)
+		{
+			//convert box2d to sfml
+			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(center);
+			auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(size);
+			sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
+			sfmlSize.x = 2 * sfmlSize.x;
+			auto sfmlAngle = Box2DRotationToSFML(angle);
+
+			// create SFML rectangle
+			auto obj = sf::RectangleShape();
+			obj.setOutlineColor(color);
+            obj.setOutlineThickness(3);
+			obj.setSize(sfmlSize);
+			obj.setRotation(sfmlAngle);
+			obj.setScale({1.0f, 1.0f});
+			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
+			obj.setPosition(sfmlPosition);
+            m_window.draw(obj);
+		}
+
         // ==================================================================================
 
 

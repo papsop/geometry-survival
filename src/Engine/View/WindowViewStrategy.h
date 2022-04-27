@@ -36,6 +36,7 @@ namespace Engine
 			sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
             sf::RectangleShape  RectangleToSFMLRectangleShape(const view::Rectangle& rectangle);
             sf::Text            TextToSFMLText(const view::Text& text);
+            float               Box2DRotationToSFML(float angle);
             // ==============
 
             sf::RenderWindow m_window;

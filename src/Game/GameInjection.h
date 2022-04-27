@@ -86,7 +86,7 @@ namespace Game
 
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });
-            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_staticBody);
+            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(b2BodyType::b2_dynamicBody);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
             bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);
 

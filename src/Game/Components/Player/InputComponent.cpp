@@ -41,13 +41,8 @@ namespace Game
         float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
         float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
 
-        if (m_previousUpdateHorizontal != horizontal || m_previousUpdateVertical != vertical)
-        {
-            actorComponent->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
-            m_previousUpdateHorizontal = horizontal;
-            m_previousUpdateVertical = vertical;
-        }
-
+        actorComponent->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
+        
         // shooting
         if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
             actorComponent->AddCommand(std::make_unique<FireCommand>());

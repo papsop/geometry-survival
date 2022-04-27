@@ -76,15 +76,16 @@ namespace Engine
             //convert box2d to sfml
 			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Transform->Position);
 			auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Size);
-            sfmlSize.y *= -1;
+            sfmlSize.y  = 2 * std::fabsf(sfmlSize.y);
+            sfmlSize.x  = 2 * sfmlSize.x;
 			auto sfmlScale = sf::Vector2f(rectangle.Transform->Scale.x, rectangle.Transform->Scale.y);
+            auto sfmlAngle = Box2DRotationToSFML(rectangle.Transform->Rotation);
 
             // create SFML rectangle
             auto obj = sf::RectangleShape();
             obj.setFillColor(rectangle.FillColor);
             obj.setSize(sfmlSize);
-			float angle = 360.0f - (rectangle.Transform->Rotation - 90.0f);
-			obj.setRotation(angle);
+			obj.setRotation(sfmlAngle);
             obj.setScale(sfmlScale);
             obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
             obj.setPosition(sfmlPosition);
@@ -96,7 +97,12 @@ namespace Engine
             return {};
 		}
 
-        // ==============================================
+		float WindowViewStrategy::Box2DRotationToSFML(float angle)
+		{
+			return 360.0f - math::RAD_TO_DEG(angle);
+		}
+
+		// ==============================================
 
         void WindowViewStrategy::PreRender()
         {

@@ -16,6 +16,8 @@ namespace Engine
 		b2BodyDef bodyDef;
 		bodyDef.type = bodyType;
 		bodyDef.position = Owner.GetTransform().Position;
+		//bodyDef.fixedRotation = true;
+		bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&Owner);
 		m_b2Body = SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(&bodyDef);
 	}
 
@@ -37,5 +39,6 @@ namespace Engine
 	void PhysicsBodyComponent::Update(float dt)
 	{
 		Owner.GetTransform().Position = m_b2Body->GetPosition();
+		Owner.GetTransform().Rotation = m_b2Body->GetAngle();
 	}
 };

@@ -18,8 +18,9 @@ namespace Engine
 		b2BodyDef bodyDef;
 		bodyDef.type = def.BodyType;
 		bodyDef.position = Owner.GetTransform().Position;
+		bodyDef.bullet = def.IsBullet;
 		//bodyDef.fixedRotation = true;
-		bodyDef.userData.pointer = reinterpret_cast<uintptr_t>(&Owner);
+		bodyDef.userData.pointer = Owner.c_ID;
 		m_b2Body = SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(&bodyDef);
 	}
 
@@ -35,6 +36,7 @@ namespace Engine
 
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
+		LOG_INFO("destroying physicsbody");
 		SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
 	}
 

@@ -3,6 +3,7 @@
 #include "../Core/GameObject.h"
 
 #include "../Components/Physics.h"
+#include "../Managers/GameObjectManager.h"
 #include <box2d/b2_body.h>
 
 
@@ -38,15 +39,31 @@ namespace Engine
 		auto bodyA = contact->GetFixtureA()->GetBody();
 		auto bodyB = contact->GetFixtureB()->GetBody();
 
-		GameObject* objA = reinterpret_cast<GameObject*>(bodyA->GetUserData().pointer);
-		GameObject* objB = reinterpret_cast<GameObject*>(bodyB->GetUserData().pointer);
+		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
+		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
 
-		LOG_INFO("Start collision %s and %s", objA->c_DebugName, objB->c_DebugName);
+		if (objA != nullptr && objB != nullptr)
+		{
+			objA->OnCollisionStart(*objB);
+			objB->OnCollisionStart(*objA);
+			LOG_INFO("Start collision %s and %s", objA->c_DebugName, objB->c_DebugName);
+		}
 	}
 
 	void PhysicsSubsystem::EndContact(b2Contact* contact)
 	{
-		LOG_INFO("ended contact");
+		auto bodyA = contact->GetFixtureA()->GetBody();
+		auto bodyB = contact->GetFixtureB()->GetBody();
+
+		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
+		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
+
+		if (objA != nullptr && objB != nullptr)
+		{
+			objA->OnCollisionEnd(*objB);
+			objB->OnCollisionEnd(*objA);
+			LOG_INFO("ended contact");
+		}
 	}
 
 	void PhysicsSubsystem::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)

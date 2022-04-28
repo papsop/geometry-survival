@@ -8,6 +8,7 @@ namespace Engine
 	CircleFixtureComponent::CircleFixtureComponent(GameObject& obj, float radius)
 		: IComponent(obj)
 		, m_radius(radius)
+		, m_fixture(nullptr)
 	{
 		Requires<PhysicsBodyComponent>();
 	}
@@ -32,6 +33,7 @@ namespace Engine
 	CircleFixtureComponent::~CircleFixtureComponent()
 	{
 		// body destroys all the fixtures when it's deleted
+		LOG_WARN("destroying circle fixture");
 	}
 	
 	void CircleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)

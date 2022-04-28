@@ -12,7 +12,7 @@ namespace Engine
 		~CameraComponent() override;
 		void OnCreate() override;
 		void Update(float dt) override;
-		void OnCollision(GameObject& other) override;
+		void OnCollisionStart(GameObject& other) override;
 
 	private:
 		CameraData m_cameraData;

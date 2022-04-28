@@ -14,7 +14,7 @@ namespace Engine
 
         void SetPosition(math::Vec2 pos) { Position = pos; }
 
-        sf::Vector2f Forward()
+        math::Vec2 Forward()
         {
             return { cosf(math::DEG_TO_RAD(Rotation)), -sinf(math::DEG_TO_RAD(Rotation)) };
         }

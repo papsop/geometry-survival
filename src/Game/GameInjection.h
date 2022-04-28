@@ -79,6 +79,9 @@ namespace Game
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
+            player->AddComponent<WeaponComponent>();
+            auto weaponComp = player->GetComponent<WeaponComponent>();
+            weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
 
             shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
@@ -88,8 +91,8 @@ namespace Game
 
 			Engine::RectangleViewDef rectangleViewDef;
             rectangleViewDef.Color = sf::Color::Cyan;
-            rectangleViewDef.Size = {10.0f, 1.0f};
-            //physBodyDef.BodyType = b2_staticBody;
+            rectangleViewDef.Size = {50.0f, 1.0f};
+            physBodyDef.BodyType = b2_staticBody;
 
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });

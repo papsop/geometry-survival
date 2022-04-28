@@ -26,10 +26,11 @@ namespace Engine
 	public:
 		ShapeViewComponent(GameObject& obj, int zIndex, const ShapeViewDef& def);
 		~ShapeViewComponent() override;
-
+		
 		void OnCreate() override;
 		void Update(float dt) override;
-		void OnCollision(GameObject& other) override {};
+		void OnCollisionStart(GameObject& other) override { m_renderable.shape.Color = sf::Color::Red; };
+		void OnCollisionEnd(GameObject& other) override { m_renderable.shape.Color = sf::Color::White; };
 	private:
 		bool m_useAbsoluteTransform = false;
 		Transform m_localTransform;

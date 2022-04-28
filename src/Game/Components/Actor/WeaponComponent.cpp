@@ -1,7 +1,6 @@
 #include "WeaponComponent.h"
 #include "ActorComponent.h"
 #include "BulletComponent.h"
-#include "../SplashScreen/SplashShape.h"
 
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject.h>
@@ -31,7 +30,8 @@ namespace Game
 
     void WeaponComponent::Update(float dt)
     {
-        m_equippedWeapon->Update(dt);
+        if (m_equippedWeapon)
+            m_equippedWeapon->Update(dt);
     }
 
     void WeaponComponent::EquipWeapon(std::unique_ptr<IWeapon> weapon)
@@ -47,13 +47,26 @@ namespace Game
 
     Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
+        auto zIndex = Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool();
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
-        bullet->GetTransform().Position = Owner.GetTransform().Position;
-        bullet->GetTransform().Scale = { 0.2f, 0.2f };
+        bullet->GetTransform().Position = Owner.GetTransform().Position + Engine::math::Vec2(1.5f, 1.5f);
+        bullet->GetTransform().Scale = { 1.f, 1.f };
 
+        Engine::PhysicsBodyDef physBodyDef;
+        physBodyDef.BodyType = b2_dynamicBody;
+        physBodyDef.IsBullet = true;
+		physBodyDef.CategoryBits = 0x1;
+		physBodyDef.MaskBits = 0x1;
+        bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+        bullet->AddComponent<Engine::CircleFixtureComponent>(0.5f);
         // TODO: remove this
+        Engine::ShapeViewDef shapeViewDef;
+        shapeViewDef.Color = sf::Color::Blue;
+        shapeViewDef.PointCount = 3;
+        shapeViewDef.Radius = 0.5f;
+        bullet->AddComponent<Engine::ShapeViewComponent>(zIndex, shapeViewDef);
         //bullet->AddComponent<SplashShape>(4, sf::Color::Magenta, Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool() );
-
+        
         // TODO: make this renderable
         bullet->AddComponent<BulletComponent>();
 

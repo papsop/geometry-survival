@@ -8,9 +8,10 @@ namespace Engine
 
 	struct PhysicsBodyDef
 	{
-		b2BodyType BodyType		= b2_staticBody;
-		uint16 CategoryBits		= 0x0000; // I'm xxx
-		uint16 MaskBits			= 0x0000; // I collide with yyy
+		b2BodyType	BodyType		= b2_staticBody;
+		bool		IsBullet		= false;
+		uint16		CategoryBits	= 0x0000; // I'm xxx
+		uint16		MaskBits		= 0x0000; // I collide with yyy
 	};
 
 	class PhysicsBodyComponent : public IComponent
@@ -21,7 +22,7 @@ namespace Engine
 
 		void Update(float dt) override;
 		void OnCreate() override;
-		void OnCollision(GameObject& other) override {};
+		void OnCollisionStart(GameObject& other) override {};
 
 		b2Body* GetB2Body() { return m_b2Body; }
 

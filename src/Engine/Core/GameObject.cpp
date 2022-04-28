@@ -14,11 +14,17 @@ namespace Engine
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 
-    void GameObject::OnCollision(GameObject& other)
+    void GameObject::OnCollisionStart(GameObject& other)
     {
         for (auto& c : m_components)
-            c.second->OnCollision(other);
+            c.second->OnCollisionStart(other);
     }
+
+	void GameObject::OnCollisionEnd(GameObject& other)
+	{
+		for (auto& c : m_components)
+		    c.second->OnCollisionEnd(other);
+	}
 
     void GameObject::Destroy()
     {

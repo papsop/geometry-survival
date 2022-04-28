@@ -63,6 +63,7 @@ namespace Engine
 			obj.setPointCount(shape.PointCount);
 			obj.setRadius(sfmlRadius);
 			obj.setPosition(sfmlPosition);
+            obj.setFillColor(shape.Color);
 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
 			float angle = 360.0f - (shape.Transform->Rotation - 90.0f);
 			obj.setRotation(angle);

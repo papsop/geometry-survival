@@ -7,10 +7,10 @@
 namespace Engine
 {
 
-    class GameObjectManager : public IEventDispatcher<GameObjectDeletedData>
+    class GameObjectManager : public IEventDispatcher<E_GameObjectDeleted>
     {
     public:
-        ~GameObjectManager() = default;
+        ~GameObjectManager() { LOG_WARN("Deleting gameObject manager"); };
 
         static GameObjectManager& Get();
 

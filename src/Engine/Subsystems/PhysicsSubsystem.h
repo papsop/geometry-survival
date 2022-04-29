@@ -1,6 +1,7 @@
 #pragma once
 #include "../Components/Physics.h"
 #include "../Components/Core.h"
+#include "../Core/Events.h"
 
 #include <box2d/b2_world.h>
 #include <box2d/b2_contact.h>
@@ -8,10 +9,10 @@
 #include <array>
 namespace Engine
 {
-    class PhysicsSubsystem : public b2ContactListener
+    class PhysicsSubsystem : public b2ContactListener, public IEventListener<E_ApplicationStopped>
     {
     public:
-        ~PhysicsSubsystem() = default;
+        ~PhysicsSubsystem();
 
         void RegisterComponent(PhysicsBodyComponent* component);
         void UnregisterComponent(PhysicsBodyComponent* component);
@@ -23,6 +24,9 @@ namespace Engine
         void EndContact(b2Contact* contact) override;
 		void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override;
 		void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override;
+
+        void ReceiveEvent(const E_ApplicationStopped& eventData) override;
+
     private:
         PhysicsSubsystem();
         

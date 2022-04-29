@@ -18,7 +18,7 @@ namespace Engine
 
         virtual void DispatchEvent(const T eventData)
         {
-            EventManager::Get().DispatchEvent<T>(eventData);
+            EventManager::Instance().DispatchEvent<T>(eventData);
         };
     };
 
@@ -29,12 +29,12 @@ namespace Engine
         
         IEventListener()
         {
-            EventManager::Get().RegisterEventListener<T>(this);
+            EventManager::Instance().RegisterEventListener<T>(this);
         }
 
         ~IEventListener()
         {
-            EventManager::Get().UnregisterEventListener<T>(this);
+            EventManager::Instance().UnregisterEventListener<T>(this);
         }
 
         virtual void ReceiveEvent(const T& eventData) = 0;

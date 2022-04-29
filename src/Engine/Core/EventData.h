@@ -3,9 +3,13 @@
 
 namespace Engine
 {
-    struct GameObjectDeletedData
+    struct E_GameObjectDeleted
     {
-        GameObjectDeletedData(GameObjectID id) : ID(id) {};
+        E_GameObjectDeleted(GameObjectID id) : ID(id) {};
         GameObjectID ID;
     };
+
+	struct E_ApplicationStopped
+	{
+	};
 }

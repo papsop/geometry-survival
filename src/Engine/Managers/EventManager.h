@@ -5,8 +5,6 @@
 #include <vector>
 namespace Engine
 {
-    class Application;
-
     template<typename>
     class IEventListener;
 
@@ -16,7 +14,7 @@ namespace Engine
     class EventManager
     {
     public:
-        static EventManager& Get();
+        static EventManager& Instance();
         ~EventManager() = default;
 
         template<typename T>

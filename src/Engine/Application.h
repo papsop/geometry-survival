@@ -8,7 +8,7 @@
 namespace Engine
 {
 
-    class Application
+    class Application : public IEventDispatcher<E_ApplicationStopped>
     {
     public:
         static Application& Instance()
@@ -21,10 +21,10 @@ namespace Engine
         GameObjectManager& GetGameObjectManager() { return *m_gameObjectManager; }
         SubsystemManager& GetSubsystemManager() { return *m_subsystemManager; }
         SceneManager& GetSceneManager() { return *m_sceneManager; }
-        EventManager& GetEventManager() { return *m_eventManager; }
 
         void Run(ApplicationInjection& injection);
-
+        bool IsRunning() const { return m_applicationIsRunning;  }
+        void Stop();
     private:
         Application();
         ~Application() = default;
@@ -35,7 +35,6 @@ namespace Engine
 
         // Order is important because of destructions
         std::unique_ptr<DatabaseManager> m_databaseManager;             // first, because other managers might need it already initialized
-        std::unique_ptr<EventManager> m_eventManager;
         std::unique_ptr<SubsystemManager> m_subsystemManager;
         std::unique_ptr<InputManager> m_inputManager;
         std::unique_ptr<GameObjectManager> m_gameObjectManager;

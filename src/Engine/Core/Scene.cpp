@@ -53,7 +53,7 @@ namespace Engine
         m_isLoaded = true;
     }
 
-    void Scene::ReceiveEvent(const GameObjectDeletedData& eventData)
+    void Scene::ReceiveEvent(const E_GameObjectDeleted& eventData)
     {
         RemoveGameObject(eventData.ID);
     }

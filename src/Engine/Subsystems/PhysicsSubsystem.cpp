@@ -2,6 +2,7 @@
 #include "../Debug/Logger.h"
 #include "../Core/GameObject.h"
 
+#include "../Application.h"
 #include "../Components/Physics.h"
 #include "../Managers/GameObjectManager.h"
 #include <box2d/b2_body.h>
@@ -15,6 +16,12 @@ namespace Engine
         m_b2World = std::make_unique<b2World>(gravity);
 		m_b2World->SetContactListener(this);
     }
+
+	PhysicsSubsystem::~PhysicsSubsystem()
+	{
+		LOG_WARN("Deleting PhysicsSubsystem");
+		m_b2World = nullptr; // delete
+	}
 
 	void PhysicsSubsystem::RegisterComponent(PhysicsBodyComponent* component)
 	{
@@ -46,7 +53,6 @@ namespace Engine
 		{
 			objA->OnCollisionStart(*objB);
 			objB->OnCollisionStart(*objA);
-			LOG_INFO("Start collision %s and %s", objA->c_DebugName, objB->c_DebugName);
 		}
 	}
 
@@ -62,7 +68,6 @@ namespace Engine
 		{
 			objA->OnCollisionEnd(*objB);
 			objB->OnCollisionEnd(*objA);
-			LOG_INFO("ended contact");
 		}
 	}
 
@@ -76,11 +81,16 @@ namespace Engine
 
 	}
 
+	void PhysicsSubsystem::ReceiveEvent(const E_ApplicationStopped& eventData)
+	{
+		m_b2World->SetContactListener(nullptr);
+	}
+
 	void PhysicsSubsystem::Update(float dt)
     {
-        m_b2World->Step(dt, 8, 3);
+		m_b2World->Step(dt, 8, 3);
 
-        for (auto& body : m_physicsBodies)
-            body->Update(dt);
+		for (auto& body : m_physicsBodies)
+			body->Update(dt);
     }
 }

@@ -91,11 +91,11 @@ namespace Game
 
 			Engine::RectangleViewDef rectangleViewDef;
             rectangleViewDef.Color = sf::Color::Cyan;
-            rectangleViewDef.Size = {50.0f, 1.0f};
-            physBodyDef.BodyType = b2_staticBody;
+            rectangleViewDef.Size = {10.0f, 1.0f};
+            physBodyDef.BodyType = b2_dynamicBody;
 
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
-            bottomBox->GetTransform().SetPosition({ 0.0f, -9.f });
+            bottomBox->GetTransform().SetPosition({ 0.0f, -15.f });
             bottomBox->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
             bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);

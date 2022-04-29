@@ -8,7 +8,7 @@
 namespace Engine
 {
     class SceneManager;
-    class Scene : public IDebuggable, public IEventListener<GameObjectDeletedData>
+    class Scene : public IDebuggable, public IEventListener<E_GameObjectDeleted>
     {
     public:
         enum class SceneType
@@ -30,7 +30,7 @@ namespace Engine
         
         void SetState(std::unique_ptr<ISceneState> state);
 
-        void ReceiveEvent(const GameObjectDeletedData& eventData) override;
+        void ReceiveEvent(const E_GameObjectDeleted& eventData) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
         
     private:

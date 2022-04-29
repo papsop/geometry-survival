@@ -18,6 +18,7 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
+#include "Physics/Filters.h"
 
 namespace Game
 {
@@ -68,10 +69,12 @@ namespace Game
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
-            auto centerCamera = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "MainCamera");
-            centerCamera->GetTransform().SetPosition({ 0.0f, 0.0f });
-            centerCamera->AddComponent<Engine::CameraComponent>();
+            //auto centerCamera = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::UI, "MainCamera");
+            //centerCamera->GetTransform().SetPosition({ 0.0f, 0.0f });
+            //centerCamera->AddComponent<Engine::CameraComponent>();
 
+			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
+			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
             auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
@@ -82,7 +85,12 @@ namespace Game
             player->AddComponent<WeaponComponent>();
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
+            player->AddComponent<Engine::CameraComponent>();
 
+
+
+			physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
+			physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
             shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
             enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
@@ -92,15 +100,17 @@ namespace Game
 			Engine::RectangleViewDef rectangleViewDef;
             rectangleViewDef.Color = sf::Color::Cyan;
             rectangleViewDef.Size = {10.0f, 1.0f};
-            physBodyDef.BodyType = b2_dynamicBody;
+            physBodyDef.BodyType = b2_staticBody;
 
+			physBodyDef.CategoryBits = physics::EntityCategory::WALL;
+			physBodyDef.MaskBits = physics::EntityMask::M_WALL;
             auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -15.f });
             bottomBox->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
             bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);
 
-            scene1.AddGameObject(centerCamera->c_ID);
+           // scene1.AddGameObject(centerCamera->c_ID);
             scene1.AddGameObject(player->c_ID);
             scene1.AddGameObject(enemy->c_ID);
             scene1.AddGameObject(bottomBox->c_ID);

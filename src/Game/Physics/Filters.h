@@ -4,7 +4,7 @@ namespace Game
 {
 	namespace physics
 	{
-		enum EntityCategory
+		enum EntityCategory : uint16
 		{
 			WALL	      = 0x0001,
 			PLAYER		  = 0x0002,
@@ -13,7 +13,7 @@ namespace Game
 			ENEMY_BULLET  = 0x0010,
 		};
 
-		enum EntityMask
+		enum EntityMask : uint16
 		{
 			M_WALL			= 0xFFFF,		// collides with everything
 			M_PLAYER		= EntityCategory::WALL | EntityCategory::ENEMY | EntityCategory::ENEMY_BULLET,

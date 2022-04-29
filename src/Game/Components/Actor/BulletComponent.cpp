@@ -27,4 +27,10 @@ namespace Game
         if (m_timeToDie <= 0.0f)
             Owner.Destroy();
     }
+
+	void BulletComponent::OnCollisionStart(Engine::GameObject* other)
+	{
+        Owner.Destroy();
+	}
+
 }

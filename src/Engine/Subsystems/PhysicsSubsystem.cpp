@@ -47,13 +47,10 @@ namespace Engine
 		auto bodyB = contact->GetFixtureB()->GetBody();
 
 		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
-		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
+		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
 
-		if (objA != nullptr && objB != nullptr)
-		{
-			objA->OnCollisionStart(*objB);
-			objB->OnCollisionStart(*objA);
-		}
+		if (objA) objA->OnCollisionStart(objB);
+		if (objB) objB->OnCollisionStart(objA);
 	}
 
 	void PhysicsSubsystem::EndContact(b2Contact* contact)
@@ -62,13 +59,11 @@ namespace Engine
 		auto bodyB = contact->GetFixtureB()->GetBody();
 
 		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
-		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
+		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
 
-		if (objA != nullptr && objB != nullptr)
-		{
-			objA->OnCollisionEnd(*objB);
-			objB->OnCollisionEnd(*objA);
-		}
+		// One of the object could have been deleted after BeginContact
+		if (objA) objA->OnCollisionEnd(objB);
+		if (objB) objB->OnCollisionEnd(objA);
 	}
 
 	void PhysicsSubsystem::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)

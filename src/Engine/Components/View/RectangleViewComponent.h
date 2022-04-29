@@ -26,7 +26,7 @@ namespace Engine
 		~RectangleViewComponent() override;
 		void OnCreate() override;
 		void Update(float dt) override;
-		void OnCollisionStart(GameObject& other) override;
+		void OnCollisionStart(GameObject* other) override;
 	private:
 		bool m_useAbsoluteTransform = false;
 		Transform m_localTransform;

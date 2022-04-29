@@ -22,7 +22,6 @@ namespace Engine
             return m_gameObjects[ID].get();
         else
         {
-            LOG_WARN("Trying to retrieve non-existent EntityID '%d'", ID);
             return nullptr;
         }
             

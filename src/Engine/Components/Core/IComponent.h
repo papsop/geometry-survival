@@ -22,8 +22,8 @@ namespace Engine
 
         virtual void OnCreate() {};
         virtual void Update(float dt) {};
-        virtual void OnCollisionStart(GameObject& other) {};
-        virtual void OnCollisionEnd(GameObject& other) {};
+        virtual void OnCollisionStart(GameObject* other) {};
+        virtual void OnCollisionEnd(GameObject* other) {};
 
         GameObject& Owner;
     protected:

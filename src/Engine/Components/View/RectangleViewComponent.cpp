@@ -42,7 +42,7 @@ namespace Engine
 			m_renderableTransform = Owner.GetTransform() + m_localTransform;
 	}
 
-	void RectangleViewComponent::OnCollisionStart(GameObject& other)
+	void RectangleViewComponent::OnCollisionStart(GameObject* other)
 	{
 	}
 

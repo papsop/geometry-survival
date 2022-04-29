@@ -22,7 +22,7 @@ namespace Engine
 
 		void Update(float dt) override;
 		void OnCreate() override;
-		void OnCollisionStart(GameObject& other) override {};
+		void OnCollisionStart(GameObject* other) override {};
 
 		b2Body* GetB2Body() { return m_b2Body; }
 

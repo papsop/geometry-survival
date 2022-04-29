@@ -3,7 +3,7 @@
 #include "../Actor/ActorComponent.h"
 
 #include <Engine/Application.h>
-
+#include <Engine/Managers/SubsystemManager.h>
 namespace Game
 {
     InputComponent::InputComponent(Engine::GameObject& obj)
@@ -28,8 +28,8 @@ namespace Game
         if (actorComponent == nullptr) return;
 
         // rotation
-        float angle = 0;
-            //Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, static_cast<sf::Vector2f>(m_inputManager.GetMousePosition()));
+        auto b2MousePos = Engine::SubsystemManager::Get().GetViewSubsystem().pixelsToCoords(m_inputManager.GetMousePosition());
+        float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
 
         if (m_previousUpdateRotation != angle)
         {

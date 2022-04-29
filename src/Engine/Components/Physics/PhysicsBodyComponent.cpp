@@ -34,9 +34,13 @@ namespace Engine
 		m_b2Body->ApplyLinearImpulse(impulse, m_b2Body->GetWorldCenter(), true);
 	}
 
+	void PhysicsBodyComponent::ApplyTorque(float torque)
+	{
+		m_b2Body->ApplyTorque(torque, true);
+	}
+
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
-		LOG_INFO("destroying physicsbody");
 		SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
 	}
 

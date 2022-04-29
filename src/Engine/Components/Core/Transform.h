@@ -16,7 +16,8 @@ namespace Engine
 
         math::Vec2 Forward()
         {
-            return { cosf(math::DEG_TO_RAD(Rotation)), -sinf(math::DEG_TO_RAD(Rotation)) };
+            auto modifiedRotation = Rotation + (Engine::math::M_PI_F / 2);
+            return { cosf(modifiedRotation), sinf(modifiedRotation) };
         }
 
         bool operator==(const Transform& rhs) const

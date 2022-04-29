@@ -19,10 +19,7 @@ namespace Engine
         float AngleBetweenVecs(Vec2 a, Vec2 b)
         {
             Vec2 AB = b - a;
-            float angle = -math::RAD_TO_DEG(atan2(AB.y, AB.x));
-            if (angle < 0)
-                angle += 360.0f;
-            return angle;
+            return atan2(-AB.x, AB.y);
         }
 
         float V2fLengthSquared(const Vec2& v)

@@ -57,7 +57,7 @@ namespace Game
 
             Engine::ShapeViewDef shapeViewDef;
             shapeViewDef.Color = sf::Color::Green;
-            shapeViewDef.PointCount = 5;
+            shapeViewDef.PointCount = 3;
             shapeViewDef.Radius = 2;
 
             Engine::PhysicsBodyDef physBodyDef;

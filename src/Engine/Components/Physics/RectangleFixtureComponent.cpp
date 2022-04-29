@@ -27,8 +27,7 @@ namespace Engine
 
 	RectangleFixtureComponent::~RectangleFixtureComponent()
 	{
-		// body destroys all the fixtures when it's deleted
-		LOG_WARN("destroying rectangle fixture");
+		// body destroys all the fixtures when it's deleteds
 	}
 
 	void RectangleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)

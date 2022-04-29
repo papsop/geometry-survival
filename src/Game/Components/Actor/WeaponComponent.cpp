@@ -49,14 +49,15 @@ namespace Game
     {
         auto zIndex = Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool();
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
-        bullet->GetTransform().Position = Owner.GetTransform().Position + Engine::math::Vec2(1.5f, 1.5f);
+        //auto shootOffset = Owner.GetTransform().Forward();
+        bullet->GetTransform().Position = Owner.GetTransform().Position + Owner.GetTransform().Forward();
         bullet->GetTransform().Scale = { 1.f, 1.f };
 
         Engine::PhysicsBodyDef physBodyDef;
         physBodyDef.BodyType = b2_dynamicBody;
         physBodyDef.IsBullet = true;
-		physBodyDef.CategoryBits = 0x1;
-		physBodyDef.MaskBits = 0x1;
+		physBodyDef.CategoryBits = 0x0;
+		physBodyDef.MaskBits = 0x0;
         bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
         bullet->AddComponent<Engine::CircleFixtureComponent>(0.5f);
         // TODO: remove this

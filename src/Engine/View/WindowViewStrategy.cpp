@@ -36,6 +36,7 @@ namespace Engine
             auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(circle.Transform->Position);
             auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(circle.Radius);
             auto sfmlScale = sf::Vector2f(circle.Transform->Scale.x, circle.Transform->Scale.y);
+            auto sfmlAngle = Box2DRotationToSFML(circle.Transform->Rotation);
 
             // create sfml circle shape
 			auto obj = sf::CircleShape();
@@ -44,8 +45,7 @@ namespace Engine
 			obj.setFillColor(circle.FillColor);
 			obj.setPosition(sfmlPosition);
 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-			float angle = 360.0f - (circle.Transform->Rotation - 90.0f);
-			obj.setRotation(angle);
+			obj.setRotation(sfmlAngle);
 			obj.setScale(sfmlScale);
 			obj.setOrigin(sf::Vector2f(circle.Radius, circle.Radius));
 			return obj;
@@ -57,6 +57,7 @@ namespace Engine
 			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(shape.Transform->Position);
             auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(shape.Radius);
 			auto sfmlScale = sf::Vector2f(shape.Transform->Scale.x, shape.Transform->Scale.y);
+            auto sfmlAngle = Box2DRotationToSFML(shape.Transform->Rotation);
 
 			// create sfml circle shape
 			auto obj = sf::CircleShape();
@@ -65,8 +66,7 @@ namespace Engine
 			obj.setPosition(sfmlPosition);
             obj.setFillColor(shape.Color);
 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-			float angle = 360.0f - (shape.Transform->Rotation - 90.0f);
-			obj.setRotation(angle);
+			obj.setRotation(sfmlAngle);
 			obj.setScale(sfmlScale);
             obj.setOrigin({ sfmlRadius, sfmlRadius });
 			return obj;

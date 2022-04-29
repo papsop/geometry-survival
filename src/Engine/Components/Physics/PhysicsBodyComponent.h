@@ -27,6 +27,7 @@ namespace Engine
 		b2Body* GetB2Body() { return m_b2Body; }
 
 		void ApplyImpulseToCenter(const math::Vec2& impulse);
+		void ApplyTorque(float torque);
 		b2Vec2 GetLinearVelocity() { return m_b2Body->GetLinearVelocity(); }
 		float GetMass() { return m_b2Body->GetMass(); }
 

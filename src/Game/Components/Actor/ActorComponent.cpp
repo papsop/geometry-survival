@@ -45,7 +45,10 @@ namespace Game
 
     void ActorComponent::Rotate(float angle)
     {
-        Owner.GetTransform().Rotation = angle;
+        auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+		physBody->GetB2Body()->SetTransform(Owner.GetTransform().Position, angle);
+        physBody->GetB2Body()->SetAngularVelocity(0);
+        LOG_INFO("%f", angle);
     }
 
     void ActorComponent::Fire()

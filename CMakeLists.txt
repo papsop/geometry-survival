@@ -27,7 +27,7 @@ set_target_properties(box2d
         RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR}
 )
 
-if(NOT TARGET box2d OR NOT TARGET sfml-system)
+if(NOT TARGET box2d OR NOT TARGET sfml-system OR NOT TARGET yaml-cpp)
     message(FATAL_ERROR "Forgot to git submodule update?")
 endif()
 
@@ -46,3 +46,8 @@ set_target_properties(sfml-main PROPERTIES FOLDER "Libraries/SFML")
 set_target_properties(sfml-network PROPERTIES FOLDER "Libraries/SFML")
 set_target_properties(sfml-system PROPERTIES FOLDER "Libraries/SFML")
 set_target_properties(sfml-window PROPERTIES FOLDER "Libraries/SFML")
+
+set_target_properties(yaml-cpp PROPERTIES FOLDER "Libraries/YAML")
+set_target_properties(yaml-cpp-read PROPERTIES FOLDER "Libraries/YAML")
+set_target_properties(yaml-cpp-parse PROPERTIES FOLDER "Libraries/YAML")
+set_target_properties(yaml-cpp-sandbox PROPERTIES FOLDER "Libraries/YAML")

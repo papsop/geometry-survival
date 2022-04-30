@@ -8,6 +8,7 @@ set(SOURCES
 	Scene.h
 	Scene.cpp
 	CameraData.h
+	Config.h
 
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h

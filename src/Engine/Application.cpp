@@ -17,7 +17,7 @@ namespace Engine
 {
 
     Application::Application()
-        : m_databaseManager(std::unique_ptr<DatabaseManager>(new DatabaseManager()))
+        : m_assetsManager(std::unique_ptr<AssetsManager>(new AssetsManager()))
         , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
         , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
         , m_gameObjectManager(std::unique_ptr<GameObjectManager>(new GameObjectManager()))
@@ -32,7 +32,7 @@ namespace Engine
         switch (event.type)
         {
         case sf::Event::Closed:
-            m_applicationIsRunning = false;
+            Stop();
             break;
         default:
             m_inputManager->HandleWindowEvent(event);
@@ -43,7 +43,9 @@ namespace Engine
     void Application::Run(ApplicationInjection& injection)
     {
         LOG_DEBUG("Starting Application");
-
+        LOG_DEBUG("Loading Config");
+        m_config = m_assetsManager->LoadEngineConfig();
+        LOG_DEBUG("Config loaded");
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);
 

@@ -1,7 +1,7 @@
 set(SOURCES
 	AllManagers.h
-	DatabaseManager.h
-	DatabaseManager.cpp
+	AssetsManager.h
+	AssetsManager.cpp
 	EventManager.h
 	EventManager.cpp
 	GameObjectManager.h

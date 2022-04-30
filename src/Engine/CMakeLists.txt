@@ -11,7 +11,7 @@ add_library(
     ${ENGINE_PROJECT} STATIC
     Application.cpp
     Application.h
- )
+)
 
 add_subdirectory(Subsystems)
 add_subdirectory(Managers)
@@ -26,6 +26,7 @@ target_include_directories(
     ${ENGINE_PROJECT}
     PRIVATE
     ${SFML_INCLUDE}
+    ${YAML_INCLUDE}
 )
 
 # PUBLIC because we want to propagate SFML into Game as well without explicit linking there
@@ -36,4 +37,5 @@ target_link_libraries(
     sfml-window
     sfml-system
     box2d
+    yaml-cpp
 )

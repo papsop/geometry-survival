@@ -62,6 +62,5 @@ namespace Engine
 
     template<typename>
     friend class IEventDispatcher;
-    friend class Application;
     };
 }

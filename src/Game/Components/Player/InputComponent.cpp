@@ -10,6 +10,7 @@ namespace Game
         : IComponent(obj)
         , m_inputManager(Engine::InputManager::Get())
     {
+        Requires<ActorComponent>();
     }
 
     void InputComponent::OnCreate()
@@ -31,12 +32,7 @@ namespace Game
         auto b2MousePos = Engine::SubsystemManager::Get().GetViewSubsystem().pixelsToCoords(m_inputManager.GetMousePosition());
         float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
 
-        if (m_previousUpdateRotation != angle)
-        {
-            actorComponent->AddCommand(std::make_unique<RotateCommand>(angle));
-            m_previousUpdateRotation = angle;
-        }
-
+        actorComponent->AddCommand(std::make_unique<RotateCommand>(angle));
         // movement
         float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
         float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);

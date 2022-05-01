@@ -14,11 +14,13 @@ namespace Engine
 		: IComponent(obj)
 		, m_categoryBits(def.CategoryBits)
 		, m_maskBits(def.MaskBits)
+		, m_isBullet(def.IsBullet)
+		, m_bodyType(def.BodyType)
 	{
 		b2BodyDef bodyDef;
-		bodyDef.type = def.BodyType;
+		bodyDef.type = m_bodyType;
 		bodyDef.position = Owner.GetTransform().Position;
-		bodyDef.bullet = def.IsBullet;
+		bodyDef.bullet = m_isBullet;
 		//bodyDef.fixedRotation = true;
 		bodyDef.userData.pointer = Owner.c_ID;
 		m_b2Body = SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(&bodyDef);

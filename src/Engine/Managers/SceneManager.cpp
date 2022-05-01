@@ -2,7 +2,9 @@
 #include "../Debug/Logger.h"
 #include "../Application.h"
 #include "../Core/Scene.h"
+#include "../Core/Serializing/SceneSerializer.h"
 
+#include <string>
 namespace Engine
 {
     SceneManager& SceneManager::Get()
@@ -52,5 +54,14 @@ namespace Engine
         for (auto&& s : m_scenes)
             if (s->IsLoaded())
                 s->Update(dt);
+    }
+
+    void SceneManager::SaveAllScenes()
+    {
+        for (auto&& scene : m_scenes)
+        {
+			SceneSerializer s(*scene);
+			s.Serialize("assets/scenes/scene" + std::to_string(scene->c_ID) + ".yaml");
+        }
     }
 }

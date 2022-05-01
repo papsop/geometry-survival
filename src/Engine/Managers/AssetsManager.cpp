@@ -5,6 +5,7 @@
 namespace Engine
 {
 
+	// WIP
 	AssetsManager& AssetsManager::Get()
 	{
 		return Application::Instance().GetAssetsManager();

@@ -8,6 +8,8 @@
 namespace Engine
 {
     class SceneManager;
+    class SceneSerializer;
+
     class Scene : public IDebuggable, public IEventListener<E_GameObjectDeleted>
     {
     public:
@@ -21,6 +23,7 @@ namespace Engine
         Scene(uint32_t id, SceneType sceneType);
         ~Scene() = default;
 
+        void CreateGameObject();
         void AddGameObject(GameObjectID id);
         void RemoveGameObject(GameObjectID id);
         
@@ -43,6 +46,7 @@ namespace Engine
         std::unique_ptr< ISceneState > m_state;
 
     friend class SceneManager;
+    friend class SceneSerializer;
     };
 };
 

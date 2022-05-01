@@ -14,7 +14,7 @@ namespace Engine
         static SceneManager& Get();
         
         Scene& CreateScene();
-        Scene& GetActiveScene();
+        //Scene& GetActiveScene();
         Scene& GetSceneByIndex(uint32_t index);
 
         // Loads all objects and adds them to already loaded ones
@@ -29,7 +29,7 @@ namespace Engine
 
         ~SceneManager() = default;
 
-
+        void SaveAllScenes();
     private:
         SceneManager() = default;
 

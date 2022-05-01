@@ -1,6 +1,8 @@
 #include "Application.h"
 #include "Managers/InputManager.h"
 #include "Core/GameObject.h"
+#include "Core/Serializing/SceneSerializer.h"
+
 #include "View/WindowViewStrategy.h"
 #include "View/ConsoleViewStrategy.h"
 
@@ -73,7 +75,7 @@ namespace Engine
             m_subsystemManager->GetViewSubsystem().PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_sceneManager->SaveAllScenes();
             // Update managers
             m_inputManager->Update();
             m_sceneManager->Update(lastFrameMS);    // update scene's state machine

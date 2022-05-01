@@ -13,6 +13,9 @@ set(SOURCES
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h
 	StateMachine/BasicSceneState.cpp
+
+	Serializing/SceneSerializer.h
+	Serializing/SceneSerializer.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

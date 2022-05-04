@@ -3,6 +3,7 @@
 #include "../../View/Renderables.h"
 #include "../../View/IViewStrategy.h"
 #include "../../Core/ColliderData.h"
+#include "../../Core/Serializing/SerializableField.h"
 
 #include "../../Debug/Logger.h"
 #include <stdint.h>
@@ -42,6 +43,12 @@ namespace Engine
             //if constexpr (size > 0)
             //    Requires<Args...>();
         }
+
+		template<typename T>
+		void AddSerializableField(std::string key, T& value)
+		{
+            auto f = SerializableField<T>(key, value);
+		}
     };
 
     // Views

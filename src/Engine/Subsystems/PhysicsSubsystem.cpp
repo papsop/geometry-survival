@@ -66,16 +66,6 @@ namespace Engine
 		if (objB) objB->OnCollisionEnd(objA);
 	}
 
-	void PhysicsSubsystem::PreSolve(b2Contact* contact, const b2Manifold* oldManifold)
-	{
-
-	}
-
-	void PhysicsSubsystem::PostSolve(b2Contact* contact, const b2ContactImpulse* impulse)
-	{
-
-	}
-
 	void PhysicsSubsystem::ReceiveEvent(const E_ApplicationStopped& eventData)
 	{
 		m_b2World->SetContactListener(nullptr);

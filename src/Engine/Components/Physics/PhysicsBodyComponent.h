@@ -1,6 +1,5 @@
 #pragma once
 #include "../Core.h"
-
 #include <box2d/b2_body.h>
 
 namespace Engine
@@ -37,8 +36,8 @@ namespace Engine
 		b2Body* m_b2Body;
 		b2BodyType m_bodyType;
 		bool m_isBullet;
-		const uint16 m_categoryBits;
-		const uint16 m_maskBits;
+		uint16 m_categoryBits;
+		uint16 m_maskBits;
 
 	friend class SceneSerializer;
 	};

@@ -11,7 +11,7 @@ add_library(
     ${ENGINE_PROJECT} STATIC
     Application.cpp
     Application.h
-)
+ "Core/Serializing/SerializableField.h")
 
 add_subdirectory(Subsystems)
 add_subdirectory(Managers)

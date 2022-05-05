@@ -7,7 +7,7 @@ namespace Engine
 	{
 	public:
 		SerializableField(std::string key, T& value) 
-			: m_key(Key)
+			: m_key(key)
 			, m_value(value) {};
 
 		~SerializableField() = default;

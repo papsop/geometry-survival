@@ -1,5 +1,5 @@
 #include "CameraComponent.h"
-#include "../../Managers/SubsystemManager.h"
+#include "../../Managers/ComponentManager.h"
 
 namespace Engine
 {
@@ -13,18 +13,18 @@ namespace Engine
 
 	void CameraComponent::OnCreate()
 	{
-		SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+		ViewManager::Get().RegisterComponent(this);
 	}
 
 	CameraComponent::~CameraComponent()
 	{
-		SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+		ViewManager::Get().UnregisterComponent(this);
 	}
 
 	void CameraComponent::Update(float dt)
 	{
 		m_cameraData.Center = Owner.GetTransform().Position;
-		SubsystemManager::Get().GetViewSubsystem().GetViewStrategy()->SetView(m_cameraData);	
+		ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);	
 	}
 
 	void CameraComponent::OnCollisionStart(GameObject* other)

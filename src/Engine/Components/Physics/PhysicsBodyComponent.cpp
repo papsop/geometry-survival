@@ -1,6 +1,6 @@
 #include "PhysicsBodyComponent.h"
 
-#include "../../Managers/SubsystemManager.h"
+#include "../../Managers/PhysicsManager.h"
 #include "../../Core/GameObject.h"
 #include "../../Utils/AllUtils.h"
 
@@ -25,12 +25,12 @@ namespace Engine
 		bodyDef.bullet = m_isBullet;
 		//bodyDef.fixedRotation = true;
 		bodyDef.userData.pointer = Owner.c_ID;
-		m_b2Body = SubsystemManager::Get().GetPhysicsSubsystem().CreateBody(&bodyDef);
+		m_b2Body = PhysicsManager::Get().CreateBody(&bodyDef);
 	}
 
 	void PhysicsBodyComponent::OnCreate()
 	{
-		SubsystemManager::Get().GetPhysicsSubsystem().RegisterComponent(this);
+		PhysicsManager::Get().RegisterComponent(this);
 	}
 
 	void PhysicsBodyComponent::ApplyImpulseToCenter(const math::Vec2& impulse)
@@ -45,7 +45,7 @@ namespace Engine
 
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
-		SubsystemManager::Get().GetPhysicsSubsystem().UnregisterComponent(this);
+		PhysicsManager::Get().UnregisterComponent(this);
 	}
 
 	void PhysicsBodyComponent::Update(float dt)

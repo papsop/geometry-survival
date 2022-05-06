@@ -1,7 +1,7 @@
 #include "WindowViewStrategy.h"
 
 #include "../Debug/Logger.h"
-#include "../Managers/SubsystemManager.h"
+#include "../Managers/ViewManager.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 namespace Engine
@@ -33,8 +33,8 @@ namespace Engine
 		sf::CircleShape WindowViewStrategy::CircleToSFMLCircleShape(const view::Circle& circle)
 		{
             // convert box2d to sfml
-            auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(circle.Transform->Position);
-            auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(circle.Radius);
+            auto sfmlPosition = ViewManager::Get().coordsToPixels(circle.Transform->Position);
+            auto sfmlRadius = ViewManager::Get().coordToPixel(circle.Radius);
             auto sfmlScale = sf::Vector2f(circle.Transform->Scale.x, circle.Transform->Scale.y);
             auto sfmlAngle = Box2DRotationToSFML(circle.Transform->Rotation);
 
@@ -54,8 +54,8 @@ namespace Engine
 		sf::CircleShape WindowViewStrategy::ShapeToSFMLCircleShape(const view::Shape& shape)
 		{
 			// convert box2d to sfml
-			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(shape.Transform->Position);
-            auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(shape.Radius);
+			auto sfmlPosition = ViewManager::Get().coordsToPixels(shape.Transform->Position);
+            auto sfmlRadius = ViewManager::Get().coordToPixel(shape.Radius);
 			auto sfmlScale = sf::Vector2f(shape.Transform->Scale.x, shape.Transform->Scale.y);
             auto sfmlAngle = Box2DRotationToSFML(shape.Transform->Rotation);
 
@@ -75,8 +75,8 @@ namespace Engine
 		sf::RectangleShape WindowViewStrategy::RectangleToSFMLRectangleShape(const view::Rectangle& rectangle)
 		{
             //convert box2d to sfml
-			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Transform->Position);
-			auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(rectangle.Size);
+			auto sfmlPosition = ViewManager::Get().coordsToPixels(rectangle.Transform->Position);
+			auto sfmlSize = ViewManager::Get().coordsToPixels(rectangle.Size);
             sfmlSize.y  = 2 * std::fabsf(sfmlSize.y);
             sfmlSize.x  = 2 * sfmlSize.x;
 			auto sfmlScale = sf::Vector2f(rectangle.Transform->Scale.x, rectangle.Transform->Scale.y);
@@ -180,8 +180,8 @@ namespace Engine
 
 		void WindowViewStrategy::DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color)
 		{
-			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(center);
-			auto sfmlRadius = SubsystemManager::Get().GetViewSubsystem().coordToPixel(radius);
+			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
+			auto sfmlRadius = ViewManager::Get().coordToPixel(radius);
 
             sf::CircleShape circle(sfmlRadius);
             circle.setOutlineColor(color);
@@ -195,8 +195,8 @@ namespace Engine
 		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color)
 		{
 			//convert box2d to sfml
-			auto sfmlPosition = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(center);
-			auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(size);
+			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
+			auto sfmlSize = ViewManager::Get().coordsToPixels(size);
 			sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
 			sfmlSize.x = 2 * sfmlSize.x;
 			auto sfmlAngle = Box2DRotationToSFML(angle);
@@ -224,8 +224,8 @@ namespace Engine
         void WindowViewStrategy::SetView(const CameraData& cameraData)
         {
             sf::View view;
-            view.setCenter(SubsystemManager::Get().GetViewSubsystem().coordsToPixels(cameraData.Center));
-            auto sfmlSize = SubsystemManager::Get().GetViewSubsystem().coordsToPixels(cameraData.Size);
+            view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
+            auto sfmlSize = ViewManager::Get().coordsToPixels(cameraData.Size);
             sfmlSize.y *= -1; // because coordsToPixels reverts y;
             view.setSize(sfmlSize);
             view.setViewport({ .0f, .0f, 1.f, 1.f });

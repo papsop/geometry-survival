@@ -1,5 +1,5 @@
 #include "SplashTitle.h"
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {
@@ -16,12 +16,12 @@ namespace Game
 
     void SplashTitle::OnCreate()
     {
-        Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+        Engine::ViewManager::Get().RegisterComponent(this);
     }
 
     SplashTitle::~SplashTitle()
     {
-        Engine::SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+        Engine::ViewManager::Get().UnregisterComponent(this);
     }
 
 }

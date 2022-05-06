@@ -9,6 +9,12 @@ namespace Engine
 {
     GameObjectManager& GameObjectManager::Get() { return Application::Instance().GetGameObjectManager(); }
 
+	void GameObjectManager::OnDestroy()
+	{
+        m_gameObjects.clear();
+        IManager::OnDestroy();
+	}
+
     GameObject* GameObjectManager::CreateGameObject(GameObject::FilterTag tag, const char *name)
     {
         uint32_t ID = m_nextGameObjectID++;
@@ -51,5 +57,4 @@ namespace Engine
             DispatchEvent(eventData);
         }
     }
-
 };

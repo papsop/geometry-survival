@@ -5,8 +5,8 @@
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject.h>
 #include <Engine/Managers/GameObjectManager.h>
-#include <Engine/Managers/SubsystemManager.h>
-#include <Engine/Subsystems/ViewSubsystem.h>
+#include <Engine/Managers/ComponentManager.h>
+#include <Engine/Managers/ViewManager.h>
 #include <Engine/Components/Physics.h>
 
 #include "../../Physics/Filters.h"
@@ -20,12 +20,12 @@ namespace Game
 
     void WeaponComponent::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
 
     WeaponComponent::~WeaponComponent()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
     }
 
 
@@ -48,7 +48,7 @@ namespace Game
 
     Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
-        auto zIndex = Engine::SubsystemManager::Get().GetViewSubsystem().GetZIndexFromPool();
+        auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
 
         // add offset and stuff

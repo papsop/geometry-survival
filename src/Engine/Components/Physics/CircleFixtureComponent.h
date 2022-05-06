@@ -6,7 +6,7 @@
 #include <box2d/b2_fixture.h>
 namespace Engine
 {
-	class CircleFixtureComponent : public IComponent, public IDebuggable
+	class CircleFixtureComponent : public IComponent, public IDebuggableComponent
 	{
 
 	public:

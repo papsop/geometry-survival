@@ -1,5 +1,5 @@
 #include "ShapeViewComponent.h"
-#include "../../Managers/SubsystemManager.h"
+#include "../../Managers/ComponentManager.h"
 
 namespace Engine
 {
@@ -20,7 +20,7 @@ namespace Engine
 
 	void ShapeViewComponent::OnCreate()
 	{
-		SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+		ViewManager::Get().RegisterComponent(this);
 		// update shape's transform
 		if (m_useAbsoluteTransform)
 			m_renderableTransform = m_localTransform;
@@ -30,7 +30,7 @@ namespace Engine
 
 	ShapeViewComponent::~ShapeViewComponent()
 	{
-		SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+		ViewManager::Get().UnregisterComponent(this);
 	}
 
 	void ShapeViewComponent::Update(float dt)

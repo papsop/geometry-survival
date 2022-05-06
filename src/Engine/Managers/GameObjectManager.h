@@ -1,26 +1,28 @@
 #pragma once
+#include "IManager.h"
 #include "../Core/GameObject.h"
 #include "../Core/Events.h"
+
 
 #include <unordered_map>
 
 namespace Engine
 {
 
-    class GameObjectManager : public IEventDispatcher<E_GameObjectDeleted>
+    class GameObjectManager : public IManager, public IEventDispatcher<E_GameObjectDeleted>
     {
     public:
-        ~GameObjectManager() { LOG_WARN("Deleting gameObject manager"); };
+        ~GameObjectManager() = default;
 
         static GameObjectManager& Get();
 
         GameObject* CreateGameObject(GameObject::FilterTag tag, const char* name="Unknown");
-
         GameObject* GetGameObjectByID(GameObjectID ID);
 
         void DestroyGameObject(GameObjectID ID);
         void CleanupGameObjects();
-
+    protected:
+        void OnDestroy() override;
     private:
         GameObjectManager() = default;
 
@@ -32,5 +34,3 @@ namespace Engine
     friend class Application;   // only Application can create a manager
     };
 };
-
-

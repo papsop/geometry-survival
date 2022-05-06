@@ -1,5 +1,5 @@
 #include "SplashBackground.h"
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {
@@ -14,11 +14,11 @@ namespace Game
 
     void SplashBackground::OnCreate()
     {
-        Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+        Engine::ViewManager::Get().RegisterComponent(this);
     }
 
     SplashBackground::~SplashBackground()
     {
-        Engine::SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+        Engine::ViewManager::Get().UnregisterComponent(this);
     }
 }

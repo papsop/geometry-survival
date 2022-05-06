@@ -1,5 +1,5 @@
 #include "SplashController.h"
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 
 #include <Engine/Core/Scene.h>
@@ -17,17 +17,17 @@ namespace Game
         : IComponent(obj)
     {
         srand((unsigned)time(NULL));
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
     
     void SplashController::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
 
     SplashController::~SplashController()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
     }
 
     void SplashController::Update(float dt)

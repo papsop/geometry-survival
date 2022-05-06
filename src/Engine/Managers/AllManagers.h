@@ -2,7 +2,8 @@
 
 #include "GameObjectManager.h"
 #include "InputManager.h"
-#include "SubsystemManager.h"
-#include "AssetsManager.h"
 #include "SceneManager.h"
 #include "EventManager.h"
+#include "PhysicsManager.h"
+#include "ViewManager.h"
+#include "ComponentManager.h"

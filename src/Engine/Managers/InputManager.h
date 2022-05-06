@@ -1,5 +1,6 @@
 #pragma once
-#include "../Subsystems/ViewSubsystem.h"
+#include "IManager.h"
+#include "../Managers/ViewManager.h"
 
 #include <SFML/Window.hpp>
 #include <array>
@@ -10,7 +11,7 @@ namespace Engine {
     class Application;
     class InputComponent;
 
-    class InputManager
+    class InputManager : public IManager
     {
     public:
         enum class Axis
@@ -60,8 +61,6 @@ namespace Engine {
         void Update();
         void PostUpdate();
 
-        void SetViewSubsystem(ViewSubsystem* viewSubsystem);
-
         std::array<float, 3> m_axis;
 
         std::array<ActionEntry, static_cast<size_t>(Action::NumberOfActions)> m_actions;
@@ -69,9 +68,7 @@ namespace Engine {
         std::unordered_map<sf::Keyboard::Key, Action> m_mapKeyToAction;
         sf::Vector2f m_mousePosition;
 
-        ViewSubsystem* m_viewSubsystem = nullptr;
-
-    friend class ViewSubsystem; // needs to communicate about MousePos
+    friend class RenderManager; // needs to communicate about MousePos
     friend class Application;   // only Application can create a manager
     };
 };

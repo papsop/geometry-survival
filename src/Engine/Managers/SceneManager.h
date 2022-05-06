@@ -1,4 +1,5 @@
 #pragma once
+#include "IManager.h"
 #include "../Core/Scene.h"
 
 #include <vector>
@@ -8,7 +9,7 @@ namespace Engine
 {
     class Application;
 
-    class SceneManager
+    class SceneManager : public IManager
     {
     public:
         static SceneManager& Get();

@@ -19,11 +19,6 @@ namespace Engine
 {
 
     Application::Application()
-        : m_assetsManager(std::unique_ptr<AssetsManager>(new AssetsManager()))
-        , m_subsystemManager(std::unique_ptr<SubsystemManager>(new SubsystemManager()))
-        , m_inputManager(std::unique_ptr<InputManager>(new InputManager()))
-        , m_gameObjectManager(std::unique_ptr<GameObjectManager>(new GameObjectManager()))
-        , m_sceneManager(std::unique_ptr<SceneManager>(new SceneManager()))
     {
         // Passing unique_ptr like this, so we can keep private manager constructors
         // and link Application as friend class (won't work with make_unique)
@@ -37,17 +32,24 @@ namespace Engine
             Stop();
             break;
         default:
-            m_inputManager->HandleWindowEvent(event);
+            m_inputManager.HandleWindowEvent(event);
             break;
         }
     }
 
-    void Application::Run(ApplicationInjection& injection)
+	void Application::Run(ApplicationInjection& injection)
     {
         LOG_DEBUG("Starting Application");
-        LOG_DEBUG("Loading Config");
-        m_config = m_assetsManager->LoadEngineConfig();
-        LOG_DEBUG("Config loaded");
+        LOG_DEBUG("Initializing managers");
+        m_eventManager.OnInit();
+        m_physicsManager.OnInit();
+        m_viewManager.OnInit();
+		m_inputManager.OnInit();
+		m_sceneManager.OnInit();
+        m_componentManager.OnInit();
+        m_gameObjectManager.OnInit();
+        LOG_DEBUG("Initializing complete");
+
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);
 
@@ -57,11 +59,9 @@ namespace Engine
         //auto enemyID = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
 
         // Create and set ViewStrategy
-        GetSubsystemManager().m_view->SetViewStrategy(
-            new view::WindowViewStrategy( std::bind(&Application::HandleViewEvent, this, std::placeholders::_1) )
-        );
-        m_inputManager->SetViewSubsystem(GetSubsystemManager().GetViewSubsystemPointer());
-
+		m_viewManager.SetViewStrategy(
+			new view::WindowViewStrategy(std::bind(&Application::HandleViewEvent, this, std::placeholders::_1))
+		);
         // Let the game initialize scene/gameobjects/etc.
         injection.BeforeGameLoop(*this);
 
@@ -72,25 +72,38 @@ namespace Engine
             sf::Time elapsed = clock.restart();
             float lastFrameMS = elapsed.asSeconds();
             
-            m_subsystemManager->GetViewSubsystem().PollEvents();
+            m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_sceneManager->SaveAllScenes();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_sceneManager.SaveAllScenes();
             // Update managers
-            m_inputManager->Update();
-            m_sceneManager->Update(lastFrameMS);    // update scene's state machine
+            m_inputManager.Update();
+            m_physicsManager.Update(lastFrameMS);
+            m_sceneManager.Update(lastFrameMS);  
            
-            m_subsystemManager->Update(lastFrameMS);
+            m_viewManager.Update(lastFrameMS);
+            m_componentManager.Update(lastFrameMS);
 
             // reset input for this frame
-            m_inputManager->PostUpdate();
-            m_gameObjectManager->CleanupGameObjects();
+            m_inputManager.PostUpdate();
+            m_gameObjectManager.CleanupGameObjects();
         }
-        LOG_DEBUG("----------------------------- Stopping Application, time to destroy");
+
+
+
+        LOG_DEBUG("Destroying managers");
+        m_gameObjectManager.OnDestroy();
+        m_componentManager.OnDestroy();
+        m_sceneManager.OnDestroy();
+        m_inputManager.OnDestroy();
+        m_physicsManager.OnDestroy();
+        m_viewManager.OnDestroy();
+        m_eventManager.OnDestroy();
+		LOG_DEBUG("Destroying complete");
         // clear backends when application.run() ends
         // if we wait for destructor - IDebuggable will 
         // try to unregister from subsystem that doesn't exist anymore
-        Logger::Instance().ClearBackends();
+        //Logger::Instance().ClearBackends();
     }
 
 	void Application::Stop()

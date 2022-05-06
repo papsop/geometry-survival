@@ -4,6 +4,7 @@ set(SOURCES
 	EventData.h
 	Events.h
 	GameObject.h
+	GameObject.inl
 	GameObject.cpp
 	Scene.h
 	Scene.cpp

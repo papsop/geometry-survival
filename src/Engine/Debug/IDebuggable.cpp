@@ -3,13 +3,14 @@
 
 namespace Engine
 {
-    IDebuggable::IDebuggable()
-    {
-        SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
-    }
+	void IDebuggable::OnInit()
+	{
+        ViewManager::Get().RegisterComponent(this);
+	}
 
-    IDebuggable::~IDebuggable()
-    {
-        SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
-    }
+	void IDebuggable::OnDestroy()
+	{
+		ViewManager::Get().UnregisterComponent(this);
+	}
+
 };

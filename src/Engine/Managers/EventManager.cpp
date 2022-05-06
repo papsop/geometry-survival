@@ -1,17 +1,12 @@
 #include "EventManager.h"
+#include "../Application.h"
 
 namespace Engine
 {
 
-    EventManager& EventManager::Instance() 
+    EventManager& EventManager::Get() 
     {
-        static EventManager instance;
-		return instance;
-    }
-
-    EventManager::EventManager()
-    {
-
+        return Application::Instance().GetEventManager();
     }
 
 }

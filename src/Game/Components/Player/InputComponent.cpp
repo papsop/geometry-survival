@@ -3,7 +3,7 @@
 #include "../Actor/ActorComponent.h"
 
 #include <Engine/Application.h>
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ViewManager.h>
 namespace Game
 {
     InputComponent::InputComponent(Engine::GameObject& obj)
@@ -15,12 +15,12 @@ namespace Game
 
     void InputComponent::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
 
     InputComponent::~InputComponent()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
     }
 
     void InputComponent::Update(float dt)
@@ -29,7 +29,7 @@ namespace Game
         if (actorComponent == nullptr) return;
 
         // rotation
-        auto b2MousePos = Engine::SubsystemManager::Get().GetViewSubsystem().pixelsToCoords(m_inputManager.GetMousePosition());
+        auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetMousePosition());
         float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
 
         actorComponent->AddCommand(std::make_unique<RotateCommand>(angle));

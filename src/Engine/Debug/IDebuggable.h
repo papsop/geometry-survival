@@ -6,9 +6,26 @@ namespace Engine
     class IDebuggable
     {
     public:
-        IDebuggable();
-        virtual ~IDebuggable();
+        IDebuggable() = default;
+        virtual ~IDebuggable() = default;
 
         virtual void Debug(view::IViewStrategy* viewStrategy) = 0;
+
+    protected:
+        void OnInit();
+        void OnDestroy();
+    };
+
+    class IDebuggableComponent : public IDebuggable
+    {
+    public:
+        IDebuggableComponent()
+        {
+            IDebuggable::OnInit();
+        }
+        ~IDebuggableComponent()
+        {
+            IDebuggable::OnDestroy();
+        }
     };
 };

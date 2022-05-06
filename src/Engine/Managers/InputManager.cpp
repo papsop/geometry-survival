@@ -9,8 +9,7 @@ namespace Engine
     InputManager& InputManager::Get() { return Application::Instance().GetInputManager(); }
 
     InputManager::InputManager()
-        : m_viewSubsystem(nullptr)
-        , m_actions()
+        : m_actions()
         , m_axis()
         , m_mapKeyToAction()
         , m_mousePosition(0, 0)
@@ -31,12 +30,6 @@ namespace Engine
         m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
         m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
     }
-
-    void InputManager::SetViewSubsystem(ViewSubsystem* viewSubsystem)
-    {
-        m_viewSubsystem = viewSubsystem;
-    }
-
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)
     {
         if (m_mapKeyToAction.find(key) != m_mapKeyToAction.end())
@@ -72,8 +65,7 @@ namespace Engine
     void InputManager::Update()
     {
         // mouse position update
-        DD_ASSERT(m_viewSubsystem != nullptr, "InputManager doesn't have ViewSubsystem set");
-        m_mousePosition = m_viewSubsystem->GetMousePosition();
+        m_mousePosition = ViewManager::Get().GetMousePosition();
 
         // Axis check
         float horizontal = 0;
@@ -118,4 +110,5 @@ namespace Engine
     {
         return m_mousePosition;
     }
+
 };

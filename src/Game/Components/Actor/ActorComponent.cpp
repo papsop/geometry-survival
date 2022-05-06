@@ -16,12 +16,12 @@ namespace Game
 
     void ActorComponent::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
 
     ActorComponent::~ActorComponent()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
     }
 
     void ActorComponent::AddCommand(std::unique_ptr<ICommand> command)

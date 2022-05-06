@@ -35,49 +35,16 @@ namespace Engine
         };
         // Components Management
         template<typename T>
-        bool HasComponent()
-        {
-            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            auto compID = IdGenerator<IComponent>::GetID<T>();
-            return m_components.find(compID) != m_components.end();
-        }
+        bool HasComponent();
 
         template<typename T, typename ... Args>
-        void AddComponent(Args&& ... args)
-        {
-            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            if (!HasComponent<T>())
-            {
-                auto ID = IdGenerator<IComponent>::GetID<T>();
-                m_components[ID] = std::make_unique<T>(*this ,std::forward<Args>(args) ...);
-                m_components[ID]->OnCreate();
-            }
-            else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", c_ID, typeid(T).name());
-        }
+        void AddComponent(Args&& ... args);
 
         template<typename T>
-        void RemoveComponent()
-        {
-            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            if (HasComponent<T>())
-            {
-                auto ID = IdGenerator<IComponent>::GetID<T>();
-                m_components.erase(ID);
-            }
-        }
+        void RemoveComponent();
 
         template<typename T>
-        T* GetComponent()
-        {
-            static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
-            if (HasComponent<T>())
-            {
-                auto ID = IdGenerator<IComponent>::GetID<T>();
-                return dynamic_cast<T*>(m_components[ID].get());
-            }
-            else
-                return nullptr;
-        }
+        T* GetComponent();
 
         // --------------------------
         GameObject(uint32_t id, FilterTag tag, const char* debugName);
@@ -114,3 +81,4 @@ namespace Engine
     };
 };
 
+#include "GameObject.inl"

@@ -31,12 +31,12 @@ namespace Game
         void RegisterGameComponents(Engine::Application& app) override
         {
             // Order is important
-            Engine::SubsystemManager::Get().RegisterComponentType<SplashShape>();
-            Engine::SubsystemManager::Get().RegisterComponentType<SplashController>();
-            Engine::SubsystemManager::Get().RegisterComponentType<InputComponent>();
-            Engine::SubsystemManager::Get().RegisterComponentType<WeaponComponent>();
-            Engine::SubsystemManager::Get().RegisterComponentType<BulletComponent>();
-            Engine::SubsystemManager::Get().RegisterComponentType<ActorComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
+            Engine::ComponentManager::Get().RegisterComponentType<SplashController>();
+            Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
         }
 
         void BeforeGameLoop(Engine::Application& app) override
@@ -44,7 +44,7 @@ namespace Game
             // setup logger
             Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
             Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-            Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
+            Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
 
             // Scene 0 ==============================================================================
             //auto& scene0 = Engine::SceneManager::Get().CreateScene();

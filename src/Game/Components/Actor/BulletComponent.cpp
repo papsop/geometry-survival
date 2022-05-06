@@ -1,7 +1,7 @@
 #include "BulletComponent.h"
 
 #include <Engine/Core/GameObject.h>
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {
@@ -13,12 +13,12 @@ namespace Game
 
     void BulletComponent::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
     }
 
     BulletComponent::~BulletComponent()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
     }
 
     void BulletComponent::Update(float dt)

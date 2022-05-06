@@ -1,5 +1,5 @@
 #include "SplashShape.h"
-#include <Engine/Managers/SubsystemManager.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {
@@ -14,14 +14,14 @@ namespace Game
 
     void SplashShape::OnCreate()
     {
-        Engine::SubsystemManager::Get().RegisterComponent(this);
-        Engine::SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+        Engine::ComponentManager::Get().RegisterComponent(this);
+        Engine::ViewManager::Get().RegisterComponent(this);
     }
 
     SplashShape::~SplashShape()
     {
-        Engine::SubsystemManager::Get().UnregisterComponent(this);
-        Engine::SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+        Engine::ComponentManager::Get().UnregisterComponent(this);
+        Engine::ViewManager::Get().UnregisterComponent(this);
     }
 
     void SplashShape::Update(float dt)

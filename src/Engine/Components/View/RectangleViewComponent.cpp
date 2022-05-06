@@ -1,5 +1,4 @@
 #include "RectangleViewComponent.h"
-#include "../../Managers/SubsystemManager.h"
 
 namespace Engine
 {
@@ -20,7 +19,7 @@ namespace Engine
 
 	void RectangleViewComponent::OnCreate()
 	{
-		SubsystemManager::Get().GetViewSubsystem().RegisterComponent(this);
+		ViewManager::Get().RegisterComponent(this);
 		// update shape's transform
 		if (m_useAbsoluteTransform)
 			m_renderableTransform = m_localTransform;
@@ -30,7 +29,7 @@ namespace Engine
 
 	RectangleViewComponent::~RectangleViewComponent()
 	{
-		SubsystemManager::Get().GetViewSubsystem().UnregisterComponent(this);
+		ViewManager::Get().UnregisterComponent(this);
 	}
 
 	void RectangleViewComponent::Update(float dt)

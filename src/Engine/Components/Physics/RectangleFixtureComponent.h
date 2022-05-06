@@ -5,7 +5,7 @@
 
 namespace Engine
 {
-	class RectangleFixtureComponent : public IComponent, public IDebuggable
+	class RectangleFixtureComponent : public IComponent, public IDebuggableComponent
 	{
 	public:
 		RectangleFixtureComponent(GameObject& obj);

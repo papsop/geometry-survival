@@ -6,6 +6,11 @@
 #include "Core/ApplicationInjection.h"
 #include "Managers/AllManagers.h"
 
+#define GET_MANAGER_HELPER(name, var) {                                                 \
+                                           DD_ASSERT(((var).IsInitialized()), (name)); \
+                                           return (var);                                \
+                                      }
+
 namespace Engine
 {
 
@@ -20,11 +25,13 @@ namespace Engine
 
         const Config& GetConfig() { return m_config; }
 
-        InputManager& GetInputManager() { return *m_inputManager; }
-        GameObjectManager& GetGameObjectManager() { return *m_gameObjectManager; }
-        SubsystemManager& GetSubsystemManager() { return *m_subsystemManager; }
-        SceneManager& GetSceneManager() { return *m_sceneManager; }
-        AssetsManager& GetAssetsManager() { return *m_assetsManager; }
+        InputManager& GetInputManager() { GET_MANAGER_HELPER("SubsystemManager", m_inputManager); };
+        EventManager& GetEventManager() { GET_MANAGER_HELPER("EventManager", m_eventManager); };
+        GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
+        SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
+        PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
+        ViewManager& GetRenderManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
+        ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
 
         void Run(ApplicationInjection& injection);
         bool IsRunning() const { return m_applicationIsRunning;  }
@@ -38,12 +45,13 @@ namespace Engine
         
         void HandleViewEvent(const sf::Event& event);
 
-        // Order is important because of destructions
-        std::unique_ptr<AssetsManager> m_assetsManager;             // first, because other managers might need it already initialized
-        std::unique_ptr<SubsystemManager> m_subsystemManager;
-        std::unique_ptr<InputManager> m_inputManager;
-        std::unique_ptr<GameObjectManager> m_gameObjectManager;
-        std::unique_ptr<SceneManager> m_sceneManager;
+        EventManager m_eventManager;
+        InputManager m_inputManager;
+        GameObjectManager m_gameObjectManager;
+        SceneManager m_sceneManager;
+        PhysicsManager m_physicsManager;
+        ViewManager m_viewManager;
+        ComponentManager m_componentManager;
     };
 };
 

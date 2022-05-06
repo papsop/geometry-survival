@@ -30,7 +30,7 @@ namespace Engine
         GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
         SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
         PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
-        ViewManager& GetRenderManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
+        ViewManager& GetViewManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
         ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
 
         void Run(ApplicationInjection& injection);

@@ -100,10 +100,6 @@ namespace Engine
         m_viewManager.OnDestroy();
         m_eventManager.OnDestroy();
 		LOG_DEBUG("Destroying complete");
-        // clear backends when application.run() ends
-        // if we wait for destructor - IDebuggable will 
-        // try to unregister from subsystem that doesn't exist anymore
-        //Logger::Instance().ClearBackends();
     }
 
 	void Application::Stop()

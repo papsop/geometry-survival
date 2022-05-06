@@ -6,14 +6,14 @@
 
 namespace Engine 
 {
-    class WindowBackendStrategy : public IBackendStrategy
+    class WindowBackendStrategy : public IBackendStrategy, public IDebuggableComponent
     {
     public:
         WindowBackendStrategy() = default;
         ~WindowBackendStrategy() override = default;
 
         void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
-        //void Debug(view::IViewStrategy* viewStrategy) override;
+        void Debug(view::IViewStrategy* viewStrategy) override;
 
     private:
         struct DebugEntry

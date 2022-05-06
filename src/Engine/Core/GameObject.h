@@ -22,17 +22,6 @@ namespace Engine
     class GameObject
     {
     public:
-
-        enum class FilterTag
-        {
-            PLAYER,
-            ENEMY,
-            PROJECTILE,
-            OBSTACLE,
-            UI,
-
-            COUNT, // always last
-        };
         // Components Management
         template<typename T>
         bool HasComponent();
@@ -47,12 +36,11 @@ namespace Engine
         T* GetComponent();
 
         // --------------------------
-        GameObject(uint32_t id, FilterTag tag, const char* debugName);
+        GameObject(uint32_t id, const char* debugName);
         ~GameObject() = default;
 
         const uint32_t c_ID;
         const char* c_DebugName;
-        const FilterTag c_Tag;
 
         Transform& GetTransform() {   return m_transform; }
 

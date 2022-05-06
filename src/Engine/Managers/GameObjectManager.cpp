@@ -15,10 +15,10 @@ namespace Engine
         IManager::OnDestroy();
 	}
 
-    GameObject* GameObjectManager::CreateGameObject(GameObject::FilterTag tag, const char *name)
+    GameObject* GameObjectManager::CreateGameObject(const char *name)
     {
         uint32_t ID = m_nextGameObjectID++;
-        m_gameObjects[ID] = std::make_unique<GameObject>(ID, tag, name);
+        m_gameObjects[ID] = std::make_unique<GameObject>(ID, name);
         return m_gameObjects[ID].get();
     };
 

@@ -43,6 +43,7 @@ namespace Engine
             unsigned int Size;
             Engine::Transform* Transform;
             bool ShouldCenter = false;
+            bool UseScreenPosition = false;
 
             Text(Engine::Transform* transform) : Transform(transform) {};
         };

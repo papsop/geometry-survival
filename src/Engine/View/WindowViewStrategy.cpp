@@ -9,10 +9,14 @@ namespace Engine
     class Application;
     namespace view
     {
-        WindowViewStrategy::WindowViewStrategy(std::function<void(const sf::Event& event)> handleEvent)
+        WindowViewStrategy::WindowViewStrategy(TEventPredicate handleEvent)
             : IViewStrategy(handleEvent)
             , m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
         {
+            if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
+            {
+                LOG_ERROR("Unable to load console font");
+            }
             LOG_DEBUG("Created WindowViewStrategy");
         }
 
@@ -95,12 +99,42 @@ namespace Engine
 
 		sf::Text WindowViewStrategy::TextToSFMLText(const view::Text& text)
 		{
-            return {};
+            //convert box2d to sfml
+            sf::Vector2f sfmlPosition;
+            if (text.UseScreenPosition)
+            {
+                sfmlPosition = m_window.mapPixelToCoords(BVec2ToVector2i(text.Transform->Position));
+            }
+            else
+            {
+                sfmlPosition = ViewManager::Get().coordsToPixels(text.Transform->Position);
+            }
+
+            auto obj = sf::Text();
+            obj.setFont(m_consoleFont);
+            obj.setCharacterSize(text.Size);
+            obj.setFillColor(text.Color);
+            obj.setString(text.Value);
+			if (text.ShouldCenter)
+			{
+				// center text, need to do it after setting font
+				sf::FloatRect textRect = obj.getLocalBounds();
+				obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+			}
+            obj.setPosition(sfmlPosition);
+            
+            return obj;
 		}
 
 		float WindowViewStrategy::Box2DRotationToSFML(float angle)
 		{
 			return 360.0f - math::RAD_TO_DEG(angle);
+		}
+
+		sf::Vector2i WindowViewStrategy::BVec2ToVector2i(b2Vec2 vec)
+		{
+            return { static_cast<int>(vec.x), static_cast<int>(vec.y) };
+            //return { vec.x, vec.y };
 		}
 
 		// ==============================================
@@ -143,22 +177,7 @@ namespace Engine
 
         void WindowViewStrategy::Render(const Text& text)
         {
-            auto sftext = TextToSFMLText(text);
-            sf::Font font;
-            if (!font.loadFromFile("assets/arial.ttf"))
-            {
-                // error...
-            }
-            sftext.setFont(font);
-
-            if (text.ShouldCenter)
-            {
-                // center text, need to do it after setting font
-                sf::FloatRect textRect = sftext.getLocalBounds();
-                sftext.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
-            }
-
-            m_window.draw(sftext);
+            m_window.draw(TextToSFMLText(text));
         }
 
         void WindowViewStrategy::Render(const Line& line)
@@ -213,7 +232,30 @@ namespace Engine
             m_window.draw(obj);
 		}
 
-        // ==================================================================================
+		void WindowViewStrategy::DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color)
+		{
+			//convert box2d to sfml
+			auto sfmlPosition = ViewManager::Get().coordsToPixels(position);
+
+			sf::Font font;
+			if (!font.loadFromFile("assets/arial.ttf"))
+			{
+				// error...
+			}
+
+			auto obj = sf::Text();
+			obj.setFont(font);
+			obj.setCharacterSize(size);
+			obj.setFillColor(color);
+			// center text, need to do it after setting font
+			sf::FloatRect textRect = obj.getLocalBounds();
+			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+			obj.setPosition(sfmlPosition);
+
+            m_window.draw(obj);
+		}
+
+		// ==================================================================================
 
 
         void WindowViewStrategy::PostRender()

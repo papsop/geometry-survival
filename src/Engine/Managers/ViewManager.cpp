@@ -11,17 +11,11 @@ namespace Engine
 		, m_texts()
 		, m_viewStrategy()
 	{
-		LOG_DEBUG("Created ViewSubsystem");
-	}
-
-	ViewManager::~ViewManager()
-	{
-		LOG_DEBUG("Destroyed ViewSubsystem");
 	}
 
 	ViewManager& ViewManager::Get()
 	{
-		return Application::Instance().GetRenderManager();
+		return Application::Instance().GetViewManager();
 	}
 
 	void ViewManager::OnInit()
@@ -31,6 +25,7 @@ namespace Engine
 
 	void ViewManager::OnDestroy()
 	{
+		Logger::Instance().ClearBackends();
 		m_viewStrategy = nullptr;
 		IManager::OnDestroy();
 	}

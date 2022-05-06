@@ -14,7 +14,7 @@ namespace Engine
 	class ViewManager : public IManager
 	{
 	public:
-		~ViewManager();
+		~ViewManager() = default;
 		static ViewManager& Get();
 
 		void RegisterComponent(IRenderableShapeComponent* component);

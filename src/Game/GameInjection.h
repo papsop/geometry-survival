@@ -77,7 +77,7 @@ namespace Game
 
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
-            auto player = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PLAYER, "Player");
+            auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
@@ -94,7 +94,7 @@ namespace Game
 			physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
 			physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
             shapeViewDef.PointCount = 3;
-            auto enemy = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "Enemy");
+            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
             enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
@@ -106,7 +106,7 @@ namespace Game
 
 			physBodyDef.CategoryBits = physics::EntityCategory::WALL;
 			physBodyDef.MaskBits = physics::EntityMask::M_WALL;
-            auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::ENEMY, "BottomBox");
+            auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject("BottomBox");
             bottomBox->GetTransform().SetPosition({ 0.0f, -15.f });
             bottomBox->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             bottomBox->AddComponent<Engine::RectangleFixtureComponent>();

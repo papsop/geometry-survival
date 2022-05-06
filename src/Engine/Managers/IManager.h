@@ -10,7 +10,7 @@ namespace Engine
 		bool IsInitialized() { return m_initialized; }
 	protected:
 		IManager() = default;
-		~IManager() = default;
+		virtual ~IManager() = default;
 
 		virtual void OnInit() 
 		{ 

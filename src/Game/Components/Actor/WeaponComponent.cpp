@@ -49,7 +49,7 @@ namespace Game
     Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
         auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
-        auto bullet = Engine::GameObjectManager::Get().CreateGameObject(Engine::GameObject::FilterTag::PROJECTILE, "Bullet");
+        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet");
 
         // add offset and stuff
         bullet->GetTransform().Position = Owner.GetTransform().Position + Owner.GetTransform().Forward();

@@ -18,6 +18,8 @@ namespace Engine
     class IComponent
     {
     public:
+        using TRequiredFunc = std::function<void(GameObject&)>;
+
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
 
@@ -25,14 +27,16 @@ namespace Engine
         virtual void Update(float dt) {};
         virtual void OnCollisionStart(GameObject* other) {};
         virtual void OnCollisionEnd(GameObject* other) {};
+        
+		GameObject& Owner;
 
-        GameObject& Owner;
+        void CheckRequiredComponents()
+        {
+            if(m_requiredFunction != nullptr)
+                m_requiredFunction(Owner);
+        }
+
     protected:
-
-        // =================
-        // Requires template
-        //  - for asserting required components
-        // =================
         template<typename... Ts>
         struct requires_impl;
 
@@ -42,14 +46,19 @@ namespace Engine
         template<typename T, typename... Ts>
         struct requires_impl<T, Ts...>;
 
-        template<typename... Ts>
-        void RequiredComponents();
+        // This function asserts required components on the Owner gameObject.
+        // Function call gets stored and called every time a component
+        // is removed from the owner
+		template<typename... Ts>
+		void SetRequiredComponents();
 
 		template<typename T>
 		void AddSerializableField(T value)
 		{
             //auto val = static_cast<decltype(typename SerializableField(value)::type)>(value);
 		}
+
+        TRequiredFunc m_requiredFunction = nullptr;
     };
 
     // Views

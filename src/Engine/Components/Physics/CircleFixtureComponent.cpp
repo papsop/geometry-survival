@@ -10,7 +10,7 @@ namespace Engine
 		, m_radius(radius)
 		, m_fixture(nullptr)
 	{
-		RequiredComponents<PhysicsBodyComponent>();
+		SetRequiredComponents<PhysicsBodyComponent>();
 	}
 
 	void CircleFixtureComponent::OnCreate() 
@@ -34,7 +34,7 @@ namespace Engine
 	{
 		// body destroys all the fixtures when it's deleted
 	}
-	
+
 	void CircleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
 	{
 		viewStrategy->DebugRenderCircle(Owner.GetTransform().Position, m_radius, sf::Color::Red);

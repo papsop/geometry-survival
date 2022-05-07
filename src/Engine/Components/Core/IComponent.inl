@@ -23,9 +23,10 @@ namespace Engine
 	};
 
 	template<typename... Ts>
-	void IComponent::RequiredComponents()
+	void IComponent::SetRequiredComponents()
 	{
-		requires_impl<Ts...>::check(Owner);
+		m_requiredFunction = std::bind(&IComponent::requires_impl<Ts...>::check, std::placeholders::_1);
+		CheckRequiredComponents();
 	}
 
 };

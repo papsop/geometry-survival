@@ -33,6 +33,9 @@ namespace Engine
 			auto ID = IdGenerator<IComponent>::GetID<T>();
 			m_components.erase(ID);
 		}
+
+		for (auto& component : m_components)
+			component.second->CheckRequiredComponents();
 	}
 
 	template<typename T>

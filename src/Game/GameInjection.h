@@ -80,8 +80,8 @@ namespace Game
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
+            player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
@@ -96,8 +96,8 @@ namespace Game
             shapeViewDef.PointCount = 3;
             auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
             enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
+            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
 
 			Engine::RectangleViewDef rectangleViewDef;
             rectangleViewDef.Color = sf::Color::Cyan;

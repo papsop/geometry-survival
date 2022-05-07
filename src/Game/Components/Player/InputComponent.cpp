@@ -10,7 +10,7 @@ namespace Game
         : IComponent(obj)
         , m_inputManager(Engine::InputManager::Get())
     {
-        RequiredComponents<ActorComponent>();
+        SetRequiredComponents<ActorComponent>();
     }
 
     void InputComponent::OnCreate()

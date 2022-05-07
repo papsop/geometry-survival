@@ -11,7 +11,7 @@ namespace Game
         : IComponent(obj)
         , m_commandsQueue()
     {
-        Requires<Engine::PhysicsBodyComponent>();
+        RequiredComponents<Engine::PhysicsBodyComponent>();
     }
 
     void ActorComponent::OnCreate()

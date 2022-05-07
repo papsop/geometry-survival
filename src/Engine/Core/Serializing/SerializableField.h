@@ -6,9 +6,9 @@ namespace Engine
 	class SerializableField
 	{
 	public:
-		SerializableField(std::string key, T& value) 
-			: m_key(key)
-			, m_value(value) {};
+		using type = T;
+		SerializableField(T value) 
+			: m_value(value) {};
 
 		~SerializableField() = default;
 
@@ -20,7 +20,6 @@ namespace Engine
 		T Deserialize();
 
 	private:
-		T& m_value;
-		const std::string m_key;
+		T m_value;
 	};
 };

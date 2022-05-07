@@ -17,7 +17,7 @@ namespace Engine
 		, m_isBullet(def.IsBullet)
 		, m_bodyType(def.BodyType)
 	{
-		AddSerializableField<bool>("IsBullet", m_isBullet);
+		AddSerializableField(m_isBullet);
 
 		b2BodyDef bodyDef;
 		bodyDef.type = m_bodyType;

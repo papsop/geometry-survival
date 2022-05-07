@@ -10,7 +10,7 @@ namespace Engine
 		, m_radius(radius)
 		, m_fixture(nullptr)
 	{
-		Requires<PhysicsBodyComponent>();
+		RequiredComponents<PhysicsBodyComponent>();
 	}
 
 	void CircleFixtureComponent::OnCreate() 

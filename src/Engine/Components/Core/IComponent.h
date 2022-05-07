@@ -33,21 +33,22 @@ namespace Engine
         // Requires template
         //  - for asserting required components
         // =================
-        template<typename First, typename... Args>
-        void Requires()
-        {
-            bool hasComponent = Owner.HasComponent<First>();
-            DD_ASSERT(hasComponent, "IComponent::Required asserted");
+        template<typename... Ts>
+        struct requires_impl;
 
-            //const int size = sizeof...(Args);
-            //if constexpr (size > 0)
-            //    Requires<Args...>();
-        }
+        template<typename T>
+        struct requires_impl<T>;
+        
+        template<typename T, typename... Ts>
+        struct requires_impl<T, Ts...>;
+
+        template<typename... Ts>
+        void RequiredComponents();
 
 		template<typename T>
-		void AddSerializableField(std::string key, T& value)
+		void AddSerializableField(T value)
 		{
-            auto f = SerializableField<T>(key, value);
+            //auto val = static_cast<decltype(typename SerializableField(value)::type)>(value);
 		}
     };
 
@@ -78,3 +79,5 @@ namespace Engine
         Transform& m_ownerTransform;
     };
 };
+
+#include "IComponent.inl"

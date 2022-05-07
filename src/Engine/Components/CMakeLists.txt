@@ -6,6 +6,7 @@ set(SOURCES
 	Core/Transform.h
 	Core/IComponent.h
 	Core/IComponent.cpp
+	Core/IComponent.inl
 
 	Physics/PhysicsBodyComponent.h
 	Physics/PhysicsBodyComponent.cpp

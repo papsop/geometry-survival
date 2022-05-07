@@ -6,7 +6,7 @@ namespace Engine
 	RectangleFixtureComponent::RectangleFixtureComponent(GameObject & obj)
 		: IComponent(obj)
 	{
-		Requires<PhysicsBodyComponent>();
+		RequiredComponents<PhysicsBodyComponent>();
 	}
 
 	void RectangleFixtureComponent::OnCreate()

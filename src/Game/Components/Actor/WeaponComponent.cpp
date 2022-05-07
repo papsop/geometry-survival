@@ -15,7 +15,7 @@ namespace Game
     WeaponComponent::WeaponComponent(Engine::GameObject& obj)
         : IComponent(obj)
     {
-        Requires<ActorComponent>();
+        RequiredComponents<ActorComponent>();
     }
 
     void WeaponComponent::OnCreate()

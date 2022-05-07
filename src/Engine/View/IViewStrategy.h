@@ -12,7 +12,7 @@ namespace Engine
         class IViewStrategy
         {
         public:
-            typedef std::function<void(const sf::Event& event)> TEventCallback;
+            using TEventCallback = std::function<void(const sf::Event& event)>;
 
             IViewStrategy(TEventCallback handleEvent)
             {

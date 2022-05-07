@@ -10,8 +10,6 @@ namespace Engine
         class WindowViewStrategy : public IViewStrategy
         {
         public:
-            typedef std::function<void(const sf::Event& event)> TEventCallback;
-
             WindowViewStrategy(TEventCallback handleEvent);
             ~WindowViewStrategy();
 

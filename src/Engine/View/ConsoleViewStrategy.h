@@ -10,7 +10,7 @@ namespace Engine
         class ConsoleViewStrategy : public IViewStrategy
         {
         public:
-            ConsoleViewStrategy(std::function<void(const sf::Event& event)> handleEvent);
+            ConsoleViewStrategy(TEventCallback eventCallback);
             ~ConsoleViewStrategy() = default;
 
             void PollEvents() override;

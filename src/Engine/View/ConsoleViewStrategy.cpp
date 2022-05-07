@@ -7,8 +7,8 @@ namespace Engine
     class Application;
     namespace view
     {
-        ConsoleViewStrategy::ConsoleViewStrategy(std::function<void(const sf::Event& event)> handleEvent)
-            : IViewStrategy(handleEvent)
+        ConsoleViewStrategy::ConsoleViewStrategy(TEventCallback eventCallback)
+            : IViewStrategy(eventCallback)
         {
         }
 

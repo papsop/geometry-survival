@@ -3,12 +3,28 @@
 
 namespace Engine
 {
+	struct C_Window
+	{
+		// Window settings
+		unsigned int	Width		= 1024;
+		unsigned int	Height		= 768;
+		std::string		Name		= "Dungeons & Geometry";
+		bool			Fullscreen	= false;
+	};
+
+	struct C_Engine
+	{
+		C_Window Window;
+	};
+
+	struct C_Game
+	{
+		// TODO custom game config
+	};
+
 	struct Config
 	{
-		
-		// Window settings
-		unsigned int	WindowWidth		= 680;
-		unsigned int	WindowHeight	= 480;
-		std::string		WindowName		= "NoName";
+		C_Engine	Engine;
+		C_Game		Game;
 	};
 };

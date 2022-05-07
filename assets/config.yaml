@@ -1,3 +1,7 @@
-WindowWidth:	800
-WindowHeight:	600
-WindowName:	"Dungeons&Geometry"
+Config:
+  Engine:
+    Window:
+      Width: 1024
+      Height: 768
+      Name: "Dungeons & Geometry"
+      Fullscreen: false

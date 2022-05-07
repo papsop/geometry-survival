@@ -41,6 +41,12 @@ namespace Engine
     {
         LOG_DEBUG("Starting Application");
         LOG_DEBUG("Initializing managers");
+        m_serializationManager.OnInit();
+        //m_serializationManager.SaveConfig(m_config);
+		Config dummyConfig;
+		if (m_serializationManager.LoadConfig(dummyConfig))
+			m_config = dummyConfig;
+
         m_eventManager.OnInit();
         m_physicsManager.OnInit();
         m_viewManager.OnInit();
@@ -99,6 +105,7 @@ namespace Engine
         m_physicsManager.OnDestroy();
         m_viewManager.OnDestroy();
         m_eventManager.OnDestroy();
+        m_serializationManager.OnDestroy();
 		LOG_DEBUG("Destroying complete");
     }
 

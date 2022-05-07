@@ -6,9 +6,9 @@
 #include "Core/ApplicationInjection.h"
 #include "Managers/AllManagers.h"
 
-#define GET_MANAGER_HELPER(name, var) {                                                 \
-                                           DD_ASSERT(((var).IsInitialized()), (name)); \
-                                           return (var);                                \
+#define GET_MANAGER_HELPER(name, var) {                                                                 \
+                                           DD_ASSERT((var).IsInitialized(), name " not initialized");   \
+                                           return (var);                                                \
                                       }
 
 namespace Engine
@@ -32,6 +32,7 @@ namespace Engine
         PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
         ViewManager& GetViewManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
         ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
+        SerializationManager& GetSerializationManager() { GET_MANAGER_HELPER("SerializationManager", m_serializationManager); };
 
         void Run(ApplicationInjection& injection);
         bool IsRunning() const { return m_applicationIsRunning;  }
@@ -52,6 +53,7 @@ namespace Engine
         PhysicsManager m_physicsManager;
         ViewManager m_viewManager;
         ComponentManager m_componentManager;
+        SerializationManager m_serializationManager;
     };
 };
 

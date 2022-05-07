@@ -18,6 +18,8 @@ set(SOURCES
 	ComponentManager.h
 	ComponentManager.inl
 	ComponentManager.cpp
+	SerializationManager.h
+	SerializationManager.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

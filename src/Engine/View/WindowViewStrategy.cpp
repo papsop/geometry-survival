@@ -2,6 +2,7 @@
 
 #include "../Debug/Logger.h"
 #include "../Managers/ViewManager.h"
+#include "../Application.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
 namespace Engine
@@ -9,10 +10,17 @@ namespace Engine
     class Application;
     namespace view
     {
-        WindowViewStrategy::WindowViewStrategy(TEventPredicate handleEvent)
+        WindowViewStrategy::WindowViewStrategy(TEventCallback handleEvent)
             : IViewStrategy(handleEvent)
-            , m_window(sf::VideoMode(1024, 768), "Dungeons & Geometry")
         {
+            auto windowConfig = Application::Instance().GetConfig().Engine.Window;
+            sf::VideoMode videoMode(windowConfig.Width, windowConfig.Height, 32);
+            uint32 style = sf::Style::Default;
+            if (windowConfig.Fullscreen)
+                style = sf::Style::Fullscreen;
+
+            m_window = std::make_unique<sf::RenderWindow>(videoMode, windowConfig.Name, style);
+
             if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
             {
                 LOG_ERROR("Unable to load console font");
@@ -22,13 +30,13 @@ namespace Engine
 
         WindowViewStrategy::~WindowViewStrategy()
         {
-            m_window.close();
+            m_window->close();
         }
 
         void WindowViewStrategy::PollEvents()
         {
             sf::Event event;
-            while (m_window.pollEvent(event))
+            while (m_window->pollEvent(event))
                 m_handleEventLambda(event);
         }
         // ==============================================
@@ -103,7 +111,7 @@ namespace Engine
             sf::Vector2f sfmlPosition;
             if (text.UseScreenPosition)
             {
-                sfmlPosition = m_window.mapPixelToCoords(BVec2ToVector2i(text.Transform->Position));
+                sfmlPosition = m_window->mapPixelToCoords(BVec2ToVector2i(text.Transform->Position));
             }
             else
             {
@@ -141,7 +149,7 @@ namespace Engine
 
         void WindowViewStrategy::PreRender()
         {
-            m_window.clear();
+            m_window->clear();
         }
 
 		void WindowViewStrategy::RenderRenderable(const Renderable& renderable)
@@ -162,27 +170,27 @@ namespace Engine
 
         void WindowViewStrategy::Render(const Shape &shape)
         {
-            m_window.draw(ShapeToSFMLCircleShape(shape));   
+            m_window->draw(ShapeToSFMLCircleShape(shape));   
         }
 
         void WindowViewStrategy::Render(const Circle& circle)
         {
-            m_window.draw(CircleToSFMLCircleShape(circle));
+            m_window->draw(CircleToSFMLCircleShape(circle));
         }
 
 		void WindowViewStrategy::Render(const Rectangle& rectangle)
 		{
-			m_window.draw(RectangleToSFMLRectangleShape(rectangle));
+			m_window->draw(RectangleToSFMLRectangleShape(rectangle));
 		}
 
         void WindowViewStrategy::Render(const Text& text)
         {
-            m_window.draw(TextToSFMLText(text));
+            m_window->draw(TextToSFMLText(text));
         }
 
         void WindowViewStrategy::Render(const Line& line)
         {
-            m_window.draw(line.Points, 2, sf::Lines);
+            m_window->draw(line.Points, 2, sf::Lines);
         }
         
         // ==================================================================================
@@ -194,7 +202,7 @@ namespace Engine
             //    sf::Vertex(a, color),
             //    sf::Vertex(b, color)
             //};
-            //m_window.draw(line, 2, sf::Lines);
+            //m_window->draw(line, 2, sf::Lines);
 		}
 
 		void WindowViewStrategy::DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color)
@@ -208,7 +216,7 @@ namespace Engine
             circle.setFillColor(sf::Color(0, 0, 0, 0));
             circle.setOrigin({ sfmlRadius, sfmlRadius });
             circle.setPosition(sfmlPosition);
-            m_window.draw(circle);
+            m_window->draw(circle);
 		}
 
 		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color)
@@ -229,7 +237,7 @@ namespace Engine
 			obj.setScale({1.0f, 1.0f});
 			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
 			obj.setPosition(sfmlPosition);
-            m_window.draw(obj);
+            m_window->draw(obj);
 		}
 
 		void WindowViewStrategy::DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color)
@@ -252,7 +260,7 @@ namespace Engine
 			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
 			obj.setPosition(sfmlPosition);
 
-            m_window.draw(obj);
+            m_window->draw(obj);
 		}
 
 		// ==================================================================================
@@ -260,7 +268,7 @@ namespace Engine
 
         void WindowViewStrategy::PostRender()
         {
-            m_window.display();
+            m_window->display();
         }
 
         void WindowViewStrategy::SetView(const CameraData& cameraData)
@@ -271,13 +279,13 @@ namespace Engine
             sfmlSize.y *= -1; // because coordsToPixels reverts y;
             view.setSize(sfmlSize);
             view.setViewport({ .0f, .0f, 1.f, 1.f });
-            m_window.setView(view);
+            m_window->setView(view);
         }
 
         sf::Vector2f WindowViewStrategy::GetMousePosition()
         {
-            auto pos = sf::Mouse::getPosition(m_window);
-            return m_window.mapPixelToCoords(pos);
+            auto pos = sf::Mouse::getPosition(*m_window);
+            return m_window->mapPixelToCoords(pos);
         }
 
 	};

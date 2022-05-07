@@ -10,13 +10,13 @@ namespace Engine
     class ComponentsContainer
     {
     public:
-        typedef std::function<void(IComponent*)> TComponentPredicate;
+        typedef std::function<void(IComponent*)> TComponentEnumerate;
 
         ComponentsContainer(uint32_t ID) : ContainerID(ID) {};
         void RegisterComponent(IComponent* component);
         void UnregisterComponent(IComponent* component);
 
-        void IterateOverComponents(TComponentPredicate predicate);
+        void IterateOverComponents(TComponentEnumerate func);
         void Update(float dt);
 
         const uint32_t ContainerID;

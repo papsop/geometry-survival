@@ -10,9 +10,9 @@ namespace Engine
         class WindowViewStrategy : public IViewStrategy
         {
         public:
-            typedef std::function<void(const sf::Event& event)> TEventPredicate;
+            typedef std::function<void(const sf::Event& event)> TEventCallback;
 
-            WindowViewStrategy(TEventPredicate handleEvent);
+            WindowViewStrategy(TEventCallback handleEvent);
             ~WindowViewStrategy();
 
             void PollEvents() override;
@@ -46,7 +46,7 @@ namespace Engine
             sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
             // ==============
 
-            sf::RenderWindow m_window;
+            std::unique_ptr<sf::RenderWindow> m_window;
             sf::Font m_consoleFont;
         };
     };

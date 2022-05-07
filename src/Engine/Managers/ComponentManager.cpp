@@ -30,11 +30,11 @@ namespace Engine
 		m_components.erase(std::remove(m_components.begin(), m_components.end(), component), m_components.end());
 	}
 
-	void ComponentsContainer::IterateOverComponents(TComponentPredicate predicate)
+	void ComponentsContainer::IterateOverComponents(TComponentEnumerate func)
 	{
 		for (auto&& component : m_components)
 		{
-			predicate(component);
+			func(component);
 		}
 	}
 

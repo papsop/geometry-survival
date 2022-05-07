@@ -12,7 +12,9 @@ namespace Engine
         class IViewStrategy
         {
         public:
-            IViewStrategy(std::function<void(const sf::Event& event)> handleEvent)
+            typedef std::function<void(const sf::Event& event)> TEventCallback;
+
+            IViewStrategy(TEventCallback handleEvent)
             {
                 m_handleEventLambda = handleEvent;
             }
@@ -37,7 +39,7 @@ namespace Engine
             virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;
         protected:
-            std::function<void(const sf::Event& event)> m_handleEventLambda;
+            TEventCallback m_handleEventLambda;
         };
     }
 }

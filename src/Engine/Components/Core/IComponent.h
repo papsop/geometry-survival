@@ -18,7 +18,7 @@ namespace Engine
     class IComponent
     {
     public:
-        using TRequiredFunc = std::function<void(GameObject&)>;
+        using TRequiredFunc = std::function<void(const GameObject&)>;
 
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;

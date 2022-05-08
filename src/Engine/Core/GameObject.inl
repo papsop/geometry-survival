@@ -3,7 +3,7 @@
 namespace Engine
 {
 	template<typename T>
-	bool GameObject::HasComponent()
+	bool GameObject::HasComponent() const
 	{
 		static_assert(std::is_base_of<IComponent, T>::value, "Not derived from IComponent");
 		auto compID = IdGenerator<IComponent>::GetID<T>();

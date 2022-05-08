@@ -24,7 +24,7 @@ namespace Engine
     public:
         // Components Management
         template<typename T>
-        bool HasComponent();
+        bool HasComponent() const;
 
         template<typename T, typename ... Args>
         void AddComponent(Args&& ... args);

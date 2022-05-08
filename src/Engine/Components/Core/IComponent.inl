@@ -5,7 +5,7 @@ namespace Engine
 	template<typename T>
 	struct IComponent::requires_impl<T>
 	{
-		static void check(GameObject& obj)
+		static void check(const GameObject& obj)
 		{
 			bool hasComponent = obj.HasComponent<T>();
 			DD_ASSERT(hasComponent, "[%s] RequiredComponents asserted, missing component '%s'", obj.c_DebugName, typeid(T).name());
@@ -15,7 +15,7 @@ namespace Engine
 	template<typename T, typename... Ts>
 	struct IComponent::requires_impl<T, Ts...>
 	{
-		static void check(GameObject& obj)
+		static void check(const GameObject& obj)
 		{
 			requires_impl<T>::check(obj);
 			requires_impl<Ts...>::check(obj);

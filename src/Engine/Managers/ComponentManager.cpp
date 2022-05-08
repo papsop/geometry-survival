@@ -14,7 +14,7 @@ namespace Engine
 
 	void ComponentManager::Update(float dt)
 	{
-		for (auto&& container : m_containers)
+		for (auto& container : m_containers)
 			container.second->Update(dt);
 	}
 
@@ -32,7 +32,7 @@ namespace Engine
 
 	void ComponentsContainer::IterateOverComponents(TComponentEnumerate func)
 	{
-		for (auto&& component : m_components)
+		for (auto& component : m_components)
 		{
 			func(component);
 		}
@@ -40,7 +40,7 @@ namespace Engine
 
 	void ComponentsContainer::Update(float dt)
 	{
-		for (auto&& c : m_components)
+		for (auto& c : m_components)
 		{
 			if (c->Owner.ShouldUpdate())
 				c->Update(dt);

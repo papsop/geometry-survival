@@ -44,21 +44,21 @@ namespace Engine
 
     void SceneManager::UnloadAllScenes()
     {
-        for (auto&& s : m_scenes)
+        for (auto& s : m_scenes)
             if (s->IsLoaded())
                 s->Unload();
     }
 
     void SceneManager::Update(float dt)
     {
-        for (auto&& s : m_scenes)
+        for (auto& s : m_scenes)
             if (s->IsLoaded())
                 s->Update(dt);
     }
 
     void SceneManager::SaveAllScenes()
     {
-        for (auto&& scene : m_scenes)
+        for (auto& scene : m_scenes)
         {
 			SceneSerializer s(*scene);
 			s.Serialize("assets/scenes/scene" + std::to_string(scene->c_ID) + ".yaml");

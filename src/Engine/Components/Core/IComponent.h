@@ -6,11 +6,11 @@
 #include "../../Core/Serializing/SerializableField.h"
 
 #include "../../Debug/Logger.h"
-#include <stdint.h>
-#include <type_traits>
 #include <functional>
 #include <iostream>
-
+#include <stdint.h>
+#include <type_traits>
+#include <type_traits>
 namespace Engine
 {
     class GameObject; 

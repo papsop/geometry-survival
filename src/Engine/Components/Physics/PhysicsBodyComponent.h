@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core.h"
+#include "../../Core/Serializing/SerializableField.h"
 #include <box2d/b2_body.h>
 
 namespace Engine
@@ -12,6 +13,19 @@ namespace Engine
 		uint16		CategoryBits	= 0x0000; // I'm xxx
 		uint16		MaskBits		= 0x0000; // I collide with yyy
 	};
+
+	
+	template<>
+	inline auto RegisterFields<PhysicsBodyDef>()
+	{
+		return Fields(
+			SerializableField("BodyType", &PhysicsBodyDef::BodyType),
+			SerializableField("IsBullet", &PhysicsBodyDef::IsBullet),
+			SerializableField("CategoryBits", &PhysicsBodyDef::CategoryBits),
+			SerializableField("MaskBits", &PhysicsBodyDef::MaskBits)
+		);
+	}
+
 
 	class PhysicsBodyComponent : public IComponent
 	{

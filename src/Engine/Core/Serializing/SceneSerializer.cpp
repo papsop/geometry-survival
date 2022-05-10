@@ -52,6 +52,8 @@ namespace Engine
 
 	void SceneSerializer::Serialize(const std::string& filePath)
 	{
+		return;
+		// ignore for this testing
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 		out << YAML::Key << "Scene";

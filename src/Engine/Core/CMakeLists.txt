@@ -18,6 +18,7 @@ set(SOURCES
 	Serializing/SceneSerializer.h
 	Serializing/SceneSerializer.cpp
 	Serializing/SerializableField.h
+	Serializing/SerializableField.inl
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

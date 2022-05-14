@@ -3,7 +3,6 @@
 #include "../../View/Renderables.h"
 #include "../../View/IViewStrategy.h"
 #include "../../Core/ColliderData.h"
-#include "../../Core/Serializing/SerializableField.h"
 
 #include "../../Debug/Logger.h"
 #include <functional>
@@ -51,12 +50,6 @@ namespace Engine
         // is removed from the owner
 		template<typename... Ts>
 		void SetRequiredComponents();
-
-		template<typename T>
-		void AddSerializableField(T value)
-		{
-            //auto val = static_cast<decltype(typename SerializableField(value)::type)>(value);
-		}
 
         TRequiredFunc m_requiredFunction = nullptr;
     };

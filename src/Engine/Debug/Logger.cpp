@@ -34,10 +34,13 @@ namespace Engine
         m_backends.emplace_back(std::move(backend));
     }
 
-    void Logger::ClearBackends()
-    {
-        m_backends.clear();
-    }
+	void Logger::UnregisterBackend(IBackendStrategy* backendToUnregister)
+	{
+        auto removeBackendLambda = [&](const std::unique_ptr<IBackendStrategy>& backendToCheck) {
+            return backendToCheck.get() == backendToUnregister;
+        };
+        m_backends.erase(std::remove_if(m_backends.begin(), m_backends.end(), removeBackendLambda), m_backends.end());
+	}
 
     void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
     {

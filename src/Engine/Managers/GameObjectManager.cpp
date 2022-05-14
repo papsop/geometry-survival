@@ -9,10 +9,9 @@ namespace Engine
 {
     GameObjectManager& GameObjectManager::Get() { return Application::Instance().GetGameObjectManager(); }
 
-	void GameObjectManager::OnDestroy()
+	void GameObjectManager::VirtualOnDestroy()
 	{
         m_gameObjects.clear();
-        IManager::OnDestroy();
 	}
 
     GameObject* GameObjectManager::CreateGameObject(const char *name)

@@ -6,7 +6,8 @@ namespace Engine
 
     EventManager& EventManager::Get() 
     {
-        return Application::Instance().GetEventManager();
+        static EventManager instance;
+        return instance;
     }
 
 }

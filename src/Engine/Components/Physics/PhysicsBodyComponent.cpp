@@ -17,8 +17,6 @@ namespace Engine
 		, m_isBullet(def.IsBullet)
 		, m_bodyType(def.BodyType)
 	{
-		AddSerializableField(m_isBullet);
-
 		b2BodyDef bodyDef;
 		bodyDef.type = m_bodyType;
 		bodyDef.position = Owner.GetTransform().Position;
@@ -46,6 +44,7 @@ namespace Engine
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
 		PhysicsManager::Get().UnregisterComponent(this);
+		PhysicsManager::Get().DeleteBody(m_b2Body);
 	}
 
 	void PhysicsBodyComponent::Update(float dt)

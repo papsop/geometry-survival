@@ -1,4 +1,5 @@
 #include "WindowBackendStrategy.h"
+#include "../Logger.h"
 #include "../../Utils/VectorUtils.h"
 #include "../../Components/Core.h"
 #include "../../View/Renderables.h"
@@ -46,4 +47,10 @@ namespace Engine
 			}
 		}
 	}
+
+	void WindowBackendStrategy::ReceiveEvent(const E_WindowClosed& eventData)
+	{
+		Logger::Instance().UnregisterBackend(this);
+	}
+
 };

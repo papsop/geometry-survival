@@ -7,7 +7,8 @@
 int main()
 {
     Game::GameInjection inj;
-    Engine::Application::Instance().Run(inj);
+    Engine::Application app;
+    app.Run(inj);
 
     return 0;
 }

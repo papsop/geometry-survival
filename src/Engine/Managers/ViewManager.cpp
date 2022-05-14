@@ -18,16 +18,9 @@ namespace Engine
 		return Application::Instance().GetViewManager();
 	}
 
-	void ViewManager::OnInit()
-	{	
-		IManager::OnInit();
-	}
-
-	void ViewManager::OnDestroy()
+	void ViewManager::VirtualOnDestroy()
 	{
-		Logger::Instance().ClearBackends();
 		m_viewStrategy = nullptr;
-		IManager::OnDestroy();
 	}
 
 	void ViewManager::SetViewStrategy(view::IViewStrategy* viewStrategy)

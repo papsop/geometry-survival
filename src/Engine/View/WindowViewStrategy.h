@@ -1,13 +1,13 @@
 #pragma once
 #include "IViewStrategy.h"
-
+#include "../Core/Events.h"
 #include <SFML/Graphics.hpp>
 
 namespace Engine
 {
     namespace view
     {
-        class WindowViewStrategy : public IViewStrategy
+        class WindowViewStrategy : public IViewStrategy, public IEventDispatcher<E_WindowClosed>
         {
         public:
             WindowViewStrategy(TEventCallback handleEvent);
@@ -33,7 +33,6 @@ namespace Engine
             void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
             
-
         private:
             // conversions
             sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);

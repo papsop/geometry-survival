@@ -15,21 +15,16 @@ namespace Engine
 		return Application::Instance().GetPhysicsManager();
 	}
 	
-	void PhysicsManager::OnInit()
+	void PhysicsManager::VirtualOnInit()
 	{
 		b2Vec2 gravity(0.f, 0.0f);// -2.f);// -9.8f);
 		m_b2World = std::make_unique<b2World>(gravity);
 		m_b2World->SetContactListener(this);
-
-		IManager::OnInit();
-		IEventListener<E_ApplicationStopped>::OnInit();
 	}
 
-	void PhysicsManager::OnDestroy()
+	void PhysicsManager::VirtualOnDestroy()
 	{
 		m_b2World = nullptr;
-		IManager::OnDestroy();
-		IEventListener<E_ApplicationStopped>::OnDestroy();
 	}
 
 	void PhysicsManager::RegisterComponent(PhysicsBodyComponent* component)
@@ -40,7 +35,6 @@ namespace Engine
 	void PhysicsManager::UnregisterComponent(PhysicsBodyComponent* component)
 	{
 		DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
-		m_b2World->DestroyBody(component->GetB2Body());
 		m_physicsBodies.erase(std::remove(m_physicsBodies.begin(), m_physicsBodies.end(), component), m_physicsBodies.end());
 	}
 
@@ -48,6 +42,12 @@ namespace Engine
 	{
 		DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
 		return m_b2World->CreateBody(def);
+	}
+
+	void PhysicsManager::DeleteBody(b2Body* body)
+	{
+		DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
+		m_b2World->DestroyBody(body);
 	}
 
 	void PhysicsManager::BeginContact(b2Contact* contact)

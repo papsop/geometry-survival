@@ -18,10 +18,12 @@
 namespace Engine
 {
 
+    Application* Application::m_instance = nullptr;
+
     Application::Application()
     {
-        // Passing unique_ptr like this, so we can keep private manager constructors
-        // and link Application as friend class (won't work with make_unique)
+        DD_ASSERT(m_instance == nullptr, "Only one Application instance allowed");
+        m_instance = this;
     }
 
     void Application::HandleViewEvent(const sf::Event& event)
@@ -47,7 +49,6 @@ namespace Engine
 		if (m_serializationManager.LoadConfig(dummyConfig))
 			m_config = dummyConfig;
 
-        m_eventManager.OnInit();
         m_physicsManager.OnInit();
         m_viewManager.OnInit();
 		m_inputManager.OnInit();
@@ -104,7 +105,6 @@ namespace Engine
         m_inputManager.OnDestroy();
         m_physicsManager.OnDestroy();
         m_viewManager.OnDestroy();
-        m_eventManager.OnDestroy();
         m_serializationManager.OnDestroy();
 		LOG_DEBUG("Destroying complete");
     }

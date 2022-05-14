@@ -42,9 +42,7 @@ namespace Engine
 		view::IViewStrategy* GetViewStrategy() { return m_viewStrategy.get(); };
 
 		int GetZIndexFromPool() { return m_zIndexPool++; }
-	protected:
-		void OnInit() override;
-		void OnDestroy() override;
+		
 	private:
 		const int PIXELS_PER_METER = 10; // config?
 		static bool compareZIndex(const IRenderableShapeComponent* s1, const IRenderableShapeComponent* s2)
@@ -55,6 +53,9 @@ namespace Engine
 		int m_zIndexPool = 1000;
 
 		ViewManager();
+
+		void VirtualOnDestroy() override;
+
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
 		std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
 		std::vector< IRenderableTextComponent* > m_texts;

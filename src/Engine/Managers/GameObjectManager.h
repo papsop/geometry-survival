@@ -21,9 +21,8 @@ namespace Engine
 
         void DestroyGameObject(GameObjectID ID);
         void CleanupGameObjects();
-    protected:
-        void OnDestroy() override;
     private:
+        void VirtualOnDestroy() override;
         GameObjectManager() = default;
 
         GameObjectID m_nextGameObjectID = 0;

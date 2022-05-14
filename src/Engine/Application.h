@@ -17,16 +17,17 @@ namespace Engine
     class Application : public IEventDispatcher<E_ApplicationStopped>
     {
     public:
+        Application();
+        ~Application() = default;
         static Application& Instance()
         {
-            static Application instance;
-            return instance;
+            DD_ASSERT(m_instance != nullptr, "Application not created");
+            return *m_instance;
         }
 
         const Config& GetConfig() { return m_config; }
 
         InputManager& GetInputManager() { GET_MANAGER_HELPER("SubsystemManager", m_inputManager); };
-        EventManager& GetEventManager() { GET_MANAGER_HELPER("EventManager", m_eventManager); };
         GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
         SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
         PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
@@ -38,15 +39,14 @@ namespace Engine
         bool IsRunning() const { return m_applicationIsRunning;  }
         void Stop();
     private:
-        Application();
-        ~Application() = default;
         Config m_config;
+
+        static Application* m_instance;
 
         bool m_applicationIsRunning = true;
         
         void HandleViewEvent(const sf::Event& event);
 
-        EventManager m_eventManager;
         InputManager m_inputManager;
         GameObjectManager m_gameObjectManager;
         SceneManager m_sceneManager;

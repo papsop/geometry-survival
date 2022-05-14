@@ -22,7 +22,7 @@ namespace Engine
         void Log(LOGGER_LEVEL level, const char* source, const char* format, ...);
 
         void AddBackend(std::unique_ptr<IBackendStrategy> backend);
-        void ClearBackends();
+        void UnregisterBackend(IBackendStrategy* backendToUnregister);
 
         void SetLevel(LOGGER_LEVEL level) { m_levelFilter = level; }
     private:

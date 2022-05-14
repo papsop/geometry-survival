@@ -21,6 +21,7 @@ namespace Engine
 
 		void Update(float dt);
 		b2Body* CreateBody(const b2BodyDef* def);
+		void DeleteBody(b2Body* body);
 
 		void BeginContact(b2Contact* contact) override;
 		void EndContact(b2Contact* contact) override;
@@ -28,12 +29,11 @@ namespace Engine
 		void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override { /* no implementation */ };
 
 		void ReceiveEvent(const E_ApplicationStopped& eventData) override;
-	protected:
-		void OnInit() override;
-		void OnDestroy() override;
 	private:
 		PhysicsManager() = default;
 
+		void VirtualOnInit() override;
+		void VirtualOnDestroy() override;
 
 		std::unique_ptr<b2World> m_b2World;
 		std::vector<PhysicsBodyComponent*> m_physicsBodies;	

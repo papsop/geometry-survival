@@ -30,6 +30,8 @@ namespace Engine
 
         WindowViewStrategy::~WindowViewStrategy()
         {
+            E_WindowClosed event;
+            DispatchEvent(event);
             m_window->close();
         }
 

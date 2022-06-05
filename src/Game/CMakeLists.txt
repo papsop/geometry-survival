@@ -13,7 +13,9 @@ add_executable(
 	GameInjection.h
 )
 
+add_subdirectory(Managers)
 add_subdirectory(Components)
+add_subdirectory(Core)
 
 target_include_directories(
     ${GAME_PROJECT}

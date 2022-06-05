@@ -43,6 +43,9 @@ namespace Engine
             sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
             // ==============
 
+            const int m_gridSize = 50.0f;
+            void DrawWindowGrid();
+
             std::unique_ptr<sf::RenderWindow> m_window;
             sf::Font m_consoleFont;
         };

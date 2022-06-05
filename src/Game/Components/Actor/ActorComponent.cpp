@@ -2,7 +2,7 @@
 #include "WeaponComponent.h"
 #include <Engine/Components/Physics.h>
 #include <Engine/Application.h>
-#include <Engine/Core/GameObject.h>
+#include <Engine/Core/GameObject/GameObject.h>
 
 namespace Game
 {

@@ -1,6 +1,6 @@
 #pragma once
 #include "../Core.h"
-#include "../../Core/GameObject.h"
+#include "../../Core/GameObject/GameObject.h"
 #include "../../Managers/ViewManager.h"
 
 namespace Engine

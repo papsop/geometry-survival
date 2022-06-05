@@ -3,7 +3,7 @@
 #include "BulletComponent.h"
 
 #include <Engine/Application.h>
-#include <Engine/Core/GameObject.h>
+#include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/ViewManager.h>
@@ -75,7 +75,7 @@ namespace Game
 
         bullet->AddComponent<BulletComponent>();
 
-        Owner.GetScene().AddGameObject(bullet->c_ID);
+        Owner.GetScene().AddGameObject(bullet->ID);
         return bullet;
     }
     

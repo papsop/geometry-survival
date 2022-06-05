@@ -2,7 +2,7 @@
 
 namespace Engine
 {
-	template<typename T>
+	template<typename T, typename>
 	void ComponentManager::RegisterComponentType()
 	{
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();
@@ -18,7 +18,7 @@ namespace Engine
 		}
 	}
 
-	template<typename T>
+	template<typename T, typename>
 	void ComponentManager::RegisterComponent(T* component)
 	{
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();
@@ -27,7 +27,7 @@ namespace Engine
 		m_containers[ID]->RegisterComponent(component);
 	}
 
-	template<typename T>
+	template<typename T, typename>
 	void ComponentManager::UnregisterComponent(T* component)
 	{
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();
@@ -36,7 +36,7 @@ namespace Engine
 		m_containers[ID]->UnregisterComponent(component);
 	}
 
-	template<typename T>
+	template<typename T, typename>
 	std::vector<T*> ComponentManager::GetComponentsContainer()
 	{
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();

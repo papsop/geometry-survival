@@ -9,8 +9,9 @@ project(
 
 add_library(
     ${ENGINE_PROJECT} STATIC
-    Application.cpp
     Application.h
+    Application.inl
+    Application.cpp
 )
 
 add_subdirectory(Managers)

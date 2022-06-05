@@ -33,12 +33,18 @@ namespace Engine
 		uint16 GetCategoryBits() { return m_categoryBits; }
 		uint16 GetMaskBits() { return m_maskBits; }
 	private:
-		b2Body* m_b2Body;
+		b2Body* m_b2Body = nullptr;
 		b2BodyType m_bodyType;
 		bool m_isBullet;
 		uint16 m_categoryBits;
 		uint16 m_maskBits;
 
 	friend class SceneSerializer;
+	protected:
+		void VirtualOnActivated() override;
+
+
+		void VirtualOnDeactivated() override;
+
 	};
 }

@@ -1,7 +1,7 @@
 #pragma once
 #include <Engine/Core/ApplicationInjection.h>
 #include <Engine/Application.h>
-#include <Engine/Core/GameObject.h>
+#include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
@@ -10,6 +10,9 @@
 #include <Engine/Components/View.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
+
+#include "Core/GameObject/GameObjectFactory.h"
+#include "Managers/GameManager.h"
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
@@ -30,6 +33,11 @@ namespace Game
     public:
         void RegisterGameComponents(Engine::Application& app) override
         {
+			// setup logger
+			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
+			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::WARN);
+
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
             Engine::ComponentManager::Get().RegisterComponentType<SplashController>();
@@ -37,14 +45,12 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
+
+            Engine::Application::Instance().RegisterManager<GameManager>();
         }
 
         void BeforeGameLoop(Engine::Application& app) override
         {
-            // setup logger
-            Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
-            Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-            Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
 
             // Scene 0 ==============================================================================
             //auto& scene0 = Engine::SceneManager::Get().CreateScene();
@@ -56,7 +62,7 @@ namespace Game
             //splashScreen->AddComponent<SplashController>();
 
             //scene0.SetState(std::make_unique<Engine::BasicSceneState>(&scene0));
-            //scene0.AddGameObject(splashScreen->c_ID);
+            //scene0.AddGameObject(splashScreen->ID);
 
             Engine::ShapeViewDef shapeViewDef;
             shapeViewDef.Color = sf::Color::Green;
@@ -78,7 +84,7 @@ namespace Game
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
-            player->GetTransform().SetPosition({ 5.0f, 0.0f });
+            player->GetTransform().SetPosition({ 1.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
@@ -89,35 +95,28 @@ namespace Game
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
             player->AddComponent<Engine::CameraComponent>();
 
+            // walls
+            WallFactoryDef wallFactoryDef;
+            wallFactoryDef.Position = { 0.5f, 0.5f };
+            wallFactoryDef.Size = { 100.0f, .5f };
+            wallFactoryDef.RotationDeg = 90.0f;
+            auto wall1 = GameObjectFactory::CreateWall(wallFactoryDef);
+            //wallFactoryDef.Position = { 0.0f, 5.0f };
+            //wallFactoryDef.RotationDeg = 270.0f;
+            //auto wall2 = GameObjectFactory::CreateWall(wallFactoryDef);
+            //wallFactoryDef.Position = { 0.0f, 2.5f };
+            //wallFactoryDef.RotationDeg = 0.0f;
+            //auto wall3 = GameObjectFactory::CreateWall(wallFactoryDef);
 
+            
 
-			physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
-			physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
-            shapeViewDef.PointCount = 3;
-            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
-            enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            enemy->AddComponent<Engine::ShapeViewComponent>(1, shapeViewDef);
-            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
+           // scene1.AddGameObject(centerCamera->ID);
+            scene1.AddGameObject(player->ID);
+            scene1.AddGameObject(wall1->ID);
+			//scene1.AddGameObject(wall2->ID);
+			//scene1.AddGameObject(wall3->ID);
 
-			Engine::RectangleViewDef rectangleViewDef;
-            rectangleViewDef.Color = sf::Color::Cyan;
-            rectangleViewDef.Size = {10.0f, 1.0f};
-            physBodyDef.BodyType = b2_staticBody;
-
-			physBodyDef.CategoryBits = physics::EntityCategory::WALL;
-			physBodyDef.MaskBits = physics::EntityMask::M_WALL;
-            auto bottomBox = Engine::GameObjectManager::Get().CreateGameObject("BottomBox");
-            bottomBox->GetTransform().SetPosition({ 0.0f, -15.f });
-            bottomBox->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            bottomBox->AddComponent<Engine::RectangleFixtureComponent>();
-            bottomBox->AddComponent<Engine::RectangleViewComponent>(2, rectangleViewDef);
-
-           // scene1.AddGameObject(centerCamera->c_ID);
-            scene1.AddGameObject(player->c_ID);
-            scene1.AddGameObject(enemy->c_ID);
-            scene1.AddGameObject(bottomBox->c_ID);
-
-            Engine::SceneManager::Get().LoadSceneByIndex(scene1.c_ID);
+            Engine::SceneManager::Get().LoadSceneByIndex(scene1.ID);
         }
     };
 }

@@ -3,35 +3,40 @@
 #include <box2d/b2_polygon_shape.h>
 namespace Engine
 {
-	RectangleFixtureComponent::RectangleFixtureComponent(GameObject & obj)
+	RectangleFixtureComponent::RectangleFixtureComponent(GameObject & obj, const RectangleFixtureDef& def)
 		: IComponent(obj)
+		, m_fixtureShapeSize(def.Size)
 	{
 		SetRequiredComponents<PhysicsBodyComponent>();
-	}
 
-	void RectangleFixtureComponent::OnCreate()
-	{
 		auto physBody = Owner.GetComponent<PhysicsBodyComponent>();
 		b2PolygonShape polygonShape;
-		polygonShape.SetAsBox(10.0f, 1.0f);
+		polygonShape.SetAsBox(def.Size.x, def.Size.y);
 
 		b2FixtureDef fixtureDef;
 		fixtureDef.shape = &polygonShape;
-		fixtureDef.density = 1.0f;
-		fixtureDef.friction = 0.3f;
+		fixtureDef.density = def.Density;
+		fixtureDef.friction = def.Friction;
 		fixtureDef.filter.categoryBits = physBody->GetCategoryBits();
 		fixtureDef.filter.maskBits = physBody->GetMaskBits();
 
 		m_fixture = Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->CreateFixture(&fixtureDef);
 	}
 
+	void RectangleFixtureComponent::OnCreate()
+	{
+	}
+
 	RectangleFixtureComponent::~RectangleFixtureComponent()
 	{
-		// body destroys all the fixtures when it's deleteds
+		// body destroys all the fixtures when it's deleted
 	}
 
 	void RectangleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
 	{
-		viewStrategy->DebugRenderRectangle(Owner.GetTransform().Position, math::Vec2(10.0f, 1.0f), m_fixture->GetBody()->GetAngle(), sf::Color::Green);
+		if (!m_isActive)
+			return;
+
+		viewStrategy->DebugRenderRectangle(Owner.GetTransform().Position, m_fixtureShapeSize, m_fixture->GetBody()->GetAngle(), sf::Color::Green);
 	}
 }

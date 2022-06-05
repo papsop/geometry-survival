@@ -32,18 +32,26 @@ namespace Engine
         ComponentManager() = default;
         ~ComponentManager() = default;
 
-		template<typename T>
+		template<typename T,
+                typename = enable_if_base_of_component<T>
+                >
         void RegisterComponentType();
 
-		template<typename T>
+		template<typename T,
+			    typename = enable_if_base_of_component<T>
+		        >
         void RegisterComponent(T* component);
 
-		template<typename T>
+		template<typename T,
+			    typename = enable_if_base_of_component<T>
+		        >
 		void UnregisterComponent(T* component);
 
         void Update(float dt);
 
-        template<typename T>
+		template<typename T,
+			    typename = enable_if_base_of_component<T>
+		        >
         std::vector<T*> GetComponentsContainer();
     private:
         std::map<uint32_t, std::unique_ptr<ComponentsContainer> > m_containers;

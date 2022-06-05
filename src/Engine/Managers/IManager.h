@@ -7,6 +7,9 @@ namespace Engine
 	class IManager
 	{
 	public:
+		IManager() = default;
+		virtual ~IManager() = default;
+
 		bool IsInitialized() { return m_initialized; }
 
 		void OnInit()
@@ -20,11 +23,6 @@ namespace Engine
 			VirtualOnDestroy(); // calls virtual function
 			m_initialized = false;
 		};
-	protected:
-		IManager() = default;
-		virtual ~IManager() = default;
-
-
 	private:
 
 		virtual void VirtualOnInit() { /* NO IMPLEMENTATION IN BASE CLASS */ };

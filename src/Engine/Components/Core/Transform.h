@@ -13,10 +13,18 @@ namespace Engine
         Transform() : Position(math::Vec2(0.0f, 0.0f)), Rotation(0.0f), Scale(math::Vec2(1.0f, 1.0f)) {}
 
         void SetPosition(math::Vec2 pos) { Position = pos; }
+        void SetRotationDeg(float rotation)
+        {
+            Rotation = math::DEG_TO_RAD(rotation);
+        }
+		void SetRotationRad(float rotation)
+		{
+            Rotation = rotation;
+		}
 
         math::Vec2 Forward()
         {
-            auto modifiedRotation = Rotation + (Engine::math::M_PI_F / 2);
+            auto modifiedRotation = Rotation + (math::M_PI_F / 2);
             return { cosf(modifiedRotation), sinf(modifiedRotation) };
         }
 

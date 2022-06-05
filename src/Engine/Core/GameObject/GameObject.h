@@ -1,9 +1,10 @@
 #pragma once
-#include "../Debug/Logger.h"
-#include "../Components/Core.h"
-#include "../Components/Physics.h"
-#include "../Components/View.h"
-#include "../Utils/IdGenerator.h"
+#include "../../Debug/Logger.h"
+#include "../../Components/Core.h"
+#include "../../Components/Physics.h"
+#include "../../Components/View.h"
+#include "../../Utils/IdGenerator.h"
+#include "GameObjectTag.h"
 
 #include <unordered_map>
 #include <map>
@@ -14,33 +15,45 @@
 
 namespace Engine
 {
-    typedef uint32_t GameObjectID;
+    using GameObjectID = uint32_t;
 
-    class EntityManager;
     class Scene;
 
     class GameObject
     {
     public:
+		// better name?
+		using FuncOverComponents = std::function<void(IComponent*)>;
         // Components Management
-        template<typename T>
+        template<typename T,
+                typename = enable_if_base_of_component<T>
+                >
         bool HasComponent() const;
 
-        template<typename T, typename ... Args>
+        template<typename T, 
+                typename ... Args,
+                typename = enable_if_base_of_component<T>
+                >
         void AddComponent(Args&& ... args);
 
-        template<typename T>
+        template<typename T,
+                typename = enable_if_base_of_component<T>
+                >
         void RemoveComponent();
 
-        template<typename T>
+        template<typename T,
+                typename = enable_if_base_of_component<T>
+                >
         T* GetComponent();
 
         // --------------------------
-        GameObject(uint32_t id, const char* debugName);
+        GameObject(uint32_t id, const char* debugName = "unnamed", GameObjectTag tag = GameObjectTag::UNTAGGED);
+
         ~GameObject() = default;
 
-        const uint32_t c_ID;
-        const char* c_DebugName;
+        const GameObjectID ID;
+        const GameObjectTag Tag;
+        const std::string DebugName;
 
         Transform& GetTransform() {   return m_transform; }
 
@@ -48,7 +61,7 @@ namespace Engine
         void OnCollisionEnd(GameObject* other);
 
         void Destroy();
-        void SetActive(bool a) { m_isActive = a; }
+        void SetActive(bool a);
 
         bool ShouldDestroy() const { return m_shouldDestroy; }
         bool IsActive() const { return m_isActive; }
@@ -56,6 +69,8 @@ namespace Engine
 
         void SetScene(Scene* scene) { m_scene = scene; }
         Scene& GetScene() { return *m_scene; }
+
+        void ForEachComponent(FuncOverComponents func);
 
     private:
         std::unordered_map<uint32_t, std::unique_ptr<IComponent>> m_components = {};

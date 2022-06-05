@@ -1,6 +1,6 @@
 #include "PhysicsManager.h"
 #include "../Debug/Logger.h"
-#include "../Core/GameObject.h"
+#include "../Core/GameObject/GameObject.h"
 
 #include "../Application.h"
 #include "../Components/Physics.h"

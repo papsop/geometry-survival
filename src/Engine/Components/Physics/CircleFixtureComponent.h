@@ -1,7 +1,7 @@
 #pragma once
 #include "../Core.h"
 #include "../../Debug/IDebuggable.h"
-#include "../../Core/GameObject.h"
+#include "../../Core/GameObject/GameObject.h"
 
 #include <box2d/b2_fixture.h>
 namespace Engine

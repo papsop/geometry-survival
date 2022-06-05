@@ -1,7 +1,7 @@
 #include "ViewManager.h"
 
 #include "../Application.h"
-#include "../Core/GameObject.h"
+#include "../Core/GameObject/GameObject.h"
 #include "../Debug/Logger.h"
 
 namespace Engine
@@ -65,7 +65,7 @@ namespace Engine
 
 		if (m_shapes.insert(component).second == false)
 		{
-			LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.c_ID, component->ZIndex);
+			LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.ID, component->ZIndex);
 		}
 	}
 

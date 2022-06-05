@@ -2,7 +2,7 @@
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 
-#include <Engine/Core/Scene.h>
+#include <Engine/Core/Scene/Scene.h>
 
 #include "SplashShape.h"
 
@@ -48,7 +48,7 @@ namespace Game
 			////newTriangle->GetComponent<Engine::RigidbodyComponent>()->Velocity = dir;
    //         
 
-   //         scene.AddGameObject(newTriangle->c_ID);
+   //         scene.AddGameObject(newTriangle->ID);
    //         m_lastTriangleSpawned = m_triangleSpawnCooldown;
         }
     }

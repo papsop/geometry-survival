@@ -1,7 +1,7 @@
 #include "SceneManager.h"
 #include "../Debug/Logger.h"
 #include "../Application.h"
-#include "../Core/Scene.h"
+#include "../Core/Scene/Scene.h"
 #include "../Core/Serializing/SceneSerializer.h"
 
 #include <string>
@@ -61,7 +61,7 @@ namespace Engine
         for (auto& scene : m_scenes)
         {
 			SceneSerializer s(*scene);
-			s.Serialize("assets/scenes/scene" + std::to_string(scene->c_ID) + ".yaml");
+			s.Serialize("assets/scenes/scene" + std::to_string(scene->ID) + ".yaml");
         }
     }
 }

@@ -7,4 +7,4 @@
 #include "PhysicsManager.h"
 #include "ViewManager.h"
 #include "ComponentManager.h"
-#include "SerializationManager.h"
+#include "ConfigManager.h"

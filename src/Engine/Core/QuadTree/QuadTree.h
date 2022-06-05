@@ -1,6 +1,6 @@
 #pragma once
 #include "../../Debug/IDebuggable.h"
-#include "../GameObject.h"
+#include "../GameObject/GameObject.h"
 
 #include <SFML/Graphics.hpp>
 #include <array>

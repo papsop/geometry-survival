@@ -3,13 +3,17 @@ set(SOURCES
 	ColliderData.h
 	EventData.h
 	Events.h
-	GameObject.h
-	GameObject.inl
-	GameObject.cpp
-	Scene.h
-	Scene.cpp
 	CameraData.h
-	Config.h
+
+	GameObject/GameObjectTag.h
+	GameObject/GameObject.h
+	GameObject/GameObject.inl
+	GameObject/GameObject.cpp
+
+	Scene/Scene.h
+	Scene/Scene.cpp
+	Scene/SceneLoader.h
+	Scene/SceneLoader.cpp
 
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h

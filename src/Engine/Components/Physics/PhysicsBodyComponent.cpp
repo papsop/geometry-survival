@@ -1,7 +1,7 @@
 #include "PhysicsBodyComponent.h"
 
 #include "../../Managers/PhysicsManager.h"
-#include "../../Core/GameObject.h"
+#include "../../Core/GameObject/GameObject.h"
 #include "../../Utils/AllUtils.h"
 
 #include <box2d/b2_circle_shape.h>
@@ -21,14 +21,26 @@ namespace Engine
 		bodyDef.type = m_bodyType;
 		bodyDef.position = Owner.GetTransform().Position;
 		bodyDef.bullet = m_isBullet;
+		bodyDef.angle = Owner.GetTransform().Rotation;
+		bodyDef.enabled = false; // default always false, activate it in function VirtualOnActivated
 		//bodyDef.fixedRotation = true;
-		bodyDef.userData.pointer = Owner.c_ID;
+		bodyDef.userData.pointer = Owner.ID;
 		m_b2Body = PhysicsManager::Get().CreateBody(&bodyDef);
 	}
 
 	void PhysicsBodyComponent::OnCreate()
 	{
 		PhysicsManager::Get().RegisterComponent(this);
+	}
+
+	void PhysicsBodyComponent::VirtualOnActivated()
+	{
+		m_b2Body->SetEnabled(true);
+	}
+
+	void PhysicsBodyComponent::VirtualOnDeactivated()
+	{
+		m_b2Body->SetEnabled(false);
 	}
 
 	void PhysicsBodyComponent::ApplyImpulseToCenter(const math::Vec2& impulse)
@@ -49,7 +61,7 @@ namespace Engine
 
 	void PhysicsBodyComponent::Update(float dt)
 	{
-		Owner.GetTransform().Position = m_b2Body->GetPosition();
-		Owner.GetTransform().Rotation = m_b2Body->GetAngle();
+		Owner.GetTransform().SetPosition(m_b2Body->GetPosition());
+		Owner.GetTransform().SetRotationRad(m_b2Body->GetAngle());
 	}
 };

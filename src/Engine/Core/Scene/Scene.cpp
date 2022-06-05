@@ -1,11 +1,11 @@
 #include "Scene.h"
 #include <string>
-#include "../Utils/VectorUtils.h"
+#include "../../Utils/VectorUtils.h"
 
 namespace Engine
 {
     Scene::Scene(uint32_t id, SceneType sceneType)
-        : c_ID(id)
+        : ID(id)
         , c_SceneType(sceneType)
     {
     }
@@ -58,16 +58,8 @@ namespace Engine
         RemoveGameObject(eventData.ID);
     }
     
-    void Scene::SetState(std::unique_ptr<ISceneState> state)
-    {
-        m_state = std::move(state);
-    }
-
     void Scene::Update(float dt)
-    {
-        if (m_state)
-            m_state->Update(dt);
-    }
+    {}
 
     void Scene::Debug(view::IViewStrategy* viewStrategy)
     {

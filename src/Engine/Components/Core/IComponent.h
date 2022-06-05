@@ -12,6 +12,7 @@
 #include <type_traits>
 namespace Engine
 {
+
     class GameObject; 
 
     class IComponent
@@ -21,6 +22,10 @@ namespace Engine
 
         IComponent(GameObject& obj) : Owner(obj) {};
         virtual ~IComponent() = default;
+
+        void Activate();
+        void Deactivate();
+        bool IsActive() { return m_isActive; }
 
         virtual void OnCreate() {};
         virtual void Update(float dt) {};
@@ -52,6 +57,11 @@ namespace Engine
 		void SetRequiredComponents();
 
         TRequiredFunc m_requiredFunction = nullptr;
+
+
+        virtual void VirtualOnActivated() {};
+        virtual void VirtualOnDeactivated() {};
+        bool m_isActive = false;
     };
 
     // Views
@@ -80,6 +90,9 @@ namespace Engine
     protected:
         Transform& m_ownerTransform;
     };
+
+	template<typename T>
+	using enable_if_base_of_component = std::enable_if_t< std::is_base_of<IComponent, T>::value >;
 };
 
 #include "IComponent.inl"

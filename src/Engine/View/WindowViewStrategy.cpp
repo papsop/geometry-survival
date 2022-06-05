@@ -13,13 +13,17 @@ namespace Engine
         WindowViewStrategy::WindowViewStrategy(TEventCallback handleEvent)
             : IViewStrategy(handleEvent)
         {
-            auto windowConfig = Application::Instance().GetConfig().Engine.Window;
-            sf::VideoMode videoMode(windowConfig.Width, windowConfig.Height, 32);
+            auto width = ConfigManager::Get().GetValue<int>("window_width");
+            auto height = ConfigManager::Get().GetValue<int>("window_height");
+            auto name = ConfigManager::Get().GetValue<const char*>("window_name");
+            auto fullscreen = ConfigManager::Get().GetValue<bool>("window_fullscreen");
+
+            sf::VideoMode videoMode(width, height, 32);
             uint32 style = sf::Style::Default;
-            if (windowConfig.Fullscreen)
+            if (fullscreen)
                 style = sf::Style::Fullscreen;
 
-            m_window = std::make_unique<sf::RenderWindow>(videoMode, windowConfig.Name, style);
+            m_window = std::make_unique<sf::RenderWindow>(videoMode, name, style);
 
             if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
             {
@@ -147,6 +151,17 @@ namespace Engine
             //return { vec.x, vec.y };
 		}
 
+		void WindowViewStrategy::DrawWindowGrid()
+		{
+            float fGridSize = static_cast<float>(m_gridSize);
+			for (int i = -m_gridSize; i < m_gridSize; i++)
+			{
+                float fi = static_cast<float>(i);
+				DebugRenderLine({ fi, -fGridSize }, { fi, fGridSize }, sf::Color::White);
+				DebugRenderLine({ -fGridSize, fi}, { fGridSize, fi }, sf::Color::White);
+			}
+		}
+
 		// ==============================================
 
         void WindowViewStrategy::PreRender()
@@ -200,11 +215,14 @@ namespace Engine
 
         void WindowViewStrategy::DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color)
 		{
-            //sf::Vertex line[] = {
-            //    sf::Vertex(a, color),
-            //    sf::Vertex(b, color)
-            //};
-            //m_window->draw(line, 2, sf::Lines);
+            auto p1 = ViewManager::Get().coordsToPixels(a);
+            auto p2 = ViewManager::Get().coordsToPixels(b);
+
+			sf::Vertex line[] = {
+                sf::Vertex(p1, color),
+				sf::Vertex(p2, color)
+			};
+			m_window->draw(line, 2, sf::Lines);
 		}
 
 		void WindowViewStrategy::DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color)
@@ -270,6 +288,7 @@ namespace Engine
 
         void WindowViewStrategy::PostRender()
         {
+            DrawWindowGrid();
             m_window->display();
         }
 

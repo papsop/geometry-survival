@@ -1,5 +1,5 @@
 #include "SceneSerializer.h"
-#include "../GameObject.h"
+#include "../GameObject/GameObject.h"
 #include "../../Managers/GameObjectManager.h"
 
 #include <fstream>
@@ -16,8 +16,8 @@ namespace Engine
 	void SceneSerializer::SerializeGameObject(YAML::Emitter& out, GameObject& obj)
 	{
 		out << YAML::BeginMap;
-		out << YAML::Key << "ID" << YAML::Value << obj.c_ID;
-		out << YAML::Key << "Name" << YAML::Value << obj.c_DebugName;
+		out << YAML::Key << "ID" << YAML::Value << obj.ID;
+		out << YAML::Key << "Name" << YAML::Value << obj.DebugName;
 
 		// Transform
 		out << YAML::Key << "Transform";

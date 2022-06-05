@@ -8,7 +8,7 @@ namespace Engine
     {
         const float M_PI_F = 3.14159274101257324219f;
 
-        typedef b2Vec2 Vec2;
+        using Vec2 = b2Vec2;
 
         float RAD_TO_DEG(float angle);
 

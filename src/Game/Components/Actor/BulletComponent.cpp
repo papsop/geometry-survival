@@ -1,6 +1,6 @@
 #include "BulletComponent.h"
 
-#include <Engine/Core/GameObject.h>
+#include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/ComponentManager.h>
 
 namespace Game

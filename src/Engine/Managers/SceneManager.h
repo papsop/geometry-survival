@@ -1,6 +1,6 @@
 #pragma once
 #include "IManager.h"
-#include "../Core/Scene.h"
+#include "../Core/Scene/Scene.h"
 
 #include <vector>
 #include "../Debug/IDebuggable.h"

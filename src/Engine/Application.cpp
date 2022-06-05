@@ -1,6 +1,6 @@
 #include "Application.h"
 #include "Managers/InputManager.h"
-#include "Core/GameObject.h"
+#include "Core/GameObject/GameObject.h"
 #include "Core/Serializing/SceneSerializer.h"
 
 #include "View/WindowViewStrategy.h"
@@ -38,16 +38,25 @@ namespace Engine
             break;
         }
     }
+	void Application::DestroyRegisteredManager()
+	{
+        while (!m_gameManagers.empty())
+        {
+            auto& m = std::move(m_gameManagers.front());
+            m->OnDestroy();
+            m_gameManagers.pop();
+        }
+	}
 
 	void Application::Run(ApplicationInjection& injection)
     {
         LOG_DEBUG("Starting Application");
         LOG_DEBUG("Initializing managers");
-        m_serializationManager.OnInit();
+        m_configManager.OnInit();
         //m_serializationManager.SaveConfig(m_config);
-		Config dummyConfig;
-		if (m_serializationManager.LoadConfig(dummyConfig))
-			m_config = dummyConfig;
+		//Config dummyConfig;
+		//if (m_serializationManager.LoadConfig(dummyConfig))
+		//	m_config = dummyConfig;
 
         m_physicsManager.OnInit();
         m_viewManager.OnInit();
@@ -99,13 +108,14 @@ namespace Engine
 
 
         LOG_DEBUG("Destroying managers");
+        DestroyRegisteredManager();
         m_gameObjectManager.OnDestroy();
         m_componentManager.OnDestroy();
         m_sceneManager.OnDestroy();
         m_inputManager.OnDestroy();
         m_physicsManager.OnDestroy();
         m_viewManager.OnDestroy();
-        m_serializationManager.OnDestroy();
+        m_configManager.OnDestroy();
 		LOG_DEBUG("Destroying complete");
     }
 

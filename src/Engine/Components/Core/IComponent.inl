@@ -8,7 +8,7 @@ namespace Engine
 		static void check(const GameObject& obj)
 		{
 			bool hasComponent = obj.HasComponent<T>();
-			DD_ASSERT(hasComponent, "[%s] RequiredComponents asserted, missing component '%s'", obj.c_DebugName, typeid(T).name());
+			DD_ASSERT(hasComponent, "[%s] RequiredComponents asserted, missing component '%s'", obj.DebugName, typeid(T).name());
 		}
 	};
 

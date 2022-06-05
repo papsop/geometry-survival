@@ -1,7 +1,7 @@
 #include "ComponentManager.h"
 
 #include "../Application.h"
-#include "../Core/GameObject.h"
+#include "../Core/GameObject/GameObject.h"
 
 namespace Engine
 {

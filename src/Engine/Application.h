@@ -2,7 +2,6 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 
-#include "Core/Config.h"
 #include "Core/ApplicationInjection.h"
 #include "Managers/AllManagers.h"
 
@@ -25,22 +24,25 @@ namespace Engine
             return *m_instance;
         }
 
-        const Config& GetConfig() { return m_config; }
-
         InputManager& GetInputManager() { GET_MANAGER_HELPER("SubsystemManager", m_inputManager); };
         GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
         SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
         PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
         ViewManager& GetViewManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
         ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
-        SerializationManager& GetSerializationManager() { GET_MANAGER_HELPER("SerializationManager", m_serializationManager); };
+        ConfigManager& GetConfigManager() { GET_MANAGER_HELPER("ConfigManager", m_configManager); };
+
+        template<typename T,
+                typename ... Args,
+                typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
+                >
+        void RegisterManager(Args&& ... args);
+        void DestroyRegisteredManager();
 
         void Run(ApplicationInjection& injection);
         bool IsRunning() const { return m_applicationIsRunning;  }
         void Stop();
     private:
-        Config m_config;
-
         static Application* m_instance;
 
         bool m_applicationIsRunning = true;
@@ -53,8 +55,11 @@ namespace Engine
         PhysicsManager m_physicsManager;
         ViewManager m_viewManager;
         ComponentManager m_componentManager;
-        SerializationManager m_serializationManager;
+        ConfigManager m_configManager;
+
+        std::queue<std::unique_ptr<IManager>> m_gameManagers;
     };
+
 };
 
-
+#include "Application.inl"

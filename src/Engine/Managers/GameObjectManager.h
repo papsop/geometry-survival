@@ -1,6 +1,6 @@
 #pragma once
 #include "IManager.h"
-#include "../Core/GameObject.h"
+#include "../Core/GameObject/GameObject.h"
 #include "../Core/Events.h"
 
 

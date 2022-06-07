@@ -24,10 +24,10 @@ namespace Engine
         template<typename T>
         void UnregisterEventListener(IEventListener<T>* listener);
 
-    private:
         template<typename T>
         void DispatchEvent(const T eventData);
 
+    private:
         EventManager() = default;
         std::unordered_map<uint32_t, std::vector<void*>> m_listeners;
 

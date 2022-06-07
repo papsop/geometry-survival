@@ -34,8 +34,7 @@ namespace Engine
 
         WindowViewStrategy::~WindowViewStrategy()
         {
-            E_WindowClosed event;
-            DispatchEvent(event);
+            EventManager::Get().DispatchEvent(E_WindowClosed());
             m_window->close();
         }
 

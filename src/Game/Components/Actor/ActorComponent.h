@@ -21,6 +21,9 @@ namespace Game
         void Rotate(float angle);
         void Fire();
 
+        
+        void ProcessMessage(const Engine::Message& message) override;
+
     private:
         float m_movementSpeed = 500.0f;
         std::queue<std::unique_ptr<ICommand>> m_commandsQueue;

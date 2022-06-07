@@ -3,8 +3,9 @@
 #include "../../View/Renderables.h"
 #include "../../View/IViewStrategy.h"
 #include "../../Core/ColliderData.h"
-
 #include "../../Debug/Logger.h"
+#include "../../Core/Messaging/MessageTypes.h"
+
 #include <functional>
 #include <iostream>
 #include <stdint.h>
@@ -31,7 +32,8 @@ namespace Engine
         virtual void Update(float dt) {};
         virtual void OnCollisionStart(GameObject* other) {};
         virtual void OnCollisionEnd(GameObject* other) {};
-        
+        virtual void ProcessMessage(const Message& message) { };
+
 		GameObject& Owner;
 
         void CheckRequiredComponents()

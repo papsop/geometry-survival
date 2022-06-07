@@ -122,9 +122,7 @@ namespace Engine
 	void Application::Stop()
 	{
         m_applicationIsRunning = false;
-		E_ApplicationStopped eventData;
-
-		DispatchEvent(eventData);
+        EventManager::Get().DispatchEvent(E_ApplicationStopped());
 	}
 
 };

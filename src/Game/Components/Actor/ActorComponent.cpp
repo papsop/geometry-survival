@@ -26,7 +26,7 @@ namespace Game
 
     void ActorComponent::AddCommand(std::unique_ptr<ICommand> command)
     {
-        m_commandsQueue.push(std::move(command));
+        m_commandsQueue.push(std::move(command)); 
     }
      
     void ActorComponent::Move(Engine::math::Vec2 dir)
@@ -59,7 +59,15 @@ namespace Game
         }
     }
 
-    void ActorComponent::Update(float dt)
+	void ActorComponent::ProcessMessage(const Engine::Message& message)
+	{
+		if (message.Type == Engine::MessageType::MSG_Test)
+		{
+			LOG_WARN("[%s] received MSG_TEST", Owner.DebugName);
+		}
+	}
+
+	void ActorComponent::Update(float dt)
     {
         while (!m_commandsQueue.empty())
         {

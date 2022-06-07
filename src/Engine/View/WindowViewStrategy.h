@@ -7,7 +7,7 @@ namespace Engine
 {
     namespace view
     {
-        class WindowViewStrategy : public IViewStrategy, public IEventDispatcher<E_WindowClosed>
+        class WindowViewStrategy : public IViewStrategy
         {
         public:
             WindowViewStrategy(TEventCallback handleEvent);

@@ -13,7 +13,7 @@
 namespace Engine
 {
 
-    class Application : public IEventDispatcher<E_ApplicationStopped>
+    class Application
     {
     public:
         Application();

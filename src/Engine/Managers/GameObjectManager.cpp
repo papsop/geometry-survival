@@ -53,7 +53,7 @@ namespace Engine
             m_gameObjects.erase(e->ID);
             m_gameObjectsToCleanup.pop();
             
-            DispatchEvent(eventData);
+            EventManager::Get().DispatchEvent(eventData);
         }
     }
 };

@@ -53,9 +53,9 @@ namespace Engine
 
         const GameObjectID ID;
         const GameObjectTag Tag;
-        const std::string DebugName;
+        const char* DebugName;
 
-        Transform& GetTransform() {   return m_transform; }
+        Transform& GetTransform() { return m_transform; }
 
         void OnCollisionStart(GameObject* other);
         void OnCollisionEnd(GameObject* other);
@@ -69,6 +69,9 @@ namespace Engine
 
         void SetScene(Scene* scene) { m_scene = scene; }
         Scene& GetScene() { return *m_scene; }
+
+        void SendMessageTo(GameObject* receiver, MessageType type);
+        void ReceiveMessage(const Message& message);
 
         void ForEachComponent(FuncOverComponents func);
 

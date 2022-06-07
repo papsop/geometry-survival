@@ -11,22 +11,9 @@ namespace Engine
         IState() = default;
         ~IState() = default;
 
-        virtual void Enter() = 0;
-        virtual void Update(float dt) = 0;
-        virtual void Exit() = 0;
-    };
+        virtual void OnInit() {};
+        virtual void OnDestroy() {};
 
-    class ISceneState : public IState
-    {
-    public:
-        ISceneState(Scene* scene)
-            : m_scene(scene) {};
-        ~ISceneState() = default;
-
-        virtual void Enter() = 0;
         virtual void Update(float dt) = 0;
-        virtual void Exit() = 0;
-    protected:
-        Scene* m_scene;
     };
 }

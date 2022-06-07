@@ -84,7 +84,7 @@ namespace Game
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
-            player->GetTransform().SetPosition({ 1.0f, 0.0f });
+            player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);

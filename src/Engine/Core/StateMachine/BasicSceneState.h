@@ -3,15 +3,11 @@
 
 namespace Engine
 {
-    class BasicSceneState : public ISceneState
+    class BasicSceneState
     {
     public:
         BasicSceneState(Scene* scene);
         ~BasicSceneState() = default;
-
-        void Enter() override;
-        void Update(float dt) override;
-        void Exit() override;
     };
 }
 

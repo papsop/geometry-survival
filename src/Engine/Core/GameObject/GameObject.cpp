@@ -14,6 +14,24 @@ namespace Engine
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 
+   void GameObject::SendMessageTo(GameObject* receiver, MessageType type)
+   {
+       Message message;
+       message.Sender = this;
+       message.Type = type;
+       receiver->ReceiveMessage(message);
+   }
+
+   void GameObject::ReceiveMessage(const Message& message)
+   {
+       ForEachComponent(
+           [&](IComponent* c)
+           {
+               c->ProcessMessage(message);
+           }
+       );
+   }
+
    void GameObject::ForEachComponent(FuncOverComponents func)
    {
 	   for (auto& c : m_components)

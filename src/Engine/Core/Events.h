@@ -7,21 +7,6 @@
 
 namespace Engine
 {
-
-    template<typename T>
-    class IEventDispatcher
-    {
-    public:
-
-        IEventDispatcher() = default;
-        virtual ~IEventDispatcher() = default;
-
-        void DispatchEvent(const T eventData)
-        {
-            EventManager::Get().DispatchEvent<T>(eventData);
-        };
-    };
-
     template<typename T>
     class IEventListener
     {

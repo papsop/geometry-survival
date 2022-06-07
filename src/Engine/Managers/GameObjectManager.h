@@ -9,7 +9,7 @@
 namespace Engine
 {
 
-    class GameObjectManager : public IManager, public IEventDispatcher<E_GameObjectDeleted>
+    class GameObjectManager : public IManager
     {
     public:
         ~GameObjectManager() = default;

@@ -1,4 +1,5 @@
 #pragma once
+#include "../Messaging/MessageTypes.h"
 
 namespace Engine
 {
@@ -15,5 +16,6 @@ namespace Engine
         virtual void OnDestroy() {};
 
         virtual void Update(float dt) = 0;
+        virtual void ProcessMessage(const Message& message) { };
     };
 }

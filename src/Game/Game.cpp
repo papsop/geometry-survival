@@ -20,6 +20,7 @@ TODO:
         - health & damager system
     - nicer Application::HandleViewEvent
         - maybe use event system for these events
+    - config file
 
 MAYBE ONE DAY:
     - nicer messaging system between objects

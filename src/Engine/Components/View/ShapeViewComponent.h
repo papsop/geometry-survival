@@ -25,6 +25,7 @@ namespace Engine
 
 	public:
 		ShapeViewComponent(GameObject& obj, int zIndex, const ShapeViewDef& def);
+		ShapeViewComponent(GameObject& obj, const ShapeViewDef& def);
 		~ShapeViewComponent() override;
 		
 		void OnCreate() override;

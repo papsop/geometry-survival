@@ -21,8 +21,10 @@ namespace Game
         void Rotate(float angle);
         void Fire();
 
-        
         void ProcessMessage(const Engine::Message& message) override;
+
+
+        void OnCollisionStart(Engine::GameObject* other) override;
 
     private:
         float m_movementSpeed = 500.0f;

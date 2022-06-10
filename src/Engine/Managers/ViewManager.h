@@ -42,7 +42,7 @@ namespace Engine
 		view::IViewStrategy* GetViewStrategy() { return m_viewStrategy.get(); };
 
 		int GetZIndexFromPool() { return m_zIndexPool++; }
-		
+		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 	private:
 		const int PIXELS_PER_METER = 10; // config?
 		static bool compareZIndex(const IRenderableShapeComponent* s1, const IRenderableShapeComponent* s2)

@@ -16,6 +16,7 @@
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
+#include "Components/Enemy/TestAIComponent.h" // test
 #include "Components/SplashScreen/SplashBackground.h"
 #include "Components/SplashScreen/SplashTitle.h"
 #include "Components/SplashScreen/SplashController.h"
@@ -36,12 +37,13 @@ namespace Game
 			// setup logger
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::WARN);
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
 
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
             Engine::ComponentManager::Get().RegisterComponentType<SplashController>();
             Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<TestAIComponent>(); // test
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
@@ -86,7 +88,7 @@ namespace Game
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player");
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            player->AddComponent<Engine::ShapeViewComponent>(0, shapeViewDef);
+            player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
             player->AddComponent<ActorComponent>();
             player->AddComponent<InputComponent>();
@@ -94,6 +96,17 @@ namespace Game
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
             player->AddComponent<Engine::CameraComponent>();
+
+            physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
+            physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
+            shapeViewDef.Color = sf::Color::Red;
+            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
+            enemy->GetTransform().SetPosition({ 10.0f, 10.0f });
+            enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+            enemy->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
+            enemy->AddComponent<ActorComponent>();
+            enemy->AddComponent<TestAIComponent>(player);
 
             // walls
             WallFactoryDef wallFactoryDef;
@@ -113,6 +126,7 @@ namespace Game
            // scene1.AddGameObject(centerCamera->ID);
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(wall1->ID);
+            scene1.AddGameObject(enemy->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

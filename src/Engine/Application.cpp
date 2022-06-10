@@ -53,10 +53,6 @@ namespace Engine
         LOG_DEBUG("Starting Application");
         LOG_DEBUG("Initializing managers");
         m_configManager.OnInit();
-        //m_serializationManager.SaveConfig(m_config);
-		//Config dummyConfig;
-		//if (m_serializationManager.LoadConfig(dummyConfig))
-		//	m_config = dummyConfig;
 
         m_physicsManager.OnInit();
         m_viewManager.OnInit();
@@ -65,7 +61,6 @@ namespace Engine
         m_componentManager.OnInit();
         m_gameObjectManager.OnInit();
         LOG_DEBUG("Initializing complete");
-
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);
 
@@ -91,7 +86,7 @@ namespace Engine
             m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_sceneManager.SaveAllScenes();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_configManager.StoreValuesToFile();
             // Update managers
             m_inputManager.Update();
             m_physicsManager.Update(lastFrameMS);

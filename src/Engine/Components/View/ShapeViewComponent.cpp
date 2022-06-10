@@ -18,6 +18,11 @@ namespace Engine
 		m_renderable.shape.Radius		= def.Radius;
 	}
 
+	ShapeViewComponent::ShapeViewComponent(GameObject& obj, const ShapeViewDef& def)
+		: ShapeViewComponent(obj, Engine::ViewManager::Get().GetZIndexFromPool(), def)
+	{
+	}
+
 	void ShapeViewComponent::OnCreate()
 	{
 		ViewManager::Get().RegisterComponent(this);

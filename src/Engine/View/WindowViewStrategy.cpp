@@ -15,7 +15,7 @@ namespace Engine
         {
             auto width = ConfigManager::Get().GetValue<int>("window_width");
             auto height = ConfigManager::Get().GetValue<int>("window_height");
-            auto name = ConfigManager::Get().GetValue<const char*>("window_name");
+            auto name = ConfigManager::Get().GetValue<std::string>("window_name");
             auto fullscreen = ConfigManager::Get().GetValue<bool>("window_fullscreen");
 
             sf::VideoMode videoMode(width, height, 32);
@@ -287,7 +287,8 @@ namespace Engine
 
         void WindowViewStrategy::PostRender()
         {
-            DrawWindowGrid();
+            if(ViewManager::Get().IsDebugDrawing())
+                DrawWindowGrid();
             m_window->display();
         }
 

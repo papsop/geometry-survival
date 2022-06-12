@@ -18,7 +18,7 @@ namespace Game
 			M_WALL			= 0xFFFF,		// collides with everything
 			M_PLAYER		= EntityCategory::WALL | EntityCategory::ENEMY | EntityCategory::ENEMY_BULLET,
 			M_PLAYER_BULLET	= EntityCategory::WALL | EntityCategory::ENEMY,
-			M_ENEMY			= EntityCategory::WALL | EntityCategory::PLAYER | EntityCategory::PLAYER_BULLET,
+			M_ENEMY			= EntityCategory::WALL | EntityCategory::PLAYER | EntityCategory::PLAYER_BULLET | EntityCategory::ENEMY,
 			M_ENEMY_BULLET	= EntityCategory::WALL | EntityCategory::PLAYER,
 		};
 	}

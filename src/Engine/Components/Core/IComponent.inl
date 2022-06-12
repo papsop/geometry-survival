@@ -1,5 +1,5 @@
 #include "IComponent.h"
-
+#include "../../Core/GameObject/GameObject.h"
 namespace Engine
 {
 	template<typename T>

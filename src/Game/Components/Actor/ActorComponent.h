@@ -9,7 +9,7 @@ namespace Game
     class ActorComponent : public Engine::IComponent
     {
     public:
-        ActorComponent(Engine::GameObject& obj);
+        ActorComponent(Engine::GameObject& obj, float movementSpeed);
         ~ActorComponent() override;
 
         void OnCreate() override;
@@ -27,7 +27,7 @@ namespace Game
         void OnCollisionStart(Engine::GameObject* other) override;
 
     private:
-        float m_movementSpeed = 500.0f;
+        float m_movementSpeed = 5.0f;
         std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     };
 };

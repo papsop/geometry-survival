@@ -1,4 +1,5 @@
 #include "ComponentManager.h"
+#include "../Utils/IdGenerator.h"
 
 namespace Engine
 {

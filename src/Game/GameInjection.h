@@ -90,7 +90,7 @@ namespace Game
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
-            player->AddComponent<ActorComponent>();
+            player->AddComponent<ActorComponent>(15.0f);
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
             auto weaponComp = player->GetComponent<WeaponComponent>();
@@ -100,13 +100,18 @@ namespace Game
             physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
             physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
             shapeViewDef.Color = sf::Color::Red;
-            auto enemy = Engine::GameObjectManager::Get().CreateGameObject("Enemy");
-            enemy->GetTransform().SetPosition({ 10.0f, 10.0f });
-            enemy->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-            enemy->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-            enemy->AddComponent<Engine::CircleFixtureComponent>(2.0f);
-            enemy->AddComponent<ActorComponent>();
-            enemy->AddComponent<TestAIComponent>(player);
+
+            for (size_t i = 0; i < 10; i++)
+            {
+				EnemyFactoryDef enemyFactoryDef;
+				enemyFactoryDef.MovementSpeed = 3.0f;
+				enemyFactoryDef.Player = player;
+				enemyFactoryDef.Position = { 10.0f + (i * 5), 10.0f + (powf(-1.0f, i) * 3)};
+				auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
+                scene1.AddGameObject(enemyObj->ID);
+            }
+
+            
 
             // walls
             WallFactoryDef wallFactoryDef;
@@ -126,7 +131,6 @@ namespace Game
            // scene1.AddGameObject(centerCamera->ID);
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(wall1->ID);
-            scene1.AddGameObject(enemy->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

@@ -9,7 +9,9 @@ namespace Game
 
 	public:
 		TestAIComponent(Engine::GameObject& obj, Engine::GameObject* player);
-		~TestAIComponent() override = default;
+		~TestAIComponent() override;
+
+		void OnCreate() override {};
 
 		void Update(float dt) override;
 
@@ -19,5 +21,6 @@ namespace Game
 		void ProcessMessage(const Engine::Message& message) override;
 	private:
 		std::unique_ptr<Engine::IState> m_currentState = nullptr;
+		Engine::GameObject* m_player;
 	};
 }

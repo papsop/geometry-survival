@@ -7,9 +7,10 @@
 namespace Game
 {
 
-    ActorComponent::ActorComponent(Engine::GameObject& obj)
+    ActorComponent::ActorComponent(Engine::GameObject& obj, float movementSpeed)
         : IComponent(obj)
         , m_commandsQueue()
+        , m_movementSpeed(movementSpeed)
     {
         SetRequiredComponents<Engine::PhysicsBodyComponent>();
     }
@@ -35,7 +36,7 @@ namespace Game
         auto mass = physBody->GetMass();
 
         auto actualVelicity = physBody->GetLinearVelocity();
-        dir *= 15;
+        dir *= m_movementSpeed;
         auto desiredVelocity = dir;
 
         auto impulse = (desiredVelocity - actualVelicity);
@@ -63,7 +64,7 @@ namespace Game
 	{
 		if (message.Type == Engine::MessageType::MSG_Test)
 		{
-			LOG_WARN("[%s] received MSG_TEST", Owner.DebugName);
+			//LOG_WARN("[%s] received MSG_TEST", Owner.DebugName);
 		}
 	}
 

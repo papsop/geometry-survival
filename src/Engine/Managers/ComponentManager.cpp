@@ -40,11 +40,13 @@ namespace Engine
 
 	void ComponentsContainer::Update(float dt)
 	{
-		for (auto& c : m_components)
-		{
-			if (c->Owner.ShouldUpdate())
-				c->Update(dt);
-		}
+		IterateOverComponents(
+			[&](IComponent* c)
+			{
+				if (c->Owner.ShouldUpdate())
+					c->Update(dt);
+			}
+		);
 	}
 
 };

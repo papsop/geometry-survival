@@ -22,8 +22,8 @@ set(PLAYER_SOURCE
 )
 
 set(ENEMY_SOURCE
-	Enemy/TestAIComponent.h
-	Enemy/TestAIComponent.cpp
+	Enemy/AIChaseTargetComponent.h
+	Enemy/AIChaseTargetComponent.cpp
 )
 
 set(SPLASH_SOURCE
@@ -38,8 +38,8 @@ set(SPLASH_SOURCE
 )
 
 set(STATES_SOURCE
-	States/Actor_ChasePlayer.h
-	States/Actor_ChasePlayer.cpp
+	States/Actor_ChaseTarget.h
+	States/Actor_ChaseTarget.cpp
 )
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}

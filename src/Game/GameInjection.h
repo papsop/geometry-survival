@@ -16,7 +16,7 @@
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Actor/ActorComponent.h"
-#include "Components/Enemy/TestAIComponent.h" // test
+#include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/SplashScreen/SplashBackground.h"
 #include "Components/SplashScreen/SplashTitle.h"
 #include "Components/SplashScreen/SplashController.h"
@@ -43,7 +43,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
             Engine::ComponentManager::Get().RegisterComponentType<SplashController>();
             Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
-            Engine::ComponentManager::Get().RegisterComponentType<TestAIComponent>(); // test
+            Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();

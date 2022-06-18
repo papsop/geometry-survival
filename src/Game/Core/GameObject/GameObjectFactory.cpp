@@ -5,7 +5,7 @@
 #include <Engine/Components/View.h>
 
 #include "../../Components/Actor/ActorComponent.h"
-#include "../../Components/Enemy/TestAIComponent.h"
+#include "../../Components/Enemy/AIChaseTargetComponent.h"
 
 #include "../../Physics/Filters.h"
 namespace Game
@@ -55,7 +55,7 @@ namespace Game
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(2.0f);
 		obj->AddComponent<ActorComponent>(def.MovementSpeed);
-		obj->AddComponent<TestAIComponent>(def.Player);
+		obj->AddComponent<AIChaseTargetComponent>(def.Player);
 		return obj;
 	}
 

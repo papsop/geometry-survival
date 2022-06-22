@@ -3,6 +3,7 @@
 
 #include "../Actor/ActorComponent.h"
 #include "../States/Actor_ChaseTarget.h"
+#include "../States/Actor_KnockedBack.h"
 
 namespace Game
 {
@@ -17,7 +18,7 @@ namespace Game
 	void AIChaseTargetComponent::OnCreate()
 	{
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		m_currentState = std::make_unique<Actor_ChaseTarget>(actorComponent, m_target);
+		m_stateContainer.CreateAndSetState<Actor_ChaseTarget>(actorComponent, m_target);
 
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
@@ -29,14 +30,20 @@ namespace Game
 
 	void AIChaseTargetComponent::Update(float dt)
 	{
-		if (m_currentState != nullptr)
-			m_currentState->Update(dt);
+		m_stateContainer.Update(dt);
 	}
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
 	{
 		
 	}
+
+	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)
+	{
+		auto actorComponent = Owner.GetComponent<ActorComponent>();
+		m_stateContainer.CreateAndSetState<Actor_KnockedBack>(actorComponent, other->GetTransform());
+	}
+
 }
 
 

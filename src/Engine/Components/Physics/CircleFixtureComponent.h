@@ -11,7 +11,7 @@ namespace Engine
 
 	public:
 		CircleFixtureComponent(GameObject& obj, float radius);
-		~CircleFixtureComponent() override;	
+		~CircleFixtureComponent() override;
 
 		void OnCreate() override;
 		void Update(float dt) override {};
@@ -23,4 +23,4 @@ namespace Engine
 		float m_radius;
 		b2Fixture* m_fixture;
 	};
-};
+}

@@ -18,6 +18,9 @@ set(SOURCES
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h
 	StateMachine/BasicSceneState.cpp
+	StateMachine/StateContainer.h
+	StateMachine/StateContainer.inl
+	StateMachine/StateContainer.cpp
 
 	Serializing/SceneSerializer.h
 	Serializing/SceneSerializer.cpp

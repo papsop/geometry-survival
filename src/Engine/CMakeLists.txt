@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-)
+ "Core/StateMachine/StateContainer.h")
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

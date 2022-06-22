@@ -2,6 +2,7 @@
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Core/StateMachine/IState.h>
+#include <Engine/Core/StateMachine/StateContainer.h>
 
 namespace Game
 {
@@ -14,9 +15,10 @@ namespace Game
 		void OnCreate() override;
 		void Update(float dt) override;
 		void ProcessMessage(const Engine::Message& message) override;
+		void OnCollisionStart(Engine::GameObject* other) override;
 
 	private:
 		Engine::GameObject* m_target;
-		std::unique_ptr<Engine::IState> m_currentState;
+		Engine::StateContainer m_stateContainer;
 	};
 }

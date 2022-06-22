@@ -40,6 +40,8 @@ set(SPLASH_SOURCE
 set(STATES_SOURCE
 	States/Actor_ChaseTarget.h
 	States/Actor_ChaseTarget.cpp
+	States/Actor_KnockedBack.h
+	States/Actor_KnockedBack.cpp
 )
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}

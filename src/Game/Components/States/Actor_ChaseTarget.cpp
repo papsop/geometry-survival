@@ -4,8 +4,9 @@
 namespace Game
 {
 
-	Actor_ChaseTarget::Actor_ChaseTarget(ActorComponent* actorComponent, Engine::GameObject* target)
-		: m_parentActor(actorComponent)
+	Actor_ChaseTarget::Actor_ChaseTarget(Engine::StateContainer& container, ActorComponent* actorComponent, Engine::GameObject* target)
+		: IState(container)
+		, m_parentActor(actorComponent)
 		, m_target(target)
 	{
 

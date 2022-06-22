@@ -1,4 +1,4 @@
-#include "Actor_KnockedBack.h"
+#include "Actor_Stunned.h"
 #include "Actor_ChaseTarget.h"
 
 namespace Game

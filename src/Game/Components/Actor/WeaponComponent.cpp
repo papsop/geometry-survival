@@ -4,6 +4,7 @@
 
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject/GameObject.h>
+#include <Engine/Core/GameObject/GameObjectTag.h>
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/ViewManager.h>
@@ -49,7 +50,7 @@ namespace Game
     Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
         auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
-        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet");
+        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET);
 
         // add offset and stuff
         bullet->GetTransform().Position = Owner.GetTransform().Position + Owner.GetTransform().Forward();

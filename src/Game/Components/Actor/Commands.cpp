@@ -15,6 +15,17 @@ namespace Game
         actor.Move(m_dir);
     }
 
+	// --------------------------------------------------------
+    KnockBackCommand::KnockBackCommand(float dx, float dy)
+	{
+		m_dir = Engine::math::V2fNormalize(Engine::math::Vec2(dx, dy));
+	}
+
+	void KnockBackCommand::Execute(ActorComponent& actor)
+	{
+        actor.KnockBack(m_dir);
+	}
+
     // --------------------------------------------------------
 
     RotateCommand::RotateCommand(float angle)
@@ -38,4 +49,5 @@ namespace Game
     {
         actor.Fire();
     }
+
 };

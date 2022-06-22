@@ -101,7 +101,7 @@ namespace Game
             physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
             shapeViewDef.Color = sf::Color::Red;
 
-            for (size_t i = 0; i < 10; i++)
+            for (size_t i = 0; i < 1; i++)
             {
 				EnemyFactoryDef enemyFactoryDef;
 				enemyFactoryDef.MovementSpeed = 3.0f;

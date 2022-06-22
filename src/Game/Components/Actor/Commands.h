@@ -22,6 +22,16 @@ namespace Game
         Engine::math::Vec2 m_dir;
     };
 
+	class KnockBackCommand : public ICommand
+	{
+	public:
+        KnockBackCommand(float dx, float dy);
+		~KnockBackCommand() override = default;
+		void Execute(ActorComponent& actor) override;
+	private:
+		Engine::math::Vec2 m_dir;
+	};
+
     class RotateCommand : public ICommand
     {
     public:
@@ -39,7 +49,6 @@ namespace Game
         ~FireCommand() override = default;
         void Execute(ActorComponent& actor) override;
     private:
-
     };
 };
 

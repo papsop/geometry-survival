@@ -16,7 +16,7 @@ namespace Engine
 
         static GameObjectManager& Get();
 
-        GameObject* CreateGameObject(const char* name="Unknown");
+        GameObject* CreateGameObject(const char* name="Unknown", GameObjectTag tag = GameObjectTag::UNTAGGED);
         GameObject* GetGameObjectByID(GameObjectID ID);
 
         void DestroyGameObject(GameObjectID ID);

@@ -18,6 +18,7 @@ namespace Game
         void AddCommand(std::unique_ptr<ICommand> command);
         
         void Move(Engine::math::Vec2 dir);
+        void KnockBack(Engine::math::Vec2 dir);
         void Rotate(float angle);
         void Fire();
 

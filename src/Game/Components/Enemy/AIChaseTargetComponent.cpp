@@ -1,5 +1,6 @@
 #include "AIChaseTargetComponent.h"
 #include <Engine/Managers/ComponentManager.h>
+#include <Engine/Core/GameObject/GameObjectTag.h>
 
 #include "../Actor/ActorComponent.h"
 #include "../States/Actor_ChaseTarget.h"
@@ -20,7 +21,7 @@ namespace Game
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
 
 		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
-		m_stateMachine.AddState<Actor_Stunned>(1.0f);
+		m_stateMachine.AddState<Actor_Stunned>(0.25f);
 
 		m_stateMachine.TransitionTo<Actor_ChaseTarget>();
 
@@ -45,11 +46,16 @@ namespace Game
 	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)
 	{
 		// check if player bullet
-		
-		// apply knockback
+		if (other->Tag != Engine::GameObjectTag::PLAYER_BULLET)
+			return;
 
 		// transition to stun
 		m_stateMachine.TransitionTo<Actor_Stunned>();
+
+		// apply knockback
+		auto actorComponent = Owner.GetComponent<ActorComponent>();
+		Engine::math::Vec2 knockBackDirection = Owner.GetTransform().Position - other->GetTransform().Position;
+		actorComponent->AddCommand(std::make_unique<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y));
 	}
 
 }

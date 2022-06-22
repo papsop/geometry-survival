@@ -35,11 +35,25 @@ namespace Game
         auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
         auto mass = physBody->GetMass();
 
-        auto actualVelicity = physBody->GetLinearVelocity();
+        auto actualVelocity = physBody->GetLinearVelocity();
         dir *= m_movementSpeed;
         auto desiredVelocity = dir;
 
-        auto impulse = (desiredVelocity - actualVelicity);
+        auto impulse = (desiredVelocity - actualVelocity);
+        impulse *= mass;
+        physBody->ApplyImpulseToCenter(impulse);
+    }
+
+    void ActorComponent::KnockBack(Engine::math::Vec2 dir)
+	{
+		auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+		auto mass = physBody->GetMass();
+
+        auto actualVelocity = physBody->GetLinearVelocity();
+        dir *= 2.0f;
+        auto desiredVelocity = dir;
+
+        auto impulse = (desiredVelocity - actualVelocity);
         impulse *= mass;
         physBody->ApplyImpulseToCenter(impulse);
     }

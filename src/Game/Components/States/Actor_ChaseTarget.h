@@ -13,6 +13,7 @@ namespace Game
 
 		void Update(float dt) override;
 		void ProcessMessage(const Engine::Message& message) override;
+		void OnTransitionOut() override;
 
 	private:
 		ActorComponent* m_parentActor;

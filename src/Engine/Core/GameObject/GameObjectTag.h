@@ -6,6 +6,7 @@ namespace Engine
 	{
 		UNTAGGED,
 		PLAYER,
+		PLAYER_BULLET,
 		ENEMY,
 		OBSTACLE,
 

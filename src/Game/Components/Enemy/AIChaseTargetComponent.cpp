@@ -3,7 +3,7 @@
 
 #include "../Actor/ActorComponent.h"
 #include "../States/Actor_ChaseTarget.h"
-#include "../States/Actor_KnockedBack.h"
+#include "../States/Actor_Stunned.h"
 
 namespace Game
 {
@@ -20,7 +20,7 @@ namespace Game
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
 
 		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
-		m_stateMachine.AddState<Actor_KnockedBack>(1.0f);
+		m_stateMachine.AddState<Actor_Stunned>(1.0f);
 
 		m_stateMachine.TransitionTo<Actor_ChaseTarget>();
 
@@ -44,7 +44,12 @@ namespace Game
 
 	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)
 	{
-		m_stateMachine.TransitionTo<Actor_KnockedBack>();
+		// check if player bullet
+		
+		// apply knockback
+
+		// transition to stun
+		m_stateMachine.TransitionTo<Actor_Stunned>();
 	}
 
 }

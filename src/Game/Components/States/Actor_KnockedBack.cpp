@@ -1,42 +1,26 @@
 #include "Actor_KnockedBack.h"
-#include <Engine/Core/StateMachine/StateContainer.h>
+#include "Actor_ChaseTarget.h"
 
 namespace Game
 {
 
-	Actor_KnockedBack::Actor_KnockedBack(Engine::StateContainer& container, ActorComponent* actorComponent, Engine::Transform& source)
-		: IState(container)
-		, m_parentActor(actorComponent)
-		, m_source(source)
+	Actor_KnockedBack::Actor_KnockedBack(Engine::FiniteStateMachine& parentStateMachine, float duration)
+		: IState(parentStateMachine)
+		, m_knockBackDuration(duration)
+		, m_knockBackTime(duration)
 	{
 
 	}
 
-	void Actor_KnockedBack::OnInit()
+	void Actor_KnockedBack::OnTransitionIn()
 	{
-		
-	}
-
-	void Actor_KnockedBack::OnDestroy()
-	{
-		
-	}
-
-	void Actor_KnockedBack::OnReset()
-	{
-		m_timeToRelease = 2.0f;
+		m_knockBackTime = m_knockBackDuration;
 	}
 
 	void Actor_KnockedBack::Update(float dt)
 	{
-		m_timeToRelease -= dt;
-		if (m_timeToRelease < 0.0f)
-			m_parentContainer.SwapCurrentAndPreviousState();
+		m_knockBackTime -= dt;
+		if (m_knockBackTime < 0.0f)
+			m_parentStateMachine.TransitionTo<Actor_ChaseTarget>();
 	}
-
-	void Actor_KnockedBack::ProcessMessage(const Engine::Message& message)
-	{
-		
-	}
-
 }

@@ -6,24 +6,24 @@ namespace Engine
 {
 
     class Scene;
-    class StateContainer;
+    class FiniteStateMachine;
 
     class IState
     {
     public:
-        IState(StateContainer& container)
-            : m_parentContainer(container) {};
+        IState(FiniteStateMachine& parentStateMachine) 
+            : m_parentStateMachine(parentStateMachine) {};
+
         ~IState() = default;
 
-        virtual void OnInit() {};
-        virtual void OnDestroy() {};
-
-        virtual void OnReset() {};
+        virtual void OnTransitionIn() {}
+        virtual void OnTransitionOut() {}; 
 
         virtual void Update(float dt) = 0;
         virtual void ProcessMessage(const Message& message) { };
+
     protected:
-        StateContainer& m_parentContainer;
+        FiniteStateMachine& m_parentStateMachine;
     };
 
 	template<typename T>

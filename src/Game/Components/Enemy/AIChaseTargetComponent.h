@@ -2,7 +2,7 @@
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Core/StateMachine/IState.h>
-#include <Engine/Core/StateMachine/StateContainer.h>
+#include <Engine/Core/StateMachine/FiniteStateMachine.h>
 
 namespace Game
 {
@@ -19,6 +19,6 @@ namespace Game
 
 	private:
 		Engine::GameObject* m_target;
-		Engine::StateContainer m_stateContainer;
+		Engine::FiniteStateMachine m_stateMachine;
 	};
 }

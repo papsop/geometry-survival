@@ -4,22 +4,12 @@
 namespace Game
 {
 
-	Actor_ChaseTarget::Actor_ChaseTarget(Engine::StateContainer& container, ActorComponent* actorComponent, Engine::GameObject* target)
-		: IState(container)
+	Actor_ChaseTarget::Actor_ChaseTarget(Engine::FiniteStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target)
+		: IState(parentStateMachine)
 		, m_parentActor(actorComponent)
 		, m_target(target)
 	{
 
-	}
-
-	void Actor_ChaseTarget::OnInit()
-	{
-		
-	}
-
-	void Actor_ChaseTarget::OnDestroy()
-	{
-		
 	}
 
 	void Actor_ChaseTarget::Update(float dt)

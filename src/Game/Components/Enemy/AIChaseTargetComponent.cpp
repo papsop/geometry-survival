@@ -18,7 +18,11 @@ namespace Game
 	void AIChaseTargetComponent::OnCreate()
 	{
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		m_stateContainer.CreateAndSetState<Actor_ChaseTarget>(actorComponent, m_target);
+
+		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
+		m_stateMachine.AddState<Actor_KnockedBack>(1.0f);
+
+		m_stateMachine.TransitionTo<Actor_ChaseTarget>();
 
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
@@ -30,7 +34,7 @@ namespace Game
 
 	void AIChaseTargetComponent::Update(float dt)
 	{
-		m_stateContainer.Update(dt);
+		m_stateMachine.Update(dt);
 	}
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
@@ -40,8 +44,7 @@ namespace Game
 
 	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)
 	{
-		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		m_stateContainer.CreateAndSetState<Actor_KnockedBack>(actorComponent, other->GetTransform());
+		m_stateMachine.TransitionTo<Actor_KnockedBack>();
 	}
 
 }

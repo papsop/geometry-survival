@@ -5,6 +5,8 @@ set(ACTOR_SOURCE
 	Actor/BulletComponent.cpp
 	Actor/Commands.h
 	Actor/Commands.cpp
+	Actor/HealthComponent.h
+	Actor/HealthComponent.cpp
 
 	Actor/WeaponComponent.h
 	Actor/WeaponComponent.cpp
@@ -15,6 +17,8 @@ set(ACTOR_SOURCE
 )
 
 set(PLAYER_SOURCE
+	Player/PlayerComponent.h
+	Player/PlayerComponent.cpp
 	Player/Inputcomponent.h
 	Player/Inputcomponent.cpp
 	Player/TestComponent.h

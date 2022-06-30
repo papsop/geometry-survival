@@ -15,6 +15,7 @@
 #include "Managers/GameManager.h"
 
 #include "Components/Player/InputComponent.h"
+#include "Components/Player/PlayerComponent.h"
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/SplashScreen/SplashBackground.h"
@@ -48,7 +49,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
 
-            Engine::Application::Instance().RegisterManager<GameManager>();
+            Engine::Application::Instance().RegisterGameManager<GameManager>();
         }
 
         void BeforeGameLoop(Engine::Application& app) override
@@ -96,16 +97,19 @@ namespace Game
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
             player->AddComponent<Engine::CameraComponent>();
+            player->AddComponent<PlayerComponent>();
 
             physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
             physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
             shapeViewDef.Color = sf::Color::Red;
 
+            auto playerObj = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
+
             for (size_t i = 0; i < 10; i++)
             {
 				EnemyFactoryDef enemyFactoryDef;
 				enemyFactoryDef.MovementSpeed = 3.0f;
-				enemyFactoryDef.Player = player;
+				enemyFactoryDef.Player = playerObj;
 				enemyFactoryDef.Position = { 10.0f + (i * 5), 10.0f + (powf(-1.0f, i) * 3)};
 				auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
                 scene1.AddGameObject(enemyObj->ID);

@@ -1,14 +1,32 @@
 #include "Application.h"
+#include "Utils/IdGenerator.h"
 
 namespace Engine
 {
 	template<typename T,
 		typename ... Args,
 		typename>
-	void Application::RegisterManager(Args&& ... args)
+	void Application::RegisterGameManager(Args&& ... args)
 	{
-		auto manager = std::make_unique<T>(std::forward(args) ...);
-		manager->OnInit();
-		m_gameManagers.push(std::move(manager));
+		auto managerID = IdGenerator<Application>::GetID<T>();
+
+		if (m_managers.find(managerID) == m_managers.end())
+		{
+			m_managers[managerID] = std::make_unique<T>(std::forward(args) ...);
+			m_managers[managerID]->OnInit();
+		}
+	}
+	template<typename T,
+		typename
+	>
+	T* Application::GetGameManager()
+	{
+		auto managerID = IdGenerator<Application>::GetID<T>();
+		if (m_managers.find(managerID) != m_managers.end())
+		{
+			return dynamic_cast<T*>(m_managers[managerID].get());
+		}
+		else
+			return nullptr;
 	}
 }

@@ -1,6 +1,7 @@
 #pragma once
 #include <SFML/Graphics.hpp>
 #include <memory>
+#include <map>
 
 #include "Core/ApplicationInjection.h"
 #include "Managers/AllManagers.h"
@@ -23,7 +24,8 @@ namespace Engine
             DD_ASSERT(m_instance != nullptr, "Application not created");
             return *m_instance;
         }
-
+        
+        // Engine managers
         InputManager& GetInputManager() { GET_MANAGER_HELPER("SubsystemManager", m_inputManager); };
         GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
         SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
@@ -32,11 +34,17 @@ namespace Engine
         ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
         ConfigManager& GetConfigManager() { GET_MANAGER_HELPER("ConfigManager", m_configManager); };
 
+        // Game managers
         template<typename T,
                 typename ... Args,
                 typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
                 >
-        void RegisterManager(Args&& ... args);
+        void RegisterGameManager(Args&& ... args);
+
+		template<typename T,
+			typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
+		>
+		T* GetGameManager();
         void DestroyRegisteredManager();
 
         void Run(ApplicationInjection& injection);
@@ -57,7 +65,7 @@ namespace Engine
         ComponentManager m_componentManager;
         ConfigManager m_configManager;
 
-        std::queue<std::unique_ptr<IManager>> m_gameManagers;
+        std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
     };
 
 };

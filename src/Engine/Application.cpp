@@ -40,12 +40,12 @@ namespace Engine
     }
 	void Application::DestroyRegisteredManager()
 	{
-        while (!m_gameManagers.empty())
-        {
-            auto& m = std::move(m_gameManagers.front());
-            m->OnDestroy();
-            m_gameManagers.pop();
-        }
+//         while (!m_managers.empty())
+//         {
+//             auto& m = std::move(m_managers.front());
+//             m->OnDestroy();
+//             m_gameManagers.pop();
+//         }
 	}
 
 	void Application::Run(ApplicationInjection& injection)

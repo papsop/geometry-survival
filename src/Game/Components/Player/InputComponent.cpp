@@ -32,15 +32,15 @@ namespace Game
         auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetMousePosition());
         float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
 
-        actorComponent->AddCommand(std::make_unique<RotateCommand>(angle));
+        actorComponent->AddCommand<RotateCommand>(angle);
         // movement
         float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
         float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
 
-        actorComponent->AddCommand(std::make_unique<MoveCommand>(horizontal, vertical));
+        actorComponent->AddCommand<MoveCommand>(horizontal, vertical);
         
         // shooting
         if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
-            actorComponent->AddCommand(std::make_unique<FireCommand>());
+            actorComponent->AddCommand<FireCommand>();
     }
 };

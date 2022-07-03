@@ -272,6 +272,7 @@ namespace Engine
 
 			auto obj = sf::Text();
 			obj.setFont(font);
+            obj.setString(text);
 			obj.setCharacterSize(size);
 			obj.setFillColor(color);
 			// center text, need to do it after setting font
@@ -287,8 +288,6 @@ namespace Engine
 
         void WindowViewStrategy::PostRender()
         {
-            if(ViewManager::Get().IsDebugDrawing())
-                DrawWindowGrid();
             m_window->display();
         }
 

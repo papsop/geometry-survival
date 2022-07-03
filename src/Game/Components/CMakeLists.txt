@@ -1,12 +1,11 @@
 set(ACTOR_SOURCE
 	Actor/ActorComponent.h
+	Actor/ActorComponent.inl
 	Actor/ActorComponent.cpp
 	Actor/BulletComponent.h
 	Actor/BulletComponent.cpp
 	Actor/Commands.h
 	Actor/Commands.cpp
-	Actor/HealthComponent.h
-	Actor/HealthComponent.cpp
 
 	Actor/WeaponComponent.h
 	Actor/WeaponComponent.cpp

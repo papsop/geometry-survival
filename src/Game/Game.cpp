@@ -12,15 +12,6 @@ int main()
 }
 
 /*
-TODO:
-    - gameplay!
-        - enemy AI
-            - spawner?
-        - weapons system
-        - health & damager system
-    - nicer Application::HandleViewEvent
-        - maybe use event system for these events
-    - config file
 
 MAYBE ONE DAY:
     - nicer messaging system between objects
@@ -31,8 +22,4 @@ MAYBE ONE DAY:
     - getting gameObjects by TAG
         - unity style https://docs.unity3d.com/Manual/Tags.html
         - useful for getting player when needed in other system
-
-NEW STUFF DONE:
-    - simple messaging system
-        - will be eventually refactored, but good enough for now to create some gameplay
 */

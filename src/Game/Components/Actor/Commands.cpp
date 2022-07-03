@@ -50,4 +50,14 @@ namespace Game
         actor.Fire();
     }
 
+    // --------------------------------------------------------
+
+    DamageCommand::DamageCommand(float amount)
+        : m_amount(amount) {};
+
+	void DamageCommand::Execute(ActorComponent& actor)
+	{
+        actor.ApplyDamage(m_amount);
+	}
+
 };

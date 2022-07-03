@@ -11,10 +11,11 @@ add_executable(
     ${PROJECT_NAME}
     Game.cpp
 	GameInjection.h
- "Components/Actor/HealthComponent.h" "Components/Player/PlayerComponent.h" "Components/Player/PlayerComponent.cpp")
+ )
 
 add_subdirectory(Managers)
 add_subdirectory(Components)
+add_subdirectory(RPG)
 add_subdirectory(Core)
 
 target_include_directories(

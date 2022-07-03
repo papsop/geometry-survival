@@ -50,6 +50,16 @@ namespace Game
         void Execute(ActorComponent& actor) override;
     private:
     };
+
+	class DamageCommand : public ICommand
+	{
+	public:
+        DamageCommand(float amount);
+		~DamageCommand() override = default;
+		void Execute(ActorComponent& actor) override;
+	private:
+        float m_amount;
+	};
 };
 
 

@@ -6,7 +6,6 @@
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChaseTargetComponent.h"
-#include "../../Components/Actor/HealthComponent.h"
 
 #include "../../Physics/Filters.h"
 namespace Game
@@ -57,7 +56,6 @@ namespace Game
 		obj->AddComponent<Engine::CircleFixtureComponent>(2.0f);
 		obj->AddComponent<ActorComponent>(def.MovementSpeed);
 		obj->AddComponent<AIChaseTargetComponent>(def.Player);
-		obj->AddComponent<HealthComponent>(Engine::GameObjectTag::PLAYER_BULLET | Engine::GameObjectTag::PLAYER);
 		return obj;
 	}
 

@@ -1,4 +1,5 @@
 #include "BulletComponent.h"
+#include "ActorComponent.h"
 
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/ComponentManager.h>
@@ -30,6 +31,10 @@ namespace Game
 
 	void BulletComponent::OnCollisionStart(Engine::GameObject* other)
 	{
+        auto otherActor = other->GetComponent<ActorComponent>();
+        if (otherActor != nullptr)
+            otherActor->AddCommand<DamageCommand>(5.0f);
+
         Owner.Destroy();
 	}
 

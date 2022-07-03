@@ -25,6 +25,7 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
+#include "RPG/Buff/Buff.h"
 #include "Physics/Filters.h"
 
 namespace Game
@@ -98,6 +99,12 @@ namespace Game
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
             player->AddComponent<Engine::CameraComponent>();
             player->AddComponent<PlayerComponent>();
+
+
+            // test buff
+            auto rpgactor = player->GetComponent<ActorComponent>()->GetRPGActor();
+            //rpgactor.AddBuff(std::make_unique<Buff>(5.0f));
+            // ---------
 
             physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
             physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;

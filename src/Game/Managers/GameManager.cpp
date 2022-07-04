@@ -1,10 +1,15 @@
 #include "GameManager.h"
 #include <Engine/Debug/Logger.h>
 
+#include <stdlib.h>
+#include <time.h>
+#include <stdio.h>
+
 namespace Game
 {
 	void GameManager::VirtualOnInit()
 	{
+		srand((unsigned)time(NULL));
 		LOG_WARN("GameManager::VirtualOnInit()");
 	}
 
@@ -26,6 +31,22 @@ namespace Game
 	Engine::GameObject* GameManager::GetPlayerGameObject()
 	{
 		return m_player;
+	}
+
+	Engine::math::Vec2 GameManager::GetRandomEnemySpawnPoint()
+	{
+		DD_ASSERT(m_player != nullptr, "Cant get enemy spawn without player entity");
+		auto playerPos = m_player->GetTransform().Position;
+		Engine::math::Vec2 result;
+
+		float randomAngle = Engine::math::DEG_TO_RAD(rand() % 360);
+
+		result.x = cosf(randomAngle) * m_spawnRadius;
+		result.y = sinf(randomAngle) * m_spawnRadius;
+
+		result += playerPos;
+		
+		return result;
 	}
 
 }

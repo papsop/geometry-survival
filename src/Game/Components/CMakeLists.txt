@@ -27,6 +27,8 @@ set(PLAYER_SOURCE
 set(ENEMY_SOURCE
 	Enemy/AIChaseTargetComponent.h
 	Enemy/AIChaseTargetComponent.cpp
+	Enemy/EasyEnemySpawnerComponent.h
+	Enemy/EasyEnemySpawnerComponent.cpp
 )
 
 set(SPLASH_SOURCE

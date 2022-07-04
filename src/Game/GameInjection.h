@@ -18,6 +18,7 @@
 #include "Components/Player/PlayerComponent.h"
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
+#include "Components/Enemy/EasyEnemySpawnerComponent.h"
 #include "Components/SplashScreen/SplashBackground.h"
 #include "Components/SplashScreen/SplashTitle.h"
 #include "Components/SplashScreen/SplashController.h"
@@ -39,7 +40,7 @@ namespace Game
 			// setup logger
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::WARN);
 
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
@@ -49,6 +50,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
 
             Engine::Application::Instance().RegisterGameManager<GameManager>();
         }
@@ -98,7 +100,7 @@ namespace Game
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
             player->AddComponent<Engine::CameraComponent>();
-            player->AddComponent<PlayerComponent>();
+            player->AddComponent<PlayerComponent>();    
 
 
             // test buff
@@ -110,19 +112,9 @@ namespace Game
             physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
             shapeViewDef.Color = sf::Color::Red;
 
-            auto playerObj = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
-
-            for (size_t i = 0; i < 10; i++)
-            {
-				EnemyFactoryDef enemyFactoryDef;
-				enemyFactoryDef.MovementSpeed = 3.0f;
-				enemyFactoryDef.Player = playerObj;
-				enemyFactoryDef.Position = { 10.0f + (i * 5), 10.0f + (powf(-1.0f, i) * 3)};
-				auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
-                scene1.AddGameObject(enemyObj->ID);
-            }
-
-            
+            //enemy spawner
+            auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::UNTAGGED);
+            enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
             // walls
             WallFactoryDef wallFactoryDef;
@@ -141,6 +133,7 @@ namespace Game
 
            // scene1.AddGameObject(centerCamera->ID);
             scene1.AddGameObject(player->ID);
+            scene1.AddGameObject(enemySpawner->ID);
             scene1.AddGameObject(wall1->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);

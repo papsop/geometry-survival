@@ -10,12 +10,10 @@ namespace Game
 	void GameManager::VirtualOnInit()
 	{
 		srand((unsigned)time(NULL));
-		LOG_WARN("GameManager::VirtualOnInit()");
 	}
 
 	void GameManager::VirtualOnDestroy()
 	{
-		LOG_WARN("GameManager::VirtualOnDestroy()");
 	}
 
 	void GameManager::RegisterPlayerGameObject(Engine::GameObject* player)

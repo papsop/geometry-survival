@@ -47,6 +47,7 @@ namespace Engine
             void DrawWindowGrid();
 
             std::unique_ptr<sf::RenderWindow> m_window;
+
             sf::Font m_consoleFont;
         };
     };

@@ -264,14 +264,8 @@ namespace Engine
 			//convert box2d to sfml
 			auto sfmlPosition = ViewManager::Get().coordsToPixels(position);
 
-			sf::Font font;
-			if (!font.loadFromFile("assets/arial.ttf"))
-			{
-				// error...
-			}
-
 			auto obj = sf::Text();
-			obj.setFont(font);
+			obj.setFont(m_consoleFont);
             obj.setString(text);
 			obj.setCharacterSize(size);
 			obj.setFillColor(color);

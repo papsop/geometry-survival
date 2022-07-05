@@ -8,7 +8,7 @@ namespace Engine
 		: IComponent(obj)
 	{
 		m_cameraData.Center = Owner.GetTransform().Position;
-		m_cameraData.Size = {80.f, 60.f};
+		m_cameraData.Size = {128.2f, 72.f};
 	}
 
 	void CameraComponent::OnCreate()

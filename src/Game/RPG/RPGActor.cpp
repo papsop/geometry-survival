@@ -12,6 +12,32 @@ namespace Game
 
 	void RPGActor::Update(float dt)
 	{
+		// reset all the modifiers
+		for (auto&& bonus : m_statBuffBonus) bonus = 0;
+
+		// apply modifiers from buffs
+		for (auto it = m_buffs.begin(); it != m_buffs.end(); /* */)
+		{
+			auto buff = it->get();
+			buff->Update(dt);
+
+			if (buff->ShouldDestroy())
+			{
+				it = m_buffs.erase(it);
+			}
+			else
+			{
+				// apply buff modifiers
+				buff->IterateOverModifiers(
+					[&](const BuffModifierEntry& modifier)
+					{
+						m_statBuffBonus[static_cast<size_t>(modifier.Stat)] += modifier.ValueModifier;
+					}
+				);
+				// move loop
+				it++;
+			}
+		}
 	}
 
 	void RPGActor::SetStatBase(RPGStats stat, float value)

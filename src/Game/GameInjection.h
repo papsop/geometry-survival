@@ -103,6 +103,12 @@ namespace Game
             player->AddComponent<PlayerComponent>();    
 
 
+            // buff test
+            std::unique_ptr<Buff> buff = std::make_unique<Buff>(5.0f);
+            buff->AddModifier(RPGStats::MAX_HEALTH, 20);
+            buff->AddModifier(RPGStats::MOVEMENT_SPEED, 30);
+
+            player->GetComponent<ActorComponent>()->GetRPGActor()->AddBuff(std::move(buff));
             // test buff
             auto rpgactor = player->GetComponent<ActorComponent>()->GetRPGActor();
             //rpgactor.AddBuff(std::make_unique<Buff>(5.0f));
@@ -117,11 +123,11 @@ namespace Game
             enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
             // walls
-            WallFactoryDef wallFactoryDef;
-            wallFactoryDef.Position = { 0.5f, 0.5f };
-            wallFactoryDef.Size = { 100.0f, .5f };
-            wallFactoryDef.RotationDeg = 90.0f;
-            auto wall1 = GameObjectFactory::CreateWall(wallFactoryDef);
+            //WallFactoryDef wallFactoryDef;
+            //wallFactoryDef.Position = { 0.5f, 0.5f };
+            //wallFactoryDef.Size = { 100.0f, .5f };
+            //wallFactoryDef.RotationDeg = 90.0f;
+            //auto wall1 = GameObjectFactory::CreateWall(wallFactoryDef);
             //wallFactoryDef.Position = { 0.0f, 5.0f };
             //wallFactoryDef.RotationDeg = 270.0f;
             //auto wall2 = GameObjectFactory::CreateWall(wallFactoryDef);
@@ -134,7 +140,6 @@ namespace Game
            // scene1.AddGameObject(centerCamera->ID);
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(enemySpawner->ID);
-            scene1.AddGameObject(wall1->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

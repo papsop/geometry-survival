@@ -9,13 +9,13 @@ namespace Game
     ActorComponent::ActorComponent(Engine::GameObject& obj, float movementSpeed)
         : IComponent(obj)
         , m_commandsQueue()
-        , m_movementSpeed(movementSpeed)
     {
         SetRequiredComponents<Engine::PhysicsBodyComponent>();
 
         m_RPGActor = std::unique_ptr<RPGActor>(new RPGActor());
         m_RPGActor->SetStatBase(RPGStats::MAX_HEALTH, 10.0f);
         m_RPGActor->SetStatBase(RPGStats::CURRENT_HEALTH, 10.0f);
+        m_RPGActor->SetStatBase(RPGStats::MOVEMENT_SPEED, movementSpeed);
     }
 
     void ActorComponent::OnCreate()
@@ -34,7 +34,7 @@ namespace Game
         auto mass = physBody->GetMass();
 
         auto actualVelocity = physBody->GetLinearVelocity();
-        dir *= m_movementSpeed;
+        dir *= m_RPGActor->GetStat(RPGStats::MOVEMENT_SPEED);
         auto desiredVelocity = dir;
 
         auto impulse = (desiredVelocity - actualVelocity);

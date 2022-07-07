@@ -3,16 +3,17 @@
 
 namespace Game
 {
-	Buff::Buff()
-		: m_timer(-1.0f)
+	Buff::Buff(float duration)
+		: m_timer(duration)
 		, m_shouldDestroy(false)
 	{
-		m_isInfinite = (m_timer == -1.0f) ? true : false;
+		// negative number when creating -> infinite duration
+		m_isTimed = (m_timer < 0.0f) ? false : true;
 	}
 
 	void Buff::Update(float dt)
 	{
-		if (m_isInfinite)
+		if (m_isTimed)
 		{
 			m_timer -= dt;
 			if (m_timer <= 0.0f)
@@ -26,4 +27,19 @@ namespace Game
 		}
 		LOG_WARN("Updating buff");
 	}
+
+	Buff& Buff::AddModifier(RPGStats stat, float value)
+	{
+		m_buffModifiers.push_back({stat, value});
+		return *this;
+	}
+
+	void Buff::IterateOverModifiers(IterateFunction func)
+	{
+		for (auto&& modifier : m_buffModifiers)
+		{
+			func(modifier);
+		}
+	}
+
 }

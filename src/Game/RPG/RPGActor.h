@@ -13,6 +13,8 @@ namespace Game
 	class RPGActor
 	{
 	public:
+		using ptr_Buff = std::unique_ptr<Buff>;
+
 		~RPGActor() = default;
 		
 		void Update(float dt);
@@ -20,9 +22,13 @@ namespace Game
 		float GetStat(RPGStats stat);
 		void  SetStatBase(RPGStats stat, float value);
 
+		void AddBuff(ptr_Buff buff)
+		{
+			m_buffs.push_back(std::move(buff));
+		}
 	private:
 		RPGActor();
-		std::vector< std::unique_ptr<Buff> > m_buffs;
+		std::vector< ptr_Buff > m_buffs;
 
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBase;
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBuffBonus;

@@ -41,7 +41,6 @@ namespace Game
 
     private:
         std::unique_ptr<RPGActor> m_RPGActor;
-        float m_movementSpeed = 5.0f;
         std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     };
 };

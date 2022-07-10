@@ -25,7 +25,6 @@ namespace Game
 		{
 			VirtualUpdate(dt);
 		}
-		LOG_WARN("Updating buff");
 	}
 
 	Buff& Buff::AddModifier(RPGStats stat, float value)

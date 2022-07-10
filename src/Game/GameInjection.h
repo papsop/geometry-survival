@@ -105,8 +105,8 @@ namespace Game
 
             // buff test
             std::unique_ptr<Buff> buff = std::make_unique<Buff>(5.0f);
-            buff->AddModifier(RPGStats::MAX_HEALTH, 20);
-            buff->AddModifier(RPGStats::MOVEMENT_SPEED, 30);
+            buff->AddModifier(RPGStats::MAX_HEALTH, 20)
+                 .AddModifier(RPGStats::MOVEMENT_SPEED, 30);
 
             player->GetComponent<ActorComponent>()->GetRPGActor()->AddBuff(std::move(buff));
             // test buff

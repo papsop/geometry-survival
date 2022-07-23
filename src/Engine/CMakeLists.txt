@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-  "Core/StateMachine/FiniteStateMachine.h" "Core/StateMachine/FiniteStateMachine.cpp" "Components/Physics/TriangleFixtureComponent.h" "Components/Physics/TriangleFixtureComponent.cpp")
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

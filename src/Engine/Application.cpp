@@ -86,7 +86,10 @@ namespace Engine
             m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) m_configManager.StoreValuesToFile();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7))
+            {
+                m_configManager.GetCvar("window_name")->SetValueString("Even better name");
+            }
             // Update managers
             m_inputManager.Update();
             m_physicsManager.Update(lastFrameMS);

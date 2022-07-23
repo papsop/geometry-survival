@@ -13,17 +13,24 @@ namespace Engine
         WindowViewStrategy::WindowViewStrategy(TEventCallback handleEvent)
             : IViewStrategy(handleEvent)
         {
-            auto width = ConfigManager::Get().GetValue<int>("window_width");
-            auto height = ConfigManager::Get().GetValue<int>("window_height");
-            auto name = ConfigManager::Get().GetValue<std::string>("window_name");
-            auto fullscreen = ConfigManager::Get().GetValue<bool>("window_fullscreen");
+            // todo config
+            ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
+            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
+            ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("test"),
+                [&]()
+                {
+                    m_window->setTitle(m_windowName);
+                }
+            );
+            // todo boolean type? maybe just leave it as string
+			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, std::string("false"));
 
-            sf::VideoMode videoMode(width, height, 32);
+            sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
             uint32 style = sf::Style::Default;
-            if (fullscreen)
+            if (m_windowFullscreen == "true")
                 style = sf::Style::Fullscreen;
 
-            m_window = std::make_unique<sf::RenderWindow>(videoMode, name, style);
+            m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style);
 
             if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
             {
@@ -301,6 +308,5 @@ namespace Engine
             auto pos = sf::Mouse::getPosition(*m_window);
             return m_window->mapPixelToCoords(pos);
         }
-
 	};
 };

@@ -32,7 +32,8 @@ namespace Engine
 
             void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
-            
+
+
         private:
             // conversions
             sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);
@@ -49,6 +50,11 @@ namespace Engine
             std::unique_ptr<sf::RenderWindow> m_window;
 
             sf::Font m_consoleFont;
+
+			int m_windowWidth;
+			int m_windowHeight;
+			std::string m_windowName;
+			std::string m_windowFullscreen;
         };
     };
 };

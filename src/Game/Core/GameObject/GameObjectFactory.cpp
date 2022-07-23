@@ -45,7 +45,7 @@ namespace Game
 
 		Engine::ShapeViewDef shapeViewDef;
 		shapeViewDef.Color = sf::Color::Red;
-		shapeViewDef.PointCount = 3;
+		shapeViewDef.PointCount = 5;
 		shapeViewDef.Radius = 2;
 
 		// Fixture/PhysicsBody set rotation

@@ -40,7 +40,7 @@ namespace Game
 			// setup logger
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::WARN);
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
 
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();

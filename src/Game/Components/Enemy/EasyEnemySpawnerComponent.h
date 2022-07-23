@@ -14,7 +14,6 @@ namespace Game
 		void OnCreate() override;
 
 	private:
-		float m_cooldown = 1.0f;
 		float m_currentCooldown;
 	};
 }

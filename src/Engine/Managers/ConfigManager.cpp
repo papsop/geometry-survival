@@ -45,6 +45,8 @@ namespace Engine
 
 	void ConfigManager::StoreModifiedCvars()
 	{
+
+		LOG_INFO("Storing cvar data to '%s'", m_configFilePath);
 		std::ofstream outfile(m_configFilePath);
 		YAML::Emitter out;
 		out << YAML::BeginMap;

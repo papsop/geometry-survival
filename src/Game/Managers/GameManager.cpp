@@ -4,12 +4,15 @@
 #include <stdlib.h>
 #include <time.h>
 #include <stdio.h>
-
+#include <Engine/Managers/ConfigManager.h>
 namespace Game
 {
 	void GameManager::VirtualOnInit()
 	{
 		srand((unsigned)time(NULL));
+
+		Engine::ConfigManager::Get().RegisterCvar("spawner_radius", &m_spawnRadius, 50.0f);
+		Engine::ConfigManager::Get().RegisterCvar("spawner_cooldown", &m_spawnCooldown, 1.0f);
 	}
 
 	void GameManager::VirtualOnDestroy()

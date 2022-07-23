@@ -8,9 +8,8 @@ namespace Game
 
 	EasyEnemySpawnerComponent::EasyEnemySpawnerComponent(Engine::GameObject& obj)
 		: IComponent(obj)
-		, m_currentCooldown(m_cooldown)
 	{
-
+		m_currentCooldown = Engine::Application::Instance().GetGameManager<GameManager>()->GetSpawnCooldown();
 	}
 
 	void EasyEnemySpawnerComponent::OnCreate()
@@ -37,7 +36,7 @@ namespace Game
 			auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
 			Owner.GetScene().AddGameObject(enemyObj->ID);
 
-			m_currentCooldown = m_cooldown;
+			m_currentCooldown = Engine::Application::Instance().GetGameManager<GameManager>()->GetSpawnCooldown();
 		}
 	}
 

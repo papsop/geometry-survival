@@ -87,8 +87,8 @@ namespace Engine
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) {
-                m_configManager.GetCvar("window_name")->SetValueString("Even better name");
-                m_configManager.GetCvar("window_width")->SetValueInt(1980);
+                m_configManager.GetCvar("spawner_radius")->SetValueFloat(60.0f);
+                m_configManager.GetCvar("spawner_cooldown")->SetValueFloat(0.5f);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
             // Update managers
@@ -104,8 +104,7 @@ namespace Engine
             m_gameObjectManager.CleanupGameObjects();
         }
 
-
-
+        m_configManager.StoreModifiedCvars();
         LOG_DEBUG("Destroying managers");
         DestroyRegisteredManager();
         m_gameObjectManager.OnDestroy();

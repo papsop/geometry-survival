@@ -19,8 +19,13 @@ namespace Game
 		Engine::GameObject* GetPlayerGameObject();
 
 		Engine::math::Vec2 GetRandomEnemySpawnPoint();
+
+		float GetSpawnRadius() { return m_spawnRadius; }
+		float GetSpawnCooldown() { return m_spawnCooldown; }
+
 	private:
 		Engine::GameObject* m_player;
-		float m_spawnRadius = 40.0f;
+		float m_spawnRadius;
+		float m_spawnCooldown;
 	};
 }

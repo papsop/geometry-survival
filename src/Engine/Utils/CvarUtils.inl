@@ -5,9 +5,8 @@ namespace Engine
 {
 	template<typename T>
 	Engine::CvarWrapper<T>::CvarWrapper(std::string key, T* ptr, T defaultValue, std::function<void(void)> func)
-		: I_Cvar(key)
+		: I_Cvar(key, func)
 		, m_ptr(ptr)
-		, m_onChanged(func)
 	{
 		*m_ptr = defaultValue;
 	}
@@ -16,8 +15,12 @@ namespace Engine
 	void Engine::CvarWrapper<T>::SetValue(T newValue)
 	{
 		T oldValue = *m_ptr;
-		*m_ptr = newValue;
 
+		if (oldValue == newValue)
+			return;
+
+		*m_ptr = newValue;
+		m_modified = true;
 		if (m_onChanged != nullptr)
 			m_onChanged();
 	}

@@ -1,7 +1,4 @@
-Config:
-  Engine:
-    Window:
-      Width: 1280
-      Height: 720
-      Name: "Hihi"
-      Fullscreen: false
+window_width: 1280
+window_height: 720
+window_name: Even better name
+foo: bar

@@ -8,8 +8,10 @@ namespace Engine
 	class I_Cvar
 	{
 	public:
-		I_Cvar(std::string name)
-			: m_key(name) {};
+		I_Cvar(std::string name, std::function<void(void)> func = nullptr)
+			: m_key(name)
+			, m_onChanged(func)
+		{};
 
 		virtual ~I_Cvar() = default;
 
@@ -19,8 +21,11 @@ namespace Engine
 
 		virtual std::string GetValueAsString() = 0;
 		std::string GetKey() { return m_key; };
+		bool GetIsModified() { return m_modified; }
 	protected:
 		std::string m_key;
+		bool m_modified = false;
+		std::function<void(void)> m_onChanged;
 	};
 
 	template<typename T>
@@ -40,7 +45,6 @@ namespace Engine
 	private:
 		void SetValue(T newValue);
 		T* m_ptr;
-		std::function<void(void)> m_onChanged;
 	};
 
 	CvarWrapper(const char*)->CvarWrapper<std::string>;

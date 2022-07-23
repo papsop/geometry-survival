@@ -20,12 +20,16 @@ namespace Engine
 
 		I_Cvar* GetCvar(std::string name);
 
+		void StoreModifiedCvars();
+		void LoadCvarsFromFile();
+
 	private:
 		ConfigManager() = default;
 		void VirtualOnInit() override;
 
 		const char* m_configFilePath = "assets/config.yaml";
 		std::unordered_map<std::string, std::unique_ptr<I_Cvar>> m_cvars;
+		std::unordered_map<std::string, std::string> m_cvarsFromFile;
 
 	friend class Application;
 	};

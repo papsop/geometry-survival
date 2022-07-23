@@ -5,6 +5,7 @@
 #include "../Application.h"
 #include <SFML/Graphics.hpp>
 #include <iostream>
+
 namespace Engine
 {
     class Application;
@@ -19,7 +20,8 @@ namespace Engine
             ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("test"),
                 [&]()
                 {
-                    m_window->setTitle(m_windowName);
+                    if(m_window != nullptr)
+                        m_window->setTitle(m_windowName);
                 }
             );
             // todo boolean type? maybe just leave it as string

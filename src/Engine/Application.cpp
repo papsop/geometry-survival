@@ -53,7 +53,7 @@ namespace Engine
         LOG_DEBUG("Starting Application");
         LOG_DEBUG("Initializing managers");
         m_configManager.OnInit();
-
+        m_configManager.LoadCvarsFromFile();
         m_physicsManager.OnInit();
         m_viewManager.OnInit();
 		m_inputManager.OnInit();
@@ -86,10 +86,11 @@ namespace Engine
             m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7))
-            {
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) {
                 m_configManager.GetCvar("window_name")->SetValueString("Even better name");
+                m_configManager.GetCvar("window_width")->SetValueInt(1980);
             }
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
             // Update managers
             m_inputManager.Update();
             m_physicsManager.Update(lastFrameMS);

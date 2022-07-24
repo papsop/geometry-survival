@@ -4,7 +4,6 @@
 
 namespace Game
 {
-	// add event when player/target dies
 	class Actor_ChaseTarget : public Engine::IState
 	{
 	public:

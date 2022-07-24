@@ -75,6 +75,7 @@ namespace Engine
         ~IRenderableShapeComponent() = default;
 
         const view::Renderable& GetRenderable() { return m_renderable; };
+        view::Renderable& GetMutableRenderable() { return m_renderable; };
         const int ZIndex;
     protected:
         view::Renderable m_renderable;

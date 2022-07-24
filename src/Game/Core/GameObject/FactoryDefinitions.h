@@ -20,4 +20,9 @@ namespace Game
 		float MovementSpeed;
 		Engine::GameObject* Player;
 	};
+
+	struct ExperienceGlobeDef
+	{
+		Engine::math::Vec2 Position;
+	};
 }

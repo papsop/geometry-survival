@@ -10,5 +10,6 @@ namespace Game
 	public:
 		static Engine::GameObject* CreateWall(const WallFactoryDef& def);
 		static Engine::GameObject* CreateEnemy(const EnemyFactoryDef& def);
+		static Engine::GameObject* CreateExperienceGlobe(const ExperienceGlobeDef& def);
 	};
 }

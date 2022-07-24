@@ -5,7 +5,8 @@ namespace Engine
 
 	enum MessageType
 	{
-		MSG_Test
+		MSG_Test,
+		MSG_DIED
 	};
 
 

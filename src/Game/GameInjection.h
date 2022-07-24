@@ -87,13 +87,16 @@ namespace Game
             //centerCamera->GetTransform().SetPosition({ 0.0f, 0.0f });
             //centerCamera->AddComponent<Engine::CameraComponent>();
 
+            Engine::CircleFixtureDef circleFixtureDef;
+            circleFixtureDef.Radius = 2.0f;
+
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER);
             player->GetTransform().SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-            player->AddComponent<Engine::CircleFixtureComponent>(2.0f);
+            player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
             player->AddComponent<ActorComponent>(15.0f);
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();

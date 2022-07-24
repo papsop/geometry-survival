@@ -4,11 +4,11 @@ namespace Engine
 {
 	enum class GameObjectTag 
 	{
-		UNTAGGED = 0x0,
-		PLAYER = 0x1,
-		PLAYER_BULLET = 0x2,
-		ENEMY = 0x4,
-		OBSTACLE = 0x8,
+		UNTAGGED			= 0x0001,
+		PLAYER				= 0x0002,
+		PLAYER_BULLET		= 0x0004,
+		ENEMY				= 0x0008,
+		EXPERIENCE_GLOBE	= 0x0010,
 
 		// always last
 		COUNT

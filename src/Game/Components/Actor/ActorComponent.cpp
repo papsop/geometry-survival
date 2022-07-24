@@ -118,6 +118,9 @@ namespace Game
         }
 
         if (m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
+        {
+            Owner.SendMessageTo(&Owner, Engine::MessageType::MSG_DIED);
             Owner.Destroy();
+        }
     }
 };

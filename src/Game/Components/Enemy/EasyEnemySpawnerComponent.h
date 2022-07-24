@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
+
 namespace Game
 {
 	class EasyEnemySpawnerComponent : public Engine::IComponent
@@ -10,7 +11,6 @@ namespace Game
 		~EasyEnemySpawnerComponent();
 
 		void Update(float dt) override;
-
 		void OnCreate() override;
 
 	private:

@@ -1,10 +1,12 @@
 #include "AIChaseTargetComponent.h"
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Core/GameObject/GameObjectTag.h>
+#include <Engine/Core/Scene/Scene.h>
 
 #include "../Actor/ActorComponent.h"
 #include "../States/Actor_ChaseTarget.h"
 #include "../States/Actor_Stunned.h"
+#include "../../Core/GameObject/GameObjectFactory.h"
 
 namespace Game
 {
@@ -21,7 +23,7 @@ namespace Game
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
 
 		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
-		m_stateMachine.AddState<Actor_Stunned>(0.25f);
+		m_stateMachine.AddState<Actor_Stunned>(actorComponent, 0.25f);
 
 		m_stateMachine.TransitionTo<Actor_ChaseTarget>();
 
@@ -40,7 +42,13 @@ namespace Game
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
 	{
-		
+		if (message.Type == Engine::MessageType::MSG_DIED)
+		{
+			ExperienceGlobeDef experienceGlobeDef;
+			experienceGlobeDef.Position = Owner.GetTransform().Position;
+
+			Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
+		}
 	}
 
 	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)

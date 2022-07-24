@@ -70,10 +70,12 @@ namespace Game
         shapeViewDef.Color = sf::Color::Blue;
         shapeViewDef.PointCount = 3;
         shapeViewDef.Radius = 0.5f;
+
+        Engine::CircleFixtureDef circleFixtureDef;
+        circleFixtureDef.Radius = 0.5f;
+
         bullet->AddComponent<Engine::ShapeViewComponent>(zIndex, shapeViewDef);
-
-        bullet->AddComponent<Engine::CircleFixtureComponent>(0.5f);
-
+        bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
         bullet->AddComponent<BulletComponent>();
 
         Owner.GetScene().AddGameObject(bullet->ID);

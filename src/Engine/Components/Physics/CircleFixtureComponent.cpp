@@ -5,9 +5,10 @@
 namespace Engine
 {
 
-	CircleFixtureComponent::CircleFixtureComponent(GameObject& obj, float radius)
+	CircleFixtureComponent::CircleFixtureComponent(GameObject& obj, const CircleFixtureDef& def)
 		: IComponent(obj)
-		, m_radius(radius)
+		, m_radius(def.Radius)
+		, m_isSensor(def.IsSensor)
 		, m_fixture(nullptr)
 	{
 		SetRequiredComponents<PhysicsBodyComponent>();
@@ -26,6 +27,7 @@ namespace Engine
 		fixtureDef.friction = 0.3f;
 		fixtureDef.filter.categoryBits = physBody->GetCategoryBits();
 		fixtureDef.filter.maskBits = physBody->GetMaskBits();
+		fixtureDef.isSensor = m_isSensor;
 
 		m_fixture = Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->CreateFixture(&fixtureDef);
 	}

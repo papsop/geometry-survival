@@ -4,7 +4,7 @@
 namespace Game
 {
     SplashShape::SplashShape(Engine::GameObject& obj, size_t pointCount, sf::Color color, int zIndex)
-        : IRenderableShapeComponent(obj, Engine::view::RENDERABLE_TYPE::SHAPE, zIndex)
+        : IRenderableShapeComponent(obj, Engine::view::Renderable_Type::SHAPE, Engine::view::Layer::BACKGROUND)
         , m_shape(&obj.GetTransform())
     {
         m_shape.PointCount = pointCount;

@@ -5,7 +5,7 @@ namespace Engine
 
 
 	RectangleViewComponent::RectangleViewComponent(GameObject& obj, int zIndex, const RectangleViewDef& def)
-		: IRenderableShapeComponent(obj, view::RENDERABLE_TYPE::RECTANGLE, zIndex)
+		: IRenderableShapeComponent(obj, Engine::view::Renderable_Type::SHAPE, Engine::view::Layer::BACKGROUND)
 	{
 		m_useAbsoluteTransform				= def.UseAbsoluteTransform;
 

@@ -15,6 +15,7 @@ set(SOURCES
 	PhysicsManager.cpp
 	ViewManager.h
 	ViewManager.cpp
+	ViewLayers.h
 	ComponentManager.h
 	ComponentManager.inl
 	ComponentManager.cpp

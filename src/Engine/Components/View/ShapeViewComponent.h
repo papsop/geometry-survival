@@ -2,6 +2,7 @@
 #include "../Core.h"
 #include "../../View/Renderables.h"
 #include "../../Core/GameObject/GameObject.h"
+#include "../../Managers/ViewLayers.h"
 
 namespace Engine
 {
@@ -18,13 +19,14 @@ namespace Engine
 		sf::Color  Color		= sf::Color::Red;
 		float      PointCount	= 3;
 		float	   Radius		= 1;
+
+		view::Layer Layer			= view::Layer::BACKGROUND;
 	};
 
 	class ShapeViewComponent : public IRenderableShapeComponent
 	{
 
 	public:
-		ShapeViewComponent(GameObject& obj, int zIndex, const ShapeViewDef& def);
 		ShapeViewComponent(GameObject& obj, const ShapeViewDef& def);
 		~ShapeViewComponent() override;
 		

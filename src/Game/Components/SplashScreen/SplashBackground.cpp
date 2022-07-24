@@ -4,7 +4,7 @@
 namespace Game
 {
     SplashBackground::SplashBackground(Engine::GameObject& obj)
-		: IRenderableShapeComponent(obj, Engine::view::RENDERABLE_TYPE::SHAPE, 10000)
+		: IRenderableShapeComponent(obj, Engine::view::Renderable_Type::SHAPE, Engine::view::Layer::BACKGROUND)
 		, m_shape(&obj.GetTransform())
     {
         m_shape.PointCount = 3;

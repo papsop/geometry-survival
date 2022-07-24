@@ -5,6 +5,7 @@
 #include "../../Core/ColliderData.h"
 #include "../../Debug/Logger.h"
 #include "../../Core/Messaging/MessageTypes.h"
+#include "../../Managers/ViewLayers.h"
 
 #include <functional>
 #include <iostream>
@@ -70,13 +71,13 @@ namespace Engine
     class IRenderableShapeComponent : public IComponent
     {
     public:
-        IRenderableShapeComponent(GameObject& obj, view::RENDERABLE_TYPE renderableType, int zIndex);
+        IRenderableShapeComponent(GameObject& obj, view::Renderable_Type renderableType, view::Layer layer);
          
         ~IRenderableShapeComponent() = default;
 
         const view::Renderable& GetRenderable() { return m_renderable; };
         view::Renderable& GetMutableRenderable() { return m_renderable; };
-        const int ZIndex;
+        const view::Layer c_Layer;
     protected:
         view::Renderable m_renderable;
         Transform m_renderableTransform;

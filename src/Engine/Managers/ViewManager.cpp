@@ -7,7 +7,7 @@
 namespace Engine
 {
 	ViewManager::ViewManager()
-		: m_shapes(&compareZIndex)
+		: m_shapes()
 		, m_texts()
 		, m_viewStrategy()
 	{
@@ -62,11 +62,7 @@ namespace Engine
 
 	void ViewManager::RegisterComponent(IRenderableShapeComponent* component)
 	{
-
-		if (m_shapes.insert(component).second == false)
-		{
-			LOG_WARN("IRenderableShape from ID: %d, zIndex '%d' already present", component->Owner.ID, component->ZIndex);
-		}
+		m_shapes.insert({ component->c_Layer, component });
 	}
 
 	void ViewManager::RegisterComponent(IRenderableTextComponent* component)
@@ -88,7 +84,14 @@ namespace Engine
 
 	void ViewManager::UnregisterComponent(IRenderableShapeComponent* component)
 	{
-		m_shapes.erase(component);
+		for (auto iter = m_shapes.begin(); iter != m_shapes.end(); /* */ )
+		{
+			auto erase_iter = iter++;
+
+			if (erase_iter->second == component)
+				m_shapes.erase(erase_iter);
+		}
+		
 	}
 
 	void ViewManager::UnregisterComponent(IRenderableTextComponent* component)
@@ -120,11 +123,14 @@ namespace Engine
 				c->Update(dt);
 
 		for (auto r : m_shapes)
-			if (r->Owner.ShouldUpdate())
+		{
+			auto component = r.second;
+			if (component->Owner.ShouldUpdate())
 			{
-				r->Update(dt);
-				m_viewStrategy->RenderRenderable(r->GetRenderable());
+				component->Update(dt);
+				m_viewStrategy->RenderRenderable(component->GetRenderable());
 			}
+		}
 
 		for (auto t : m_texts)
 			if (t->Owner.ShouldUpdate())

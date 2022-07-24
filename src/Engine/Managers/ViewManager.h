@@ -3,9 +3,10 @@
 #include "../Components/View.h"
 #include "../View/IViewStrategy.h"
 #include "../Debug/IDebuggable.h"
+#include "ViewLayers.h"
 
 #include <vector>
-#include <set>
+#include <map>
 #include <memory>
 
 namespace Engine
@@ -41,23 +42,17 @@ namespace Engine
 		void SetViewStrategy(view::IViewStrategy* viewStrategy);
 		view::IViewStrategy* GetViewStrategy() { return m_viewStrategy.get(); };
 
-		int GetZIndexFromPool() { return m_zIndexPool++; }
+		int GetZIndexFromPool() { return 0; }
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 	private:
 		const int PIXELS_PER_METER = 10; // config?
-		static bool compareZIndex(const IRenderableShapeComponent* s1, const IRenderableShapeComponent* s2)
-		{
-			return s1->ZIndex < s2->ZIndex;
-		}
-
-		int m_zIndexPool = 1000;
 
 		ViewManager();
 
 		void VirtualOnDestroy() override;
 
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
-		std::set< IRenderableShapeComponent*, decltype(&compareZIndex)> m_shapes;
+		std::multimap< view::Layer, IRenderableShapeComponent*> m_shapes;
 		std::vector< IRenderableTextComponent* > m_texts;
 		std::vector< IDebuggable* > m_debugs;
 		std::vector< CameraComponent* > m_cameras;

@@ -53,13 +53,13 @@ namespace Engine
             sf::Vertex Points[2];
         };
         
-        enum class RENDERABLE_TYPE
+        enum class Renderable_Type
 		{
 			SHAPE, CIRCLE, RECTANGLE
 		};
 		struct Renderable
 		{
-            RENDERABLE_TYPE type;
+            Renderable_Type type;
 			union
 			{
 				Shape shape;
@@ -67,7 +67,7 @@ namespace Engine
 				Rectangle rectangle;
 			};
 
-            Renderable(RENDERABLE_TYPE type) : type(type) {};
+            Renderable(Renderable_Type type) : type(type) {};
 		};
     };
 };

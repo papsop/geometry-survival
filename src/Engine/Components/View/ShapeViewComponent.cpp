@@ -4,8 +4,8 @@
 namespace Engine
 {
 
-	ShapeViewComponent::ShapeViewComponent(GameObject& obj, int zIndex, const ShapeViewDef& def)
-		: IRenderableShapeComponent(obj, view::RENDERABLE_TYPE::SHAPE, zIndex)
+	ShapeViewComponent::ShapeViewComponent(GameObject& obj, const ShapeViewDef& def)
+		: IRenderableShapeComponent(obj, view::Renderable_Type::SHAPE, def.Layer)
 	{
 		m_useAbsoluteTransform = def.UseAbsoluteTransform;
 
@@ -16,11 +16,6 @@ namespace Engine
 		m_renderable.shape.Color		= def.Color;
 		m_renderable.shape.PointCount	= def.PointCount;
 		m_renderable.shape.Radius		= def.Radius;
-	}
-
-	ShapeViewComponent::ShapeViewComponent(GameObject& obj, const ShapeViewDef& def)
-		: ShapeViewComponent(obj, Engine::ViewManager::Get().GetZIndexFromPool(), def)
-	{
 	}
 
 	void ShapeViewComponent::OnCreate()

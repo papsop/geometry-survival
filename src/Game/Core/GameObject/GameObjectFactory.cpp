@@ -31,7 +31,7 @@ namespace Game
 		obj->GetTransform().SetRotationDeg(def.RotationDeg);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::RectangleFixtureComponent>(rectangleFixtureDef);
-		obj->AddComponent<Engine::RectangleViewComponent>(Engine::ViewManager::Get().GetZIndexFromPool(), rectangleViewDef);
+		obj->AddComponent<Engine::RectangleViewComponent>(-1, rectangleViewDef);
 		return obj;
 	}
 
@@ -47,6 +47,7 @@ namespace Game
 		shapeViewDef.Color = sf::Color::Red;
 		shapeViewDef.PointCount = 5;
 		shapeViewDef.Radius = 2.f;
+		shapeViewDef.Layer = Engine::view::Layer::ENEMY;
 
 		Engine::CircleFixtureDef circleFixtureDef;
 		circleFixtureDef.Radius = shapeViewDef.Radius;
@@ -73,6 +74,7 @@ namespace Game
 		shapeViewDef.Color = sf::Color::White;
 		shapeViewDef.PointCount = 10;
 		shapeViewDef.Radius = .5;
+		shapeViewDef.Layer = Engine::view::Layer::EXPERIENCE_GLOBE;
 
 		Engine::CircleFixtureDef circleFixtureDef;
 		circleFixtureDef.Radius = shapeViewDef.Radius;

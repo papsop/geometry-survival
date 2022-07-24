@@ -7,21 +7,21 @@ namespace Engine
 {
     // view
 
-    IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, view::RENDERABLE_TYPE renderableType,int zIndex)
+    IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, view::Renderable_Type renderableType, view::Layer layer)
         : IComponent(obj)
-        , ZIndex(zIndex)
+        , c_Layer(layer)
         , m_renderableTransform()
         , m_renderable(renderableType)
     {
         switch (renderableType)
         {
-        case view::RENDERABLE_TYPE::SHAPE:
+        case view::Renderable_Type::SHAPE:
             m_renderable.shape = { &m_renderableTransform };
             break;
-        case view::RENDERABLE_TYPE::CIRCLE:
+        case view::Renderable_Type::CIRCLE:
             m_renderable.circle = { &m_renderableTransform };
             break;
-        case view::RENDERABLE_TYPE::RECTANGLE:
+        case view::Renderable_Type::RECTANGLE:
             m_renderable.rectangle = { &m_renderableTransform };
             break;
         };

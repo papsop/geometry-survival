@@ -181,13 +181,13 @@ namespace Engine
 		{
             switch (renderable.type)
             {
-            case view::RENDERABLE_TYPE::SHAPE: 
+            case view::Renderable_Type::SHAPE:
                 Render(renderable.shape); 
                 break;
-            case view::RENDERABLE_TYPE::CIRCLE:
+            case view::Renderable_Type::CIRCLE:
 				Render(renderable.circle);
 				break;
-            case view::RENDERABLE_TYPE::RECTANGLE:
+            case view::Renderable_Type::RECTANGLE:
 				Render(renderable.rectangle);
 				break;
             }

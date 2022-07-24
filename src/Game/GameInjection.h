@@ -89,6 +89,7 @@ namespace Game
 
             Engine::CircleFixtureDef circleFixtureDef;
             circleFixtureDef.Radius = 2.0f;
+            shapeViewDef.Layer = Engine::view::Layer::PLAYER;
 
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
@@ -107,13 +108,13 @@ namespace Game
 
 
             // buff test
-            std::unique_ptr<Buff> buff = std::make_unique<Buff>(5.0f);
-            buff->AddModifier(RPGStats::MAX_HEALTH, 20)
-                 .AddModifier(RPGStats::MOVEMENT_SPEED, 30);
+//             std::unique_ptr<Buff> buff = std::make_unique<Buff>(5.0f);
+//             buff->AddModifier(RPGStats::MAX_HEALTH, 20)
+//                  .AddModifier(RPGStats::MOVEMENT_SPEED, 30);
 
-            player->GetComponent<ActorComponent>()->GetRPGActor()->AddBuff(std::move(buff));
+            //player->GetComponent<ActorComponent>()->GetRPGActor()->AddBuff(std::move(buff));
             // test buff
-            auto rpgactor = player->GetComponent<ActorComponent>()->GetRPGActor();
+            //auto rpgactor = player->GetComponent<ActorComponent>()->GetRPGActor();
             //rpgactor.AddBuff(std::make_unique<Buff>(5.0f));
             // ---------
 

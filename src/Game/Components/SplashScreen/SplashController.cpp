@@ -1,4 +1,4 @@
-#include "SplashController.h"
+ #include "SplashController.h"
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 

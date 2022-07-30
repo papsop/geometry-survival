@@ -29,7 +29,10 @@ namespace Engine
 
         m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
         m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
+
+        m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
     }
+
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)
     {
         if (m_mapKeyToAction.find(key) != m_mapKeyToAction.end())
@@ -38,8 +41,18 @@ namespace Engine
             return Action::Unknown;
     }
 
+	InputManager::Action InputManager::GetActionFromMouse(sf::Mouse::Button mouse)
+	{
+		if (m_mapMouseToAction.find(mouse) != m_mapMouseToAction.end())
+			return m_mapMouseToAction[mouse];
+		else
+			return Action::Unknown;
+	}
+
     void InputManager::HandleWindowEvent(const sf::Event& event)
     {
+
+        // Keyboard event
         if (event.type == sf::Event::KeyPressed)
         {
             auto action = GetActionFromKey(event.key.code);
@@ -59,7 +72,27 @@ namespace Engine
                 entry.Pressed = false;
                 if (entry.WasPressedLastFrame) entry.ReleasedThisFrame = true;
             }
+        }// Mouse event
+        else if (event.type == sf::Event::MouseButtonPressed)
+        {
+            auto action = GetActionFromMouse(event.mouseButton.button);
+            if (action != Action::Unknown)
+            {
+                auto& entry = m_actions[static_cast<size_t>(action)];
+                entry.Pressed = true;
+                if (!entry.WasPressedLastFrame) entry.PressedThisFrame = true;
+            }
         }
+		else if (event.type == sf::Event::MouseButtonReleased)
+		{
+			auto action = GetActionFromMouse(event.mouseButton.button);
+			if (action != Action::Unknown)
+			{
+				auto& entry = m_actions[static_cast<size_t>(action)];
+				entry.Pressed = false;
+                if (entry.WasPressedLastFrame) entry.ReleasedThisFrame = true;
+			}
+		}
     }
 
     void InputManager::Update()

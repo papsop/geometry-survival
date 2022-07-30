@@ -1,3 +1,4 @@
+
 #include "EasyEnemySpawnerComponent.h"
 #include <Engine/Application.h>
 #include "../../Managers/GameManager.h"
@@ -30,7 +31,7 @@ namespace Game
 			auto gameManager = Engine::Application::Instance().GetGameManager<GameManager>();
 			// spawn
 			EnemyFactoryDef enemyFactoryDef;
-			enemyFactoryDef.MovementSpeed = 10.0f;
+			enemyFactoryDef.MovementSpeed = 5.0f;
 			enemyFactoryDef.Player = gameManager->GetPlayerGameObject();
 			enemyFactoryDef.Position = gameManager->GetRandomEnemySpawnPoint();
 			auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);

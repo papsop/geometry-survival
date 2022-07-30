@@ -12,7 +12,7 @@ namespace Game
 		srand((unsigned)time(NULL));
 
 		Engine::ConfigManager::Get().RegisterCvar("spawner_radius", &m_spawnRadius, 50.0f);
-		Engine::ConfigManager::Get().RegisterCvar("spawner_cooldown", &m_spawnCooldown, 1.0f);
+		Engine::ConfigManager::Get().RegisterCvar("spawner_cooldown", &m_spawnCooldown, 2.0f);
 	}
 
 	void GameManager::VirtualOnDestroy()

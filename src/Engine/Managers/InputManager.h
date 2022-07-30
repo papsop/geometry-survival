@@ -57,6 +57,8 @@ namespace Engine {
         InputManager();
 
         Action GetActionFromKey(sf::Keyboard::Key);
+        Action GetActionFromMouse(sf::Mouse::Button mouse);
+
         void HandleWindowEvent(const sf::Event& event);
         void Update();
         void PostUpdate();
@@ -66,6 +68,7 @@ namespace Engine {
         std::array<ActionEntry, static_cast<size_t>(Action::NumberOfActions)> m_actions;
 
         std::unordered_map<sf::Keyboard::Key, Action> m_mapKeyToAction;
+        std::unordered_map<sf::Mouse::Button, Action> m_mapMouseToAction;
         sf::Vector2f m_mousePosition;
 
     friend class RenderManager; // needs to communicate about MousePos

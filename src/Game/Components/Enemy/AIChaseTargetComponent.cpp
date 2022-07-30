@@ -63,7 +63,7 @@ namespace Game
 
 		// apply knockback
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		Engine::math::Vec2 knockBackDirection = Owner.GetTransform().Position - otherGO->GetTransform().Position;
+		Engine::math::Vec2 knockBackDirection = Engine::math::V2fNormalize(Owner.GetTransform().Position - otherGO->GetTransform().Position);
 		actorComponent->AddCommand<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y);
 	}
 

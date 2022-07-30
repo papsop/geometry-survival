@@ -54,12 +54,20 @@ namespace Engine
 	{
 		auto bodyA = contact->GetFixtureA()->GetBody();
 		auto bodyB = contact->GetFixtureB()->GetBody();
-
+		
 		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
 		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
 
-		if (objA) objA->OnCollisionStart(objB);
-		if (objB) objB->OnCollisionStart(objA);
+		CollisionData collisionDataA;
+		collisionDataA.Other = objB;
+		collisionDataA.OtherFilter = contact->GetFixtureB()->GetFilterData();
+
+		CollisionData collisionDataB;
+		collisionDataB.Other = objA;
+		collisionDataB.OtherFilter = contact->GetFixtureA()->GetFilterData();
+
+		if (objA) objA->OnCollisionStart(collisionDataA);
+		if (objB) objB->OnCollisionStart(collisionDataB);
 	}
 
 	void PhysicsManager::EndContact(b2Contact* contact)
@@ -70,9 +78,17 @@ namespace Engine
 		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
 		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
 
+		CollisionData collisionDataA;
+		collisionDataA.Other = objA;
+		collisionDataA.OtherFilter = contact->GetFixtureA()->GetFilterData();
+
+		CollisionData collisionDataB;
+		collisionDataB.Other = objB;
+		collisionDataB.OtherFilter = contact->GetFixtureA()->GetFilterData();
+
 		// One of the object could have been deleted after BeginContact
-		if (objA) objA->OnCollisionEnd(objB);
-		if (objB) objB->OnCollisionEnd(objA);
+		if (objA) objA->OnCollisionEnd(collisionDataA);
+		if (objB) objB->OnCollisionEnd(collisionDataB);
 	}
 
 	void PhysicsManager::ReceiveEvent(const E_ApplicationStopped& eventData)

@@ -27,9 +27,4 @@ namespace Engine
 		ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);	
 	}
 
-	void CameraComponent::OnCollisionStart(GameObject* other)
-	{
-		
-	}
-
 };

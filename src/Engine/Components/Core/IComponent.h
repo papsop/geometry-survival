@@ -16,6 +16,7 @@ namespace Engine
 {
 
     class GameObject; 
+    struct CollisionData;
 
     class IComponent
     {
@@ -31,8 +32,8 @@ namespace Engine
 
         virtual void OnCreate() {};
         virtual void Update(float dt) {};
-        virtual void OnCollisionStart(GameObject* other) {};
-        virtual void OnCollisionEnd(GameObject* other) {};
+        virtual void OnCollisionStart(CollisionData& collision) {};
+        virtual void OnCollisionEnd(CollisionData& collision) {};
         virtual void ProcessMessage(const Message& message) { };
 
 		GameObject& Owner;

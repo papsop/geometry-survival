@@ -21,8 +21,7 @@ namespace Engine
 
 		void OnCreate() override;
 		void Update(float dt) override {};
-		void OnCollisionStart(GameObject* other) override {};
-		
+
 		void Debug(view::IViewStrategy* viewStrategy) override;
 	private:
 		b2Fixture* m_fixture;

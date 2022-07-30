@@ -32,8 +32,6 @@ namespace Engine
 		
 		void OnCreate() override;
 		void Update(float dt) override;
-		void OnCollisionStart(GameObject* other) override { };
-		void OnCollisionEnd(GameObject* other) override { };
 	private:
 		bool m_useAbsoluteTransform = false;
 		Transform m_localTransform;

@@ -29,9 +29,9 @@ namespace Game
             Owner.Destroy();
     }
 
-	void BulletComponent::OnCollisionStart(Engine::GameObject* other)
+	void BulletComponent::OnCollisionStart(Engine::CollisionData& collision)
 	{
-        auto otherActor = other->GetComponent<ActorComponent>();
+        auto otherActor = collision.Other->GetComponent<ActorComponent>();
         if (otherActor != nullptr)
             otherActor->AddCommand<DamageCommand>(5.0f);
 

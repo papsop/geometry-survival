@@ -51,10 +51,11 @@ namespace Game
 		}
 	}
 
-	void AIChaseTargetComponent::OnCollisionStart(Engine::GameObject* other)
+	void AIChaseTargetComponent::OnCollisionStart(Engine::CollisionData& collision)
 	{
+		auto otherGO = collision.Other;
 		// check if player bullet
-		if (other->Tag != Engine::GameObjectTag::PLAYER_BULLET)
+		if (otherGO->Tag != Engine::GameObjectTag::PLAYER_BULLET)
 			return;
 
 		// transition to stun
@@ -62,7 +63,7 @@ namespace Game
 
 		// apply knockback
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		Engine::math::Vec2 knockBackDirection = Owner.GetTransform().Position - other->GetTransform().Position;
+		Engine::math::Vec2 knockBackDirection = Owner.GetTransform().Position - otherGO->GetTransform().Position;
 		actorComponent->AddCommand<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y);
 	}
 

@@ -86,11 +86,6 @@ namespace Game
 		}
 	}
 
-	void ActorComponent::OnCollisionStart(Engine::GameObject* other)
-	{
-        Owner.SendMessageTo(other, Engine::MSG_Test);
-	}
-
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
         // name

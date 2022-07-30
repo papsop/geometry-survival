@@ -22,6 +22,8 @@ set(PLAYER_SOURCE
 	Player/Inputcomponent.cpp
 	Player/TestComponent.h
 	Player/TestComponent.cpp
+	Player/PickUpFieldComponent.h
+	Player/PickUpFieldComponent.cpp
 )
 
 set(ENEMY_SOURCE
@@ -48,10 +50,17 @@ set(STATES_SOURCE
 	States/Actor_Stunned.h
 	States/Actor_Stunned.cpp
 )
+
+set(PICKABLES_SOURCE
+	Pickables/ExperienceGlobeComponent.h
+	Pickables/ExperienceGlobeComponent.cpp
+)
+
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}
 	${PLAYER_SOURCE}
 	${ENEMY_SOURCE}
 	${STATES_SOURCE}
 	${SPLASH_SOURCE}
+	${PICKABLES_SOURCE}
 )

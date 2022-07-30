@@ -33,10 +33,6 @@ namespace Game
 
         void ProcessMessage(const Engine::Message& message) override;
 
-
-        void OnCollisionStart(Engine::GameObject* other) override;
-
-
         void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
     private:

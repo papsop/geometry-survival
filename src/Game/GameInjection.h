@@ -16,6 +16,7 @@
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Player/PlayerComponent.h"
+#include "Components/Player/PickUpFieldComponent.h"
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/Enemy/EasyEnemySpawnerComponent.h"
@@ -26,6 +27,7 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
+#include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "RPG/Buff/Buff.h"
 #include "Physics/Filters.h"
 
@@ -49,6 +51,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
 
@@ -99,6 +102,7 @@ namespace Game
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
             player->AddComponent<ActorComponent>(15.0f);
+            player->AddComponent<PickUpFieldComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
             auto weaponComp = player->GetComponent<WeaponComponent>();

@@ -6,8 +6,9 @@
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChaseTargetComponent.h"
-
+#include "../../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../../Physics/Filters.h"
+
 namespace Game
 {
 
@@ -66,9 +67,9 @@ namespace Game
 	Engine::GameObject* GameObjectFactory::CreateExperienceGlobe(const ExperienceGlobeDef& def)
 	{
 		Engine::PhysicsBodyDef physBodyDef;
-		physBodyDef.BodyType = b2_staticBody;
-		physBodyDef.CategoryBits = physics::EntityCategory::EXPERIENCE_GLOBE;
-		physBodyDef.MaskBits = physics::EntityMask::M_EXPERIENCE_GLOBE;;
+		physBodyDef.BodyType = b2_dynamicBody;
+		physBodyDef.CategoryBits = physics::EntityCategory::PICKABLE;
+		physBodyDef.MaskBits = physics::EntityMask::M_PICKABLE;
 
 		Engine::ShapeViewDef shapeViewDef;
 		shapeViewDef.Color = sf::Color::White;
@@ -85,6 +86,7 @@ namespace Game
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		obj->AddComponent<ExperienceGlobeComponent>();
 		return obj;
 	}
 

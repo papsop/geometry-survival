@@ -11,7 +11,8 @@ namespace Game
 			PLAYER_BULLET		= 0x0004,
 			ENEMY				= 0x0008,
 			ENEMY_BULLET		= 0x0010,
-			EXPERIENCE_GLOBE	= 0x0020,
+			PICKUP_FIELD		= 0x0020,
+			PICKABLE			= 0x0022,
 		};
 
 		enum EntityMask : uint16
@@ -21,7 +22,8 @@ namespace Game
 			M_PLAYER_BULLET		= EntityCategory::WALL | EntityCategory::ENEMY,
 			M_ENEMY				= EntityCategory::WALL | EntityCategory::PLAYER | EntityCategory::PLAYER_BULLET | EntityCategory::ENEMY,
 			M_ENEMY_BULLET		= EntityCategory::WALL | EntityCategory::PLAYER,
-			M_EXPERIENCE_GLOBE	= EntityCategory::PLAYER
+			M_PICKABLE			= EntityCategory::PICKUP_FIELD | EntityCategory::PLAYER,
+			M_PICKUP_FIELD		= EntityCategory::PICKABLE
 		};
 	}
 	

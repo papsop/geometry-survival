@@ -6,10 +6,17 @@
 
 #include <box2d/b2_world.h>
 #include <box2d/b2_contact.h>
+#include <box2d/b2_fixture.h>
 #include <vector>
 #include <array>
 namespace Engine
 {
+	struct CollisionData
+	{
+		GameObject* Other;
+		b2Filter OtherFilter;
+	};
+
 	class PhysicsManager : public IManager, public b2ContactListener, public IEventListener<E_ApplicationStopped>
 	{
 	public:

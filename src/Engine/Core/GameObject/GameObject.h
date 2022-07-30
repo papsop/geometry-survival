@@ -18,6 +18,7 @@ namespace Engine
     using GameObjectID = uint32_t;
 
     class Scene;
+    struct CollisionData;
 
     class GameObject
     {
@@ -57,8 +58,8 @@ namespace Engine
 
         Transform& GetTransform() { return m_transform; }
 
-        void OnCollisionStart(GameObject* other);
-        void OnCollisionEnd(GameObject* other);
+        void OnCollisionStart(CollisionData& collision);
+        void OnCollisionEnd(CollisionData& collision);
 
         void Destroy();
         void SetActive(bool a);

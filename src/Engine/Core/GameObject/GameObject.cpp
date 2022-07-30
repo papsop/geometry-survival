@@ -1,6 +1,7 @@
 #include "GameObject.h"
 #include "../../Debug/Logger.h"
 #include "../../Managers/GameObjectManager.h"
+#include "../../Managers/PhysicsManager.h"
 #include <iostream>
 
 namespace Engine
@@ -38,22 +39,22 @@ namespace Engine
 		   func(c.second.get());
    }
 
-    void GameObject::OnCollisionStart(GameObject* other)
+    void GameObject::OnCollisionStart(CollisionData& collision)
     {
         ForEachComponent(
             [&](IComponent* c)
             {
-                c->OnCollisionStart(other);
+                c->OnCollisionStart(collision);
             }
         );
     }
 
-	void GameObject::OnCollisionEnd(GameObject* other)
+	void GameObject::OnCollisionEnd(CollisionData& collision)
 	{
 		ForEachComponent(
 			[&](IComponent* c)
             {
-				c->OnCollisionEnd(other);
+				c->OnCollisionEnd(collision);
 			}
 		);
 	}

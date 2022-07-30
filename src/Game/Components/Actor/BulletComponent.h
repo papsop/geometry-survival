@@ -1,5 +1,6 @@
 #pragma once
 #include <Engine/Components/Core.h>
+#include <Engine/Managers/PhysicsManager.h>
 
 namespace Game
 {
@@ -12,7 +13,7 @@ namespace Game
         void OnCreate() override;
         void Update(float dt) override;
 
-        void OnCollisionStart(Engine::GameObject* other) override;
+        void OnCollisionStart(Engine::CollisionData& collision) override;
     private:
         float m_timeToDie = 2.0f;
     };

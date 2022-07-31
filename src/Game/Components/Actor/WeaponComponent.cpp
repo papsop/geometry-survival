@@ -8,7 +8,9 @@
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Managers/ViewManager.h>
+#include <Engine/Managers/InputManager.h>
 #include <Engine/Components/Physics.h>
+
 
 #include "../../Physics/Filters.h"
 namespace Game
@@ -34,6 +36,10 @@ namespace Game
     {
         if (m_equippedWeapon)
             m_equippedWeapon->Update(dt);
+
+        // TODO
+        if (Engine::InputManager::Get().GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
+            m_equippedWeapon->Reload();
     }
 
     void WeaponComponent::EquipWeapon(std::unique_ptr<IWeapon> weapon)
@@ -83,4 +89,14 @@ namespace Game
         return bullet;
     }
     
+	void WeaponComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
+	{
+        if (m_equippedWeapon == nullptr)
+            return;
+
+		Engine::math::Vec2 pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 6.0f);
+        std::string ammoCount = std::to_string(m_equippedWeapon->m_currentAmmo) + "/" + std::to_string(m_equippedWeapon->m_maxAmmo);
+		viewStrategy->DebugRenderText(ammoCount, pos, 12.0f, sf::Color::Yellow);
+	}
+
 }

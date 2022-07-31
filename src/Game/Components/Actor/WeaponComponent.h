@@ -1,10 +1,11 @@
 #pragma once
 #include <Engine/Components/Core.h>
+#include <Engine/Debug/IDebuggable.h>
 #include "Weapons/IWeapon.h"
 
 namespace Game
 {
-    class WeaponComponent : public Engine::IComponent
+    class WeaponComponent : public Engine::IComponent, public Engine::IDebuggableComponent
     {
     public:
         WeaponComponent(Engine::GameObject& obj);
@@ -17,8 +18,10 @@ namespace Game
         
         void EquipWeapon(std::unique_ptr<IWeapon> weapon);
         Engine::GameObject* CreateBulletGameObject();
-    private:
-        std::unique_ptr<IWeapon> m_equippedWeapon;
+
+        void Debug(Engine::view::IViewStrategy* viewStrategy) override;
+	private:
+		std::unique_ptr<IWeapon> m_equippedWeapon;
     };
 
 };

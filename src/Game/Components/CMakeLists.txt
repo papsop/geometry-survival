@@ -11,6 +11,7 @@ set(ACTOR_SOURCE
 	Actor/WeaponComponent.cpp
 
 	Actor/Weapons/IWeapon.h
+	Actor/Weapons/IWeapon.cpp
 	Actor/Weapons/PistolWeapon.h
 	Actor/Weapons/PistolWeapon.cpp
 )

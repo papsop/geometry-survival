@@ -106,7 +106,7 @@ namespace Game
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();
             auto weaponComp = player->GetComponent<WeaponComponent>();
-            weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(weaponComp));
+            weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
             player->AddComponent<Engine::CameraComponent>();
             player->AddComponent<PlayerComponent>();    
 

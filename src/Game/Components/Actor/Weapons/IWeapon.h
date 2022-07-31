@@ -5,21 +5,33 @@ namespace Game
     class IWeapon
     {
     public:
-        IWeapon(WeaponComponent* weaponComponent)
-            : ownerWeaponComponent(weaponComponent){}
+        IWeapon(WeaponComponent& weaponComponent)
+            : m_ownerWeaponComponent(weaponComponent) {}
         ~IWeapon() = default;
 
-        virtual void Fire() = 0;
+        // all weapons share these
+        void Fire();
+        bool HasAmmo();
+        bool IsOffCooldown();
+        bool CanFire();
+        void Reload();
+        void Update(float dt);
 
-        void Update(float dt)
-        {
-            m_currentShootingCooldown -= dt;
-        }
+        // derived weapon class should change this
+        virtual void VirtualFire() = 0;
 
     protected:
-        WeaponComponent* ownerWeaponComponent;
+        WeaponComponent& m_ownerWeaponComponent;
+
+        // Derived weapon class should set these
+
         float m_currentShootingCooldown = 0.0f;
-        float m_shootingCooldown = 1.0f; // derived class should change this
+        float m_shootingCooldown = 1.0f;
+
+        int m_currentAmmo = 0;
+        int m_maxAmmo = 0;
+
+    friend class WeaponComponent;
     };
 }
 

@@ -30,6 +30,7 @@ namespace Engine {
             MoveDown,
             Fire1,
             Fire2,
+            Reload,
             Use,
             ShowConsole,
             ShowDebugDraw,

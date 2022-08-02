@@ -16,6 +16,9 @@ namespace Engine
 		template<typename T>
 		void TransitionTo();
 
+		template<typename T>
+		void TransitionTo(T* state);
+
 		template
 		<
 			typename T,
@@ -33,6 +36,8 @@ namespace Engine
 
 
 		void Update(float dt);
+
+		void ProcessMessage(const Engine::Message& message);
 
 	private:
 		std::unordered_map< size_t, std::unique_ptr<IState> > m_states;

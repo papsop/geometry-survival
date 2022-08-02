@@ -14,7 +14,7 @@ namespace Engine
         IState(FiniteStateMachine& parentStateMachine) 
             : m_parentStateMachine(parentStateMachine) {};
 
-        ~IState() = default;
+        virtual ~IState() = default;
 
         virtual void OnTransitionIn() {}
         virtual void OnTransitionOut() {}; 

@@ -6,7 +6,9 @@ namespace Engine
 	enum MessageType
 	{
 		MSG_Test,
-		MSG_DIED
+		MSG_DIED,
+		MSG_Weapon_Fire,
+		MSG_Weapon_Reload
 	};
 
 

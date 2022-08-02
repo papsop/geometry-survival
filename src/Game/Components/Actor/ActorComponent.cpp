@@ -69,7 +69,7 @@ namespace Game
         m_RPGActor->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
 	}
 
-	void ActorComponent::Fire()
+	void ActorComponent::WeaponFire()
     {
         auto weaponComp = Owner.GetComponent<WeaponComponent>();
         if (weaponComp) 
@@ -77,6 +77,15 @@ namespace Game
             weaponComp->Fire();
         }
     }
+
+	void ActorComponent::WeaponReload()
+	{
+		auto weaponComp = Owner.GetComponent<WeaponComponent>();
+		if (weaponComp)
+		{
+			weaponComp->Reload();
+		}
+	}
 
 	void ActorComponent::ProcessMessage(const Engine::Message& message)
 	{

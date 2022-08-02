@@ -40,18 +40,18 @@ namespace Game
     }
 
     // --------------------------------------------------------
-
-    FireCommand::FireCommand()
-    {
-    }
-
     void FireCommand::Execute(ActorComponent& actor)
     {
-        actor.Fire();
+        actor.WeaponFire();
     }
 
     // --------------------------------------------------------
+	void ReloadCommand::Execute(ActorComponent& actor)
+	{
+		actor.WeaponReload();
+	}
 
+	// --------------------------------------------------------
     DamageCommand::DamageCommand(float amount)
         : m_amount(amount) {};
 

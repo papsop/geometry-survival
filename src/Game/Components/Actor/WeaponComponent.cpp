@@ -36,10 +36,6 @@ namespace Game
     {
         if (m_equippedWeapon)
             m_equippedWeapon->Update(dt);
-
-        // TODO
-        if (Engine::InputManager::Get().GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
-            m_equippedWeapon->Reload();
     }
 
     void WeaponComponent::EquipWeapon(std::unique_ptr<IWeapon> weapon)
@@ -53,7 +49,19 @@ namespace Game
             m_equippedWeapon->Fire();
     }
 
-    Engine::GameObject* WeaponComponent::CreateBulletGameObject()
+	void WeaponComponent::Reload()
+	{
+		if (m_equippedWeapon)
+			m_equippedWeapon->Reload();
+	}
+
+	void WeaponComponent::RefillAmmo()
+	{
+        if (m_equippedWeapon)
+            m_equippedWeapon->RefillAmmo();
+	}
+
+	Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
         auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET);
@@ -88,15 +96,4 @@ namespace Game
         Owner.GetScene().AddGameObject(bullet->ID);
         return bullet;
     }
-    
-	void WeaponComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
-	{
-        if (m_equippedWeapon == nullptr)
-            return;
-
-		Engine::math::Vec2 pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 6.0f);
-        std::string ammoCount = std::to_string(m_equippedWeapon->m_currentAmmo) + "/" + std::to_string(m_equippedWeapon->m_maxAmmo);
-		viewStrategy->DebugRenderText(ammoCount, pos, 12.0f, sf::Color::Yellow);
-	}
-
 }

@@ -21,6 +21,12 @@ namespace Engine
 			LOG_WARN("Trying to transition into state that's not present '%s'", typeid(T).name());
 	}
 
+	template<typename T>
+	void FiniteStateMachine::TransitionTo(T* state)
+	{
+		TransitionTo<T>();
+	}
+
 	template<typename T, typename ... Args, typename>
 	void FiniteStateMachine::AddState(Args&&... args)
 	{

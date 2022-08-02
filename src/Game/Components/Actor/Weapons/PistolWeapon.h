@@ -8,7 +8,5 @@ namespace Game
     public:
         PistolWeapon(WeaponComponent& weaponComponent);
         ~PistolWeapon() = default;
-        
-        void VirtualFire() override;
     };
 }

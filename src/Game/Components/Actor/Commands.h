@@ -45,11 +45,20 @@ namespace Game
     class FireCommand : public ICommand
     {
     public:
-        FireCommand();
+        FireCommand() = default;
         ~FireCommand() override = default;
         void Execute(ActorComponent& actor) override;
     private:
     };
+
+	class ReloadCommand : public ICommand
+	{
+	public:
+        ReloadCommand() = default;
+		~ReloadCommand() override = default;
+		void Execute(ActorComponent& actor) override;
+	private:
+	};
 
 	class DamageCommand : public ICommand
 	{

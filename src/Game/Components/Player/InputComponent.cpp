@@ -42,5 +42,9 @@ namespace Game
         // shooting
         if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
             actorComponent->AddCommand<FireCommand>();
+
+		// reloading
+		if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
+			actorComponent->AddCommand<ReloadCommand>();
     }
 };

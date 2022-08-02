@@ -29,7 +29,8 @@ namespace Game
         void KnockBack(Engine::math::Vec2 dir);
         void Rotate(float angle);
         void ApplyDamage(float amount);
-        void Fire();
+        void WeaponFire();
+        void WeaponReload();
 
         void ProcessMessage(const Engine::Message& message) override;
 

@@ -1,13 +1,13 @@
 #pragma once
-#include <Engine/Core/StateMachine/IState.h>
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include "../Actor/ActorComponent.h"
 
 namespace Game
 {
-	class Actor_ChaseTarget : public Engine::IState
+	class Actor_ChaseTarget : public Engine::IState<Engine::PushdownStateMachine>
 	{
 	public:
-		Actor_ChaseTarget(Engine::FiniteStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target);
+		Actor_ChaseTarget(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target);
 		~Actor_ChaseTarget() = default;
 
 		void Update(float dt) override;

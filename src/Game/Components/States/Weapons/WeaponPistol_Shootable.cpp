@@ -1,31 +1,26 @@
 #include "WeaponPistol_Shootable.h"
-#include "Weapon_Cooldown.h"
-
+#include "../../Actor/Weapons/PistolWeapon.h"
 namespace Game
 {
-	WeaponPistol_Shootable::WeaponPistol_Shootable(Engine::FiniteStateMachine& parentStateMachine, WeaponComponent& weaponComponent)
+	WeaponPistol_Shootable::WeaponPistol_Shootable(Engine::PushdownStateMachine& parentStateMachine, PistolWeapon& pistol)
 		: IState(parentStateMachine)
-		, m_ownerWeaponComponent(weaponComponent)
+		, m_ownerPistol(pistol)
 	{
+
 	}
 
-	void Game::WeaponPistol_Shootable::Update(float dt)
+
+	void WeaponPistol_Shootable::Update(float dt)
 	{
-		/* */
+		
 	}
 
-	void Game::WeaponPistol_Shootable::ProcessMessage(const Engine::Message& message)
+	void WeaponPistol_Shootable::ProcessMessage(const Engine::Message& message)
 	{
 		if (message.Type == Engine::MSG_Weapon_Fire)
 		{
-			auto& ownerGO = m_ownerWeaponComponent.Owner;
-			auto* bullet = m_ownerWeaponComponent.CreateBulletGameObject();
-			auto forward = ownerGO.GetTransform().Forward();
-			forward *= 30.0f;
-			bullet->GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
-			m_parentStateMachine.TransitionTo<Weapon_Cooldown<WeaponPistol_Shootable>>();
+			m_ownerPistol.Fire();
 		}
 	}
-
 
 };

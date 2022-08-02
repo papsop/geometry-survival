@@ -4,14 +4,18 @@
 
 namespace Engine
 {
-
     class Scene;
+    class PushdownStateMachine;
     class FiniteStateMachine;
 
+    template<
+        typename T, 
+        typename = std::enable_if_t< std::is_same_v<PushdownStateMachine, T> || std::is_same_v<FiniteStateMachine, T> >
+        >
     class IState
     {
     public:
-        IState(FiniteStateMachine& parentStateMachine) 
+        IState(T& parentStateMachine) 
             : m_parentStateMachine(parentStateMachine) {};
 
         virtual ~IState() = default;
@@ -23,9 +27,9 @@ namespace Engine
         virtual void ProcessMessage(const Message& message) { };
 
     protected:
-        FiniteStateMachine& m_parentStateMachine;
+        T& m_parentStateMachine;
     };
 
-	template<typename T>
-	using enable_if_base_of_state = std::enable_if_t< std::is_base_of<IState, T>::value >;
+	template<typename _StateMachine, typename T>
+	using enable_if_base_of_state = std::enable_if_t< std::is_base_of<IState<_StateMachine>, T>::value >;
 }

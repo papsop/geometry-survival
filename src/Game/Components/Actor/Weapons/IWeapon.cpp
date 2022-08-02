@@ -1,6 +1,7 @@
 #include "IWeapon.h"
 #include <Engine/Core/GameObject/GameObject.h>
 #include "../WeaponComponent.h"
+#include "../../States/Weapons.h"
 
 namespace Game
 {
@@ -19,7 +20,20 @@ namespace Game
 		return IsOffCooldown() && HasAmmo();
 	}
 
+	void IWeapon::Reload()
+	{
+		m_currentAmmo = m_maxAmmo;
+	}
 
+	void IWeapon::Fire()
+	{
+		if (CanFire())
+		{
+			VirtualFire();
+			m_currentAmmo--;
+			m_currentShootingCooldown = m_shootingCooldown;
+		}
+	}
 
 	void IWeapon::Update(float dt)
 	{
@@ -37,28 +51,12 @@ namespace Game
 
 	void IWeapon::ProcessMessage(const Engine::Message& message)
 	{
+		if (message.Type == Engine::MSG_Weapon_Reload)
+		{
+			m_stateMachine.AddState<Weapon_Reload>(*this, 2.0f);
+		}
+
 		m_stateMachine.ProcessMessage(message);
-	}
-
-	void IWeapon::Reload()
-	{
-		Engine::Message message;
-		message.Sender = &m_ownerWeaponComponent.Owner;
-		message.Type = Engine::MessageType::MSG_Weapon_Reload;
-		ProcessMessage(message);
-	}
-
-	void IWeapon::RefillAmmo()
-	{
-		m_currentAmmo = m_maxAmmo;
-	}
-
-	void IWeapon::Fire()
-	{
-		Engine::Message message;
-		message.Sender = &m_ownerWeaponComponent.Owner;
-		message.Type = Engine::MessageType::MSG_Weapon_Fire;
-		ProcessMessage(message);
 	}
 
 };

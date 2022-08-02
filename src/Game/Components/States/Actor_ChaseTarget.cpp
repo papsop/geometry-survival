@@ -4,7 +4,7 @@
 namespace Game
 {
 
-	Actor_ChaseTarget::Actor_ChaseTarget(Engine::FiniteStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target)
+	Actor_ChaseTarget::Actor_ChaseTarget(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target)
 		: IState(parentStateMachine)
 		, m_parentActor(actorComponent)
 		, m_target(target)

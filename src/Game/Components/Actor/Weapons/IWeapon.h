@@ -1,7 +1,6 @@
 #pragma once
 #include <Engine/Debug/IDebuggable.h>
-#include <Engine/Core/StateMachine/IState.h>
-#include <Engine/Core/StateMachine/FiniteStateMachine.h>
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
 
 namespace Game
 {
@@ -19,15 +18,15 @@ namespace Game
         bool IsOffCooldown();
         bool CanFire();
         void Reload();
-        void RefillAmmo();
         void Update(float dt);
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
         void ProcessMessage(const Engine::Message& message);
 
+        virtual void VirtualFire() = 0;
     protected:
         WeaponComponent& m_ownerWeaponComponent;
-        Engine::FiniteStateMachine m_stateMachine;
+        Engine::PushdownStateMachine m_stateMachine;
         // Derived weapon class should set these
 
         float m_currentShootingCooldown = 0.0f;

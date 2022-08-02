@@ -20,6 +20,5 @@ namespace Game
 
 	private:
 		Engine::GameObject* m_target;
-		Engine::FiniteStateMachine m_stateMachine;
 	};
 }

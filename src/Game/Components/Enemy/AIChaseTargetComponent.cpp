@@ -22,10 +22,6 @@ namespace Game
 	{
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
 
-		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
-		m_stateMachine.AddState<Actor_Stunned>(actorComponent, 0.25f);
-
-		m_stateMachine.TransitionTo<Actor_ChaseTarget>();
 
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
@@ -37,7 +33,6 @@ namespace Game
 
 	void AIChaseTargetComponent::Update(float dt)
 	{
-		m_stateMachine.Update(dt);
 	}
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
@@ -57,9 +52,6 @@ namespace Game
 		// check if player bullet
 		if (otherGO->Tag != Engine::GameObjectTag::PLAYER_BULLET)
 			return;
-
-		// transition to stun
-		m_stateMachine.TransitionTo<Actor_Stunned>();
 
 		// apply knockback
 		auto actorComponent = Owner.GetComponent<ActorComponent>();

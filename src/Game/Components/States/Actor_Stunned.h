@@ -1,14 +1,13 @@
 #pragma once
-#include <Engine/Core/StateMachine/FiniteStateMachine.h>
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include "../Actor/ActorComponent.h"
 
 namespace Game
 {
-
-	class Actor_Stunned : public Engine::IState
+	class Actor_Stunned : public Engine::IState<Engine::PushdownStateMachine>
 	{
 	public:
-		Actor_Stunned(Engine::FiniteStateMachine& parentStateMachine, ActorComponent* parentActor, float duration);
+		Actor_Stunned(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* parentActor, float duration);
 
 		void OnTransitionIn() override;
 		void OnTransitionOut() override;

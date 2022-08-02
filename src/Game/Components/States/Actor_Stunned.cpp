@@ -4,7 +4,7 @@
 namespace Game
 {
 
-	Actor_Stunned::Actor_Stunned(Engine::FiniteStateMachine& parentStateMachine, ActorComponent* parentActor, float duration)
+	Actor_Stunned::Actor_Stunned(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* parentActor, float duration)
 		: IState(parentStateMachine)
 		, m_stunDuration(duration)
 		, m_parentActor(parentActor)
@@ -34,9 +34,6 @@ namespace Game
 
 	void Actor_Stunned::Update(float dt)
 	{
-		m_stunTime -= dt;
-		if (m_stunTime < 0.0f)
-			m_parentStateMachine.TransitionTo<Actor_ChaseTarget>();
 	}
 
 }

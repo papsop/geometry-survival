@@ -14,13 +14,14 @@ namespace Game
         void Update(float dt) override;
 
         void Fire();
-        void Reload();      // ask to reload gun
-        void RefillAmmo();  // ask to refill all the ammo
+        void Reload();
         
         void EquipWeapon(std::unique_ptr<IWeapon> weapon);
         Engine::GameObject* CreateBulletGameObject();
 
-	private:
+        void ProcessMessage(const Engine::Message& message) override;
+
+    private:
 		std::unique_ptr<IWeapon> m_equippedWeapon;
     };
 

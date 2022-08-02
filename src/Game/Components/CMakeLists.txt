@@ -51,14 +51,9 @@ set(STATES_SOURCE
 	States/Actor_Stunned.h
 	States/Actor_Stunned.cpp
 
+	States/Weapons.h
 	States/Weapons/WeaponPistol_Shootable.h
 	States/Weapons/WeaponPistol_Shootable.cpp
-	States/Weapons/Weapon_Cooldown.h
-	States/Weapons/Weapon_Cooldown.inl
-	States/Weapons/Weapon_Cooldown.cpp
-	States/Weapons/Weapon_Reload.h
-	States/Weapons/Weapon_Reload.inl
-	States/Weapons/Weapon_Reload.cpp
 )
 
 set(PICKABLES_SOURCE

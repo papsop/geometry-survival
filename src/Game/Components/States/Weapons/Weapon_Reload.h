@@ -1,29 +1,18 @@
 #pragma once
-#include <Engine/Core/StateMachine/IState.h>
-#include "../../Actor/WeaponComponent.h"
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
+#include "../../Actor/Weapons/IWeapon.h"
 
 namespace Game
 {
-	template<typename T>
-	class Weapon_Reload : public Engine::IState
+	class Weapon_Reload : public Engine::IState<Engine::PushdownStateMachine>
 	{
 	public:
-		Weapon_Reload(Engine::FiniteStateMachine& parentStateMachine, WeaponComponent& weaponComponent);
-		~Weapon_Reload() = default;
+		Weapon_Reload(Engine::PushdownStateMachine& parentStateMachine, IWeapon& weapon, float reloadTime);
+		~Weapon_Reload() override = default;
 
-
-		void Update(float dt) override;
-
-
-		void OnTransitionIn() override;
-
+		virtual void Update(float dt);
 	private:
-		void TransitionBackToT();
-
-		WeaponComponent& m_ownerWeaponComponent;
-		float m_currentTimer;
-		float m_reloadTimer;
+		IWeapon& m_ownerWeapon;
+		float m_reloadTime;
 	};
 }
-
-#include "Weapon_Reload.inl"

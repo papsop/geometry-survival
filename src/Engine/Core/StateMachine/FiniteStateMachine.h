@@ -10,6 +10,8 @@ namespace Engine
 	class FiniteStateMachine
 	{
 	public:
+		using FiniteState = IState<FiniteStateMachine>;
+
 		FiniteStateMachine() = default;
 		~FiniteStateMachine() = default;
 
@@ -40,8 +42,8 @@ namespace Engine
 		void ProcessMessage(const Engine::Message& message);
 
 	private:
-		std::unordered_map< size_t, std::unique_ptr<IState> > m_states;
-		IState* m_activeState = nullptr;
+		std::unordered_map< size_t, std::unique_ptr< FiniteState > > m_states;
+		FiniteState* m_activeState = nullptr;
 		//size_t m_previousStateId;
 	};
 };

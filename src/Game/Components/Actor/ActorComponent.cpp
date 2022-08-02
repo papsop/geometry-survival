@@ -71,28 +71,16 @@ namespace Game
 
 	void ActorComponent::WeaponFire()
     {
-        auto weaponComp = Owner.GetComponent<WeaponComponent>();
-        if (weaponComp) 
-        {
-            weaponComp->Fire();
-        }
+        Owner.SendMessageTo(&Owner, Engine::MSG_Weapon_Fire);
     }
 
 	void ActorComponent::WeaponReload()
 	{
-		auto weaponComp = Owner.GetComponent<WeaponComponent>();
-		if (weaponComp)
-		{
-			weaponComp->Reload();
-		}
+        Owner.SendMessageTo(&Owner, Engine::MSG_Weapon_Reload);
 	}
 
 	void ActorComponent::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MessageType::MSG_Test)
-		{
-			//LOG_WARN("[%s] received MSG_TEST", Owner.DebugName);
-		}
 	}
 
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)

@@ -55,12 +55,6 @@ namespace Game
 			m_equippedWeapon->Reload();
 	}
 
-	void WeaponComponent::RefillAmmo()
-	{
-        if (m_equippedWeapon)
-            m_equippedWeapon->RefillAmmo();
-	}
-
 	Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
         auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
@@ -96,4 +90,11 @@ namespace Game
         Owner.GetScene().AddGameObject(bullet->ID);
         return bullet;
     }
+
+	void WeaponComponent::ProcessMessage(const Engine::Message& message)
+	{
+        if (m_equippedWeapon)
+            m_equippedWeapon->ProcessMessage(message);
+	}
+
 }

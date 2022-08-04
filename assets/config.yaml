@@ -1,4 +1,4 @@
 window_width: 1280
 window_height: 720
 window_name: Dungeon survival
-spawner_cooldown: 0.5
+spawner_cooldown: 1

@@ -12,7 +12,7 @@ namespace Game
 	void Weapon_Reload::Update(float dt)
 	{
 		m_reloadTime -= dt;
-		LOG_DEBUG("Reloading gun, time: %f", m_reloadTime);
+		LOG_DEBUG("Reloading gun, time left: %f", m_reloadTime);
 		if (m_reloadTime <= 0.0f)
 		{
 			m_ownerWeapon.Reload();

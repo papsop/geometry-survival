@@ -86,9 +86,9 @@ namespace Engine
             m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F7)) {
-                m_configManager.GetCvar("spawner_radius")->SetValueFloat(60.0f);
-                m_configManager.GetCvar("spawner_cooldown")->SetValueFloat(0.5f);
+            if (m_inputManager.GetAction(InputManager::Action::TestButton).PressedThisFrame) 
+            {
+                m_configManager.GetCvar("window_fullscreen")->SetValueInt(1);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
             // Update managers

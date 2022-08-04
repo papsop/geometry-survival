@@ -25,11 +25,16 @@ namespace Engine
                 }
             );
             // todo boolean type? maybe just leave it as string
-			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, std::string("false"));
+			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0,
+				[&]()
+				{
+                    ReloadWindow();
+				}
+            );
 
             sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
             uint32 style = sf::Style::Default;
-            if (m_windowFullscreen == "true")
+            if (m_windowFullscreen)
                 style = sf::Style::Fullscreen;
 
             m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style);
@@ -53,6 +58,17 @@ namespace Engine
             while (m_window->pollEvent(event))
                 m_handleEventLambda(event);
         }
+
+		void WindowViewStrategy::ReloadWindow()
+		{
+			sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
+			uint32 style = sf::Style::Default;
+			if (m_windowFullscreen)
+				style = sf::Style::Fullscreen;
+
+			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style);
+		}
+
         // ==============================================
         // Conversions
         // ==============================================

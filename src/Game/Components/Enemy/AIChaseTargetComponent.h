@@ -2,7 +2,7 @@
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Core/StateMachine/IState.h>
-#include <Engine/Core/StateMachine/FiniteStateMachine.h>
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include <Engine/Managers/PhysicsManager.h>
 
 namespace Game
@@ -20,5 +20,6 @@ namespace Game
 
 	private:
 		Engine::GameObject* m_target;
+		Engine::PushdownStateMachine m_stateMachine;
 	};
 }

@@ -34,6 +34,10 @@ namespace Game
 
 	void Actor_Stunned::Update(float dt)
 	{
+
+		m_stunDuration -= dt;
+		if (m_stunDuration <= 0.0f)
+			m_parentStateMachine.PopState(); // go back to chasing
 	}
 
 }

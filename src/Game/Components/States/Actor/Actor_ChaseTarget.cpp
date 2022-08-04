@@ -25,12 +25,10 @@ namespace Game
 
 	void Actor_ChaseTarget::ProcessMessage(const Engine::Message& message)
 	{
-		LOG_WARN("Received message");
 	}
 
 	void Actor_ChaseTarget::OnTransitionOut()
 	{
-		//m_parentActor->AddCommand(std::make_unique<MoveCommand>(0.0f, 0.0f));
 	}
 
 };

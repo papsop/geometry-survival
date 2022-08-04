@@ -31,6 +31,7 @@ namespace Game
 
         float m_currentShootingCooldown = 0.0f;
         float m_shootingCooldown = 1.0f;
+        float m_reloadtime = 1.0f;
 
         int m_currentAmmo = 0;
         int m_maxAmmo = 0;

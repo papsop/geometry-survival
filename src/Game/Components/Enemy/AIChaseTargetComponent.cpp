@@ -4,8 +4,7 @@
 #include <Engine/Core/Scene/Scene.h>
 
 #include "../Actor/ActorComponent.h"
-#include "../States/Actor_ChaseTarget.h"
-#include "../States/Actor_Stunned.h"
+#include "../States/Actor.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
 
 namespace Game
@@ -21,8 +20,7 @@ namespace Game
 	void AIChaseTargetComponent::OnCreate()
 	{
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-
-
+		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
 
@@ -33,6 +31,7 @@ namespace Game
 
 	void AIChaseTargetComponent::Update(float dt)
 	{
+		m_stateMachine.Update(dt);
 	}
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
@@ -57,6 +56,9 @@ namespace Game
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
 		Engine::math::Vec2 knockBackDirection = Engine::math::V2fNormalize(Owner.GetTransform().Position - otherGO->GetTransform().Position);
 		actorComponent->AddCommand<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y);
+		
+		// go to stun
+		m_stateMachine.AddState<Actor_Stunned>(actorComponent, 1.0f);
 	}
 
 }

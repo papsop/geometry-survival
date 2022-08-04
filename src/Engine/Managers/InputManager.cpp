@@ -30,6 +30,7 @@ namespace Engine
 
         m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
         m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
+        m_mapKeyToAction[sf::Keyboard::F7] = Action::TestButton;
 
         m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
     }

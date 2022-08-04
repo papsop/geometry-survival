@@ -46,10 +46,11 @@ set(SPLASH_SOURCE
 )
 
 set(STATES_SOURCE
-	States/Actor_ChaseTarget.h
-	States/Actor_ChaseTarget.cpp
-	States/Actor_Stunned.h
-	States/Actor_Stunned.cpp
+	States/Actor.h
+	States/Actor/Actor_ChaseTarget.h
+	States/Actor/Actor_ChaseTarget.cpp
+	States/Actor/Actor_Stunned.h
+	States/Actor/Actor_Stunned.cpp
 
 	States/Weapons.h
 	States/Weapons/WeaponPistol_Shootable.h

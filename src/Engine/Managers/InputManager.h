@@ -34,6 +34,7 @@ namespace Engine {
             Use,
             ShowConsole,
             ShowDebugDraw,
+            TestButton,
 
             // always last
             NumberOfActions

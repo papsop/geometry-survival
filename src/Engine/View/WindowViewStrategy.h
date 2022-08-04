@@ -44,6 +44,8 @@ namespace Engine
             sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
             // ==============
 
+            void ReloadWindow();
+
             const int m_gridSize = 50.0f;
             void DrawWindowGrid();
 
@@ -53,8 +55,8 @@ namespace Engine
 
 			int m_windowWidth;
 			int m_windowHeight;
+            int m_windowFullscreen;
 			std::string m_windowName;
-			std::string m_windowFullscreen;
         };
     };
 };

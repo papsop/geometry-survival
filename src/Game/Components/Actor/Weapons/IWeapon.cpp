@@ -32,6 +32,11 @@ namespace Game
 			VirtualFire();
 			m_currentAmmo--;
 			m_currentShootingCooldown = m_shootingCooldown;
+
+			if (m_currentAmmo == 0)
+			{
+				m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadtime);
+			}
 		}
 	}
 
@@ -51,9 +56,9 @@ namespace Game
 
 	void IWeapon::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MSG_Weapon_Reload)
+		if (message.Type == Engine::MSG_Weapon_Reload && m_currentAmmo != m_maxAmmo)
 		{
-			m_stateMachine.AddState<Weapon_Reload>(*this, 2.0f);
+			m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadtime);
 		}
 
 		m_stateMachine.ProcessMessage(message);

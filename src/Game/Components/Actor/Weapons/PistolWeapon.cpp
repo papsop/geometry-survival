@@ -12,9 +12,10 @@ namespace Game
 	PistolWeapon::PistolWeapon(WeaponComponent& weaponComponent)
 		: IWeapon(weaponComponent)
 	{
-		m_maxAmmo = 5;
+		m_maxAmmo = 10;
 		m_currentAmmo = m_maxAmmo;
 		m_shootingCooldown = 0.2f;
+		m_reloadtime = 1.0f;
 
 		m_stateMachine.AddState<WeaponPistol_Shootable>(*this);
 	}

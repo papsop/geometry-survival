@@ -11,7 +11,7 @@ namespace Game
     class ActorComponent : public Engine::IComponent, public Engine::IDebuggableComponent
     {
     public:
-        ActorComponent(Engine::GameObject& obj, float movementSpeed);
+        ActorComponent(Engine::GameObject& obj, const RPGActorDef& def);
         ~ActorComponent() override;
 
         RPGActor* GetRPGActor() { return m_RPGActor.get(); };

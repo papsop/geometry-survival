@@ -8,6 +8,7 @@ namespace Game
 		CURRENT_HEALTH,
 		MOVEMENT_SPEED,
 		ATTACK_SPEED,
+		WEAPON_DAMAGE,
 
 		COUNT // always last
 	};

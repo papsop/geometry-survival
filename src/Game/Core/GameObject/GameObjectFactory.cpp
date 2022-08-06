@@ -53,13 +53,17 @@ namespace Game
 		Engine::CircleFixtureDef circleFixtureDef;
 		circleFixtureDef.Radius = shapeViewDef.Radius;
 
+		RPGActorDef rpgActorDef;
+		rpgActorDef.MaxHealth = 10;
+		rpgActorDef.MovementSpeed = 10.0f;
+
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY);
 		obj->GetTransform().SetPosition(def.Position);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		obj->AddComponent<ActorComponent>(def.MovementSpeed);
+		obj->AddComponent<ActorComponent>(rpgActorDef);
 		obj->AddComponent<AIChaseTargetComponent>(def.Player);
 		return obj;
 	}

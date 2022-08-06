@@ -3,11 +3,15 @@
 
 namespace Game
 {
-	RPGActor::RPGActor()
+	RPGActor::RPGActor(const RPGActorDef& rpgActorDef)
 		: m_statBase()
 		, m_statBuffBonus()
 	{
-
+		SetStatBase(RPGStats::MAX_HEALTH, rpgActorDef.MaxHealth);
+		SetStatBase(RPGStats::CURRENT_HEALTH, rpgActorDef.MaxHealth);
+		SetStatBase(RPGStats::MOVEMENT_SPEED, rpgActorDef.MovementSpeed);
+		SetStatBase(RPGStats::ATTACK_SPEED, rpgActorDef.AttackSpeed);
+		SetStatBase(RPGStats::WEAPON_DAMAGE, rpgActorDef.WeaponDamage);
 	}
 
 	void RPGActor::Update(float dt)

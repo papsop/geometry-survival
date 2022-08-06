@@ -6,16 +6,13 @@
 
 namespace Game
 {
-    ActorComponent::ActorComponent(Engine::GameObject& obj, float movementSpeed)
+    ActorComponent::ActorComponent(Engine::GameObject& obj, const RPGActorDef& def)
         : IComponent(obj)
         , m_commandsQueue()
     {
         SetRequiredComponents<Engine::PhysicsBodyComponent>();
 
-        m_RPGActor = std::unique_ptr<RPGActor>(new RPGActor());
-        m_RPGActor->SetStatBase(RPGStats::MAX_HEALTH, 10.0f);
-        m_RPGActor->SetStatBase(RPGStats::CURRENT_HEALTH, 10.0f);
-        m_RPGActor->SetStatBase(RPGStats::MOVEMENT_SPEED, movementSpeed);
+        m_RPGActor = std::unique_ptr<RPGActor>(new RPGActor(def));
     }
 
     void ActorComponent::OnCreate()

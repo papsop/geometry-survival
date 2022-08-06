@@ -1,6 +1,7 @@
 #include "IWeapon.h"
 #include <Engine/Core/GameObject/GameObject.h>
 #include "../WeaponComponent.h"
+#include "../ActorComponent.h"
 #include "../../States/Weapons.h"
 
 namespace Game
@@ -12,7 +13,7 @@ namespace Game
 
 	bool IWeapon::IsOffCooldown()
 	{
-		return m_currentShootingCooldown <= 0.0f;
+		return m_currentCooldown <= 0.0f;
 	}
 
 	bool IWeapon::CanFire()
@@ -25,24 +26,39 @@ namespace Game
 		m_currentAmmo = m_maxAmmo;
 	}
 
+	float IWeapon::GetWeaponCooldown()
+	{
+		auto finalShotsPerSecond = m_shotsPerSecond;
+		auto actorAttackSpeed = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::ATTACK_SPEED);
+
+		finalShotsPerSecond *= (actorAttackSpeed / 100.0f);
+
+		return (1.0f / finalShotsPerSecond);
+	}
+
+	float IWeapon::GetWeaponDamage()
+	{
+		auto actorDamageModifier = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::WEAPON_DAMAGE);
+		return m_weaponDamage * (actorDamageModifier / 100.0f);
+	}
+
 	void IWeapon::Fire()
 	{
 		if (CanFire())
 		{
 			VirtualFire();
 			m_currentAmmo--;
-			m_currentShootingCooldown = m_shootingCooldown;
-
+			m_currentCooldown = GetWeaponCooldown();
 			if (m_currentAmmo == 0)
 			{
-				m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadtime);
+				m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadTime);
 			}
 		}
 	}
 
 	void IWeapon::Update(float dt)
 	{
-		m_currentShootingCooldown -= dt;
+		m_currentCooldown -= dt;
 		m_stateMachine.Update(dt);
 	}
 
@@ -58,10 +74,11 @@ namespace Game
 	{
 		if (message.Type == Engine::MSG_Weapon_Reload && m_currentAmmo != m_maxAmmo)
 		{
-			m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadtime);
+			m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadTime);
 		}
 
 		m_stateMachine.ProcessMessage(message);
 	}
+
 
 };

@@ -45,10 +45,11 @@ namespace Engine
 		int GetZIndexFromPool() { return 0; }
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 	private:
-		const int PIXELS_PER_METER = 10; // config?
+		int m_pixelsPerMeter; // config?
 
 		ViewManager();
-
+		
+		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
 
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;

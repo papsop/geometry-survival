@@ -17,7 +17,8 @@ namespace Engine
 			m_components[ID] = std::make_unique<T>(*this, std::forward<Args>(args) ...);
 			m_components[ID]->OnCreate();
 		}
-		else LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());
+		else
+			LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());
 	}
 
 	template<typename T, typename>

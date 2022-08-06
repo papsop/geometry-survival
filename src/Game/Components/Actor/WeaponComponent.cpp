@@ -55,8 +55,19 @@ namespace Game
 			m_equippedWeapon->Reload();
 	}
 
+
+	float WeaponComponent::GetShootingCooldownModifier()
+	{
+        auto rpgActor = Owner.GetComponent<ActorComponent>()->GetRPGActor();
+        float finalAttackSpeed = std::max(0.05f, rpgActor->GetStat(RPGStats::ATTACK_SPEED) - 1.0f);
+        return finalAttackSpeed;
+	}
+
 	Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
+        if (!m_equippedWeapon)
+            return nullptr;
+
         auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET);
 
@@ -86,7 +97,7 @@ namespace Game
 
         bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
         bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-        bullet->AddComponent<BulletComponent>();
+        bullet->AddComponent<BulletComponent>(m_equippedWeapon->GetWeaponDamage());
 
         Owner.GetScene().AddGameObject(bullet->ID);
         return bullet;

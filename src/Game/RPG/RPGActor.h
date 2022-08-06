@@ -9,6 +9,17 @@
 namespace Game
 {
 	class ActorComponent;
+	
+	struct RPGActorDef
+	{
+		unsigned int MaxHealth;
+		// meters per seconds
+		float MovementSpeed;
+		// shots per second = weapon * (attack speed/100)
+		float AttackSpeed = 100.0f;
+		// damage = weapon * (damager/100)
+		float WeaponDamage = 100.0f;
+	};
 
 	class RPGActor
 	{
@@ -27,7 +38,7 @@ namespace Game
 			m_buffs.push_back(std::move(buff));
 		}
 	private:
-		RPGActor();
+		RPGActor(const RPGActorDef& rpgActorDef);
 		std::vector< ptr_Buff > m_buffs;
 
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBase;

@@ -101,7 +101,13 @@ namespace Game
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-            player->AddComponent<ActorComponent>(15.0f);
+
+            RPGActorDef rpgActorDef;
+            rpgActorDef.MaxHealth = 10;
+            rpgActorDef.AttackSpeed = 100.0f;
+            rpgActorDef.WeaponDamage = 150.0f;
+            rpgActorDef.MovementSpeed = 15.0f;
+            player->AddComponent<ActorComponent>(rpgActorDef);
             player->AddComponent<PickUpFieldComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();

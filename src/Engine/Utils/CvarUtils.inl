@@ -4,15 +4,16 @@
 namespace Engine
 {
 	template<typename T>
-	Engine::CvarWrapper<T>::CvarWrapper(std::string key, T* ptr, T defaultValue, std::function<void(void)> func)
-		: I_Cvar(key, func)
+	CvarWrapper<T>::CvarWrapper(std::string key, T* ptr, T defaultValue, std::function<void(void)> func)
+		: I_Cvar(key)
 		, m_ptr(ptr)
+		, m_onChanged(func)
 	{
 		*m_ptr = defaultValue;
 	}
 
 	template<typename T>
-	void Engine::CvarWrapper<T>::SetValue(T newValue)
+	void CvarWrapper<T>::SetValue(T newValue)
 	{
 		T oldValue = *m_ptr;
 
@@ -27,7 +28,7 @@ namespace Engine
 
 
 	template<typename T>
-	void Engine::CvarWrapper<T>::SetValueString(std::string value)
+	void CvarWrapper<T>::SetValueString(std::string value)
 	{
 		if constexpr (std::is_same_v<T, int>)
 			SetValue(std::stoi(value.c_str()));
@@ -38,7 +39,7 @@ namespace Engine
 	}
 
 	template<typename T>
-	void Engine::CvarWrapper<T>::SetValueInt(int value)
+	void CvarWrapper<T>::SetValueInt(int value)
 	{
 		if constexpr (std::is_same_v<T, int>)
 			SetValue(value);
@@ -49,7 +50,7 @@ namespace Engine
 	}
 
 	template<typename T>
-	void Engine::CvarWrapper<T>::SetValueFloat(float value)
+	void CvarWrapper<T>::SetValueFloat(float value)
 	{
 		if constexpr (std::is_same_v<T, int>)
 			SetValue(static_cast<int>(value));
@@ -60,7 +61,7 @@ namespace Engine
 	}
 
 	template<typename T>
-	std::string Engine::CvarWrapper<T>::GetValueAsString()
+	std::string CvarWrapper<T>::GetValueAsString()
 	{
 		if constexpr (std::is_same_v<T, std::string>)
 			return *m_ptr;

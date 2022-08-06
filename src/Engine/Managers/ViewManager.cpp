@@ -18,9 +18,15 @@ namespace Engine
 		return Application::Instance().GetViewManager();
 	}
 
+	void ViewManager::VirtualOnInit()
+	{
+		ConfigManager::Get().RegisterCvar("view_pixelsPerMeter", &m_pixelsPerMeter, 15);
+	}
+
 	void ViewManager::VirtualOnDestroy()
 	{
 		m_viewStrategy = nullptr;
+		ConfigManager::Get().UnregisterCvar("view_pixelsPerMeter");
 	}
 
 	void ViewManager::SetViewStrategy(view::IViewStrategy* viewStrategy)
@@ -40,22 +46,22 @@ namespace Engine
 
 	sf::Vector2f ViewManager::coordsToPixels(b2Vec2 coords)
 	{
-		return { coords.x * PIXELS_PER_METER, -coords.y * PIXELS_PER_METER };
+		return { coords.x * m_pixelsPerMeter, -coords.y * m_pixelsPerMeter };
 	}
 
 	b2Vec2 ViewManager::pixelsToCoords(sf::Vector2f pixels)
 	{
-		return { pixels.x / PIXELS_PER_METER, -pixels.y / PIXELS_PER_METER };
+		return { pixels.x / m_pixelsPerMeter, -pixels.y / m_pixelsPerMeter };
 	}
 
 	float ViewManager::coordToPixel(float coord)
 	{
-		return coord * PIXELS_PER_METER;
+		return coord * m_pixelsPerMeter;
 	}
 
 	float ViewManager::pixelToCoord(float pixel)
 	{
-		return pixel / PIXELS_PER_METER;
+		return pixel / m_pixelsPerMeter;
 	}
 
 	// ==================================================================

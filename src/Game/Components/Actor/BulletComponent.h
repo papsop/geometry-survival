@@ -7,7 +7,7 @@ namespace Game
     class BulletComponent : public Engine::IComponent
     {
     public:
-        BulletComponent(Engine::GameObject& obj);
+        BulletComponent(Engine::GameObject& obj, float damage);
         ~BulletComponent();
 
         void OnCreate() override;
@@ -16,6 +16,7 @@ namespace Game
         void OnCollisionStart(Engine::CollisionData& collision) override;
     private:
         float m_timeToDie = 2.0f;
+        float m_damage;
     };
 }
 

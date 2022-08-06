@@ -24,17 +24,23 @@ namespace Game
         void ProcessMessage(const Engine::Message& message);
 
         virtual void VirtualFire() = 0;
+
+        float GetWeaponCooldown();
+        float GetWeaponDamage();
+        float GetWeaponMaxAmmo();
     protected:
         WeaponComponent& m_ownerWeaponComponent;
         Engine::PushdownStateMachine m_stateMachine;
         // Derived weapon class should set these
-
-        float m_currentShootingCooldown = 0.0f;
-        float m_shootingCooldown = 1.0f;
-        float m_reloadtime = 1.0f;
-
+        float m_shotsPerSecond = 3.0f;
+        float m_reloadTime = 1.0f;
         int m_currentAmmo = 0;
         int m_maxAmmo = 0;
+        float m_weaponDamage = 1.0f;
+
+    // internal variables for every weapon
+    private:
+        float m_currentCooldown;
         
     friend class WeaponComponent;
     };

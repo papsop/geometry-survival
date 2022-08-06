@@ -7,8 +7,9 @@
 namespace Game
 {
 
-    BulletComponent::BulletComponent(Engine::GameObject& obj)
+    BulletComponent::BulletComponent(Engine::GameObject& obj, float damage)
         : IComponent(obj)
+        , m_damage(damage)
     {
     }
 
@@ -33,7 +34,7 @@ namespace Game
 	{
         auto otherActor = collision.Other->GetComponent<ActorComponent>();
         if (otherActor != nullptr)
-            otherActor->AddCommand<DamageCommand>(5.0f);
+            otherActor->AddCommand<DamageCommand>(m_damage);
 
         Owner.Destroy();
 	}

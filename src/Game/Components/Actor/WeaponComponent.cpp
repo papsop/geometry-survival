@@ -82,6 +82,7 @@ namespace Game
 
         Engine::CircleFixtureDef circleFixtureDef;
         circleFixtureDef.Radius = 0.5f;
+        circleFixtureDef.IsSensor = true;
 
         bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
         bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);

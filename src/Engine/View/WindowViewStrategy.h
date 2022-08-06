@@ -57,6 +57,9 @@ namespace Engine
 			int m_windowHeight;
             int m_windowFullscreen;
 			std::string m_windowName;
+
+            //TODO change default resolution for aspect ratios;
+            const Engine::math::Vec2 m_windowSize = {1920.0f, 1080.0f};
         };
     };
 };

@@ -21,10 +21,10 @@ namespace Engine
 
 		virtual std::string GetValueAsString() = 0;
 		std::string GetKey() { return m_key; };
-		bool GetIsModified() { return m_modified; }
+		bool IsDirty() { return m_isDirty; }
 	protected:
 		std::string m_key;
-		bool m_modified = false;
+		bool m_isDirty = false;
 		std::function<void(void)> m_onChanged;
 	};
 

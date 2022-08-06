@@ -6,6 +6,5 @@ namespace Engine
 	struct CameraData
 	{
 		Engine::math::Vec2 Center;
-		Engine::math::Vec2 Size;
 	};
 };

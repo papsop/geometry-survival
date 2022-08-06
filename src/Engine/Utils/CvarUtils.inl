@@ -20,7 +20,7 @@ namespace Engine
 			return;
 
 		*m_ptr = newValue;
-		m_modified = true;
+		m_isDirty = true;
 		if (m_onChanged != nullptr)
 			m_onChanged();
 	}

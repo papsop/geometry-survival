@@ -16,15 +16,14 @@ namespace Engine
         {
             // todo config
             ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
-            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
-            ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("test"),
-                [&]()
-                {
-                    if(m_window != nullptr)
-                        m_window->setTitle(m_windowName);
-                }
+            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720,
+				[&]()
+				{
+					ReloadWindow();
+				}
             );
-            // todo boolean type? maybe just leave it as string
+            ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
+            // todo boolean type? maybe just leave it as int
 			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0,
 				[&]()
 				{
@@ -32,12 +31,7 @@ namespace Engine
 				}
             );
 
-            sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
-            uint32 style = sf::Style::Default;
-            if (m_windowFullscreen)
-                style = sf::Style::Fullscreen;
-
-            m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style);
+            ReloadWindow();
 
             if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
             {
@@ -50,6 +44,11 @@ namespace Engine
         {
             EventManager::Get().DispatchEvent(E_WindowClosed());
             m_window->close();
+
+            ConfigManager::Get().UnregisterCvar("window_width");
+            ConfigManager::Get().UnregisterCvar("window_height");
+            ConfigManager::Get().UnregisterCvar("window_name");
+            ConfigManager::Get().UnregisterCvar("window_fullscreen");
         }
 
         void WindowViewStrategy::PollEvents()
@@ -61,12 +60,14 @@ namespace Engine
 
 		void WindowViewStrategy::ReloadWindow()
 		{
+			sf::ContextSettings settings;
+			settings.antialiasingLevel = 8;
 			sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
 			uint32 style = sf::Style::Default;
 			if (m_windowFullscreen)
 				style = sf::Style::Fullscreen;
 
-			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style);
+			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
 		}
 
         // ==============================================
@@ -313,10 +314,8 @@ namespace Engine
         void WindowViewStrategy::SetView(const CameraData& cameraData)
         {
             sf::View view;
-            view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
-            auto sfmlSize = ViewManager::Get().coordsToPixels(cameraData.Size);
-            sfmlSize.y *= -1; // because coordsToPixels reverts y;
-            view.setSize(sfmlSize);
+			view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
+            view.setSize(m_windowSize.x, m_windowSize.y);
             view.setViewport({ .0f, .0f, 1.f, 1.f });
             m_window->setView(view);
         }

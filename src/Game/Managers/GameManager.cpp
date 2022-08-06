@@ -17,6 +17,8 @@ namespace Game
 
 	void GameManager::VirtualOnDestroy()
 	{
+		Engine::ConfigManager::Get().UnregisterCvar("spawner_radius");
+		Engine::ConfigManager::Get().UnregisterCvar("spawner_cooldown");
 	}
 
 	void GameManager::RegisterPlayerGameObject(Engine::GameObject* player)
@@ -46,7 +48,7 @@ namespace Game
 		result.y = sinf(randomAngle) * m_spawnRadius;
 
 		result += playerPos;
-		
+
 		return result;
 	}
 

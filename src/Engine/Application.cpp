@@ -88,6 +88,8 @@ namespace Engine
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
             if (m_inputManager.GetAction(InputManager::Action::TestButton).PressedThisFrame) 
             {
+                m_configManager.GetCvar("window_width")->SetValueInt(1920);
+                m_configManager.GetCvar("window_height")->SetValueInt(1080);
                 m_configManager.GetCvar("window_fullscreen")->SetValueInt(1);
             }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
@@ -104,7 +106,7 @@ namespace Engine
             m_gameObjectManager.CleanupGameObjects();
         }
 
-        m_configManager.StoreModifiedCvars();
+        //m_configManager.StoreModifiedCvars();
         LOG_DEBUG("Destroying managers");
         DestroyRegisteredManager();
         m_gameObjectManager.OnDestroy();

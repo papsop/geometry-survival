@@ -17,6 +17,17 @@ namespace Engine
 	{
 	}
 
+	void ConfigManager::UnregisterCvar(std::string name)
+	{
+		if (m_cvars.find(name) != m_cvars.end())
+			return;
+			
+		if(m_cvars[name]->IsDirty())
+			m_unregisteredCvars[name] = m_cvars[name]->GetValueAsString();
+
+		m_cvars.erase(name);
+	}
+
 	I_Cvar* ConfigManager::GetCvar(std::string name)
 	{
 		if (m_cvars.find(name) == m_cvars.end())
@@ -51,15 +62,24 @@ namespace Engine
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 
+		// store still registered cvars
 		for (auto&& cvarEntry : m_cvars)
 		{
 			auto cvar = cvarEntry.second.get();
-			if (cvar->GetIsModified())
+			if (cvar->IsDirty())
 			{
 				out << YAML::Key << cvar->GetKey();
 				out << YAML::Value << cvar->GetValueAsString();
 			}
 		}
+
+		// store dirty cvars that unregistered before storing
+		for (auto&& cvarEntry : m_unregisteredCvars)
+		{
+			out << YAML::Key << cvarEntry.first;
+			out << YAML::Value << cvarEntry.second;
+		}
+
 		out << YAML::EndMap;
 
 		outfile << out.c_str();

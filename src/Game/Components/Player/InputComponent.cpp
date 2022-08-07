@@ -29,7 +29,7 @@ namespace Game
         if (actorComponent == nullptr) return;
 
         // rotation
-        auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetMousePosition());
+        auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
         float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
 
         actorComponent->AddCommand<RotateCommand>(angle);

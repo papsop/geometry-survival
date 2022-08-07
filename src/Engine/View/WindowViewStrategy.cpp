@@ -68,6 +68,7 @@ namespace Engine
 				style = sf::Style::Fullscreen;
 
 			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
+            m_window->setJoystickThreshold(10);
 		}
 
         // ==============================================

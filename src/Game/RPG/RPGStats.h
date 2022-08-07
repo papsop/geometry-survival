@@ -9,6 +9,7 @@ namespace Game
 		MOVEMENT_SPEED,
 		ATTACK_SPEED,
 		WEAPON_DAMAGE,
+		AMMO_BONUS,
 
 		COUNT // always last
 	};

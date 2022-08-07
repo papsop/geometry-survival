@@ -23,7 +23,7 @@ namespace Game
 
 	void IWeapon::Reload()
 	{
-		m_currentAmmo = m_maxAmmo;
+		m_currentAmmo = GetWeaponMaxAmmo();
 	}
 
 	float IWeapon::GetWeaponCooldown()
@@ -40,6 +40,12 @@ namespace Game
 	{
 		auto actorDamageModifier = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::WEAPON_DAMAGE);
 		return m_weaponDamage * (actorDamageModifier / 100.0f);
+	}
+
+	int IWeapon::GetWeaponMaxAmmo()
+	{
+		auto maxAmmoModifier = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::AMMO_BONUS);
+		return std::ceil(m_maxAmmo * (maxAmmoModifier / 100.0f));
 	}
 
 	void IWeapon::Fire()
@@ -66,7 +72,7 @@ namespace Game
 	{
 		Engine::GameObject& ownerGO = m_ownerWeaponComponent.Owner;
 		Engine::math::Vec2 pos = ownerGO.GetTransform().Position + Engine::math::Vec2(0.0f, 5.0f);
-		std::string ammoCount = "Ammo " + std::to_string(m_currentAmmo) + "/" + std::to_string(m_maxAmmo);
+		std::string ammoCount = "Ammo " + std::to_string(m_currentAmmo) + "/" + std::to_string(GetWeaponMaxAmmo());
 		viewStrategy->DebugRenderText(ammoCount, pos, 12.0f, sf::Color::Yellow);
 	}
 

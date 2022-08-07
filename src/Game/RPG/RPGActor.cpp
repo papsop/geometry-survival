@@ -12,6 +12,7 @@ namespace Game
 		SetStatBase(RPGStats::MOVEMENT_SPEED, rpgActorDef.MovementSpeed);
 		SetStatBase(RPGStats::ATTACK_SPEED, rpgActorDef.AttackSpeed);
 		SetStatBase(RPGStats::WEAPON_DAMAGE, rpgActorDef.WeaponDamage);
+		SetStatBase(RPGStats::AMMO_BONUS, rpgActorDef.AmmoBonus);
 	}
 
 	void RPGActor::Update(float dt)

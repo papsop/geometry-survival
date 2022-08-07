@@ -2,6 +2,7 @@
 #include <Engine/Components/Physics.h>
 #include <Engine/Managers/ComponentManager.h>
 #include "../../Physics/Filters.h"
+#include "../Player/LevelComponent.h"
 
 namespace Game
 {
@@ -49,7 +50,13 @@ namespace Game
 			m_markedBy = collision.Other;
 		}
 		else if (collision.OtherFilter.categoryBits == physics::EntityCategory::PLAYER)
-		{ // actual pickup
+		{ 
+			// levelComponent destroys it when picked up
+			auto levelComponent = collision.Other->GetComponent<LevelComponent>();
+			if (levelComponent)
+			{
+				levelComponent->ApplyExperience(10.0f);
+			}
 			Owner.Destroy();
 		}
 	}

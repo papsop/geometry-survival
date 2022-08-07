@@ -22,6 +22,7 @@ set(SOURCES
 	StateMachine/FiniteStateMachine.inl
 	StateMachine/FiniteStateMachine.cpp
 	StateMachine/PushdownStateMachine.h
+	StateMachine/PushdownStateMachine.inl
 	StateMachine/PushdownStateMachine.cpp
 
 	Serializing/SceneSerializer.h

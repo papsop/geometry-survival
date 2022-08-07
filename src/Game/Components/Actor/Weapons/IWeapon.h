@@ -27,7 +27,7 @@ namespace Game
 
         float GetWeaponCooldown();
         float GetWeaponDamage();
-        float GetWeaponMaxAmmo();
+        int GetWeaponMaxAmmo();
     protected:
         WeaponComponent& m_ownerWeaponComponent;
         Engine::PushdownStateMachine m_stateMachine;
@@ -40,7 +40,7 @@ namespace Game
 
     // internal variables for every weapon
     private:
-        float m_currentCooldown;
+        float m_currentCooldown = 0.0f;
         
     friend class WeaponComponent;
     };

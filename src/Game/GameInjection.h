@@ -17,6 +17,7 @@
 #include "Components/Player/InputComponent.h"
 #include "Components/Player/PlayerComponent.h"
 #include "Components/Player/PickUpFieldComponent.h"
+#include "Components/Player/LevelComponent.h"
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/Enemy/EasyEnemySpawnerComponent.h"
@@ -54,6 +55,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
 
             Engine::Application::Instance().RegisterGameManager<GameManager>();
         }
@@ -103,9 +105,9 @@ namespace Game
             player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
             RPGActorDef rpgActorDef;
-            rpgActorDef.MaxHealth = 10;
+            rpgActorDef.MaxHealth = 5;
             rpgActorDef.AttackSpeed = 100.0f;
-            rpgActorDef.WeaponDamage = 150.0f;
+            rpgActorDef.WeaponDamage = 100.0f;
             rpgActorDef.MovementSpeed = 15.0f;
             player->AddComponent<ActorComponent>(rpgActorDef);
             player->AddComponent<PickUpFieldComponent>();
@@ -114,7 +116,8 @@ namespace Game
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
             player->AddComponent<Engine::CameraComponent>();
-            player->AddComponent<PlayerComponent>();    
+            player->AddComponent<PlayerComponent>();
+            player->AddComponent<LevelComponent>();
 
 
             // buff test

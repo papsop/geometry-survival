@@ -21,10 +21,10 @@ set(PLAYER_SOURCE
 	Player/PlayerComponent.cpp
 	Player/Inputcomponent.h
 	Player/Inputcomponent.cpp
-	Player/TestComponent.h
-	Player/TestComponent.cpp
 	Player/PickUpFieldComponent.h
 	Player/PickUpFieldComponent.cpp
+	Player/LevelComponent.h
+	Player/LevelComponent.cpp
 )
 
 set(ENEMY_SOURCE
@@ -55,6 +55,8 @@ set(STATES_SOURCE
 	States/Weapons.h
 	States/Weapons/WeaponPistol_Shootable.h
 	States/Weapons/WeaponPistol_Shootable.cpp
+	States/Weapons/Weapon_Reload.h
+	States/Weapons/Weapon_Reload.cpp
 )
 
 set(PICKABLES_SOURCE

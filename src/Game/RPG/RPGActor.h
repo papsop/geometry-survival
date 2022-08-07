@@ -17,8 +17,10 @@ namespace Game
 		float MovementSpeed;
 		// shots per second = weapon * (attack speed/100)
 		float AttackSpeed = 100.0f;
-		// damage = weapon * (damager/100)
+		// damage = weapon * (damage/100)
 		float WeaponDamage = 100.0f;
+		// ammmo = ceil(weapon * (bonus/100)) 
+		float AmmoBonus = 100.0f;
 	};
 
 	class RPGActor

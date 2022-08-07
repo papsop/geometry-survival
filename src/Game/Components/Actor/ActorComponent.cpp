@@ -88,7 +88,7 @@ namespace Game
 
         // currentHealth/maxHealth
 		pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 4.0f);
-        std::string healthString = std::to_string( static_cast<int>(m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH)) ) + \
+        std::string healthString = "HP " + std::to_string(static_cast<int>(m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH))) + \
                                     "/" + \
                                    std::to_string( static_cast<int>(m_RPGActor->GetStat(RPGStats::MAX_HEALTH)) );
 

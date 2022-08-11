@@ -26,7 +26,6 @@ namespace Engine
 	void ViewManager::VirtualOnDestroy()
 	{
 		m_viewStrategy = nullptr;
-		ConfigManager::Get().UnregisterCvar("view_pixelsPerMeter");
 	}
 
 	void ViewManager::SetViewStrategy(view::IViewStrategy* viewStrategy)

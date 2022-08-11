@@ -16,20 +16,9 @@ namespace Engine
         {
             // todo config
             ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
-            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720,
-				[&]()
-				{
-					ReloadWindow();
-				}
-            );
+            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
             ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
-            // todo boolean type? maybe just leave it as int
-			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0,
-				[&]()
-				{
-                    ReloadWindow();
-				}
-            );
+			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
 
             ReloadWindow();
 
@@ -44,11 +33,6 @@ namespace Engine
         {
             EventManager::Get().DispatchEvent(E_WindowClosed());
             m_window->close();
-
-            ConfigManager::Get().UnregisterCvar("window_width");
-            ConfigManager::Get().UnregisterCvar("window_height");
-            ConfigManager::Get().UnregisterCvar("window_name");
-            ConfigManager::Get().UnregisterCvar("window_fullscreen");
         }
 
         void WindowViewStrategy::PollEvents()
@@ -326,5 +310,18 @@ namespace Engine
             auto pos = sf::Mouse::getPosition(*m_window);
             return m_window->mapPixelToCoords(pos);
         }
+
+		IConfigurable::ConfigurableData WindowViewStrategy::GetConfigurableData()
+		{
+            IConfigurable::ConfigurableData result;
+
+            result.push_back({ "window_width",          std::to_string(m_windowWidth)});
+            result.push_back({ "window_height",         std::to_string(m_windowHeight) });
+            result.push_back({ "window_fullscreen",     std::to_string(m_windowFullscreen) });
+            result.push_back({ "window_name",                          m_windowName });
+
+            return result;
+		}
+
 	};
 };

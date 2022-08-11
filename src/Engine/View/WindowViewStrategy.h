@@ -2,12 +2,13 @@
 #include "IViewStrategy.h"
 #include "../Core/Events.h"
 #include <SFML/Graphics.hpp>
+#include "../Managers/ConfigManager.h"
 
 namespace Engine
 {
     namespace view
     {
-        class WindowViewStrategy : public IViewStrategy
+        class WindowViewStrategy : public IViewStrategy, public IConfigurable
         {
         public:
             WindowViewStrategy(TEventCallback handleEvent);
@@ -33,6 +34,7 @@ namespace Engine
             void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
 
+            ConfigurableData GetConfigurableData() override;
 
         private:
             // conversions

@@ -20,8 +20,9 @@ set(SOURCES
 	ComponentManager.inl
 	ComponentManager.cpp
 	ConfigManager.h
-	ConfigManager.inl
 	ConfigManager.cpp
+
+	Config/IConfigurable.h
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

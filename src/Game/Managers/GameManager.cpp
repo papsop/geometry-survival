@@ -17,8 +17,6 @@ namespace Game
 
 	void GameManager::VirtualOnDestroy()
 	{
-		Engine::ConfigManager::Get().UnregisterCvar("spawner_radius");
-		Engine::ConfigManager::Get().UnregisterCvar("spawner_cooldown");
 	}
 
 	void GameManager::RegisterPlayerGameObject(Engine::GameObject* player)

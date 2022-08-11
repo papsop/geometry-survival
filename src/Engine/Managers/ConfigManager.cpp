@@ -17,28 +17,6 @@ namespace Engine
 	{
 	}
 
-	void ConfigManager::UnregisterCvar(std::string name)
-	{
-		if (m_cvars.find(name) != m_cvars.end())
-			return;
-			
-		if(m_cvars[name]->IsDirty())
-			m_unregisteredCvars[name] = m_cvars[name]->GetValueAsString();
-
-		m_cvars.erase(name);
-	}
-
-	I_Cvar* ConfigManager::GetCvar(std::string name)
-	{
-		if (m_cvars.find(name) == m_cvars.end())
-		{
-			LOG_WARN("Trying to retrieve unknown cvar '%s'", name.c_str());
-			return nullptr;
-		}
-		
-		return m_cvars[name].get();
-	}
-
 	void ConfigManager::LoadCvarsFromFile()
 	{
 		if (!std::filesystem::exists(m_configFilePath))
@@ -54,6 +32,40 @@ namespace Engine
 
 	}
 
+	void ConfigManager::RegisterConfigurable(IConfigurable* configurable)
+	{
+		m_configurables.emplace_back(configurable);
+	}
+
+	void ConfigManager::UnregisterConfigurable(IConfigurable* configurable)
+	{
+		m_configurables.erase(std::remove(m_configurables.begin(), m_configurables.end(), configurable), m_configurables.end());
+	}
+
+	void ConfigManager::RegisterCvar(std::string name, int* ptr, int defaultValue)
+	{
+		if (m_cvarsFromFile.find(name) != m_cvarsFromFile.end())
+			*ptr = std::stoi(m_cvarsFromFile[name]);
+		else
+			*ptr = defaultValue;
+	}
+
+	void ConfigManager::RegisterCvar(std::string name, float* ptr, float defaultValue)
+	{
+		if (m_cvarsFromFile.find(name) != m_cvarsFromFile.end())
+			*ptr = std::stof(m_cvarsFromFile[name]);
+		else
+			*ptr = defaultValue;
+	}
+
+	void ConfigManager::RegisterCvar(std::string name, std::string* ptr, std::string defaultValue)
+	{
+		if (m_cvarsFromFile.find(name) != m_cvarsFromFile.end())
+			*ptr = m_cvarsFromFile[name];
+		else
+			*ptr = defaultValue;
+	}
+
 	void ConfigManager::StoreModifiedCvars()
 	{
 
@@ -62,28 +74,34 @@ namespace Engine
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 
-		// store still registered cvars
-		for (auto&& cvarEntry : m_cvars)
+		for (auto&& configurable : m_configurables)
 		{
-			auto cvar = cvarEntry.second.get();
-			if (cvar->IsDirty())
+			IConfigurable::ConfigurableData configurableData = configurable->GetConfigurableData();
+			for (auto&& entry : configurableData)
 			{
-				out << YAML::Key << cvar->GetKey();
-				out << YAML::Value << cvar->GetValueAsString();
+				out << YAML::Key << entry.first;
+				out << YAML::Value << entry.second;
 			}
-		}
-
-		// store dirty cvars that unregistered before storing
-		for (auto&& cvarEntry : m_unregisteredCvars)
-		{
-			out << YAML::Key << cvarEntry.first;
-			out << YAML::Value << cvarEntry.second;
 		}
 
 		out << YAML::EndMap;
 
 		outfile << out.c_str();
 		outfile.close();
+	}
+
+	// ==========================================================================
+	// IConfigurable
+	// ==========================================================================
+
+	IConfigurable::IConfigurable()
+	{
+		ConfigManager::Get().RegisterConfigurable(this);
+	}
+
+	IConfigurable::~IConfigurable()
+	{
+		ConfigManager::Get().UnregisterConfigurable(this);
 	}
 
 };

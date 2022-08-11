@@ -86,12 +86,6 @@ namespace Engine
             m_viewManager.PollEvents();
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-            if (m_inputManager.GetAction(InputManager::Action::TestButton).PressedThisFrame) 
-            {
-                m_configManager.GetCvar("window_width")->SetValueInt(1920);
-                m_configManager.GetCvar("window_height")->SetValueInt(1080);
-                m_configManager.GetCvar("window_fullscreen")->SetValueInt(1);
-            }
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
             // Update managers
             m_inputManager.Update();

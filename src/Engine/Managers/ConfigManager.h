@@ -1,9 +1,9 @@
 #pragma once
 #include "IManager.h"
 #include "../Debug/Logger.h"
-#include "../Utils/CvarUtils.h"
 #include <unordered_map>
 #include <any>
+#include "Config/IConfigurable.h"
 
 namespace Engine
 {
@@ -15,32 +15,25 @@ namespace Engine
 		static ConfigManager& Get();
 		~ConfigManager() = default;
 
-		template<typename T>
-		void RegisterCvar(std::string name, T* ptr, T defaultValue, std::function<void(void)> func = nullptr);
-
-		void UnregisterCvar(std::string name);
-
-		I_Cvar* GetCvar(std::string name);
+		void RegisterCvar(std::string name, int* ptr, int defaultValue);
+		void RegisterCvar(std::string name, float* ptr, float defaultValue);
+		void RegisterCvar(std::string name, std::string* ptr, std::string defaultValue);
 
 		void StoreModifiedCvars();
 		void LoadCvarsFromFile();
 
+		void RegisterConfigurable(IConfigurable*);
+		void UnregisterConfigurable(IConfigurable*);
 	private:
 		ConfigManager() = default;
 		void VirtualOnInit() override;
 
 		const char* m_configFilePath = "assets/config.yaml";
 		
-		// registered cvar wrappers
-		std::unordered_map<std::string, std::unique_ptr<I_Cvar>> m_cvars;
-		// cvars that were loaded from config file and should override default values
 		std::unordered_map<std::string, std::string> m_cvarsFromFile;
-		// dirty cvars that unregistered during runtime
-		std::unordered_map<std::string, std::string> m_unregisteredCvars;
+		std::vector<IConfigurable*> m_configurables;
 
 	friend class Application;
 	};
 
 };
-
-#include "ConfigManager.inl"

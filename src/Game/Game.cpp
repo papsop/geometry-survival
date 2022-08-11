@@ -2,7 +2,6 @@
 #include <iostream>
 #include <vector>
 #include <memory>
-#include <Engine/Utils/CvarUtils.h>
 
 int main()
 {

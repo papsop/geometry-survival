@@ -11,7 +11,7 @@ namespace Engine
         class WindowViewStrategy : public IViewStrategy, public IConfigurable
         {
         public:
-            WindowViewStrategy(TEventCallback handleEvent);
+            WindowViewStrategy();
             ~WindowViewStrategy();
 
             void PollEvents() override;

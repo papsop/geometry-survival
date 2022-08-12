@@ -11,13 +11,8 @@ namespace Engine
     {
         class IViewStrategy
         {
-        public:
-            using TEventCallback = std::function<void(const sf::Event& event)>;
-
-            IViewStrategy(TEventCallback handleEvent)
-            {
-                m_handleEventLambda = handleEvent;
-            }
+		public:
+            IViewStrategy() = default;
 
             virtual ~IViewStrategy() = default;
 
@@ -38,8 +33,6 @@ namespace Engine
 
             virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;
-        protected:
-            TEventCallback m_handleEventLambda;
         };
     }
 }

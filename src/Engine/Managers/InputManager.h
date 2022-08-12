@@ -1,6 +1,8 @@
 #pragma once
 #include "IManager.h"
 #include "../Managers/ViewManager.h"
+#include "../Managers/EventManager.h"
+#include "../Core/Events.h"
 
 #include <SFML/Window.hpp>
 #include <array>
@@ -11,7 +13,7 @@ namespace Engine {
     class Application;
     class InputComponent;
 
-    class InputManager : public IManager
+    class InputManager : public IManager, public IEventListener<E_SFMLEvent>
     {
     public:
         enum class CursorInput
@@ -62,6 +64,8 @@ namespace Engine {
 
         sf::Vector2f GetCursorPosition();
 
+    protected:
+		void ReceiveEvent(const E_SFMLEvent& eventData) override;
     private:
         InputManager();
 
@@ -71,7 +75,6 @@ namespace Engine {
 
         math::Vec2 GetJoystickMoveAxes(size_t joystickId);
 
-        void HandleWindowEvent(const sf::Event& event);
         void Update();
         void PostUpdate();
         void UpdateAction(Action action, bool isPressed);

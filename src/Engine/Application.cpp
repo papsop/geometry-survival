@@ -26,18 +26,12 @@ namespace Engine
         m_instance = this;
     }
 
-    void Application::HandleViewEvent(const sf::Event& event)
+    void Application::ReceiveEvent(const E_SFMLEvent& eventData)
     {
-        switch (event.type)
-        {
-        case sf::Event::Closed:
+        if(eventData.Type == sf::Event::Closed)
             Stop();
-            break;
-        default:
-            m_inputManager.HandleWindowEvent(event);
-            break;
-        }
     }
+
 	void Application::DestroyRegisteredManager()
 	{
 //         while (!m_managers.empty())
@@ -70,9 +64,7 @@ namespace Engine
         //auto enemyID = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
 
         // Create and set ViewStrategy
-		m_viewManager.SetViewStrategy(
-			new view::WindowViewStrategy(std::bind(&Application::HandleViewEvent, this, std::placeholders::_1))
-		);
+		m_viewManager.SetViewStrategy(new view::WindowViewStrategy());
         // Let the game initialize scene/gameobjects/etc.
         injection.BeforeGameLoop(*this);
 

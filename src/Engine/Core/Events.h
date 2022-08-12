@@ -19,8 +19,11 @@ namespace Engine
         {
             EventManager::Get().UnregisterEventListener<T>(this);
         }
-        
+
+    protected:
         virtual void ReceiveEvent(const T& eventData) = 0;
+
+    friend class EventManager;
     };
 }
 

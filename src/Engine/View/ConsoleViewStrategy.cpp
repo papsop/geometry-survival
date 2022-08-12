@@ -7,8 +7,7 @@ namespace Engine
     class Application;
     namespace view
     {
-        ConsoleViewStrategy::ConsoleViewStrategy(TEventCallback eventCallback)
-            : IViewStrategy(eventCallback)
+        ConsoleViewStrategy::ConsoleViewStrategy()
         {
         }
 

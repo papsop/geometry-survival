@@ -97,45 +97,6 @@ namespace Engine
         // InputManager::PostUpdate() takes cares of cleaning the entries
 	}
 
-    void InputManager::HandleWindowEvent(const sf::Event& event)
-    {
-
-        // Keyboard event
-        if (event.type == sf::Event::KeyPressed)
-        {
-            auto action = GetActionFromKey(event.key.code);
-            UpdateAction(action, true);
-        }
-        else if (event.type == sf::Event::KeyReleased)
-        {
-            auto action = GetActionFromKey(event.key.code);
-            UpdateAction(action, false);
-        }// Mouse event
-        else if (event.type == sf::Event::MouseButtonPressed)
-        {
-            auto action = GetActionFromMouse(event.mouseButton.button);
-            UpdateAction(action, true);
-        }
-		else if (event.type == sf::Event::MouseButtonReleased)
-		{
-			auto action = GetActionFromMouse(event.mouseButton.button);
-            UpdateAction(action, false);
-		}
-        // joystick event
-        else if (event.type == sf::Event::JoystickButtonPressed)
-        {
-            auto action = GetActionFromJoystick(event.joystickButton.button);
-            UpdateAction(action, true);
-        }
-		else if (event.type == sf::Event::JoystickButtonReleased)
-		{
-			auto action = GetActionFromJoystick(event.joystickButton.button);
-			UpdateAction(action, false);
-		}
-    }
-
-
-
 	void InputManager::Update()
     {
         // mouse position update
@@ -185,5 +146,42 @@ namespace Engine
 {
         return m_mousePosition;
     }
+
+	void InputManager::ReceiveEvent(const E_SFMLEvent& eventData)
+	{
+        auto event = eventData.Event;
+		// Keyboard event
+		if (event.type == sf::Event::KeyPressed)
+		{
+			auto action = GetActionFromKey(event.key.code);
+			UpdateAction(action, true);
+		}
+		else if (event.type == sf::Event::KeyReleased)
+		{
+			auto action = GetActionFromKey(event.key.code);
+			UpdateAction(action, false);
+		}// Mouse event
+		else if (event.type == sf::Event::MouseButtonPressed)
+		{
+			auto action = GetActionFromMouse(event.mouseButton.button);
+			UpdateAction(action, true);
+		}
+		else if (event.type == sf::Event::MouseButtonReleased)
+		{
+			auto action = GetActionFromMouse(event.mouseButton.button);
+			UpdateAction(action, false);
+		}
+		// joystick event
+		else if (event.type == sf::Event::JoystickButtonPressed)
+		{
+			auto action = GetActionFromJoystick(event.joystickButton.button);
+			UpdateAction(action, true);
+		}
+		else if (event.type == sf::Event::JoystickButtonReleased)
+		{
+			auto action = GetActionFromJoystick(event.joystickButton.button);
+			UpdateAction(action, false);
+		}
+	}
 
 };

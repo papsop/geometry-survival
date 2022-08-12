@@ -11,8 +11,7 @@ namespace Engine
     class Application;
     namespace view
     {
-        WindowViewStrategy::WindowViewStrategy(TEventCallback handleEvent)
-            : IViewStrategy(handleEvent)
+        WindowViewStrategy::WindowViewStrategy()
         {
             // todo config
             ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
@@ -39,7 +38,7 @@ namespace Engine
         {
             sf::Event event;
             while (m_window->pollEvent(event))
-                m_handleEventLambda(event);
+                Engine::EventManager::Get().DispatchEvent(E_SFMLEvent(event));
         }
 
 		void WindowViewStrategy::ReloadWindow()

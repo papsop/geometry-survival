@@ -5,6 +5,7 @@
 
 #include "Core/ApplicationInjection.h"
 #include "Managers/AllManagers.h"
+#include "Core/Events.h"
 
 #define GET_MANAGER_HELPER(name, var) {                                                                 \
                                            DD_ASSERT((var).IsInitialized(), name " not initialized");   \
@@ -14,7 +15,7 @@
 namespace Engine
 {
 
-    class Application
+    class Application : public IEventListener<E_SFMLEvent>
     {
     public:
         Application();
@@ -50,13 +51,15 @@ namespace Engine
         void Run(ApplicationInjection& injection);
         bool IsRunning() const { return m_applicationIsRunning;  }
         void Stop();
+
+        
+    protected:
+        void ReceiveEvent(const E_SFMLEvent& eventData) override;
     private:
         static Application* m_instance;
 
         bool m_applicationIsRunning = true;
-        
-        void HandleViewEvent(const sf::Event& event);
-
+       
         InputManager m_inputManager;
         GameObjectManager m_gameObjectManager;
         SceneManager m_sceneManager;

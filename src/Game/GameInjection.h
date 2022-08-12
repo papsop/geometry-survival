@@ -115,10 +115,11 @@ namespace Game
             player->AddComponent<WeaponComponent>();
             auto weaponComp = player->GetComponent<WeaponComponent>();
             weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
-            player->AddComponent<Engine::CameraComponent>();
             player->AddComponent<PlayerComponent>();
             player->AddComponent<LevelComponent>();
 
+			auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA);
+            camera->AddComponent<Engine::CameraComponent>(player);
 
             // buff test
 //             std::unique_ptr<Buff> buff = std::make_unique<Buff>(5.0f);
@@ -157,6 +158,7 @@ namespace Game
            // scene1.AddGameObject(centerCamera->ID);
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(enemySpawner->ID);
+            scene1.AddGameObject(camera->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

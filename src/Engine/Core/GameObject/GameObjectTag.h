@@ -9,6 +9,7 @@ namespace Engine
 		PLAYER_BULLET		= 0x0004,
 		ENEMY				= 0x0008,
 		EXPERIENCE_GLOBE	= 0x0010,
+		CAMERA				= 0x0020,
 
 		// always last
 		COUNT

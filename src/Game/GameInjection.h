@@ -19,6 +19,7 @@
 #include "Components/Player/PickUpFieldComponent.h"
 #include "Components/Player/LevelComponent.h"
 #include "Components/Actor/ActorComponent.h"
+#include "Components/Actor/RPGComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/Enemy/EasyEnemySpawnerComponent.h"
 #include "Components/SplashScreen/SplashBackground.h"
@@ -28,8 +29,8 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
+#include "Components/Actor/RPGComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
-#include "RPG/Buff/Buff.h"
 #include "Physics/Filters.h"
 
 namespace Game
@@ -43,7 +44,7 @@ namespace Game
 			// setup logger
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
@@ -53,6 +54,7 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
@@ -108,8 +110,9 @@ namespace Game
             rpgActorDef.MaxHealth = 5;
             rpgActorDef.AttackSpeed = 100.0f;
             rpgActorDef.WeaponDamage = 100.0f;
-            rpgActorDef.MovementSpeed = 15.0f;
-            player->AddComponent<ActorComponent>(rpgActorDef);
+            rpgActorDef.MovementSpeed = 20.0f;
+            player->AddComponent<RPGComponent>(rpgActorDef);
+            player->AddComponent<ActorComponent>();
             player->AddComponent<PickUpFieldComponent>();
             player->AddComponent<InputComponent>();
             player->AddComponent<WeaponComponent>();

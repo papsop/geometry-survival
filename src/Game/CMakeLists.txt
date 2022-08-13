@@ -15,7 +15,6 @@ add_executable(
 
 add_subdirectory(Managers)
 add_subdirectory(Components)
-add_subdirectory(RPG)
 add_subdirectory(Core)
 
 target_include_directories(

@@ -14,6 +14,9 @@ set(ACTOR_SOURCE
 	Actor/Weapons/IWeapon.cpp
 	Actor/Weapons/PistolWeapon.h
 	Actor/Weapons/PistolWeapon.cpp
+
+	Actor/RPGComponent.h
+	Actor/RPGComponent.cpp
 )
 
 set(PLAYER_SOURCE

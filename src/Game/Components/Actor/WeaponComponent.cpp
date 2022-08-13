@@ -55,14 +55,6 @@ namespace Game
 			m_equippedWeapon->Reload();
 	}
 
-
-	float WeaponComponent::GetShootingCooldownModifier()
-	{
-        auto rpgActor = Owner.GetComponent<ActorComponent>()->GetRPGActor();
-        float finalAttackSpeed = std::max(0.05f, rpgActor->GetStat(RPGStats::ATTACK_SPEED) - 1.0f);
-        return finalAttackSpeed;
-	}
-
 	Engine::GameObject* WeaponComponent::CreateBulletGameObject()
     {
         if (!m_equippedWeapon)

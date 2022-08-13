@@ -1,7 +1,8 @@
 #pragma once
-#include "RPGStats.h"
-#include "Buff/Buff.h"
-
+#include "../../Core/RPG/RPGStats.h"
+#include "../../Core/RPG/Buff.h"
+#include <Engine/Components/Core.h>
+#include <Engine/Core/GameObject/GameObject.h>
 #include <memory>
 #include <vector>
 #include <array>
@@ -23,21 +24,24 @@ namespace Game
 		float AmmoBonus = 100.0f;
 	};
 
-	class RPGActor
+	class RPGComponent : public Engine::IComponent
 	{
 	public:
 		using ptr_Buff = std::unique_ptr<Buff>;
 
-		~RPGActor() = default;
-		
-		void Update(float dt);
+		RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef);
+		~RPGComponent();
+
+		void VirtualOnActivated() override;
+
+		void Update(float dt) override;
 
 		float GetStat(RPGStats stat);
 		void  SetStatBase(RPGStats stat, float value);
 
 		void AddBuff(ptr_Buff buff);
 	private:
-		RPGActor(const RPGActorDef& rpgActorDef);
+		
 		std::vector< ptr_Buff > m_buffs;
 
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBase;

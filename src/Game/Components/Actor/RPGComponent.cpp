@@ -1,10 +1,12 @@
-#include "RPGActor.h"
+#include "RPGComponent.h"
 #include <Engine/Debug/Logger.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {
-	RPGActor::RPGActor(const RPGActorDef& rpgActorDef)
-		: m_statBase()
+	RPGComponent::RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef)
+		: IComponent(obj)
+		, m_statBase()
 		, m_statBuffBonus()
 	{
 		SetStatBase(RPGStats::MAX_HEALTH, rpgActorDef.MaxHealth);
@@ -15,7 +17,17 @@ namespace Game
 		SetStatBase(RPGStats::AMMO_BONUS, rpgActorDef.AmmoBonus);
 	}
 
-	void RPGActor::Update(float dt)
+	void RPGComponent::VirtualOnActivated()
+	{
+		Engine::ComponentManager::Get().RegisterComponent(this);
+	}
+
+	RPGComponent::~RPGComponent()
+	{
+		Engine::ComponentManager::Get().UnregisterComponent(this);
+	}
+
+	void RPGComponent::Update(float dt)
 	{
 		// reset all the modifiers
 		for (auto&& bonus : m_statBuffBonus) bonus = 0;
@@ -43,9 +55,15 @@ namespace Game
 				it++;
 			}
 		}
+
+		if (GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
+		{
+			Owner.SendMessageTo(&Owner, Engine::MessageType::MSG_DIED);
+			Owner.Destroy();
+		}
 	}
 
-	void RPGActor::SetStatBase(RPGStats stat, float value)
+	void RPGComponent::SetStatBase(RPGStats stat, float value)
 	{
 		if (stat == RPGStats::COUNT)
 		{
@@ -56,7 +74,7 @@ namespace Game
 		m_statBase[static_cast<size_t>(stat)] = value;
 	}
 
-	void RPGActor::AddBuff(ptr_Buff buff)
+	void RPGComponent::AddBuff(ptr_Buff buff)
 	{
 		// If there is a special BuffTag - overwrite already existing buff instead of adding it
 		if (buff->GetBuffTag() == Buff::BuffTag::None)
@@ -76,7 +94,7 @@ namespace Game
 		}
 	}
 
-	float RPGActor::GetStat(RPGStats stat)
+	float RPGComponent::GetStat(RPGStats stat)
 	{
 		if (stat == RPGStats::COUNT)
 		{

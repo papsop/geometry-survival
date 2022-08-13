@@ -21,8 +21,6 @@ namespace Game
 
         void ProcessMessage(const Engine::Message& message) override;
 
-        float GetShootingCooldownModifier();
-
     private:
 		std::unique_ptr<IWeapon> m_equippedWeapon;
     };

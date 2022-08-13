@@ -30,7 +30,7 @@ namespace Game
 	float IWeapon::GetWeaponCooldown()
 	{
 		auto finalShotsPerSecond = m_shotsPerSecond;
-		auto actorAttackSpeed = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::ATTACK_SPEED);
+		auto actorAttackSpeed = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::ATTACK_SPEED);
 
 		finalShotsPerSecond *= (actorAttackSpeed / 100.0f);
 
@@ -39,13 +39,13 @@ namespace Game
 
 	float IWeapon::GetWeaponDamage()
 	{
-		auto actorDamageModifier = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::WEAPON_DAMAGE);
+		auto actorDamageModifier = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::WEAPON_DAMAGE);
 		return m_weaponDamage * (actorDamageModifier / 100.0f);
 	}
 
 	int IWeapon::GetWeaponMaxAmmo()
 	{
-		auto maxAmmoModifier = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor()->GetStat(RPGStats::AMMO_BONUS);
+		auto maxAmmoModifier = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::AMMO_BONUS);
 		return std::ceil(m_maxAmmo * (maxAmmoModifier / 100.0f));
 	}
 
@@ -66,10 +66,10 @@ namespace Game
 			VirtualFire();
 			m_currentAmmo--;
 			m_currentCooldown = GetWeaponCooldown();
-			auto rpgActor = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor();
+			auto rpgActor = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>();
 
-			auto buff = std::make_unique<Buff>(.5f, Buff::BuffTag::MovementSlowAfterShooting);
-			buff->AddModifier(RPGStats::MOVEMENT_SPEED, -12.0f);
+			auto buff = std::make_unique<Buff>(GetWeaponCooldown(), Buff::BuffTag::MovementSlowAfterShooting);
+			buff->AddModifier(RPGStats::MOVEMENT_SPEED, -10.0f);
 
 			rpgActor->AddBuff(std::move(buff));
 

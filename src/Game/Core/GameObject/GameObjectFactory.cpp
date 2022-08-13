@@ -63,7 +63,8 @@ namespace Game
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		obj->AddComponent<ActorComponent>(rpgActorDef);
+		obj->AddComponent<RPGComponent>(rpgActorDef);
+		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<AIChaseTargetComponent>(def.Player);
 		return obj;
 	}

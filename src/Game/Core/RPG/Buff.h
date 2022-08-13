@@ -1,7 +1,7 @@
 #pragma once
 #include <vector>
 #include <functional>
-#include "../RPGStats.h"
+#include "RPGStats.h"
 
 namespace Game
 {

@@ -1,18 +1,19 @@
 #include "ActorComponent.h"
 #include "WeaponComponent.h"
+#include "RPGComponent.h"
 #include <Engine/Components/Physics.h>
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject/GameObject.h>
 
 namespace Game
 {
-    ActorComponent::ActorComponent(Engine::GameObject& obj, const RPGActorDef& def)
+    ActorComponent::ActorComponent(Engine::GameObject& obj)
         : IComponent(obj)
         , m_commandsQueue()
     {
-        SetRequiredComponents<Engine::PhysicsBodyComponent>();
+        SetRequiredComponents<Engine::PhysicsBodyComponent, RPGComponent>();
 
-        m_RPGActor = std::unique_ptr<RPGActor>(new RPGActor(def));
+        m_RPGComponent = Owner.GetComponent<RPGComponent>();
     }
 
     void ActorComponent::OnCreate()
@@ -31,7 +32,7 @@ namespace Game
         auto mass = physBody->GetMass();
 
         auto actualVelocity = physBody->GetLinearVelocity();
-        dir *= m_RPGActor->GetStat(RPGStats::MOVEMENT_SPEED);
+        dir *= m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED);
         auto desiredVelocity = dir;
 
         auto impulse = (desiredVelocity - actualVelocity);
@@ -62,8 +63,8 @@ namespace Game
 
 	void ActorComponent::ApplyDamage(float amount)
 	{
-        auto currentHP = m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH);
-        m_RPGActor->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
+        auto currentHP = m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH);
+        m_RPGComponent->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
 	}
 
 	void ActorComponent::WeaponFire()
@@ -88,28 +89,19 @@ namespace Game
 
         // currentHealth/maxHealth
 		pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 4.0f);
-        std::string healthString = "HP " + std::to_string(static_cast<int>(m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH))) + \
+        std::string healthString = "HP " + std::to_string(static_cast<int>(m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH))) + \
                                     "/" + \
-                                   std::to_string( static_cast<int>(m_RPGActor->GetStat(RPGStats::MAX_HEALTH)) );
+                                   std::to_string( static_cast<int>(m_RPGComponent->GetStat(RPGStats::MAX_HEALTH)) );
 
 		viewStrategy->DebugRenderText(healthString, pos, 12.0f, sf::Color::Yellow);
 	}
 
 	void ActorComponent::Update(float dt)
     {
-        if(m_RPGActor != nullptr)
-            m_RPGActor->Update(dt);
-
         while (!m_commandsQueue.empty())
         {
             m_commandsQueue.front()->Execute(*this);
             m_commandsQueue.pop();
-        }
-
-        if (m_RPGActor->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
-        {
-            Owner.SendMessageTo(&Owner, Engine::MessageType::MSG_DIED);
-            Owner.Destroy();
         }
     }
 };

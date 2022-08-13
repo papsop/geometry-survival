@@ -3,8 +3,9 @@
 
 namespace Game
 {
-	Buff::Buff(float duration)
+	Buff::Buff(float duration, BuffTag tag)
 		: m_timer(duration)
+		, m_tag(tag)
 		, m_shouldDestroy(false)
 	{
 		// negative number when creating -> infinite duration
@@ -39,6 +40,11 @@ namespace Game
 		{
 			func(modifier);
 		}
+	}
+
+	Game::Buff::BuffTag Buff::GetBuffTag()
+	{
+		return m_tag;
 	}
 
 }

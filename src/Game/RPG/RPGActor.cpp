@@ -56,6 +56,26 @@ namespace Game
 		m_statBase[static_cast<size_t>(stat)] = value;
 	}
 
+	void RPGActor::AddBuff(ptr_Buff buff)
+	{
+		// If there is a special BuffTag - overwrite already existing buff instead of adding it
+		if (buff->GetBuffTag() == Buff::BuffTag::None)
+		{
+			m_buffs.push_back(std::move(buff));
+		}
+		else
+		{
+			auto newEnd = std::remove_if(m_buffs.begin(), m_buffs.end(),
+				[&](const ptr_Buff& buff)
+				{
+					return buff->GetBuffTag() == buff->GetBuffTag();
+				}
+			);
+			m_buffs.erase(newEnd, m_buffs.end());
+			m_buffs.push_back(std::move(buff));
+		}
+	}
+
 	float RPGActor::GetStat(RPGStats stat)
 	{
 		if (stat == RPGStats::COUNT)

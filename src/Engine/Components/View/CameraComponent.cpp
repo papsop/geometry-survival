@@ -1,5 +1,6 @@
 #include "CameraComponent.h"
 #include "../../Managers/ComponentManager.h"
+#include "../Physics.h"
 
 namespace Engine
 {
@@ -24,11 +25,9 @@ namespace Engine
 	void CameraComponent::Update(float dt)
 	{
 		if (m_target)
-		{	// camera movement based on target
-			// if no target present - just static position
-			
+		{	// camera based on target
 			Owner.GetTransform().SetPosition(m_target->GetTransform().Position);
-		}
+		} // if no target present - just static position
 
 		m_cameraData.Center = Owner.GetTransform().Position;
 		ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);
@@ -37,6 +36,10 @@ namespace Engine
 	void CameraComponent::SetTarget(GameObject* newTarget)
 	{
 		m_target = newTarget;
+	}
+
+	void CameraComponent::Debug(view::IViewStrategy* viewStrategy)
+	{
 	}
 
 };

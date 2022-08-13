@@ -10,6 +10,11 @@ namespace Game
 	}
 
 
+	void WeaponPistol_Shootable::OnTransitionIn()
+	{
+		m_ownerPistol.SetWeaponState(IWeapon::WeaponState::Shootable);
+	}
+
 	void WeaponPistol_Shootable::Update(float dt)
 	{
 		

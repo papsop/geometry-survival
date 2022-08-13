@@ -35,10 +35,7 @@ namespace Game
 		float GetStat(RPGStats stat);
 		void  SetStatBase(RPGStats stat, float value);
 
-		void AddBuff(ptr_Buff buff)
-		{
-			m_buffs.push_back(std::move(buff));
-		}
+		void AddBuff(ptr_Buff buff);
 	private:
 		RPGActor(const RPGActorDef& rpgActorDef);
 		std::vector< ptr_Buff > m_buffs;

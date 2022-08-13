@@ -248,7 +248,7 @@ namespace Engine
             m_window->draw(circle);
 		}
 
-		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color)
+		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color, sf::Color fillColor)
 		{
 			//convert box2d to sfml
 			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
@@ -262,6 +262,7 @@ namespace Engine
 			obj.setOutlineColor(color);
             obj.setOutlineThickness(3);
 			obj.setSize(sfmlSize);
+            obj.setFillColor(fillColor);
 			obj.setRotation(sfmlAngle);
 			obj.setScale({1.0f, 1.0f});
 			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);

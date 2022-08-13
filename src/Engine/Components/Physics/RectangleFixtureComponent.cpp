@@ -34,9 +34,6 @@ namespace Engine
 
 	void RectangleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
 	{
-		if (!m_isActive)
-			return;
-
-		viewStrategy->DebugRenderRectangle(Owner.GetTransform().Position, m_fixtureShapeSize, m_fixture->GetBody()->GetAngle(), sf::Color::Green);
+		viewStrategy->DebugRenderRectangle(Owner.GetTransform().Position, m_fixtureShapeSize, m_fixture->GetBody()->GetAngle(), sf::Color::Green, sf::Color::Transparent);
 	}
 }

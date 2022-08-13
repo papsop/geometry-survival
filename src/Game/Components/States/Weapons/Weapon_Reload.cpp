@@ -9,6 +9,11 @@ namespace Game
 	{
 	}
 
+	void Weapon_Reload::OnTransitionIn()
+	{
+		m_ownerWeapon.SetWeaponState(IWeapon::WeaponState::Reloading);
+	}
+
 	void Weapon_Reload::Update(float dt)
 	{
 		m_reloadTime -= dt;

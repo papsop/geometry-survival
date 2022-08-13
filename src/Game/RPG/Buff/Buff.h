@@ -19,9 +19,16 @@ namespace Game
 	class Buff
 	{
 	public:
+
+		enum class BuffTag
+		{
+			None,
+			MovementSlowAfterShooting
+		};
+
 		using IterateFunction = std::function<void(const BuffModifierEntry&)>;
 
-		Buff(float duration);
+		Buff(float duration, BuffTag tag = BuffTag::None);
 		~Buff() = default;
 
 		virtual void OnInit() {};
@@ -33,9 +40,10 @@ namespace Game
 
 		Buff& AddModifier(RPGStats stat, float value);
 		void IterateOverModifiers(IterateFunction func);
+		BuffTag GetBuffTag();
 	private:
 		bool m_isTimed;
-
+		BuffTag m_tag;
 		float m_timer;
 		bool m_shouldDestroy;
 		std::vector<BuffModifierEntry> m_buffModifiers;

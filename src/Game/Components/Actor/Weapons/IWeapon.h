@@ -8,6 +8,14 @@ namespace Game
     class IWeapon : public Engine::IDebuggableComponent
     {
     public:
+
+        enum class WeaponState
+        {
+            None,
+            Shootable,
+            Reloading
+        };
+
         IWeapon(WeaponComponent& weaponComponent)
             : m_ownerWeaponComponent(weaponComponent) {}
         ~IWeapon() = default;
@@ -27,7 +35,10 @@ namespace Game
 
         float GetWeaponCooldown();
         float GetWeaponDamage();
-        int GetWeaponMaxAmmo();
+        int   GetWeaponMaxAmmo();
+        int   GetCurrentAmmoCount();
+        void  SetWeaponState(WeaponState state);
+
     protected:
         WeaponComponent& m_ownerWeaponComponent;
         Engine::PushdownStateMachine m_stateMachine;
@@ -41,6 +52,7 @@ namespace Game
     // internal variables for every weapon
     private:
         float m_currentCooldown = 0.0f;
+        WeaponState m_currentWeaponState = WeaponState::None;
         
     friend class WeaponComponent;
     };

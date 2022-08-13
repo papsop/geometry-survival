@@ -10,7 +10,8 @@ namespace Game
 		Weapon_Reload(Engine::PushdownStateMachine& parentStateMachine, IWeapon& weapon, float reloadTime);
 		~Weapon_Reload() override = default;
 
-		virtual void Update(float dt);
+		void OnTransitionIn();
+		void Update(float dt);
 	private:
 		IWeapon& m_ownerWeapon;
 		float m_reloadTime;

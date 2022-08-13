@@ -12,6 +12,7 @@ namespace Game
 		WeaponPistol_Shootable(Engine::PushdownStateMachine& parentStateMachine, PistolWeapon& pistol);
 		~WeaponPistol_Shootable() override = default;
 
+		void OnTransitionIn() override;
 		void Update(float dt) override;
 		void ProcessMessage(const Engine::Message& message) override;
 

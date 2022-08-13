@@ -28,7 +28,7 @@ namespace Engine
 
             virtual void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) = 0;
             virtual void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) = 0;
-            virtual void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color) = 0;
+            virtual void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) = 0;
             virtual void DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color) = 0;
 
             virtual void SetView(const CameraData& cameraData) = 0;

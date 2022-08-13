@@ -2,6 +2,7 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include "../WeaponComponent.h"
 #include "../ActorComponent.h"
+
 #include "../../States/Weapons.h"
 
 namespace Game
@@ -48,6 +49,16 @@ namespace Game
 		return std::ceil(m_maxAmmo * (maxAmmoModifier / 100.0f));
 	}
 
+	int IWeapon::GetCurrentAmmoCount()
+	{
+		return m_currentAmmo;
+	}
+
+	void IWeapon::SetWeaponState(WeaponState state)
+	{
+		m_currentWeaponState = state;
+	}
+
 	void IWeapon::Fire()
 	{
 		if (CanFire())
@@ -55,6 +66,13 @@ namespace Game
 			VirtualFire();
 			m_currentAmmo--;
 			m_currentCooldown = GetWeaponCooldown();
+			auto rpgActor = m_ownerWeaponComponent.Owner.GetComponent<ActorComponent>()->GetRPGActor();
+
+			auto buff = std::make_unique<Buff>(.5f, Buff::BuffTag::MovementSlowAfterShooting);
+			buff->AddModifier(RPGStats::MOVEMENT_SPEED, -12.0f);
+
+			rpgActor->AddBuff(std::move(buff));
+
 			if (m_currentAmmo == 0)
 			{
 				m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadTime);
@@ -78,11 +96,12 @@ namespace Game
 
 	void IWeapon::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MSG_Weapon_Reload && m_currentAmmo != m_maxAmmo)
+		if (message.Type == Engine::MSG_Weapon_Reload 
+			&& m_currentAmmo != m_maxAmmo
+			&& m_currentWeaponState != WeaponState::Reloading)
 		{
 			m_stateMachine.AddState<Weapon_Reload>(*this, m_reloadTime);
 		}
-
 		m_stateMachine.ProcessMessage(message);
 	}
 

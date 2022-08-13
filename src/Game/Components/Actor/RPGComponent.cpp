@@ -7,7 +7,8 @@ namespace Game
 	RPGComponent::RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef)
 		: IComponent(obj)
 		, m_statBase()
-		, m_statBuffBonus()
+		, m_additiveStatBonus()
+		, m_percentageStatBonus()
 	{
 		SetStatBase(RPGStats::MAX_HEALTH, rpgActorDef.MaxHealth);
 		SetStatBase(RPGStats::CURRENT_HEALTH, rpgActorDef.MaxHealth);
@@ -30,7 +31,8 @@ namespace Game
 	void RPGComponent::Update(float dt)
 	{
 		// reset all the modifiers
-		for (auto&& bonus : m_statBuffBonus) bonus = 0;
+		for (auto&& bonus : m_additiveStatBonus) bonus = 0.0f;
+		for (auto&& bonus : m_percentageStatBonus) bonus = 1.0f;
 
 		// apply modifiers from buffs
 		for (auto it = m_buffs.begin(); it != m_buffs.end(); /* */)
@@ -45,12 +47,15 @@ namespace Game
 			else
 			{
 				// apply buff modifiers
-				buff->IterateOverModifiers(
-					[&](const BuffModifierEntry& modifier)
-					{
-						m_statBuffBonus[static_cast<size_t>(modifier.Stat)] += modifier.ValueModifier;
-					}
-				);
+				for (const auto& modifier : buff->GetAdditiveModifiers())
+				{
+					m_additiveStatBonus[static_cast<size_t>(modifier.Stat)] += modifier.ValueModifier;
+				}
+				for (const auto& modifier : buff->GetPercentageModifiers())
+				{
+					m_percentageStatBonus[static_cast<size_t>(modifier.Stat)] += modifier.ValueModifier;
+				}
+
 				// move loop
 				it++;
 			}
@@ -102,9 +107,9 @@ namespace Game
 			return 0.0f;
 		}
 
-		auto statIndex = static_cast<size_t>(stat);
-
-		return m_statBase[statIndex] + m_statBuffBonus[statIndex];
+		size_t statIndex = static_cast<size_t>(stat);
+		float resultValue = (m_statBase[statIndex] * m_percentageStatBonus[statIndex]) + m_additiveStatBonus[statIndex];
+		return (resultValue < 0.0f) ? 0.0f : resultValue;
 	}
 
 

@@ -32,22 +32,19 @@ namespace Game
 		RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef);
 		~RPGComponent();
 
-		void VirtualOnActivated() override;
+		void  VirtualOnActivated() override;
 
-		void Update(float dt) override;
+		void  Update(float dt) override;
 
 		float GetStat(RPGStats stat);
 		void  SetStatBase(RPGStats stat, float value);
 
-		void AddBuff(ptr_Buff buff);
+		void  AddBuff(ptr_Buff buff);
 	private:
-		
 		std::vector< ptr_Buff > m_buffs;
 
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBase;
-		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBuffBonus;
-		
-
-	friend class ActorComponent; // only ActorComponent can own a RPGActor
+		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_additiveStatBonus;		// default 0
+		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_percentageStatBonus;		// default 1
 	};
 }

@@ -28,18 +28,16 @@ namespace Game
 		}
 	}
 
-	Buff& Buff::AddModifier(RPGStats stat, float value)
+	Buff& Buff::AddAdditiveModifier(RPGStats stat, float value)
 	{
-		m_buffModifiers.push_back({stat, value});
+		m_additiveBuffModifiers.push_back({stat, value});
 		return *this;
 	}
 
-	void Buff::IterateOverModifiers(IterateFunction func)
+	Buff& Buff::AddPercentageModifier(RPGStats stat, float value)
 	{
-		for (auto&& modifier : m_buffModifiers)
-		{
-			func(modifier);
-		}
+		m_percentageBuffModifiers.push_back({ stat, value });
+		return *this;
 	}
 
 	Game::Buff::BuffTag Buff::GetBuffTag()

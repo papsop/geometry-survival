@@ -69,7 +69,7 @@ namespace Game
 			auto rpgActor = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>();
 
 			auto buff = std::make_unique<Buff>(GetWeaponCooldown(), Buff::BuffTag::MovementSlowAfterShooting);
-			buff->AddModifier(RPGStats::MOVEMENT_SPEED, -10.0f);
+			buff->AddPercentageModifier(RPGStats::MOVEMENT_SPEED, -0.5f);
 
 			rpgActor->AddBuff(std::move(buff));
 

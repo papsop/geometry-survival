@@ -33,7 +33,7 @@ namespace Game
 
         auto actualVelocity = physBody->GetLinearVelocity();
         dir *= m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED);
-			auto desiredVelocity = dir;
+		auto desiredVelocity = dir;
 
         auto impulse = (desiredVelocity - actualVelocity);
         impulse *= mass;

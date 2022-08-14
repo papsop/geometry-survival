@@ -30,7 +30,7 @@ namespace Engine
 
         WindowViewStrategy::~WindowViewStrategy()
         {
-            EventManager::Get().DispatchEvent(E_WindowClosed());
+            EventManager::Get().DispatchEvent(event::E_WindowClosed());
             m_window->close();
         }
 
@@ -38,7 +38,7 @@ namespace Engine
         {
             sf::Event event;
             while (m_window->pollEvent(event))
-                Engine::EventManager::Get().DispatchEvent(E_SFMLEvent(event));
+                Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
         }
 
 		void WindowViewStrategy::ReloadWindow()

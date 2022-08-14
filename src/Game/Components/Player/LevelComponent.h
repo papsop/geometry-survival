@@ -15,9 +15,14 @@ namespace Game
 		void Update(float dt) override;
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
-
 		void ApplyExperience(float amount);
+
+		int   GetCurrentLevel() { return m_currentLevel; }
+		float GetNextLevelExperience();
+		float GetCurrentLevelProgress();
 	private:
 		float m_totalExp = 0;
+		int m_currentLevel = 0;
+		float m_firstLevelExperience;
 	};
 }

@@ -26,7 +26,7 @@ namespace Engine
         m_instance = this;
     }
 
-    void Application::ReceiveEvent(const E_SFMLEvent& eventData)
+    void Application::ReceiveEvent(const event::E_SFMLEvent& eventData)
     {
         if(eventData.Type == sf::Event::Closed)
             Stop();
@@ -40,6 +40,13 @@ namespace Engine
 //             m->OnDestroy();
 //             m_gameManagers.pop();
 //         }
+	}
+
+	void Application::UpdateGameplay(float dt)
+	{
+		m_physicsManager.Update(dt);
+		m_sceneManager.Update(dt);
+		m_componentManager.Update(dt);
 	}
 
 	void Application::Run(ApplicationInjection& injection)
@@ -79,14 +86,17 @@ namespace Engine
 			// debug exit
 			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
             if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
+
             // Update managers
             m_inputManager.Update();
-            m_physicsManager.Update(lastFrameMS);
-            m_sceneManager.Update(lastFrameMS);  
-           
-            m_viewManager.Update(lastFrameMS);
-            m_componentManager.Update(lastFrameMS);
 
+            // Update custom managers that the game registered
+            for (auto&& managerEntry : m_managers)
+            {
+                managerEntry.second->Update(lastFrameMS);
+            }
+
+            m_viewManager.Update(lastFrameMS);
             // reset input for this frame
             m_inputManager.PostUpdate();
             m_gameObjectManager.CleanupGameObjects();
@@ -108,7 +118,7 @@ namespace Engine
 	void Application::Stop()
 	{
         m_applicationIsRunning = false;
-        EventManager::Get().DispatchEvent(E_ApplicationStopped());
+        EventManager::Get().DispatchEvent(event::E_ApplicationStopped());
 	}
 
 };

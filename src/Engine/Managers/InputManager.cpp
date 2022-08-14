@@ -34,6 +34,8 @@ namespace Engine
         m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
         m_mapKeyToAction[sf::Keyboard::F7] = Action::TestButton;
 
+        m_mapKeyToAction[sf::Keyboard::P] = Action::PauseGame;
+
         // Mouse
         m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
 
@@ -147,7 +149,7 @@ namespace Engine
         return m_mousePosition;
     }
 
-	void InputManager::ReceiveEvent(const E_SFMLEvent& eventData)
+	void InputManager::ReceiveEvent(const event::E_SFMLEvent& eventData)
 	{
         auto event = eventData.Event;
 		// Keyboard event

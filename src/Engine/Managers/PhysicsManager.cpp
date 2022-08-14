@@ -91,7 +91,7 @@ namespace Engine
 		if (objB) objB->OnCollisionEnd(collisionDataB);
 	}
 
-	void PhysicsManager::ReceiveEvent(const E_ApplicationStopped& eventData)
+	void PhysicsManager::ReceiveEvent(const event::E_ApplicationStopped& eventData)
 	{
 		m_b2World->SetContactListener(nullptr);
 	}

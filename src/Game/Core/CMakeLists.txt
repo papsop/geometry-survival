@@ -1,5 +1,6 @@
 set(CORE_SOURCE
-	
+	EventData.h	
+
 	GameObject/GameObjectFactory.h
 	GameObject/GameObjectFactory.cpp
 	GameObject/FactoryDefinitions.h

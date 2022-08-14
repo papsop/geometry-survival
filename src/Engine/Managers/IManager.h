@@ -23,6 +23,8 @@ namespace Engine
 			VirtualOnDestroy(); // calls virtual function
 			m_initialized = false;
 		};
+
+		virtual void Update(float dt) { /* */ };
 	private:
 
 		virtual void VirtualOnInit() { /* NO IMPLEMENTATION IN BASE CLASS */ };

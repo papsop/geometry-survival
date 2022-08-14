@@ -15,7 +15,7 @@
 namespace Engine
 {
 
-    class Application : public IEventListener<E_SFMLEvent>
+    class Application : public IEventListener<event::E_SFMLEvent>
     {
     public:
         Application();
@@ -52,9 +52,9 @@ namespace Engine
         bool IsRunning() const { return m_applicationIsRunning;  }
         void Stop();
 
-        
+        void UpdateGameplay(float dt);
     protected:
-        void ReceiveEvent(const E_SFMLEvent& eventData) override;
+        void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
     private:
         static Application* m_instance;
 

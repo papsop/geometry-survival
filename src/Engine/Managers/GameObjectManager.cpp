@@ -48,7 +48,7 @@ namespace Engine
         {
             auto e = m_gameObjectsToCleanup.front();
 
-            E_GameObjectDeleted eventData(e->ID);
+            event::E_GameObjectDeleted eventData(e->ID);
 
             m_gameObjects.erase(e->ID);
             m_gameObjectsToCleanup.pop();

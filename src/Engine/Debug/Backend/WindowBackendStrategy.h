@@ -7,7 +7,7 @@
 
 namespace Engine 
 {
-    class WindowBackendStrategy : public IBackendStrategy, public IEventListener<E_WindowClosed>, public IDebuggableComponent
+    class WindowBackendStrategy : public IBackendStrategy, public IEventListener<event::E_WindowClosed>, public IDebuggableComponent
     {
     public:
         WindowBackendStrategy() = default;
@@ -16,7 +16,7 @@ namespace Engine
         void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
 
-        void ReceiveEvent(const E_WindowClosed& eventData) override;
+        void ReceiveEvent(const event::E_WindowClosed& eventData) override;
     private:
         struct DebugEntry
         {

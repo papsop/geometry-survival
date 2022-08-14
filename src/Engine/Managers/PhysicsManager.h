@@ -17,7 +17,7 @@ namespace Engine
 		b2Filter OtherFilter;
 	};
 
-	class PhysicsManager : public IManager, public b2ContactListener, public IEventListener<E_ApplicationStopped>
+	class PhysicsManager : public IManager, public b2ContactListener, public IEventListener<event::E_ApplicationStopped>
 	{
 	public:
 		~PhysicsManager() = default;
@@ -35,7 +35,7 @@ namespace Engine
 		void PreSolve(b2Contact* contact, const b2Manifold* oldManifold) override { /* no implementation */ };
 		void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override { /* no implementation */ };
 
-		void ReceiveEvent(const E_ApplicationStopped& eventData) override;
+		void ReceiveEvent(const event::E_ApplicationStopped& eventData) override;
 	private:
 		PhysicsManager() = default;
 

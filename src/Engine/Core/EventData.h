@@ -4,24 +4,23 @@
 
 namespace Engine
 {
-    struct E_GameObjectDeleted
-    {
-        E_GameObjectDeleted(GameObjectID id) : ID(id) {};
-        GameObjectID ID;
-    };
-
-	struct E_SFMLEvent
+	namespace event 
 	{
-		E_SFMLEvent(const sf::Event& event) : Event(event) { Type = event.type; };
-		const sf::Event& Event;
-		sf::Event::EventType Type;
-	};
+		struct E_GameObjectDeleted
+		{
+			E_GameObjectDeleted(GameObjectID id) : ID(id) {};
+			GameObjectID ID;
+		};
 
-	struct E_ApplicationStopped
-	{
-	};
+		struct E_SFMLEvent
+		{
+			E_SFMLEvent(const sf::Event& event) : Event(event) { Type = event.type; };
+			const sf::Event& Event;
+			sf::Event::EventType Type;
+		};
 
-	struct E_WindowClosed
-	{
-	};
+		struct E_ApplicationStopped {};
+
+		struct E_WindowClosed {};
+	}
 }

@@ -13,7 +13,7 @@ namespace Engine {
     class Application;
     class InputComponent;
 
-    class InputManager : public IManager, public IEventListener<E_SFMLEvent>
+    class InputManager : public IManager, public IEventListener<event::E_SFMLEvent>
     {
     public:
         enum class CursorInput
@@ -44,6 +44,7 @@ namespace Engine {
             ShowConsole,
             ShowDebugDraw,
             TestButton,
+            PauseGame,
 
             // always last
             NumberOfActions
@@ -65,7 +66,7 @@ namespace Engine {
         sf::Vector2f GetCursorPosition();
 
     protected:
-		void ReceiveEvent(const E_SFMLEvent& eventData) override;
+		void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
     private:
         InputManager();
 

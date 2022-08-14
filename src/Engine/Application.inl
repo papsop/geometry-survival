@@ -12,7 +12,7 @@ namespace Engine
 
 		if (m_managers.find(managerID) == m_managers.end())
 		{
-			m_managers[managerID] = std::make_unique<T>(std::forward(args) ...);
+			m_managers[managerID] = std::make_unique<T>(*this, std::forward(args) ...);
 			m_managers[managerID]->OnInit();
 		}
 	}
@@ -24,7 +24,7 @@ namespace Engine
 		auto managerID = IdGenerator<Application>::GetID<T>();
 		if (m_managers.find(managerID) != m_managers.end())
 		{
-			return dynamic_cast<T*>(m_managers[managerID].get());
+			return static_cast<T*>(m_managers[managerID].get());
 		}
 		else
 			return nullptr;

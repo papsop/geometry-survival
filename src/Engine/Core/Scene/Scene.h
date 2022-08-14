@@ -9,7 +9,7 @@ namespace Engine
     class SceneManager;
     class SceneSerializer;
 
-    class Scene : public IDebuggable, public IEventListener<E_GameObjectDeleted>
+    class Scene : public IDebuggable, public IEventListener<event::E_GameObjectDeleted>
     {
     public:
         enum class SceneType
@@ -30,7 +30,7 @@ namespace Engine
         const SceneType c_SceneType;
         bool IsLoaded() const { return m_isLoaded; };
         
-        void ReceiveEvent(const E_GameObjectDeleted& eventData) override;
+        void ReceiveEvent(const event::E_GameObjectDeleted& eventData) override;
         void Debug(view::IViewStrategy* viewStrategy) override;
         
     private:

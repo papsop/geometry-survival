@@ -48,7 +48,7 @@ namespace Engine
 		}
 	}
 
-	void WindowBackendStrategy::ReceiveEvent(const E_WindowClosed& eventData)
+	void WindowBackendStrategy::ReceiveEvent(const event::E_WindowClosed& eventData)
 	{
 		Logger::Instance().UnregisterBackend(this);
 	}

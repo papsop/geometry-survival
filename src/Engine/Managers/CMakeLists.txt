@@ -21,6 +21,8 @@ set(SOURCES
 	ComponentManager.cpp
 	ConfigManager.h
 	ConfigManager.cpp
+	UIManager.h
+	UIManager.cpp
 
 	Config/IConfigurable.h
 )

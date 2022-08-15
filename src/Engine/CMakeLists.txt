@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
- "Managers/Config/IConfigurable.h")
+ )
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)
@@ -20,6 +20,7 @@ add_subdirectory(Components)
 add_subdirectory(Utils)
 add_subdirectory(View)
 add_subdirectory(Core)
+add_subdirectory(UI)
 
 # PRIVATE because we don't want to propagate
 target_include_directories(

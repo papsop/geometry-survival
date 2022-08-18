@@ -4,6 +4,11 @@ set(SOURCES
 	View.h
 
 	Core/Transform.h
+	Core/ITransform.h
+	Core/ScreenTransform.h
+	Core/ScreenTransform.cpp
+	Core/WorldTransform.h
+	Core/WorldTransform.cpp
 	Core/IComponent.h
 	Core/IComponent.cpp
 	Core/IComponent.inl

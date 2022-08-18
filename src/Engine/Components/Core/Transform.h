@@ -2,6 +2,11 @@
 #include <math.h>
 #include "../../Utils/VectorUtils.h"
 #include "../../Debug/Logger.h"
+
+#include "ITransform.h"
+#include "WorldTransform.h"
+#include "ScreenTransform.h"
+
 namespace Engine
 {
     struct Transform

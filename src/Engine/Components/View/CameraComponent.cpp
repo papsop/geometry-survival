@@ -9,7 +9,7 @@ namespace Engine
 		: IComponent(obj)
 		, m_target(target)
 	{
-		m_cameraData.Center = Owner.GetTransform().Position;
+		m_cameraData.Center = Owner.GetTransform()->GetPosition();
 	}
 
 	void CameraComponent::OnCreate()
@@ -26,10 +26,10 @@ namespace Engine
 	{
 		if (m_target)
 		{	// camera based on target
-			Owner.GetTransform().SetPosition(m_target->GetTransform().Position);
+			Owner.GetTransform()->SetPosition(m_target->GetTransform()->GetPosition());
 		} // if no target present - just static position
 
-		m_cameraData.Center = Owner.GetTransform().Position;
+		m_cameraData.Center = Owner.GetTransform()->GetPosition();
 		ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);
 	}
 

@@ -39,7 +39,7 @@ namespace Engine
 
 	void CircleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
 	{
-		viewStrategy->DebugRenderCircle(Owner.GetTransform().Position, m_radius, sf::Color::Red);
+		//viewStrategy->DebugRenderCircle(Owner.GetTransform().Position, m_radius, sf::Color::Red);
 	}
 
 };

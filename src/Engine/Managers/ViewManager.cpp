@@ -7,8 +7,7 @@
 namespace Engine
 {
 	ViewManager::ViewManager()
-		: m_shapes()
-		, m_texts()
+		: m_renderableComponents()
 		, m_viewStrategy()
 	{
 	}
@@ -65,14 +64,9 @@ namespace Engine
 
 	// ==================================================================
 
-	void ViewManager::RegisterComponent(IRenderableShapeComponent* component)
+	void ViewManager::RegisterComponent(IRenderableComponent* component)
 	{
-		m_shapes.insert({ component->c_Layer, component });
-	}
-
-	void ViewManager::RegisterComponent(IRenderableTextComponent* component)
-	{
-		m_texts.emplace_back(component);
+		m_renderableComponents.insert({ component->GetLayer(), component });
 	}
 
 	void ViewManager::RegisterComponent(IDebuggable* component)
@@ -87,21 +81,15 @@ namespace Engine
 
 	// ==================================================================
 
-	void ViewManager::UnregisterComponent(IRenderableShapeComponent* component)
+	void ViewManager::UnregisterComponent(IRenderableComponent* component)
 	{
-		for (auto iter = m_shapes.begin(); iter != m_shapes.end(); /* */ )
+		for (auto iter = m_renderableComponents.begin(); iter != m_renderableComponents.end(); /* */ )
 		{
 			auto erase_iter = iter++;
 
 			if (erase_iter->second == component)
-				m_shapes.erase(erase_iter);
+				m_renderableComponents.erase(erase_iter);
 		}
-		
-	}
-
-	void ViewManager::UnregisterComponent(IRenderableTextComponent* component)
-	{
-		m_texts.erase(std::remove(m_texts.begin(), m_texts.end(), component), m_texts.end());
 	}
 
 	void ViewManager::UnregisterComponent(IDebuggable* component)
@@ -123,11 +111,11 @@ namespace Engine
 
 		m_viewStrategy->PreRender();
 
-		for (auto c : m_cameras)
+		for (auto& c : m_cameras)
 			if (c->Owner.ShouldUpdate())
 				c->Update(dt);
 
-		for (auto r : m_shapes)
+		for (auto& r : m_renderableComponents)
 		{
 			auto component = r.second;
 			if (component->Owner.ShouldUpdate())
@@ -137,14 +125,10 @@ namespace Engine
 			}
 		}
 
-		for (auto t : m_texts)
-			if (t->Owner.ShouldUpdate())
-				m_viewStrategy->Render(t->GetRenderableText());
-
 		// debug draws for registered components
 		if (m_shouldDrawDebug)
 		{
-			for (auto d : m_debugs)
+			for (auto& d : m_debugs)
 				d->Debug(m_viewStrategy.get());
 		}
 

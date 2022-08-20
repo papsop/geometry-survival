@@ -21,11 +21,6 @@ namespace Engine
             std::cout << "==============ConsoleViewStrategy::PreRender()==============" << std::endl;
         }
 
-        void ConsoleViewStrategy::Render(const Shape& shape)
-        {
-            std::cout << "Rendering shape" << std::endl;
-        }
-
         void ConsoleViewStrategy::PostRender()
         {
             std::cout << "==============ConsoleViewStrategy::PostRender()==============" << std::endl;

@@ -16,7 +16,6 @@ namespace Engine
             void PollEvents() override;
 
             void PreRender() override;
-            void Render(const Shape& shape) override;
             void PostRender() override;
             sf::Vector2f GetMousePosition() override { return { 0,0 }; }; // placeholder
         };

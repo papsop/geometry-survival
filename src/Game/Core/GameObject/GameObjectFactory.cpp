@@ -14,26 +14,27 @@ namespace Game
 
 	Engine::GameObject* GameObjectFactory::CreateWall(const WallFactoryDef& def)
 	{
-		Engine::PhysicsBodyDef physBodyDef;
-		physBodyDef.BodyType = b2_staticBody;
-		physBodyDef.CategoryBits = physics::EntityMask::M_WALL;
-		physBodyDef.MaskBits = physics::EntityMask::M_WALL;
-
-		Engine::RectangleFixtureDef rectangleFixtureDef;
-		rectangleFixtureDef.Size = def.Size;
-
-		Engine::RectangleViewDef rectangleViewDef;
-		rectangleViewDef.Color = def.Color;
-		rectangleViewDef.Size = def.Size;
-
-		// Fixture/PhysicsBody set rotation
-		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Wall by factory");
-		obj->GetTransform().SetPosition(def.Position);
-		obj->GetTransform().SetRotationDeg(def.RotationDeg);
-		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-		obj->AddComponent<Engine::RectangleFixtureComponent>(rectangleFixtureDef);
-		obj->AddComponent<Engine::RectangleViewComponent>(-1, rectangleViewDef);
-		return obj;
+// 		Engine::PhysicsBodyDef physBodyDef;
+// 		physBodyDef.BodyType = b2_staticBody;
+// 		physBodyDef.CategoryBits = physics::EntityMask::M_WALL;
+// 		physBodyDef.MaskBits = physics::EntityMask::M_WALL;
+// 
+// 		Engine::RectangleFixtureDef rectangleFixtureDef;
+// 		rectangleFixtureDef.Size = def.Size;
+// 
+// 		Engine::RectangleViewDef rectangleViewDef;
+// 		rectangleViewDef.Color = def.Color;
+// 		rectangleViewDef.Size = def.Size;
+// 
+// 		// Fixture/PhysicsBody set rotation
+// 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Wall by factory");
+// 		obj->GetTransform()->SetPosition(def.Position);
+// 		obj->GetTransform()->SetRotationDeg(def.RotationDeg);
+// 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+// 		obj->AddComponent<Engine::RectangleFixtureComponent>(rectangleFixtureDef);
+// 		obj->AddComponent<Engine::RectangleViewComponent>(-1, rectangleViewDef);
+// 		return obj;
+		return nullptr;
 	}
 
 
@@ -59,7 +60,7 @@ namespace Game
 
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY);
-		obj->GetTransform().SetPosition(def.Position);
+		obj->GetTransform()->SetPosition(def.Position);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
@@ -87,7 +88,7 @@ namespace Game
 		circleFixtureDef.IsSensor = true;
 
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE);
-		obj->GetTransform().SetPosition(def.Position);
+		obj->GetTransform()->SetPosition(def.Position);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);

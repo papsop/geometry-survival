@@ -63,14 +63,14 @@ namespace Engine
 
     void Scene::Debug(view::IViewStrategy* viewStrategy)
     {
-        if (!m_isLoaded) return;
-        Transform t;
-        t.Position = math::Vec2(500.0f, 0.0f);
-        view::Text text(&t);
-        text.Size = 12;
-        text.Color = sf::Color::Green;
-        std::string val = "Active GameObjects in scene: " + std::to_string(m_gameObjects.size());
-        text.Value = val.c_str();
-        viewStrategy->Render(text);
+//         if (!m_isLoaded) return;
+//         Transform t;
+//         t.Position = math::Vec2(500.0f, 0.0f);
+//         view::Text text(&t);
+//         text.Size = 12;
+//         text.Color = sf::Color::Green;
+//         std::string val = "Active GameObjects in scene: " + std::to_string(m_gameObjects.size());
+//         text.Value = val.c_str();
+//         viewStrategy->Render(text);
     }
 };

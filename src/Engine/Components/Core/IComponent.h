@@ -62,38 +62,30 @@ namespace Engine
 
         TRequiredFunc m_requiredFunction = nullptr;
 
-
         virtual void VirtualOnActivated() {};
         virtual void VirtualOnDeactivated() {};
+
+    private:
         bool m_isActive = false;
     };
 
     // Views
-    class IRenderableShapeComponent : public IComponent
+    class IRenderableComponent : public IComponent
     {
     public:
-        IRenderableShapeComponent(GameObject& obj, view::Renderable_Type renderableType, view::Layer layer);
+        IRenderableComponent(GameObject& obj, view::Layer layer);
          
-        ~IRenderableShapeComponent() = default;
+        ~IRenderableComponent();
 
-        const view::Renderable& GetRenderable() { return m_renderable; };
-        view::Renderable& GetMutableRenderable() { return m_renderable; };
-        const view::Layer c_Layer;
+        void OnCreate() override;
+        
+        virtual view::Renderable GetRenderable() = 0;
+        virtual view::Renderable& GetMutableRenderable() = 0;
+
+        view::Layer GetLayer() const { return m_layer; };
     protected:
-        view::Renderable m_renderable;
-        Transform m_renderableTransform;
-    };
-
-    class IRenderableTextComponent : public IComponent
-    {
-    public:
-        IRenderableTextComponent(GameObject& obj);
-
-        ~IRenderableTextComponent() override = default;
-
-        virtual const view::Text& GetRenderableText() = 0;
-    protected:
-        Transform& m_ownerTransform;
+        // maybe changeable? not right now tho
+        const view::Layer m_layer;
     };
 
 	template<typename T>

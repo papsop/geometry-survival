@@ -22,10 +22,6 @@
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Enemy/AIChaseTargetComponent.h"
 #include "Components/Enemy/EasyEnemySpawnerComponent.h"
-#include "Components/SplashScreen/SplashBackground.h"
-#include "Components/SplashScreen/SplashTitle.h"
-#include "Components/SplashScreen/SplashController.h"
-#include "Components/SplashScreen/SplashShape.h"
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
@@ -47,8 +43,6 @@ namespace Game
 			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
             // Order is important
-            Engine::ComponentManager::Get().RegisterComponentType<SplashShape>();
-            Engine::ComponentManager::Get().RegisterComponentType<SplashController>();
             Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
@@ -101,7 +95,7 @@ namespace Game
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
             auto player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER);
-            player->GetTransform().SetPosition({ 5.0f, 0.0f });
+            player->GetTransform()->SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
             player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);

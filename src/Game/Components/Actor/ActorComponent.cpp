@@ -57,7 +57,7 @@ namespace Game
     void ActorComponent::Rotate(float angle)
     {
         auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
-		physBody->GetB2Body()->SetTransform(Owner.GetTransform().Position, angle);
+		physBody->GetB2Body()->SetTransform(Owner.GetTransform()->GetPosition(), angle);
         physBody->GetB2Body()->SetAngularVelocity(0);
     }
 
@@ -84,11 +84,11 @@ namespace Game
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
         // name
-        Engine::math::Vec2 pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 3.0f);
+        Engine::math::Vec2 pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 3.0f);
         viewStrategy->DebugRenderText(Owner.DebugName, pos, 12.0f, sf::Color::Yellow);
 
         // currentHealth/maxHealth
-		pos = Owner.GetTransform().Position + Engine::math::Vec2(0.0f, 4.0f);
+		pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 4.0f);
         std::string healthString = "HP " + std::to_string(static_cast<int>(m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH))) + \
                                     "/" + \
                                    std::to_string( static_cast<int>(m_RPGComponent->GetStat(RPGStats::MAX_HEALTH)) );

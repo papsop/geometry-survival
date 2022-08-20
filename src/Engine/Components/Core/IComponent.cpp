@@ -6,42 +6,30 @@
 namespace Engine
 {
     // view
-
-    IRenderableShapeComponent::IRenderableShapeComponent(GameObject& obj, view::Renderable_Type renderableType, view::Layer layer)
+    IRenderableComponent::IRenderableComponent(GameObject& obj, view::Layer layer)
         : IComponent(obj)
-        , c_Layer(layer)
-        , m_renderableTransform()
-        , m_renderable(renderableType)
+        , m_layer(layer)
     {
-        switch (renderableType)
-        {
-        case view::Renderable_Type::SHAPE:
-            m_renderable.shape = { &m_renderableTransform };
-            break;
-        case view::Renderable_Type::CIRCLE:
-            m_renderable.circle = { &m_renderableTransform };
-            break;
-        case view::Renderable_Type::RECTANGLE:
-            m_renderable.rectangle = { &m_renderableTransform };
-            break;
-        };
+	};	
+	
+	void IRenderableComponent::OnCreate()
+	{
+		ViewManager::Get().RegisterComponent(this);
+	}
 
-        // activate based on Owner gameObject
-        if (obj.IsActive()) Activate();
-    };
+	IRenderableComponent::~IRenderableComponent()
+	{
+		ViewManager::Get().UnregisterComponent(this);
+	}
 
-    IRenderableTextComponent::IRenderableTextComponent(GameObject& obj)
-        : IComponent(obj)
-        , m_ownerTransform(obj.GetTransform())
-    {};
 
 	void IComponent::Activate()
 	{
-        if (!m_isActive)
-        {
-            VirtualOnActivated();
-            m_isActive = true;
-        }
+		if (!m_isActive)
+		{
+			VirtualOnActivated();
+			m_isActive = true;
+		}
 	}
 
 	void IComponent::Deactivate()

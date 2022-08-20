@@ -30,7 +30,7 @@ namespace Game
 
         // rotation
         auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
-        float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform().Position, b2MousePos);
+        float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
 
         actorComponent->AddCommand<RotateCommand>(angle);
         // movement

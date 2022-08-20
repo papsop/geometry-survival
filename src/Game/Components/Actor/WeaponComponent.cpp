@@ -64,9 +64,8 @@ namespace Game
         auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET);
 
         // add offset and stuff
-        bullet->GetTransform().Position = Owner.GetTransform().Position + Owner.GetTransform().Forward();
-        bullet->GetTransform().Scale = { 1.f, 1.f };
-        bullet->GetTransform().Rotation = Owner.GetTransform().Rotation;
+        bullet->GetTransform()->SetPosition(Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward());
+        bullet->GetTransform()->SetRotationRad(Owner.GetTransform()->GetRotation());
 
         Engine::PhysicsBodyDef physBodyDef;
         physBodyDef.BodyType = b2_dynamicBody;

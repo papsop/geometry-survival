@@ -17,11 +17,13 @@ namespace Engine
 		, m_isBullet(def.IsBullet)
 		, m_bodyType(def.BodyType)
 	{
+
+		// TODO: how to deal with physics and absolute relative position/angle
 		b2BodyDef bodyDef;
 		bodyDef.type = m_bodyType;
-		bodyDef.position = Owner.GetTransform().Position;
+		bodyDef.position = Owner.GetTransform()->GetAbsoluteTransform().Position;
 		bodyDef.bullet = m_isBullet;
-		bodyDef.angle = Owner.GetTransform().Rotation;
+		bodyDef.angle = Owner.GetTransform()->GetAbsoluteTransform().Rotation;
 		bodyDef.enabled = false; // default always false, activate it in function VirtualOnActivated
 		//bodyDef.fixedRotation = true;
 		bodyDef.userData.pointer = Owner.ID;
@@ -61,7 +63,7 @@ namespace Engine
 
 	void PhysicsBodyComponent::Update(float dt)
 	{
-		Owner.GetTransform().SetPosition(m_b2Body->GetPosition());
-		Owner.GetTransform().SetRotationRad(m_b2Body->GetAngle());
+		Owner.GetTransform()->SetPosition(m_b2Body->GetPosition());
+		Owner.GetTransform()->SetRotationRad(m_b2Body->GetAngle());
 	}
 };

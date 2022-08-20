@@ -18,13 +18,11 @@ namespace Engine
 		~ViewManager() = default;
 		static ViewManager& Get();
 
-		void RegisterComponent(IRenderableShapeComponent* component);
-		void RegisterComponent(IRenderableTextComponent* component);
+		void RegisterComponent(IRenderableComponent* component);
 		void RegisterComponent(IDebuggable* component);
 		void RegisterComponent(CameraComponent* component);
 
-		void UnregisterComponent(IRenderableShapeComponent* component);
-		void UnregisterComponent(IRenderableTextComponent* component);
+		void UnregisterComponent(IRenderableComponent* component);
 		void UnregisterComponent(IDebuggable* component);
 		void UnregisterComponent(CameraComponent* component);
 
@@ -53,8 +51,7 @@ namespace Engine
 		void VirtualOnDestroy() override;
 
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
-		std::multimap< view::Layer, IRenderableShapeComponent*> m_shapes;
-		std::vector< IRenderableTextComponent* > m_texts;
+		std::multimap< view::Layer, IRenderableComponent*> m_renderableComponents;
 		std::vector< IDebuggable* > m_debugs;
 		std::vector< CameraComponent* > m_cameras;
 

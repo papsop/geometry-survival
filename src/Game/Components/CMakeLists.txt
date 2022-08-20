@@ -37,17 +37,6 @@ set(ENEMY_SOURCE
 	Enemy/EasyEnemySpawnerComponent.cpp
 )
 
-set(SPLASH_SOURCE
-	SplashScreen/SplashBackground.h
-	SplashScreen/SplashBackground.cpp
-	SplashScreen/SplashController.h
-	SplashScreen/SplashController.cpp
-	SplashScreen/SplashShape.h
-	SplashScreen/SplashShape.cpp
-	SplashScreen/SplashTitle.h
-	SplashScreen/SplashTitle.cpp
-)
-
 set(STATES_SOURCE
 	States/Actor.h
 	States/Actor/Actor_ChaseTarget.h
@@ -72,6 +61,5 @@ target_sources(${GAME_PROJECT} PUBLIC
 	${PLAYER_SOURCE}
 	${ENEMY_SOURCE}
 	${STATES_SOURCE}
-	${SPLASH_SOURCE}
 	${PICKABLES_SOURCE}
 )

@@ -10,8 +10,8 @@ namespace Engine
         : ID(id)
         , DebugName(debugName)
         , Tag(tag)
-        , m_transform()
     {
+       m_transform = std::make_unique<Transform>(*this, nullptr, ITransform::PositionType::Absolute, ITransform::PositionSpace::WorldSpace);
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 

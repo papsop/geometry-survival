@@ -4,8 +4,7 @@ namespace Engine
 	template<typename T, typename>
 	bool GameObject::HasComponent() const
 	{
-		auto compID = IdGenerator<IComponent>::GetID<T>();
-		return m_components.find(compID) != m_components.end();
+		return m_components.find(IdGenerator<IComponent>::GetID<T>()) != m_components.end();
 	}
 
 	template<typename T, typename ... Args, typename>
@@ -16,6 +15,7 @@ namespace Engine
 			auto ID = IdGenerator<IComponent>::GetID<T>();
 			m_components[ID] = std::make_unique<T>(*this, std::forward<Args>(args) ...);
 			m_components[ID]->OnCreate();
+			if (IsActive()) m_components[ID]->Activate(); // not sure
 		}
 		else
 			LOG_WARN("AddComponent: GO %d already has Component '%s', ignoring this function call", ID, typeid(T).name());

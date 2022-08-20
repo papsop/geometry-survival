@@ -5,41 +5,23 @@ namespace Engine
 {
 
 	ShapeViewComponent::ShapeViewComponent(GameObject& obj, const ShapeViewDef& def)
-		: IRenderableShapeComponent(obj, view::Renderable_Type::SHAPE, def.Layer)
+		: IRenderableComponent(obj, def.Layer)
+		, m_renderable(view::Renderable::RenderableType::SHAPE)
 	{
-		m_useAbsoluteTransform = def.UseAbsoluteTransform;
-
-		m_localTransform.Position		= def.Position;
-		m_localTransform.Rotation		= def.Rotation;
-		m_localTransform.Scale			= { 0.0f, 0.0f }; // use owner's
-
-		m_renderable.shape.Color		= def.Color;
-		m_renderable.shape.PointCount	= def.PointCount;
-		m_renderable.shape.Radius		= def.Radius;
+		m_renderable.shape.Color = def.Color;
+		m_renderable.shape.PointCount = def.PointCount;
+		m_renderable.shape.Radius = def.Radius;
 	}
 
-	void ShapeViewComponent::OnCreate()
+	view::Renderable& ShapeViewComponent::GetMutableRenderable()
 	{
-		ViewManager::Get().RegisterComponent(this);
-		// update shape's transform
-		if (m_useAbsoluteTransform)
-			m_renderableTransform = m_localTransform;
-		else
-			m_renderableTransform = Owner.GetTransform() + m_localTransform;
+		return m_renderable;
 	}
 
-	ShapeViewComponent::~ShapeViewComponent()
+	view::Renderable ShapeViewComponent::GetRenderable()
 	{
-		ViewManager::Get().UnregisterComponent(this);
-	}
-
-	void ShapeViewComponent::Update(float dt)
-	{
-		// update shape's transform
-		if (m_useAbsoluteTransform)
-			m_renderableTransform = m_localTransform;
-		else
-			m_renderableTransform = Owner.GetTransform() + m_localTransform;
+		m_renderable.Transform = Owner.GetTransform()->GetAbsoluteTransform();
+		return m_renderable;
 	}
 
 }

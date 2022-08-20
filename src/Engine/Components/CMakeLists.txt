@@ -3,12 +3,12 @@ set(SOURCES
 	Physics.h
 	View.h
 
-	Core/Transform.h
+	Core/Transform_old.h
 	Core/ITransform.h
-	Core/ScreenTransform.h
-	Core/ScreenTransform.cpp
-	Core/WorldTransform.h
-	Core/WorldTransform.cpp
+	Core/RectTransform.h
+	Core/RectTransform.cpp
+	Core/Transform.h
+	Core/Transform.cpp
 	Core/IComponent.h
 	Core/IComponent.cpp
 	Core/IComponent.inl

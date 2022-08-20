@@ -39,7 +39,7 @@ namespace Game
 		if (message.Type == Engine::MessageType::MSG_DIED)
 		{
 			ExperienceGlobeDef experienceGlobeDef;
-			experienceGlobeDef.Position = Owner.GetTransform().Position;
+			experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
 
 			Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
 		}
@@ -54,7 +54,7 @@ namespace Game
 
 		// apply knockback
 		auto actorComponent = Owner.GetComponent<ActorComponent>();
-		Engine::math::Vec2 knockBackDirection = Engine::math::V2fNormalize(Owner.GetTransform().Position - otherGO->GetTransform().Position);
+		Engine::math::Vec2 knockBackDirection = Engine::math::V2fNormalize(Owner.GetTransform()->GetPosition() - otherGO->GetTransform()->GetPosition());
 		actorComponent->AddCommand<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y);
 		
 		// go to stun

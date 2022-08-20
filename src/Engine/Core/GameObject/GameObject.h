@@ -56,7 +56,7 @@ namespace Engine
         const GameObjectTag Tag;
         const char* DebugName;
 
-        Transform& GetTransform() { return m_transform; }
+        ITransform* GetTransform() { return m_transform.get(); }
 
         void OnCollisionStart(CollisionData& collision);
         void OnCollisionEnd(CollisionData& collision);
@@ -81,7 +81,7 @@ namespace Engine
         bool m_shouldDestroy = false;
         bool m_isActive = false;
 
-        Transform m_transform;
+        std::unique_ptr<ITransform> m_transform;
         Scene* m_scene;
 
         friend class GameObjectManager;

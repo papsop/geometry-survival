@@ -31,7 +31,7 @@ namespace Game
 			auto mass = physBody->GetMass();
 
 			auto actualVelocity = physBody->GetLinearVelocity();
-			auto dir = Engine::math::V2fNormalize(m_markedBy->GetTransform().Position - Owner.GetTransform().Position);
+			auto dir = Engine::math::V2fNormalize(m_markedBy->GetTransform()->GetPosition() - Owner.GetTransform()->GetPosition());
 
 			dir *= 40.0f;
 			auto desiredVelocity = dir;

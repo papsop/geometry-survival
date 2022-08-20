@@ -6,12 +6,12 @@
 
 namespace Engine
 {
-   GameObject::GameObject(uint32_t id, const char* debugName, GameObjectTag tag) 
+   GameObject::GameObject(uint32_t id, const char* debugName, GameObjectTag tag, ITransform::PositionSpace space)
         : ID(id)
         , DebugName(debugName)
         , Tag(tag)
     {
-       m_transform = std::make_unique<Transform>(*this, nullptr, ITransform::PositionType::Absolute, ITransform::PositionSpace::WorldSpace);
+       m_transform = std::make_unique<Transform>(*this, nullptr, ITransform::PositionType::Absolute, space);
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 

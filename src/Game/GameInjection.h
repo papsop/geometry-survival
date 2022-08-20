@@ -137,6 +137,13 @@ namespace Game
             auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::UNTAGGED);
             enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
+			Engine::ShapeViewDef shapeViewDef2;
+			shapeViewDef2.Color = sf::Color::Green;
+			shapeViewDef2.PointCount = 7;
+			shapeViewDef2.Radius = 50.0f;
+            auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, Engine::ITransform::PositionSpace::CameraSpace);
+            UI->GetTransform()->SetPosition({ 50.0f, 50.0f});
+            UI->AddComponent<Engine::ShapeViewComponent>(shapeViewDef2);
             // walls
             //WallFactoryDef wallFactoryDef;
             //wallFactoryDef.Position = { 0.5f, 0.5f };
@@ -156,6 +163,7 @@ namespace Game
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(enemySpawner->ID);
             scene1.AddGameObject(camera->ID);
+            scene1.AddGameObject(UI->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

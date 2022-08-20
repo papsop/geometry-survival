@@ -10,7 +10,7 @@ namespace Engine
         class ConsoleViewStrategy : public IViewStrategy
         {
         public:
-            ConsoleViewStrategy();
+            ConsoleViewStrategy(ViewManager& viewManager);
             ~ConsoleViewStrategy() = default;
 
             void PollEvents() override;

@@ -7,18 +7,22 @@
 namespace Engine
 {
     class Application;
+    class ViewManager;
+
     namespace view
     {
         class IViewStrategy
         {
 		public:
-            IViewStrategy() = default;
+            IViewStrategy(ViewManager& viewManager)
+                : m_viewManager(viewManager) 
+                {};
 
             virtual ~IViewStrategy() = default;
 
             virtual void PollEvents() = 0;
             virtual void PreRender() = 0;
-			virtual void RenderRenderable(const Renderable& renderable) = 0;
+			virtual void RenderRenderable(Renderable& renderable) = 0;
             virtual void PostRender() = 0;
 
             virtual void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color)  {};
@@ -28,6 +32,8 @@ namespace Engine
 
             virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;
+        protected:
+            ViewManager& m_viewManager;
         };
     }
 }

@@ -7,7 +7,8 @@ namespace Engine
     class Application;
     namespace view
     {
-        ConsoleViewStrategy::ConsoleViewStrategy()
+        ConsoleViewStrategy::ConsoleViewStrategy(ViewManager& viewManager)
+            : IViewStrategy(viewManager)
         {
         }
 

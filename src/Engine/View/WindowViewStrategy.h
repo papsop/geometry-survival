@@ -11,13 +11,13 @@ namespace Engine
         class WindowViewStrategy : public IViewStrategy, public IConfigurable
         {
         public:
-            WindowViewStrategy();
+            WindowViewStrategy(ViewManager& viewManager);
             ~WindowViewStrategy();
 
             void PollEvents() override;
 
             void PreRender() override;
-            void RenderRenderable(const Renderable& renderable) override;
+            void RenderRenderable(Renderable& renderable) override;
             void PostRender() override;
 
 
@@ -37,8 +37,9 @@ namespace Engine
 // 			sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
 //             sf::RectangleShape  RectangleToSFMLRectangleShape(const view::Rectangle& rectangle);
 //             sf::Text            TextToSFMLText(const view::Text& text);
-//             float               Box2DRotationToSFML(float angle);
-//             sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
+			float               Box2DRotationToSFML(float angle);
+			sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
+            sf::CircleShape         GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape);
             // ==============
 
             void RenderShape(const Renderable& renderable);
@@ -54,8 +55,6 @@ namespace Engine
             int m_windowFullscreen;
 			std::string m_windowName;
 
-            //TODO change default resolution for aspect ratios;
-            const Engine::math::Vec2 m_windowSize = {1920.0f, 1080.0f};
         };
     };
 };

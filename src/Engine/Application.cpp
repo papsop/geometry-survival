@@ -71,7 +71,7 @@ namespace Engine
         //auto enemyID = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
 
         // Create and set ViewStrategy
-		m_viewManager.SetViewStrategy(new view::WindowViewStrategy());
+		m_viewManager.SetViewStrategy(new view::WindowViewStrategy(m_viewManager));
         // Let the game initialize scene/gameobjects/etc.
         injection.BeforeGameLoop(*this);
 

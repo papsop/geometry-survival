@@ -11,7 +11,8 @@ namespace Engine
     class Application;
     namespace view
     {
-        WindowViewStrategy::WindowViewStrategy()
+        WindowViewStrategy::WindowViewStrategy(ViewManager& viewManager)
+            : IViewStrategy(viewManager)
         {
             // todo config
             ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
@@ -149,16 +150,16 @@ namespace Engine
 //             return obj;
 // 		}
 
-// 		float WindowViewStrategy::Box2DRotationToSFML(float angle)
-// 		{
-// 			return 360.0f - math::RAD_TO_DEG(angle);
-// 		}
-// 
-// 		sf::Vector2i WindowViewStrategy::BVec2ToVector2i(b2Vec2 vec)
-// 		{
-//             return { static_cast<int>(vec.x), static_cast<int>(vec.y) };
-//             //return { vec.x, vec.y };
-// 		}
+ 		float WindowViewStrategy::Box2DRotationToSFML(float angle)
+ 		{
+ 			return 360.0f - math::RAD_TO_DEG(angle);
+ 		}
+ 
+ 		sf::Vector2i WindowViewStrategy::BVec2ToVector2i(b2Vec2 vec)
+ 		{
+             return { static_cast<int>(vec.x), static_cast<int>(vec.y) };
+             //return { vec.x, vec.y };
+ 		}
 
 		// ==============================================
 
@@ -167,17 +168,57 @@ namespace Engine
             m_window->clear();
         }
         
-		void WindowViewStrategy::RenderRenderable(const Renderable& renderable)
+		void WindowViewStrategy::RenderRenderable(Renderable& renderable)
 		{
+            if (renderable.Transform.Space == ITransform::PositionSpace::CameraSpace)
+            {
+                sf::Vector2i pos = { static_cast<int>(renderable.Transform.Position.x), static_cast<int>(renderable.Transform.Position.y) };
+                sf::Vector2f posf = m_window->mapPixelToCoords(pos);
+
+                renderable.Transform.Position.x = posf.x;
+                renderable.Transform.Position.y = posf.y;
+            }
+
             switch (renderable.Type)
             {
             case Renderable::RenderableType::SHAPE:
-
+                m_window->draw(GetSFMLCircleFromShape(renderable.Transform, renderable.shape));
                 break;
             }
 		}
 
-        // =======================================================================================
+		sf::CircleShape WindowViewStrategy::GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape)
+		{
+            sf::Vector2f pixelPosition;
+            float pixelAngle;
+            float pixelRadius;
+            // convert Coords to pixel
+            if (transform.Space == ITransform::PositionSpace::WorldSpace)
+            {
+				pixelPosition = m_viewManager.coordsToPixels(transform.Position);
+				pixelRadius = m_viewManager.coordToPixel(shape.Radius);
+            }
+            else
+            {
+                pixelPosition   = {transform.Position.x, transform.Position.y};
+                pixelRadius     = shape.Radius;
+            }
+            
+            pixelAngle = Box2DRotationToSFML(transform.Rotation); // shared in both
+
+            // create sfml object
+            auto obj = sf::CircleShape();
+            obj.setPointCount(shape.PointCount);
+            obj.setRadius(pixelRadius);
+            obj.setPosition(pixelPosition);
+            obj.setFillColor(shape.Color);
+            obj.setRotation(pixelAngle);
+            obj.setScale({ 1,1 });
+            obj.setOrigin({ pixelRadius, pixelRadius });
+            return obj;
+		}
+
+		// =======================================================================================
         // Render each renderable type
         // =======================================================================================
 
@@ -286,7 +327,7 @@ namespace Engine
         {
             sf::View view;
 			view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
-            view.setSize(m_windowSize.x, m_windowSize.y);
+            view.setSize(m_windowWidth, m_windowHeight);
             view.setViewport({ .0f, .0f, 1.f, 1.f });
             m_window->setView(view);
         }

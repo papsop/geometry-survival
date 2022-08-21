@@ -1,16 +1,15 @@
 #include "Transform.h"
+#include "../../Core/GameObject/GameObject.h"
 
 namespace Engine
 {
-	Transform::Transform(GameObject& owner, GameObject* parent, PositionType type, PositionSpace space)
-		: ITransform(owner, parent, type, space)
-		, m_rotation(0.0f)
-		, m_position({0.0f, 0.0f})
-		, m_scale({1.0f, 1.0f})
+	Transform::Transform(GameObject& owner, const TransformDefinition& def)
+		: ITransform(owner, def)
+		, m_rotation(def.Rotation)
+		, m_position(def.Position)
+		, m_scale(def.Scale)
 	{
-
 	}
-
 
 	// ===========
 	// Position
@@ -22,7 +21,10 @@ namespace Engine
 	}
 
 	math::Vec2 Transform::GetPosition() const
-	{ // todo absolute/relative
+	{ 
+		if (m_type == ITransform::PositionType::Relative && m_parent != nullptr)
+			return m_parent->GetTransform()->GetPosition() + m_position;
+
 		return m_position;
 	}
 
@@ -43,7 +45,6 @@ namespace Engine
 	{ // todo absolute/relative
 		return m_rotation;
 	}
-
 
 
 	Engine::math::Vec2 Transform::Forward() const

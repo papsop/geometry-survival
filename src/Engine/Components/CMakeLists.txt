@@ -5,6 +5,7 @@ set(SOURCES
 
 	Core/Transform_old.h
 	Core/ITransform.h
+	Core/ITransform.cpp
 	Core/RectTransform.h
 	Core/RectTransform.cpp
 	Core/Transform.h

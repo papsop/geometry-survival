@@ -6,7 +6,7 @@ namespace Engine
 	class Transform final : public ITransform
 	{
 	public:
-		Transform(GameObject& owner, GameObject* parent, PositionType type, PositionSpace space);
+		Transform(GameObject& owner, const TransformDefinition& def);
 		~Transform() override = default;
 
 		void SetPosition(math::Vec2 pos) override;

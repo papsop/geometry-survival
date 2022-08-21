@@ -58,9 +58,10 @@ namespace Game
 		rpgActorDef.MaxHealth = 10;
 		rpgActorDef.MovementSpeed = 10.0f;
 
+		Engine::ITransform::TransformDefinition transformDef;
+		transformDef.Position = def.Position;
 		// Fixture/PhysicsBody set rotation
-		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY);
-		obj->GetTransform()->SetPosition(def.Position);
+		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
@@ -87,8 +88,10 @@ namespace Game
 		circleFixtureDef.Radius = shapeViewDef.Radius;
 		circleFixtureDef.IsSensor = true;
 
-		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE);
-		obj->GetTransform()->SetPosition(def.Position);
+		Engine::ITransform::TransformDefinition transformDef;
+		transformDef.Position = def.Position;
+
+		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);

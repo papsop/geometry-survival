@@ -45,16 +45,22 @@ namespace Engine
 			}
 		};
 
+		// Used to Initialize GameObject's transform
+		struct TransformDefinition
+		{
+			math::Vec2		Position = {0.0f, 0.0f};
+			float			Rotation = 0.0f;
+			math::Vec2		Scale = {1.0f, 1.0f};
+			PositionSpace	Space = PositionSpace::WorldSpace;
+			PositionType	Type = PositionType::Absolute;
+
+			GameObject*		Parent = nullptr;
+		};
 		// ====================================================================================
 		// Class members
 		// ====================================================================================
 
-		ITransform(GameObject& owner, GameObject* parent, PositionType type, PositionSpace space)
-			: m_owner(owner)
-			, m_parent(parent)
-			, m_type(type)
-			, m_space(space)
-			{};
+		ITransform(GameObject& owner, const TransformDefinition& def);
 
 		virtual ~ITransform() = default;
 
@@ -75,8 +81,8 @@ namespace Engine
 		GameObject* GetParent() const { return m_parent; };
 		const std::list<GameObject*>& GetChildren() const { return m_children; };
 
-		void SetParent(GameObject* parent) { /* TODO: also notify the parent about having a new child */ };
-		void SetChild(GameObject* child) { /* TODO: also notify the child about having a new parent */ };
+		void SetParent(GameObject* parent);
+		void SetChild(GameObject* child);
 
 	protected:
 		GameObject& m_owner;

@@ -59,13 +59,12 @@ namespace Game
     {
         if (!m_equippedWeapon)
             return nullptr;
+        Engine::ITransform::TransformDefinition transformDef;
+        transformDef.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
+        transformDef.Rotation = Owner.GetTransform()->GetRotation();
 
-        auto zIndex = Engine::ViewManager::Get().GetZIndexFromPool();
-        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET);
+        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
 
-        // add offset and stuff
-        bullet->GetTransform()->SetPosition(Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward());
-        bullet->GetTransform()->SetRotationRad(Owner.GetTransform()->GetRotation());
 
         Engine::PhysicsBodyDef physBodyDef;
         physBodyDef.BodyType = b2_dynamicBody;

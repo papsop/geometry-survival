@@ -81,6 +81,7 @@ namespace Game
             physBodyDef.CategoryBits = 0x1;
             physBodyDef.MaskBits = 0x1;
 
+            Engine::ITransform::TransformDefinition transformDefDefault; // use default
             // Scene 1 ==============================================================================
             auto& scene1 = Engine::SceneManager::Get().CreateScene();
 
@@ -94,7 +95,7 @@ namespace Game
 
 			physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
 			physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
-            auto player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER);
+            auto player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
             player->GetTransform()->SetPosition({ 5.0f, 0.0f });
             player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
             player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
@@ -115,7 +116,7 @@ namespace Game
             player->AddComponent<PlayerComponent>();
             player->AddComponent<LevelComponent>();
 
-			auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA);
+			auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
             camera->AddComponent<Engine::CameraComponent>(player);
 
             // buff test
@@ -134,16 +135,23 @@ namespace Game
             shapeViewDef.Color = sf::Color::Red;
 
             //enemy spawner
-            auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::UNTAGGED);
+            auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
             enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
 			Engine::ShapeViewDef shapeViewDef2;
 			shapeViewDef2.Color = sf::Color::Green;
 			shapeViewDef2.PointCount = 7;
-			shapeViewDef2.Radius = 50.0f;
-            auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, Engine::ITransform::PositionSpace::CameraSpace);
-            UI->GetTransform()->SetPosition({ 50.0f, 50.0f});
+			shapeViewDef2.Radius = 2.0f;
+
+            Engine::ITransform::TransformDefinition transformDefUI;
+            transformDefUI.Parent = player;
+            transformDefUI.Position = { 10.0f, 10.0f };
+            transformDefUI.Space = Engine::ITransform::PositionSpace::WorldSpace;
+            transformDefUI.Type = Engine::ITransform::PositionType::Relative;
+
+            auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, transformDefUI);
             UI->AddComponent<Engine::ShapeViewComponent>(shapeViewDef2);
+
             // walls
             //WallFactoryDef wallFactoryDef;
             //wallFactoryDef.Position = { 0.5f, 0.5f };

@@ -48,7 +48,7 @@ namespace Engine
         T* GetComponent();
 
         // --------------------------
-        GameObject(uint32_t id, const char* debugName = "unnamed", GameObjectTag tag = GameObjectTag::UNTAGGED, ITransform::PositionSpace space = ITransform::PositionSpace::WorldSpace);
+        GameObject(uint32_t id, const char* debugName, GameObjectTag tag, const ITransform::TransformDefinition& transformDef);
 
         ~GameObject() = default;
 

@@ -19,7 +19,7 @@ namespace Engine
 
 	void ViewManager::VirtualOnInit()
 	{
-		ConfigManager::Get().RegisterCvar("view_pixelsPerMeter", &m_pixelsPerMeter, 15);
+		ConfigManager::Get().RegisterCvar("view_pixelsPerMeter", &m_pixelsPerMeter, 10);
 	}
 
 	void ViewManager::VirtualOnDestroy()

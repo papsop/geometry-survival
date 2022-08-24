@@ -37,8 +37,10 @@ namespace Engine
 // 			sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
 //             sf::RectangleShape  RectangleToSFMLRectangleShape(const view::Rectangle& rectangle);
 //             sf::Text            TextToSFMLText(const view::Text& text);
-			float               Box2DRotationToSFML(float angle);
-			sf::Vector2i        BVec2ToVector2i(b2Vec2 vec);
+			float                   Box2DRotationToSFML(float angle);
+			sf::Vector2i            BVec2ToVector2i(b2Vec2 vec);
+            sf::Vector2f            CameraSpaceToCoords(math::Vec2 vec);
+
             sf::CircleShape         GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape);
             // ==============
 

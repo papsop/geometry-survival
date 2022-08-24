@@ -135,18 +135,17 @@ namespace Game
             shapeViewDef.Color = sf::Color::Red;
 
             //enemy spawner
-            auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+            auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
             enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
 			Engine::ShapeViewDef shapeViewDef2;
 			shapeViewDef2.Color = sf::Color::Green;
 			shapeViewDef2.PointCount = 7;
-			shapeViewDef2.Radius = 2.0f;
+			shapeViewDef2.Radius = 25.0f;
 
             Engine::ITransform::TransformDefinition transformDefUI;
-            transformDefUI.Parent = player;
-            transformDefUI.Position = { 10.0f, 10.0f };
-            transformDefUI.Space = Engine::ITransform::PositionSpace::WorldSpace;
+            transformDefUI.Position = { 50.0f, 50.0f };
+            transformDefUI.Space = Engine::ITransform::PositionSpace::CameraSpace;
             transformDefUI.Type = Engine::ITransform::PositionType::Relative;
 
             auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, transformDefUI);

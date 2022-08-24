@@ -25,5 +25,6 @@ namespace Engine
         float V2fDot(const Vec2& v1, const Vec2& v2);
 
         float V2fCross(const Vec2& v1, const Vec2& v2);
+        float V2fCross(const Vec2& v1, const Vec2& v2);
     };
 };

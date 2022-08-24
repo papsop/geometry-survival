@@ -161,6 +161,12 @@ namespace Engine
              //return { vec.x, vec.y };
  		}
 
+		sf::Vector2f WindowViewStrategy::CameraSpaceToCoords(math::Vec2 vec)
+		{
+            sf::Vector2i ivec = BVec2ToVector2i(vec);
+            return m_window->mapPixelToCoords(ivec);
+		}
+
 		// ==============================================
 
         void WindowViewStrategy::PreRender()
@@ -170,15 +176,6 @@ namespace Engine
         
 		void WindowViewStrategy::RenderRenderable(Renderable& renderable)
 		{
-            if (renderable.Transform.Space == ITransform::PositionSpace::CameraSpace)
-            {
-                sf::Vector2i pos = { static_cast<int>(renderable.Transform.Position.x), static_cast<int>(renderable.Transform.Position.y) };
-                sf::Vector2f posf = m_window->mapPixelToCoords(pos);
-
-                renderable.Transform.Position.x = posf.x;
-                renderable.Transform.Position.y = posf.y;
-            }
-
             switch (renderable.Type)
             {
             case Renderable::RenderableType::SHAPE:
@@ -189,32 +186,32 @@ namespace Engine
 
 		sf::CircleShape WindowViewStrategy::GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape)
 		{
-            sf::Vector2f pixelPosition;
-            float pixelAngle;
-            float pixelRadius;
+            sf::Vector2f position;
+            float angle;
+            float radius;
             // convert Coords to pixel
-            if (transform.Space == ITransform::PositionSpace::WorldSpace)
+            if (transform.Space == ITransform::PositionSpace::CameraSpace)
             {
-				pixelPosition = m_viewManager.coordsToPixels(transform.Position);
-				pixelRadius = m_viewManager.coordToPixel(shape.Radius);
+                position    = CameraSpaceToCoords(transform.Position);
+                radius      = shape.Radius;
             }
             else
             {
-                pixelPosition   = {transform.Position.x, transform.Position.y};
-                pixelRadius     = shape.Radius;
+				position    = m_viewManager.coordsToPixels(transform.Position);
+				radius      = m_viewManager.coordToPixel(shape.Radius);
             }
             
-            pixelAngle = Box2DRotationToSFML(transform.Rotation); // shared in both
+            angle           = Box2DRotationToSFML(transform.Rotation); // shared in both
 
             // create sfml object
             auto obj = sf::CircleShape();
             obj.setPointCount(shape.PointCount);
-            obj.setRadius(pixelRadius);
-            obj.setPosition(pixelPosition);
+            obj.setRadius(radius);
+            obj.setPosition(position);
             obj.setFillColor(shape.Color);
-            obj.setRotation(pixelAngle);
+            obj.setRotation(angle);
             obj.setScale({ 1,1 });
-            obj.setOrigin({ pixelRadius, pixelRadius });
+            obj.setOrigin({ radius, radius });
             return obj;
 		}
 

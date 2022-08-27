@@ -11,7 +11,15 @@ namespace Engine
         , DebugName(debugName)
         , Tag(tag)
     { 
-       m_transform = std::make_unique<Transform>(*this, transformDef);
+       if (transformDef.TransType == ITransform::TransformType::Transform)
+       {
+           m_transform = std::make_unique<Transform>(*this, transformDef);
+       }
+       else
+       {
+           m_transform = std::make_unique<RectTransform>(*this, transformDef);
+       }
+       
        LOG_DEBUG("Creating GameObject [ID: %d, Name: '%s']", id, debugName);
     };
 

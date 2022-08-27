@@ -5,7 +5,8 @@ namespace Engine
 
 	ITransform::ITransform(GameObject& owner, const TransformDefinition& def)
 		: m_owner(owner)
-		, m_type(def.Type)
+		, m_transformType(def.TransType)
+		, m_positionType(def.PosType)
 		, m_space(def.Space)
 	{
 		SetParent(def.Parent);

@@ -58,6 +58,6 @@ namespace Game
 	{
 		Engine::math::Vec2 pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 6.0f);
 		std::string expCount = "LevelProgress " + std::to_string(GetCurrentLevelProgress());
-		viewStrategy->DebugRenderText(expCount, pos, 12.0f, sf::Color::Yellow);
+		viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, expCount, pos, 12.0f, sf::Color::Yellow);
 	}
 }

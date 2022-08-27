@@ -21,10 +21,10 @@ namespace Engine
             void PostRender() override;
 
 
-// 			void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color) override;
-// 			void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) override;
-//             void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) override;
-//             void DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color) override;
+ 			void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color) override;
+ 			void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) override;
+            void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) override;
+            void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color) override;
 
             void SetView(const CameraData& cameraData) override;
             sf::Vector2f GetMousePosition() override;
@@ -34,7 +34,7 @@ namespace Engine
         private:
             // conversions
 //             sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);
-// 			sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
+// 			   sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
 //             sf::RectangleShape  RectangleToSFMLRectangleShape(const view::Rectangle& rectangle);
 //             sf::Text            TextToSFMLText(const view::Text& text);
 			float                   Box2DRotationToSFML(float angle);

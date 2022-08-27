@@ -22,7 +22,7 @@ namespace Engine
 
 	math::Vec2 Transform::GetPosition() const
 	{ 
-		if (m_type == ITransform::PositionType::Relative && m_parent != nullptr)
+		if (GetPositionType() == ITransform::PositionType::Relative && m_parent != nullptr)
 			return m_parent->GetTransform()->GetPosition() + m_position;
 
 		return m_position;
@@ -58,7 +58,7 @@ namespace Engine
 		ITransform::AbsoluteTransform result;
 		result.Position = GetPosition();
 		result.Rotation = GetRotation();
-		result.Scale	= { 0.0f, 0.0f };
+		result.Scale	= { 1.0f, 1.0f };
 		result.Space	= GetPositionSpace();
 		return result;
 	}
@@ -70,4 +70,20 @@ namespace Engine
 		return *this;
 	}
 
+	void Transform::Debug(view::IViewStrategy* viewStrategy)
+	{
+		sf::Color color;
+		if (GetPositionSpace() == PositionSpace::CameraSpace)
+			color = sf::Color::Cyan;
+		else
+			color = sf::Color::Magenta;
+
+		// Debug position + rotation
+		viewStrategy->DebugRenderRectangle(GetPositionSpace(), GetPosition(), { .2f, 0.2f }, GetRotation(), color, color);
+		// Debug forward vector
+		auto forward = Forward();
+		forward *= 2;
+		forward += GetPosition();
+		viewStrategy->DebugRenderLine(GetPositionSpace(), GetPosition(), forward, color);
+	}
 }

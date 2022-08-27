@@ -1,8 +1,7 @@
 #pragma once
 #include "../View/Renderables.h"
 #include "../Core/CameraData.h"
-#include <SFML/window.hpp>
-#include <functional>
+#include "../Components/Core/ITransform.h"
 
 namespace Engine
 {
@@ -25,10 +24,10 @@ namespace Engine
 			virtual void RenderRenderable(Renderable& renderable) = 0;
             virtual void PostRender() = 0;
 
-            virtual void DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color)  {};
-            virtual void DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color) {};
-            virtual void DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) {};
-            virtual void DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color) {};
+            virtual void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color)  {};
+            virtual void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) {};
+            virtual void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) {};
+            virtual void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color) {};
 
             virtual void SetView(const CameraData& cameraData) = 0;
             virtual sf::Vector2f GetMousePosition() = 0;

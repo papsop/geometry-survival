@@ -2,6 +2,7 @@ set(SOURCES
 	Core.h
 	Physics.h
 	View.h
+	UI.h
 
 	Core/Transform_old.h
 	Core/ITransform.h
@@ -30,6 +31,11 @@ set(SOURCES
 	View/ShapeViewComponent.cpp
 	View/RectangleViewComponent.h
 	View/RectangleViewComponent.cpp
+
+	UI/LayoutElementComponent.h
+	UI/LayoutElementComponent.cpp
+	UI/HorizontalLayoutComponent.h
+	UI/HorizontalLayoutComponent.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

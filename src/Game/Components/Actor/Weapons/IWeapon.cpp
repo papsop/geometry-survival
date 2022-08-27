@@ -91,7 +91,7 @@ namespace Game
 		Engine::GameObject& ownerGO = m_ownerWeaponComponent.Owner;
 		Engine::math::Vec2 pos = ownerGO.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 5.0f);
 		std::string ammoCount = "Ammo " + std::to_string(m_currentAmmo) + "/" + std::to_string(GetWeaponMaxAmmo());
-		viewStrategy->DebugRenderText(ammoCount, pos, 12.0f, sf::Color::Yellow);
+		viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, ammoCount, pos, 12.0f, sf::Color::Yellow);
 	}
 
 	void IWeapon::ProcessMessage(const Engine::Message& message)

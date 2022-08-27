@@ -252,71 +252,82 @@ namespace Engine
 		// ==================================================================================
         // Debug Renders
 
-//         void WindowViewStrategy::DebugRenderLine(Engine::math::Vec2 a, Engine::math::Vec2 b, sf::Color color)
-// 		{
-//             auto p1 = ViewManager::Get().coordsToPixels(a);
-//             auto p2 = ViewManager::Get().coordsToPixels(b);
-// 
-// 			sf::Vertex line[] = {
-//                 sf::Vertex(p1, color),
-// 				sf::Vertex(p2, color)
-// 			};
-// 			m_window->draw(line, 2, sf::Lines);
-// 		}
-// 
-// 		void WindowViewStrategy::DebugRenderCircle(Engine::math::Vec2 center, float radius, sf::Color color)
-// 		{
-// 			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
-// 			auto sfmlRadius = ViewManager::Get().coordToPixel(radius);
-// 
-//             sf::CircleShape circle(sfmlRadius);
-//             circle.setOutlineColor(color);
-//             circle.setOutlineThickness(2.0f);
-//             circle.setFillColor(sf::Color(0, 0, 0, 0));
-//             circle.setOrigin({ sfmlRadius, sfmlRadius });
-//             circle.setPosition(sfmlPosition);
-//             m_window->draw(circle);
-// 		}
-// 
-// 		void WindowViewStrategy::DebugRenderRectangle(Engine::math::Vec2 center, Engine::math::Vec2 size, float angle, sf::Color color, sf::Color fillColor)
-// 		{
-// 			//convert box2d to sfml
-// 			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
-// 			auto sfmlSize = ViewManager::Get().coordsToPixels(size);
-// 			sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
-// 			sfmlSize.x = 2 * sfmlSize.x;
-// 			auto sfmlAngle = Box2DRotationToSFML(angle);
-// 
-// 			// create SFML rectangle
-// 			auto obj = sf::RectangleShape();
-// 			obj.setOutlineColor(color);
-//             obj.setOutlineThickness(3);
-// 			obj.setSize(sfmlSize);
-//             obj.setFillColor(fillColor);
-// 			obj.setRotation(sfmlAngle);
-// 			obj.setScale({1.0f, 1.0f});
-// 			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
-// 			obj.setPosition(sfmlPosition);
-//             m_window->draw(obj);
-// 		}
-// 
-// 		void WindowViewStrategy::DebugRenderText(std::string text, Engine::math::Vec2 position, float size, sf::Color color)
-// 		{
-// 			//convert box2d to sfml
-// 			auto sfmlPosition = ViewManager::Get().coordsToPixels(position);
-// 
-// 			auto obj = sf::Text();
-// 			obj.setFont(m_consoleFont);
-//             obj.setString(text);
-// 			obj.setCharacterSize(size);
-// 			obj.setFillColor(color);
-// 			// center text, need to do it after setting font
-// 			sf::FloatRect textRect = obj.getLocalBounds();
-// 			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
-// 			obj.setPosition(sfmlPosition);
-// 
-//             m_window->draw(obj);
-// 		}
+        void WindowViewStrategy::DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color)
+ 		{
+             auto p1 = ViewManager::Get().coordsToPixels(a);
+             auto p2 = ViewManager::Get().coordsToPixels(b);
+ 
+ 			sf::Vertex line[] = {
+                sf::Vertex(p1, color),
+ 				sf::Vertex(p2, color)
+ 			};
+ 			m_window->draw(line, 2, sf::Lines);
+ 		}
+ 
+ 		void WindowViewStrategy::DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color)
+ 		{
+ 			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
+ 			auto sfmlRadius = ViewManager::Get().coordToPixel(radius);
+ 
+             sf::CircleShape circle(sfmlRadius);
+             circle.setOutlineColor(color);
+             circle.setOutlineThickness(2.0f);
+             circle.setFillColor(sf::Color(0, 0, 0, 0));
+             circle.setOrigin({ sfmlRadius, sfmlRadius });
+             circle.setPosition(sfmlPosition);
+             m_window->draw(circle);
+ 		}
+ 
+ 		void WindowViewStrategy::DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor)
+ 		{
+ 			//convert box2d to sfml
+            sf::Vector2f sfmlPosition;
+            sf::Vector2f sfmlSize;
+ 			auto sfmlAngle = Box2DRotationToSFML(angle);
+
+            if (space == ITransform::PositionSpace::CameraSpace)
+            {
+                sfmlPosition = CameraSpaceToCoords(center);
+                sfmlSize = {size.x, size.y};
+            }
+            else
+            {
+                sfmlPosition = ViewManager::Get().coordsToPixels(center);
+                sfmlSize = ViewManager::Get().coordsToPixels(size);
+				sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
+				sfmlSize.x = 2 * sfmlSize.x;
+            }
+ 
+ 			// create SFML rectangle
+ 			auto obj = sf::RectangleShape();
+ 			obj.setOutlineColor(color);
+            obj.setOutlineThickness(3);
+ 			obj.setSize(sfmlSize);
+            obj.setFillColor(fillColor);
+ 			obj.setRotation(sfmlAngle);
+ 			obj.setScale({1.0f, 1.0f});
+ 			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
+ 			obj.setPosition(sfmlPosition);
+            m_window->draw(obj);
+ 		}
+ 
+ 		void WindowViewStrategy::DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color)
+ 		{
+ 			//convert box2d to sfml
+ 			auto sfmlPosition = ViewManager::Get().coordsToPixels(position);
+ 
+ 			auto obj = sf::Text();
+ 			obj.setFont(m_consoleFont);
+             obj.setString(text);
+ 			obj.setCharacterSize(size);
+ 			obj.setFillColor(color);
+ 			// center text, need to do it after setting font
+ 			sf::FloatRect textRect = obj.getLocalBounds();
+ 			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+ 			obj.setPosition(sfmlPosition);
+ 
+             m_window->draw(obj);
+ 		}
 
 		// ==================================================================================
 

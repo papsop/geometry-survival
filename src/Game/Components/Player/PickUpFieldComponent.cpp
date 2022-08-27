@@ -34,7 +34,7 @@ namespace Game
 
 	void PickUpFieldComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
-		viewStrategy->DebugRenderCircle(Owner.GetTransform()->GetPosition(), m_radius, sf::Color::White);
+		viewStrategy->DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), m_radius, sf::Color::White);
 	}
 
 };

@@ -6,6 +6,7 @@ namespace Engine
 {
 	
 	class GameObject;
+	enum class RectAnchor;
 
 	class ITransform
 	{
@@ -26,6 +27,11 @@ namespace Engine
 			CameraSpace				// relative to the current camera view
 		};
 
+		enum class TransformType
+		{
+			Transform,
+			RectTransform
+		};
 		// Used when we want to export ITransform into movable form without Owner/parent/children
 		// AbsoluteTransform has already calculated relativeness to parent
 		struct AbsoluteTransform
@@ -48,13 +54,20 @@ namespace Engine
 		// Used to Initialize GameObject's transform
 		struct TransformDefinition
 		{
-			math::Vec2		Position = {0.0f, 0.0f};
-			float			Rotation = 0.0f;
-			math::Vec2		Scale = {1.0f, 1.0f};
-			PositionSpace	Space = PositionSpace::WorldSpace;
-			PositionType	Type = PositionType::Absolute;
+			TransformType	TransType	= TransformType::Transform;
 
-			GameObject*		Parent = nullptr;
+			// Shared
+			math::Vec2		Position	= {0.0f, 0.0f};
+			float			Rotation	= 0.0f;
+			math::Vec2		Scale		= {1.0f, 1.0f};
+			PositionSpace	Space		= PositionSpace::WorldSpace;
+			PositionType	PosType		= PositionType::Absolute;
+			GameObject*		Parent		= nullptr;
+
+			// Rect specific
+			math::Vec2		Size		= { 1.0f, 1.0f };
+			RectAnchor		Anchor;
+			
 		};
 		// ====================================================================================
 		// Class members
@@ -75,8 +88,9 @@ namespace Engine
 		virtual AbsoluteTransform GetAbsoluteTransform() const = 0;
 
 
-		PositionType GetPositionType() const { return m_type; };
+		PositionType GetPositionType() const { return m_positionType; };
 		PositionSpace GetPositionSpace() const { return m_space; };
+		TransformType GetTransformType() const { return m_transformType; };
 		GameObject& GetOwner() const { return m_owner; };
 		GameObject* GetParent() const { return m_parent; };
 		const std::list<GameObject*>& GetChildren() const { return m_children; };
@@ -86,8 +100,9 @@ namespace Engine
 
 	protected:
 		GameObject& m_owner;
-		PositionType m_type;
+		PositionType m_positionType;
 		PositionSpace m_space;
+		TransformType m_transformType;
 
 		// Transform hierarchy
 		// If my parent dies - I kill myself and all my children

@@ -1,11 +1,21 @@
 #pragma once
 #include "ITransform.h"
+#include "../../Debug/IDebuggable.h"
 
 namespace Engine
 {
-	class Transform final : public ITransform
+	struct TransformSpecificDefinition
+	{
+		/* nothing yet */
+	};
+
+	class Transform final : public ITransform, public IDebuggableComponent
 	{
 	public:
+		// ====================================================
+		// Class members
+		// ====================================================
+
 		Transform(GameObject& owner, const TransformDefinition& def);
 		~Transform() override = default;
 
@@ -20,6 +30,9 @@ namespace Engine
 		AbsoluteTransform GetAbsoluteTransform() const override;
 
 		Transform& operator=(const Transform& rhs);
+
+		void Debug(view::IViewStrategy* viewStrategy) override;
+
 	private:
 		math::Vec2 m_position;
 		math::Vec2 m_scale;

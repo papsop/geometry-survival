@@ -1,11 +1,57 @@
 #pragma once
-#include "ITransform.h"
+#include "../../Debug/IDebuggable.h"
 
 namespace Engine
 {
-	class RectTransform final : public ITransform
+	// Keep outside of RectTransform because we can't forward declare an inner class/struct
+	// It's used in ITransform::TransformDefinition
+	enum class RectAnchor
+	{ // TODO: add more
+		TopLeft,
+		TopCenter,
+		TopRight,
+		CenterLeft,
+		CenterCenter,
+		CenterRight,
+		BottomLeft,
+		BottomCenter,
+		BottomRight
+	};
+
+	class RectTransform final : public ITransform, public IDebuggableComponent
 	{
 	public:
+		// ====================================================
+		// Class members
+		// ====================================================
 
+		RectTransform(GameObject& owner, const TransformDefinition& def);
+		~RectTransform() override = default;
+
+		void SetPosition(math::Vec2 pos) override;
+		math::Vec2 GetPosition() const override;
+		float GetRotation() const override;
+
+		void SetRotationDeg(float rotation) override;
+		void SetRotationRad(float rotation) override;
+		math::Vec2 Forward() const override;
+
+		AbsoluteTransform GetAbsoluteTransform() const override;
+
+		RectTransform& operator=(const RectTransform& rhs);
+
+		// ================================
+		// RectTransform specific functions
+		// ================================
+		void SetAnchor(RectAnchor anchor) { m_anchor = anchor; };
+		sf::FloatRect GetBoundingBox() const;
+
+		void Debug(view::IViewStrategy* viewStrategy) override;
+
+	private:
+		math::Vec2 m_position;
+		float	   m_rotation;
+		math::Vec2 m_size;
+		RectAnchor m_anchor;
 	};
 }

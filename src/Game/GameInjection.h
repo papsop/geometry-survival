@@ -8,6 +8,7 @@
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
 #include <Engine/Components/View.h>
+#include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
 
@@ -139,15 +140,18 @@ namespace Game
             enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
 			Engine::ShapeViewDef shapeViewDef2;
-			shapeViewDef2.Color = sf::Color::Green;
+			shapeViewDef2.Color = sf::Color::Magenta;
 			shapeViewDef2.PointCount = 7;
 			shapeViewDef2.Radius = 25.0f;
 
             Engine::ITransform::TransformDefinition transformDefUI;
+            transformDefUI.TransType = Engine::ITransform::TransformType::RectTransform;
+            transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
+            transformDefUI.Size = { 50.0f, 50.0f, };
             transformDefUI.Position = { 50.0f, 50.0f };
             transformDefUI.Space = Engine::ITransform::PositionSpace::CameraSpace;
-            transformDefUI.Type = Engine::ITransform::PositionType::Relative;
-
+            transformDefUI.PosType = Engine::ITransform::PositionType::Absolute;
+            
             auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, transformDefUI);
             UI->AddComponent<Engine::ShapeViewComponent>(shapeViewDef2);
 

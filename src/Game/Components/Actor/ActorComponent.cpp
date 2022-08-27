@@ -85,7 +85,7 @@ namespace Game
 	{
         // name
         Engine::math::Vec2 pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 3.0f);
-        viewStrategy->DebugRenderText(Owner.DebugName, pos, 12.0f, sf::Color::Yellow);
+        viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, Owner.DebugName, pos, 12.0f, sf::Color::Yellow);
 
         // currentHealth/maxHealth
 		pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, 4.0f);
@@ -93,7 +93,7 @@ namespace Game
                                     "/" + \
                                    std::to_string( static_cast<int>(m_RPGComponent->GetStat(RPGStats::MAX_HEALTH)) );
 
-		viewStrategy->DebugRenderText(healthString, pos, 12.0f, sf::Color::Yellow);
+		viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, healthString, pos, 12.0f, sf::Color::Yellow);
 	}
 
 	void ActorComponent::Update(float dt)

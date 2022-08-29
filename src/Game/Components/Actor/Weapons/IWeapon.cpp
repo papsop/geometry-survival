@@ -96,7 +96,7 @@ namespace Game
 
 	void IWeapon::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MSG_Weapon_Reload 
+		if (message.Type == Engine::MessageType::Weapon_Reload
 			&& m_currentAmmo != m_maxAmmo
 			&& m_currentWeaponState != WeaponState::Reloading)
 		{

@@ -19,6 +19,7 @@ namespace Engine
         GameObject* CreateGameObject(const char* name, GameObjectTag tag, const ITransform::TransformDefinition& transformDef);
         GameObject* GetGameObjectByID(GameObjectID ID);
 
+        void Update(float dt) override;
         void DestroyGameObject(GameObjectID ID);
         void CleanupGameObjects();
     private:

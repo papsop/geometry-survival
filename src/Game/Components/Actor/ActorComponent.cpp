@@ -69,12 +69,12 @@ namespace Game
 
 	void ActorComponent::WeaponFire()
     {
-        Owner.SendMessageTo(&Owner, Engine::MSG_Weapon_Fire);
+        Owner.SendMessageTo(&Owner, Engine::MessageType::Weapon_Fire);
     }
 
 	void ActorComponent::WeaponReload()
 	{
-        Owner.SendMessageTo(&Owner, Engine::MSG_Weapon_Reload);
+        Owner.SendMessageTo(&Owner, Engine::MessageType::Weapon_Reload);
 	}
 
 	void ActorComponent::ProcessMessage(const Engine::Message& message)

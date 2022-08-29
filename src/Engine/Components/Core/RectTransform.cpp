@@ -17,6 +17,7 @@ namespace Engine
 	void RectTransform::SetPosition(math::Vec2 pos)
 	{
 		m_position = pos;
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	math::Vec2 RectTransform::GetPosition() const
@@ -42,11 +43,13 @@ namespace Engine
 	void RectTransform::SetRotationDeg(float rotation)
 	{
 		m_rotation = math::DEG_TO_RAD(rotation);
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	void RectTransform::SetRotationRad(float rotation)
 	{
 		m_rotation = rotation;
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	math::Vec2 RectTransform::Forward() const
@@ -120,7 +123,11 @@ namespace Engine
 
 
 	RectTransform& RectTransform::operator=(const RectTransform& rhs)
-	{
+	{// Not entirely correct, we only copy  rectTransform stuff, Owner/parent/etc isn't moved
+		this->m_position	= rhs.m_position;
+		this->m_rotation	= rhs.m_rotation;
+		this->m_size		= rhs.m_size;
+		this->m_anchor		= rhs.m_anchor;
 		return *this;
 	}
 

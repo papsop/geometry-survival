@@ -90,6 +90,8 @@ namespace Engine
             // Update managers
             m_inputManager.Update();
 
+            // Process GameObject messages
+            m_gameObjectManager.Update(lastFrameMS);
             // Update custom managers that the game registered
             for (auto&& managerEntry : m_managers)
             {

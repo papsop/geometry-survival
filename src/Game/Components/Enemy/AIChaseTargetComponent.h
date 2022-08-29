@@ -18,6 +18,9 @@ namespace Game
 		void ProcessMessage(const Engine::Message& message) override;
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 
+
+		void OnDestroy() override;
+
 	private:
 		Engine::GameObject* m_target;
 		Engine::PushdownStateMachine m_stateMachine;

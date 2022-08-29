@@ -31,14 +31,9 @@ namespace Engine
        receiver->ReceiveMessage(message);
    }
 
-   void GameObject::ReceiveMessage(const Message& message)
+   void GameObject::ReceiveMessage(Message message)
    {
-       ForEachComponent(
-           [&](IComponent* c)
-           {
-               c->ProcessMessage(message);
-           }
-       );
+       m_messageQueue.emplace(message);
    }
 
    void GameObject::ForEachComponent(FuncOverComponents func)
@@ -47,7 +42,22 @@ namespace Engine
 		   func(c.second.get());
    }
 
-    void GameObject::OnCollisionStart(CollisionData& collision)
+   void GameObject::Update(float dt)
+   {
+       while (!m_messageQueue.empty())
+       {
+           Message& message = m_messageQueue.front();
+           ForEachComponent(
+               [&](IComponent* c)
+               {
+                   c->ProcessMessage(message);
+               }
+           );
+           m_messageQueue.pop();
+       }
+   }
+
+   void GameObject::OnCollisionStart(CollisionData& collision)
     {
         ForEachComponent(
             [&](IComponent* c)
@@ -69,6 +79,12 @@ namespace Engine
 
     void GameObject::Destroy()
     {
+		ForEachComponent(
+			[](IComponent* c)
+			{
+				c->OnDestroy();
+			}
+		);
         Engine::GameObjectManager::Get().DestroyGameObject(ID);
     }
 

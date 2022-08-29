@@ -32,7 +32,18 @@ namespace Engine
             
     }
 
-    void GameObjectManager::DestroyGameObject(uint32_t ID)
+	void GameObjectManager::Update(float dt)
+	{
+        for (auto& gameObject : m_gameObjects)
+        {
+            if (gameObject.second->ShouldUpdate())
+            {
+                gameObject.second->Update(dt);
+            }
+        }
+	}
+
+	void GameObjectManager::DestroyGameObject(uint32_t ID)
     {
         auto gameObject = GetGameObjectByID(ID);
         if (gameObject != nullptr)

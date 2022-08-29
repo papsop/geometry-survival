@@ -36,13 +36,6 @@ namespace Game
 
 	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MessageType::MSG_DIED)
-		{
-			ExperienceGlobeDef experienceGlobeDef;
-			experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
-
-			Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
-		}
 	}
 
 	void AIChaseTargetComponent::OnCollisionStart(Engine::CollisionData& collision)
@@ -59,6 +52,18 @@ namespace Game
 		
 		// go to stun
 		m_stateMachine.AddState<Actor_Stunned>(actorComponent, 1.0f);
+	}
+
+	void AIChaseTargetComponent::OnDestroy()
+	{
+		// check if destroyed because of HP
+		if (Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
+		{
+			ExperienceGlobeDef experienceGlobeDef;
+			experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
+
+			Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
+		}
 	}
 
 }

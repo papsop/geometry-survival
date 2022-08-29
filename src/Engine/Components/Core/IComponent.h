@@ -31,6 +31,7 @@ namespace Engine
         bool IsActive() { return m_isActive; }
 
         virtual void OnCreate() {};
+        virtual void OnDestroy() {};
         virtual void Update(float dt) {};
         virtual void OnCollisionStart(CollisionData& collision) {};
         virtual void OnCollisionEnd(CollisionData& collision) {};

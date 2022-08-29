@@ -3,12 +3,11 @@
 namespace Engine
 {
 
-	enum MessageType
+	enum class MessageType
 	{
-		MSG_Test,
-		MSG_DIED,
-		MSG_Weapon_Fire,
-		MSG_Weapon_Reload
+		Transform_Changed,
+		Weapon_Fire,
+		Weapon_Reload
 	};
 
 

@@ -56,6 +56,8 @@ namespace Engine
         const GameObjectTag Tag;
         const char* DebugName;
 
+        void Update(float dt);
+
         ITransform* GetTransform() { return m_transform.get(); }
 
         void OnCollisionStart(CollisionData& collision);
@@ -72,7 +74,7 @@ namespace Engine
         Scene& GetScene() { return *m_scene; }
 
         void SendMessageTo(GameObject* receiver, MessageType type);
-        void ReceiveMessage(const Message& message);
+        void ReceiveMessage(Message message);
 
         void ForEachComponent(FuncOverComponents func);
 
@@ -84,6 +86,7 @@ namespace Engine
         std::unique_ptr<ITransform> m_transform;
         Scene* m_scene;
 
+        std::queue<Message> m_messageQueue;
         friend class GameObjectManager;
     };
 };

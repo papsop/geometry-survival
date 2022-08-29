@@ -18,6 +18,7 @@ namespace Engine
 	void Transform::SetPosition(math::Vec2 pos)
 	{ // todo absolute/relative
 		m_position = pos;
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	math::Vec2 Transform::GetPosition() const
@@ -34,11 +35,13 @@ namespace Engine
 	void Transform::SetRotationDeg(float rotation)
 	{
 		m_rotation = math::DEG_TO_RAD(rotation);
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	void Transform::SetRotationRad(float rotation)
 	{
 		m_rotation = rotation;
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 	float Transform::GetRotation() const

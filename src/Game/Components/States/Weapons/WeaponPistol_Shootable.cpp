@@ -22,7 +22,7 @@ namespace Game
 
 	void WeaponPistol_Shootable::ProcessMessage(const Engine::Message& message)
 	{
-		if (message.Type == Engine::MSG_Weapon_Fire)
+		if (message.Type == Engine::MessageType::Weapon_Fire)
 		{
 			m_ownerPistol.Fire();
 		}

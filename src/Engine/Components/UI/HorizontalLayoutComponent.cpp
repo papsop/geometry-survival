@@ -15,4 +15,9 @@ namespace Engine
 		DD_ASSERT(m_parentRectTransform != nullptr, "HorizontalLayoutComponent only usable with a RectTransform");
 	}
 
+	void HorizontalLayoutComponent::Update(float dt)
+	{
+		
+	}
+
 };

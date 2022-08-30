@@ -43,13 +43,13 @@ namespace Engine
 	void RectTransform::SetRotationDeg(float rotation)
 	{
 		m_rotation = math::DEG_TO_RAD(rotation);
-		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
+		NotifyTransformChanged();
 	}
 
 	void RectTransform::SetRotationRad(float rotation)
 	{
 		m_rotation = rotation;
-		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
+		NotifyTransformChanged();
 	}
 
 	math::Vec2 RectTransform::Forward() const
@@ -65,6 +65,12 @@ namespace Engine
 		result.Scale = { 1.0f, 1.0f };
 		result.Space = GetPositionSpace();
 		return result;
+	}
+
+	void RectTransform::SetSize(math::Vec2 size)
+	{
+		m_size = size;
+		NotifyTransformChanged();
 	}
 
 	sf::FloatRect RectTransform::GetBoundingBox() const
@@ -133,7 +139,6 @@ namespace Engine
 
 	void RectTransform::Debug(view::IViewStrategy* viewStrategy)
 	{
-
 		auto bb				= GetBoundingBox();
 		math::Vec2 center	= { bb.left + bb.width / 2, bb.top + bb.height / 2 };
 		math::Vec2 size		= { bb.width, bb.height };

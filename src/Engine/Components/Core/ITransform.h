@@ -97,8 +97,11 @@ namespace Engine
 
 		void SetParent(GameObject* parent);
 		void SetChild(GameObject* child);
+		void SetPositionType(PositionType posType);
 
 	protected:
+		void NotifyTransformChanged();
+
 		GameObject& m_owner;
 		PositionType m_positionType;
 		PositionSpace m_space;

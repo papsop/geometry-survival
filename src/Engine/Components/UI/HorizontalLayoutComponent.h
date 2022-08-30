@@ -12,6 +12,7 @@ namespace Engine
 
 
 		void OnCreate() override;
+		void Update(float dt) override;
 
 	private:
 		RectTransform* m_parentRectTransform = nullptr;

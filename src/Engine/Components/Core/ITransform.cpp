@@ -1,5 +1,5 @@
 #include "ITransform.h"
-
+#include "../../Core/GameObject/GameObject.h"
 namespace Engine
 {
 
@@ -20,6 +20,16 @@ namespace Engine
 	void ITransform::SetChild(GameObject* child)
 	{
 		m_children.emplace_back(child);
+	}
+
+	void ITransform::SetPositionType(PositionType posType)
+	{
+		m_positionType = posType;
+	}
+
+	void ITransform::NotifyTransformChanged()
+	{
+		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
 	}
 
 }

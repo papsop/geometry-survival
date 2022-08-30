@@ -44,11 +44,13 @@ namespace Engine
 		// RectTransform specific functions
 		// ================================
 		void SetAnchor(RectAnchor anchor) { m_anchor = anchor; };
+		void SetSize(math::Vec2 size);
 		sf::FloatRect GetBoundingBox() const;
 
 		void Debug(view::IViewStrategy* viewStrategy) override;
 
 	private:
+
 		math::Vec2 m_position;
 		float	   m_rotation;
 		math::Vec2 m_size;

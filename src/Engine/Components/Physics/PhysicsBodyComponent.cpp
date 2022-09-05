@@ -61,7 +61,7 @@ namespace Engine
 		PhysicsManager::Get().DeleteBody(m_b2Body);
 	}
 
-	void PhysicsBodyComponent::Update(float dt)
+	void PhysicsBodyComponent::FixedUpdate(float dt)
 	{
 		Owner.GetTransform()->SetPosition(m_b2Body->GetPosition());
 		Owner.GetTransform()->SetRotationRad(m_b2Body->GetAngle());

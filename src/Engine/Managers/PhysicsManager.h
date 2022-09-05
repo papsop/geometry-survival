@@ -26,7 +26,8 @@ namespace Engine
 		void RegisterComponent(PhysicsBodyComponent* component);
 		void UnregisterComponent(PhysicsBodyComponent* component);
 
-		void Update(float dt);
+		void Update(float dt) override;
+		void FixedUpdate(float dt) override;
 		b2Body* CreateBody(const b2BodyDef* def);
 		void DeleteBody(b2Body* body);
 
@@ -36,6 +37,8 @@ namespace Engine
 		void PostSolve(b2Contact* contact, const b2ContactImpulse* impulse) override { /* no implementation */ };
 
 		void ReceiveEvent(const event::E_ApplicationStopped& eventData) override;
+
+		float GetFixedUpdate() const { return m_fixedUpdate; }
 	private:
 		PhysicsManager() = default;
 
@@ -44,6 +47,8 @@ namespace Engine
 
 		std::unique_ptr<b2World> m_b2World;
 		std::vector<PhysicsBodyComponent*> m_physicsBodies;	
+
+		const float m_fixedUpdate = 0.00694f; // 1s/60
 	friend class Application;
 	};
 }

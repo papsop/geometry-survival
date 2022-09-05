@@ -18,6 +18,7 @@ namespace Engine
 
         void IterateOverComponents(TComponentEnumerate func);
         void Update(float dt);
+        void FixedUpdate(float dt);
 
         const uint32_t ContainerID;
 
@@ -47,7 +48,8 @@ namespace Engine
 		        >
 		void UnregisterComponent(T* component);
 
-        void Update(float dt);
+        void Update(float dt) override;
+        void FixedUpdate(float dt) override;
 
 		template<typename T,
 			    typename = enable_if_base_of_component<T>

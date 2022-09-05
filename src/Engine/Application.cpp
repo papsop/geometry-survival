@@ -44,9 +44,21 @@ namespace Engine
 
 	void Application::UpdateGameplay(float dt)
 	{
-		m_physicsManager.Update(dt);
+        // Update
 		m_sceneManager.Update(dt);
 		m_componentManager.Update(dt);
+        m_physicsManager.Update(dt);
+
+        m_timeAccumulator += dt;
+        // FixedUpdate
+        while (m_timeAccumulator >= m_fixedUpdate)
+        {
+            m_physicsManager.FixedUpdate(m_fixedUpdate);
+            m_sceneManager.FixedUpdate(m_fixedUpdate);
+            m_componentManager.FixedUpdate(m_fixedUpdate);
+            m_timeAccumulator -= m_fixedUpdate;
+        }
+
 	}
 
 	void Application::Run(ApplicationInjection& injection)
@@ -65,6 +77,8 @@ namespace Engine
         // Let game create it's subsystems
         injection.RegisterGameComponents(*this);
 
+        m_fixedUpdate = m_physicsManager.GetFixedUpdate();
+
         //Scene scene;
         //auto debugID = scene.AddGameObjectViaFactory(DebugGOFactory());
         //auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
@@ -77,6 +91,7 @@ namespace Engine
 
         // Start updating
         sf::Clock clock;
+
         while (m_applicationIsRunning)
         {
             sf::Time elapsed = clock.restart();
@@ -93,11 +108,13 @@ namespace Engine
             // Process GameObject messages
             m_gameObjectManager.Update(lastFrameMS);
             // Update custom managers that the game registered
+            // These managers actually update Components etc. as they see fit
             for (auto&& managerEntry : m_managers)
             {
                 managerEntry.second->Update(lastFrameMS);
             }
 
+            // Rendering
             m_viewManager.Update(lastFrameMS);
             // reset input for this frame
             m_inputManager.PostUpdate();

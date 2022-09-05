@@ -18,6 +18,12 @@ namespace Engine
 			container.second->Update(dt);
 	}
 
+	void ComponentManager::FixedUpdate(float dt)
+	{
+		for (auto& container : m_containers)
+			container.second->FixedUpdate(dt);
+	}
+
 	// CONTAINER
 	
 	void ComponentsContainer::RegisterComponent(IComponent* component)
@@ -45,6 +51,17 @@ namespace Engine
 			{
 				if (c->Owner.ShouldUpdate())
 					c->Update(dt);
+			}
+		);
+	}
+
+	void ComponentsContainer::FixedUpdate(float dt)
+	{
+		IterateOverComponents(
+			[&](IComponent* c)
+			{
+				if (c->Owner.ShouldUpdate())
+					c->FixedUpdate(dt);
 			}
 		);
 	}

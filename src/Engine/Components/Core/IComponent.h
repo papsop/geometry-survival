@@ -33,6 +33,7 @@ namespace Engine
         virtual void OnCreate() {};
         virtual void OnDestroy() {};
         virtual void Update(float dt) {};
+        virtual void FixedUpdate(float dt) {};
         virtual void OnCollisionStart(CollisionData& collision) {};
         virtual void OnCollisionEnd(CollisionData& collision) {};
         virtual void ProcessMessage(const Message& message) { };

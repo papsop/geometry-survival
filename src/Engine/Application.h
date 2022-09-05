@@ -69,6 +69,9 @@ namespace Engine
         ConfigManager m_configManager;
 
         std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
+
+        float m_timeAccumulator = 0.0f;
+        float m_fixedUpdate = -1.0f;
     };
 
 };

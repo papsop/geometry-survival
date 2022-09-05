@@ -19,7 +19,7 @@ namespace Engine
 		PhysicsBodyComponent(GameObject& obj, PhysicsBodyDef& def);
 		~PhysicsBodyComponent() override;
 
-		void Update(float dt) override;
+		void FixedUpdate(float dt) override;
 		void OnCreate() override;
 
 		b2Body* GetB2Body() { return m_b2Body; }
@@ -38,12 +38,10 @@ namespace Engine
 		uint16 m_categoryBits;
 		uint16 m_maskBits;
 
-	friend class SceneSerializer;
 	protected:
 		void VirtualOnActivated() override;
-
-
 		void VirtualOnDeactivated() override;
 
+	friend class SceneSerializer;
 	};
 }

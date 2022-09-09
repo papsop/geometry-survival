@@ -12,6 +12,10 @@
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
 
+#include <Engine/Components/UI/LayoutElementComponent.h>
+#include <Engine/Components/UI/HorizontalLayoutComponent.h>
+#include <Engine/Components/UI/VerticalLayoutComponent.h>
+
 #include "Core/GameObject/GameObjectFactory.h"
 #include "Managers/GameManager.h"
 
@@ -41,7 +45,7 @@ namespace Game
 			// setup logger
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
 			Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
+			Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::DEBUG);
 
             // Order is important
             Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
@@ -53,6 +57,9 @@ namespace Game
             Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
             Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
+            // TODO: shouldnt be here, handle in UI manager?
+            Engine::ComponentManager::Get().RegisterComponentType<Engine::HorizontalLayoutComponent>();
+            Engine::ComponentManager::Get().RegisterComponentType<Engine::VerticalLayoutComponent>();
 
             Engine::Application::Instance().RegisterGameManager<GameManager>();
         }
@@ -152,8 +159,29 @@ namespace Game
             transformDefUI.Space = Engine::ITransform::PositionSpace::CameraSpace;
             transformDefUI.PosType = Engine::ITransform::PositionType::Absolute;
             
-            auto UI = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, transformDefUI);
-            UI->AddComponent<Engine::ShapeViewComponent>(shapeViewDef2);
+            auto sub_ui_1 = Engine::GameObjectManager::Get().CreateGameObject("TestUI", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+            sub_ui_1->AddComponent<Engine::LayoutElementComponent>();
+            transformDefUI.Position = { 150.0f, 50.0f };
+			auto sub_ui_2 = Engine::GameObjectManager::Get().CreateGameObject("TestUI2", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+            sub_ui_2->AddComponent<Engine::LayoutElementComponent>();
+            transformDefUI.Position = { 250.0f, 50.0f };
+			auto sub_ui_3 = Engine::GameObjectManager::Get().CreateGameObject("TestUI3", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+            sub_ui_3->AddComponent<Engine::LayoutElementComponent>();
+			auto sub_ui_4 = Engine::GameObjectManager::Get().CreateGameObject("TestUI3", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+			sub_ui_4->AddComponent<Engine::LayoutElementComponent>();
+			auto sub_ui_5 = Engine::GameObjectManager::Get().CreateGameObject("TestUI3", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+			sub_ui_5->AddComponent<Engine::LayoutElementComponent>();
+
+            transformDefUI.Position = { 500.0f, 0.0f };
+            transformDefUI.Size = { 250.0f, 100.0f, };
+            transformDefUI.Anchor = Engine::RectAnchor::TopCenter;
+            auto layouter = Engine::GameObjectManager::Get().CreateGameObject("Layouter", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+            layouter->GetTransform()->SetChild(sub_ui_1);
+            layouter->GetTransform()->SetChild(sub_ui_2);
+            layouter->GetTransform()->SetChild(sub_ui_3);
+            layouter->GetTransform()->SetChild(sub_ui_4);
+            layouter->GetTransform()->SetChild(sub_ui_5);
+            layouter->AddComponent<Engine::HorizontalLayoutComponent>();
 
             // walls
             //WallFactoryDef wallFactoryDef;
@@ -174,7 +202,10 @@ namespace Game
             scene1.AddGameObject(player->ID);
             scene1.AddGameObject(enemySpawner->ID);
             scene1.AddGameObject(camera->ID);
-            scene1.AddGameObject(UI->ID);
+            scene1.AddGameObject(layouter->ID);
+            scene1.AddGameObject(sub_ui_1->ID);
+            scene1.AddGameObject(sub_ui_2->ID);
+            scene1.AddGameObject(sub_ui_3->ID);
 			//scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 

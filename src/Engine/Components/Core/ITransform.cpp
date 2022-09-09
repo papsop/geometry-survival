@@ -13,13 +13,14 @@ namespace Engine
 	}
 
 	void ITransform::SetParent(GameObject* parent)
-	{
+	{ // todo notify parent
 		m_parent = parent;
 	}
 
 	void ITransform::SetChild(GameObject* child)
-	{
+	{ // todo notify child
 		m_children.emplace_back(child);
+		child->GetTransform()->SetParent(&m_owner);
 	}
 
 	void ITransform::SetPositionType(PositionType posType)

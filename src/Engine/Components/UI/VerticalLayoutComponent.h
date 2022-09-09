@@ -4,11 +4,11 @@
 
 namespace Engine
 {
-	class HorizontalLayoutComponent : public IComponent
+	class VerticalLayoutComponent : public IComponent
 	{
 	public:
-		HorizontalLayoutComponent(GameObject& obj);
-		~HorizontalLayoutComponent();
+		VerticalLayoutComponent(GameObject& obj);
+		~VerticalLayoutComponent();
 
 
 		void OnCreate() override;

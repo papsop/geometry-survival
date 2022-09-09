@@ -36,6 +36,8 @@ set(SOURCES
 	UI/LayoutElementComponent.cpp
 	UI/HorizontalLayoutComponent.h
 	UI/HorizontalLayoutComponent.cpp
+	UI/VerticalLayoutComponent.h
+	UI/VerticalLayoutComponent.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

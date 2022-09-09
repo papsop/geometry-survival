@@ -22,17 +22,22 @@ namespace Engine
 
 	math::Vec2 RectTransform::GetPosition() const
 	{
-		// Rect position is always center of the bounding box of the transform itself
-		// BoundingBox is calculated based on anchor
-		sf::FloatRect bb = GetBoundingBox();
-		math::Vec2 result = {bb.left + bb.width/2, bb.top + bb.height/2};
-
 		// Calculate relative position
 		math::Vec2 parentPos = { 0.0f, 0.0f };
 		if (m_positionType == ITransform::PositionType::Relative && m_parent != nullptr)
-			parentPos = m_parent->GetTransform()->GetPosition();
+		{
+			auto parentRect = dynamic_cast<RectTransform*>(m_parent->GetTransform());
+			if (parentRect)
+			{
+				auto parentBB = parentRect->GetBoundingBox();
+				parentPos = { parentBB.left, parentBB.top };
+			}
+			else
+				LOG_WARN("[GameObject '%d'] RectTransform's parent isn't a RectTransform - not allowed.", m_owner.DebugName);
+		}
+			
 
-		return result + parentPos;
+		return m_position + parentPos;
 	}
 
 	float RectTransform::GetRotation() const
@@ -73,53 +78,59 @@ namespace Engine
 		NotifyTransformChanged();
 	}
 
+	Engine::math::Vec2 RectTransform::GetSize()
+	{
+		return m_size;
+	}
+
 	sf::FloatRect RectTransform::GetBoundingBox() const
 	{
 		sf::FloatRect result;
+		math::Vec2 position = GetPosition();
 		if (m_anchor == RectAnchor::TopLeft)
 		{
-			result.left		= m_position.x;
-			result.top		= m_position.y;
+			result.left		= position.x;
+			result.top		= position.y;
 		}
 		else if (m_anchor == RectAnchor::TopCenter)
 		{
-			result.left		= m_position.x - (m_size.x/2);
-			result.top		= m_position.y;
+			result.left		= position.x - (m_size.x/2);
+			result.top		= position.y;
 		}
 		else if (m_anchor == RectAnchor::TopRight)
 		{
-			result.left		= m_position.x - m_size.x;
-			result.top		= m_position.y;
+			result.left		= position.x - m_size.x;
+			result.top		= position.y;
 		}
 		else if (m_anchor == RectAnchor::CenterLeft)
 		{
-			result.left		= m_position.x;
-			result.top		= m_position.y - (m_size.y / 2);
+			result.left		= position.x;
+			result.top		= position.y - (m_size.y / 2);
 		}
 		else if (m_anchor == RectAnchor::CenterCenter)
 		{
-			result.left		= m_position.x - (m_size.x/2);
-			result.top		= m_position.y - (m_size.y/2);
+			result.left		= position.x - (m_size.x/2);
+			result.top		= position.y - (m_size.y/2);
 		}
 		else if (m_anchor == RectAnchor::CenterRight)
 		{
-			result.left		= m_position.x - m_size.x;
-			result.top		= m_position.y - (m_size.y / 2);
+			result.left		= position.x - m_size.x;
+			result.top		= position.y - (m_size.y / 2);
 		}
 		else if (m_anchor == RectAnchor::BottomLeft)
 		{
-			result.left		= m_position.x;
-			result.top		= m_position.y - m_size.y;
+			result.left		= position.x;
+			result.top		= position.y - m_size.y;
 		}
 		else if (m_anchor == RectAnchor::BottomCenter)
 		{
-			result.left		= m_position.x - (m_size.x/2);
-			result.top		= m_position.y - m_size.y;
+			result.left		= position.x - (m_size.x/2);
+			result.top		= position.y - m_size.y;
 		}
 		else if (m_anchor == RectAnchor::BottomRight)
 		{
-			result.left		= m_position.x - m_size.x;
-			result.top		= m_position.y - m_size.y;
+			result.left		= position.x - m_size.x;
+			result.top		= position.y - m_size.y;
 		}
 
 		result.width = m_size.x;

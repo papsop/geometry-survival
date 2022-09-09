@@ -1,17 +1,17 @@
-#include "HorizontalLayoutComponent.h"
+#include "VerticalLayoutComponent.h"
 #include "LayoutElementComponent.h"
 #include "../../Managers/ComponentManager.h"
 
 namespace Engine
 {
 
-	HorizontalLayoutComponent::HorizontalLayoutComponent(GameObject& obj)
+	VerticalLayoutComponent::VerticalLayoutComponent(GameObject& obj)
 		: IComponent(obj)
 	{
 
 	}
 
-	void HorizontalLayoutComponent::OnCreate()
+	void VerticalLayoutComponent::OnCreate()
 	{
 		m_parentRectTransform = dynamic_cast<RectTransform*>(Owner.GetTransform());
 		DD_ASSERT(m_parentRectTransform != nullptr, "HorizontalLayoutComponent only usable with a RectTransform");
@@ -19,16 +19,16 @@ namespace Engine
 		ComponentManager::Get().RegisterComponent(this);
 	}
 
-	HorizontalLayoutComponent::~HorizontalLayoutComponent()
+	VerticalLayoutComponent::~VerticalLayoutComponent()
 	{
 		ComponentManager::Get().UnregisterComponent(this);
 	}
 
-	void HorizontalLayoutComponent::Update(float dt)
+	void VerticalLayoutComponent::Update(float dt)
 	{
 		auto children = m_parentRectTransform->GetChildren();
 		size_t count = children.size();
-		float child_size_x = m_parentRectTransform->GetSize().x / count;
+		float child_size_y = m_parentRectTransform->GetSize().y / count;
 		size_t index = 0;
 
 		for (auto& child : children)
@@ -36,8 +36,8 @@ namespace Engine
 			auto layoutElement = child->GetComponent<LayoutElementComponent>();
 			if (layoutElement)
 			{
-				layoutElement->SetPosition({ index * child_size_x , 0.0f});
-				layoutElement->SetSize({child_size_x, m_parentRectTransform->GetSize().y });
+				layoutElement->SetPosition({0.0f, index * child_size_y});
+				layoutElement->SetSize({m_parentRectTransform->GetSize().x, child_size_y});
 			}
 			++index;
 		}

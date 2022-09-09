@@ -45,6 +45,7 @@ namespace Engine
 		// ================================
 		void SetAnchor(RectAnchor anchor) { m_anchor = anchor; };
 		void SetSize(math::Vec2 size);
+		math::Vec2 GetSize();
 		sf::FloatRect GetBoundingBox() const;
 
 		void Debug(view::IViewStrategy* viewStrategy) override;

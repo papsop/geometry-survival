@@ -1,5 +1,6 @@
 #pragma once
 #include "../../Debug/IDebuggable.h"
+#include "IConstraint.h"
 
 namespace Engine
 {
@@ -42,7 +43,7 @@ namespace Engine
 
 		// ================================
 		// RectTransform specific functions
-		// ================================
+		// ================================ 
 		void SetAnchor(RectAnchor anchor) { m_anchor = anchor; };
 		void SetSize(math::Vec2 size);
 		math::Vec2 GetSize();
@@ -51,7 +52,6 @@ namespace Engine
 		void Debug(view::IViewStrategy* viewStrategy) override;
 
 	private:
-
 		math::Vec2 m_position;
 		float	   m_rotation;
 		math::Vec2 m_size;

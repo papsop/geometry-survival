@@ -14,6 +14,8 @@ set(SOURCES
 	Core/IComponent.h
 	Core/IComponent.cpp
 	Core/IComponent.inl
+	Core/IConstraint.h
+	Core/IConstraint.cpp
 
 	Physics/PhysicsBodyComponent.h
 	Physics/PhysicsBodyComponent.cpp

@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-  "Components/UI/VerticalLayoutComponent.h")
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

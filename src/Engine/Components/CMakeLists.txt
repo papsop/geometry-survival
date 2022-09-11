@@ -8,6 +8,7 @@ set(SOURCES
 	Core/ITransform.h
 	Core/ITransform.cpp
 	Core/RectTransform.h
+	Core/RectTransform.inl
 	Core/RectTransform.cpp
 	Core/Transform.h
 	Core/Transform.cpp

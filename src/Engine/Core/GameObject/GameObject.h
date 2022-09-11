@@ -60,6 +60,12 @@ namespace Engine
 
         ITransform* GetTransform() { return m_transform.get(); }
 
+        template<
+            typename T,
+            typename = std::enable_if_t<std::is_base_of_v<ITransform, T>>
+            >
+        T* GetTransformAs();
+
         void OnCollisionStart(CollisionData& collision);
         void OnCollisionEnd(CollisionData& collision);
 

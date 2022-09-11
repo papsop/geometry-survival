@@ -23,21 +23,36 @@ namespace Engine
 	math::Vec2 RectTransform::GetPosition() const
 	{
 		// Calculate relative position
-		math::Vec2 parentPos = { 0.0f, 0.0f };
-		if (m_positionType == ITransform::PositionType::Relative && m_parent != nullptr)
+		math::Vec2 parentPos  = { 0.0f, 0.0f };
+		math::Vec2 parentSize = { 0.0f, 0.0f };
+		math::Vec2 myPos;
+		
+		// Get parent position
+		if (m_parent)
 		{
 			auto parentRect = dynamic_cast<RectTransform*>(m_parent->GetTransform());
 			if (parentRect)
 			{
 				auto parentBB = parentRect->GetBoundingBox();
-				parentPos = { parentBB.left, parentBB.top };
+				parentPos  = { parentBB.left, parentBB.top };
+				parentSize = { parentBB.width, parentBB.height };
 			}
-			else
-				LOG_WARN("[GameObject '%d'] RectTransform's parent isn't a RectTransform - not allowed.", m_owner.DebugName);
 		}
-			
 
-		return m_position + parentPos;
+		// Check my constraints
+		// each constraint calculates my relative position to parent
+		// if given constraint isn't set, use m_position property
+		if (m_constraints[static_cast<size_t>(ConstraintParam::X)])
+			myPos.x = m_constraints[static_cast<size_t>(ConstraintParam::X)]->CalculateValue(parentSize.x) + parentPos.x;
+		else
+			myPos.x = m_position.x + parentPos.x;
+
+		if (m_constraints[static_cast<size_t>(ConstraintParam::Y)])
+			myPos.y = m_constraints[static_cast<size_t>(ConstraintParam::Y)]->CalculateValue(parentSize.y) + parentPos.y;
+		else
+			myPos.y = m_position.y + parentPos.y;
+
+		return myPos;
 	}
 
 	float RectTransform::GetRotation() const
@@ -78,66 +93,94 @@ namespace Engine
 		NotifyTransformChanged();
 	}
 
-	Engine::math::Vec2 RectTransform::GetSize()
+	math::Vec2 RectTransform::GetSize() const
 	{
-		return m_size;
+		// Calculate relative position
+		math::Vec2 mySize;
+		math::Vec2 parentSize = { 0.0f, 0.0f };
+
+		// Get parent size
+		if (m_parent)
+		{
+			auto parentRect = dynamic_cast<RectTransform*>(m_parent->GetTransform());
+			if (parentRect)
+			{
+				auto parentBB = parentRect->GetBoundingBox();
+				parentSize = { parentBB.width, parentBB.height };
+			}
+		}
+
+		// Check constraints
+		if (m_constraints[static_cast<size_t>(ConstraintParam::Width)] != nullptr)
+			mySize.x = m_constraints[static_cast<size_t>(ConstraintParam::Width)]->CalculateValue(parentSize.x);
+		else
+			mySize.x = m_size.x;
+
+		if (m_constraints[static_cast<size_t>(ConstraintParam::Height)])
+			mySize.y = m_constraints[static_cast<size_t>(ConstraintParam::Height)]->CalculateValue(parentSize.y);
+		else
+			mySize.y = m_size.y;
+
+		return mySize;
+
 	}
 
 	sf::FloatRect RectTransform::GetBoundingBox() const
 	{
 		sf::FloatRect result;
 		math::Vec2 position = GetPosition();
+		math::Vec2 size = GetSize();
+
 		if (m_anchor == RectAnchor::TopLeft)
 		{
-			result.left		= position.x;
-			result.top		= position.y;
+			result.left = position.x;
+			result.top = position.y;
 		}
 		else if (m_anchor == RectAnchor::TopCenter)
 		{
-			result.left		= position.x - (m_size.x/2);
-			result.top		= position.y;
+			result.left = position.x - (size.x / 2);
+			result.top = position.y;
 		}
 		else if (m_anchor == RectAnchor::TopRight)
 		{
-			result.left		= position.x - m_size.x;
-			result.top		= position.y;
+			result.left = position.x - size.x;
+			result.top = position.y;
 		}
 		else if (m_anchor == RectAnchor::CenterLeft)
 		{
-			result.left		= position.x;
-			result.top		= position.y - (m_size.y / 2);
+			result.left = position.x;
+			result.top = position.y - (size.y / 2);
 		}
 		else if (m_anchor == RectAnchor::CenterCenter)
 		{
-			result.left		= position.x - (m_size.x/2);
-			result.top		= position.y - (m_size.y/2);
+			result.left = position.x - (size.x / 2);
+			result.top = position.y - (size.y / 2);
 		}
 		else if (m_anchor == RectAnchor::CenterRight)
 		{
-			result.left		= position.x - m_size.x;
-			result.top		= position.y - (m_size.y / 2);
+			result.left = position.x - size.x;
+			result.top = position.y - (size.y / 2);
 		}
 		else if (m_anchor == RectAnchor::BottomLeft)
 		{
-			result.left		= position.x;
-			result.top		= position.y - m_size.y;
+			result.left = position.x;
+			result.top = position.y - size.y;
 		}
 		else if (m_anchor == RectAnchor::BottomCenter)
 		{
-			result.left		= position.x - (m_size.x/2);
-			result.top		= position.y - m_size.y;
+			result.left = position.x - (size.x / 2);
+			result.top = position.y - size.y;
 		}
 		else if (m_anchor == RectAnchor::BottomRight)
 		{
-			result.left		= position.x - m_size.x;
-			result.top		= position.y - m_size.y;
+			result.left = position.x - size.x;
+			result.top = position.y - size.y;
 		}
 
-		result.width = m_size.x;
-		result.height = m_size.y;
+		result.width = size.x;
+		result.height = size.y;
 		return result;
 	}
-
 
 	RectTransform& RectTransform::operator=(const RectTransform& rhs)
 	{// Not entirely correct, we only copy  rectTransform stuff, Owner/parent/etc isn't moved
@@ -150,6 +193,9 @@ namespace Engine
 
 	void RectTransform::Debug(view::IViewStrategy* viewStrategy)
 	{
+		if (!m_owner.IsActive())
+			return;
+
 		auto bb				= GetBoundingBox();
 		math::Vec2 center	= { bb.left + bb.width / 2, bb.top + bb.height / 2 };
 		math::Vec2 size		= { bb.width, bb.height };

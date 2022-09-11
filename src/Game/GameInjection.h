@@ -172,16 +172,27 @@ namespace Game
 			auto sub_ui_5 = Engine::GameObjectManager::Get().CreateGameObject("TestUI3", Engine::GameObjectTag::UNTAGGED, transformDefUI);
 			sub_ui_5->AddComponent<Engine::LayoutElementComponent>();
 
-            transformDefUI.Position = { 500.0f, 0.0f };
-            transformDefUI.Size = { 250.0f, 100.0f, };
-            transformDefUI.Anchor = Engine::RectAnchor::TopCenter;
+            transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
             auto layouter = Engine::GameObjectManager::Get().CreateGameObject("Layouter", Engine::GameObjectTag::UNTAGGED, transformDefUI);
             layouter->GetTransform()->SetChild(sub_ui_1);
             layouter->GetTransform()->SetChild(sub_ui_2);
             layouter->GetTransform()->SetChild(sub_ui_3);
-            layouter->GetTransform()->SetChild(sub_ui_4);
-            layouter->GetTransform()->SetChild(sub_ui_5);
             layouter->AddComponent<Engine::HorizontalLayoutComponent>();
+
+            // Set constraints
+			if (auto rect = layouter->GetTransformAs<Engine::RectTransform>())
+			{
+				rect->SetConstraint(Engine::RectTransform::ConstraintParam::X, Engine::PixelConstraint(0.0f));
+                rect->SetConstraint(Engine::RectTransform::ConstraintParam::Y, Engine::PixelConstraint(0.0f));
+                rect->SetConstraint(Engine::RectTransform::ConstraintParam::Width, Engine::RelativeConstraint(1.0f));
+                rect->SetConstraint(Engine::RectTransform::ConstraintParam::Height, Engine::RelativeConstraint(0.1f));
+			}
+
+            transformDefUI.Position = { 0.0f, 0.0f };
+			transformDefUI.Size = { 1280.0f, 720.0f };
+			transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
+            auto UICanvas = Engine::GameObjectManager::Get().CreateGameObject("Canvas", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+            UICanvas->GetTransform()->SetChild(layouter);
 
             // walls
             //WallFactoryDef wallFactoryDef;
@@ -206,7 +217,8 @@ namespace Game
             scene1.AddGameObject(sub_ui_1->ID);
             scene1.AddGameObject(sub_ui_2->ID);
             scene1.AddGameObject(sub_ui_3->ID);
-			//scene1.AddGameObject(wall2->ID);
+            scene1.AddGameObject(UICanvas->ID);
+            //scene1.AddGameObject(wall2->ID);
 			//scene1.AddGameObject(wall3->ID);
 
             Engine::SceneManager::Get().LoadSceneByIndex(scene1.ID);

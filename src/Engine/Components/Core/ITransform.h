@@ -57,15 +57,15 @@ namespace Engine
 			TransformType	TransType	= TransformType::Transform;
 
 			// Shared
-			math::Vec2		Position	= {0.0f, 0.0f};
-			float			Rotation	= 0.0f;
-			math::Vec2		Scale		= {1.0f, 1.0f};
-			PositionSpace	Space		= PositionSpace::WorldSpace;
-			PositionType	PosType		= PositionType::Absolute;
-			GameObject*		Parent		= nullptr;
+			math::Vec2		Position			= {0.0f, 0.0f};
+			float			Rotation			= 0.0f;
+			math::Vec2		Scale				= {1.0f, 1.0f};
+			PositionSpace	Space				= PositionSpace::WorldSpace;
+			PositionType	PosType				= PositionType::Absolute;
+			GameObject*		Parent				= nullptr;
 
 			// Rect specific
-			math::Vec2		Size		= { 1.0f, 1.0f };
+			math::Vec2		Size				= { 1.0f, 1.0f };
 			RectAnchor		Anchor;
 			
 		};
@@ -108,7 +108,7 @@ namespace Engine
 		TransformType m_transformType;
 
 		// Transform hierarchy
-		// If my parent dies - I kill myself and all my children
+		// TODO: If my parent dies - I kill myself and all my children
 		// ^ that sounds awful
 		GameObject* m_parent = nullptr;
 		std::list<GameObject*> m_children;	// list seems fine right now, might change to vector

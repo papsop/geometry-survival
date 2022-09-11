@@ -45,4 +45,10 @@ namespace Engine
 		else
 			return nullptr;
 	}
+
+	template<typename T, typename>
+	T* GameObject::GetTransformAs()
+	{
+		return dynamic_cast<T*>(m_transform.get());
+	}
 };

@@ -4,11 +4,6 @@
 
 namespace Engine
 {
-	struct TransformSpecificDefinition
-	{
-		/* nothing yet */
-	};
-
 	class Transform final : public ITransform, public IDebuggableComponent
 	{
 	public:

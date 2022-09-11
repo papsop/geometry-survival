@@ -2,6 +2,8 @@
 #include "../../Debug/IDebuggable.h"
 #include "IConstraint.h"
 
+#include <array>
+
 namespace Engine
 {
 	// Keep outside of RectTransform because we can't forward declare an inner class/struct
@@ -23,6 +25,19 @@ namespace Engine
 	{
 	public:
 		// ====================================================
+		// Helper enums
+		// ====================================================
+		enum class ConstraintParam // index of m_contraints
+		{
+			X = 0,
+			Y = 1,
+			Width = 2,
+			Height = 3,
+
+			COUNT = 4, // always last
+		};
+
+		// ====================================================
 		// Class members
 		// ====================================================
 
@@ -41,20 +56,28 @@ namespace Engine
 
 		RectTransform& operator=(const RectTransform& rhs);
 
+
 		// ================================
 		// RectTransform specific functions
 		// ================================ 
 		void SetAnchor(RectAnchor anchor) { m_anchor = anchor; };
 		void SetSize(math::Vec2 size);
-		math::Vec2 GetSize();
+		math::Vec2 GetSize() const;
 		sf::FloatRect GetBoundingBox() const;
 
-		void Debug(view::IViewStrategy* viewStrategy) override;
+		template<typename T>
+		void SetConstraint(ConstraintParam param, T&& c);
 
+		// ================================
+		void Debug(view::IViewStrategy* viewStrategy) override;
 	private:
 		math::Vec2 m_position;
 		float	   m_rotation;
 		math::Vec2 m_size;
 		RectAnchor m_anchor;
+
+		std::array<ptr_Constraint, static_cast<size_t>(ConstraintParam::COUNT)> m_constraints;
 	};
 }
+
+#include "RectTransform.inl"

@@ -54,7 +54,7 @@ namespace Engine
 		// Used to Initialize GameObject's transform
 		struct TransformDefinition
 		{
-			TransformType	TransType	= TransformType::Transform;
+			TransformType	TransType			= TransformType::Transform;
 
 			// Shared
 			math::Vec2		Position			= {0.0f, 0.0f};

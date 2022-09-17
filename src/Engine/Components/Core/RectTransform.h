@@ -9,7 +9,7 @@ namespace Engine
 	// Keep outside of RectTransform because we can't forward declare an inner class/struct
 	// It's used in ITransform::TransformDefinition
 	enum class RectAnchor
-	{ // TODO: add more
+	{
 		TopLeft,
 		TopCenter,
 		TopRight,
@@ -18,7 +18,7 @@ namespace Engine
 		CenterRight,
 		BottomLeft,
 		BottomCenter,
-		BottomRight
+		BottomRight,
 	};
 
 	class RectTransform final : public ITransform, public IDebuggableComponent
@@ -29,12 +29,12 @@ namespace Engine
 		// ====================================================
 		enum class ConstraintParam // index of m_contraints
 		{
-			X = 0,
-			Y = 1,
-			Width = 2,
-			Height = 3,
+			X,
+			Y,
+			Width,
+			Height,
 
-			COUNT = 4, // always last
+			COUNT, // always last
 		};
 
 		// ====================================================

@@ -31,7 +31,7 @@ namespace Game
 		float nextLevelExp = GetNextLevelExperience();
 		if (m_totalExp >= nextLevelExp)
 		{
-			GameManager::Get()->SetGameState(GameManager::GameState::Paused);
+			//GameManager::Get()->SetGameState(GameManager::GameState::Paused);
 			Engine::EventManager::Get().DispatchEvent(event::E_PlayerLeveledUp());
 			m_currentLevel++;
 			m_totalExp -= nextLevelExp;

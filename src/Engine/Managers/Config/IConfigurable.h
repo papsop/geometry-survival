@@ -1,4 +1,6 @@
 #pragma once
+#include <utility>
+#include <string>
 
 namespace Engine
 {
@@ -11,7 +13,7 @@ namespace Engine
 		IConfigurable();
 		virtual ~IConfigurable();
 
-		// configurable derived classes should return vector of key-values to store into config
+		// configurable derived classes should return a vector of key-values to store into config
 		virtual ConfigurableData GetConfigurableData() = 0;
 	};
 }

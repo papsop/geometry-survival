@@ -186,7 +186,7 @@ namespace Engine
 	{// Not entirely correct, we only copy  rectTransform stuff, Owner/parent/etc isn't moved
 		this->m_position	= rhs.m_position;
 		this->m_rotation	= rhs.m_rotation;
-		this->m_size		= rhs.m_size;
+		this->m_size			= rhs.m_size;
 		this->m_anchor		= rhs.m_anchor;
 		return *this;
 	}

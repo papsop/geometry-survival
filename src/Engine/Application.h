@@ -42,11 +42,11 @@ namespace Engine
                 >
         void RegisterGameManager(Args&& ... args);
 
-		template<typename T,
-			typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
-		>
-		T* GetGameManager();
-        void DestroyRegisteredManager();
+        template<typename T,
+          typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
+        >
+          T* GetGameManager();
+        void DestroyRegisteredManagers();
 
         void Run(ApplicationInjection& injection);
         bool IsRunning() const { return m_applicationIsRunning;  }

@@ -1,11 +1,13 @@
 #pragma once
 #include <Engine/Managers/IManager.h>
+#include <Engine/Managers/ConfigManager.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Utils/VectorUtils.h>
 #include <Engine/Core/Events.h>
+
 namespace Game
 {
-	class GameManager : public Engine::IManager
+	class GameManager : public Engine::IManager, public Engine::IConfigurable
 	{
 	public:
 		enum class GameState
@@ -35,6 +37,9 @@ namespace Game
 		float GetFirstLevelExperience() { return m_firstLevelExperience; }
 
 		void SetGameState(GameState state);
+
+		Engine::IConfigurable::ConfigurableData GetConfigurableData() override;
+
 	private:
 		Engine::GameObject* m_player;
 		float m_spawnRadius;

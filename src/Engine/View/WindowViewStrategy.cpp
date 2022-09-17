@@ -6,41 +6,39 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
-namespace Engine
-{
+namespace Engine{
     class Application;
-    namespace view
+namespace view{
+    WindowViewStrategy::WindowViewStrategy(ViewManager& viewManager)
+        : IViewStrategy(viewManager)
     {
-        WindowViewStrategy::WindowViewStrategy(ViewManager& viewManager)
-            : IViewStrategy(viewManager)
+        // todo config
+        ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
+        ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
+        ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
+        ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
+
+        ReloadWindow();
+
+        if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
         {
-            // todo config
-            ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
-            ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
-            ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
-			ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
-
-            ReloadWindow();
-
-            if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
-            {
-                LOG_ERROR("Unable to load console font");
-            }
-            LOG_DEBUG("Created WindowViewStrategy");
+            LOG_ERROR("Unable to load console font");
         }
+        LOG_DEBUG("Created WindowViewStrategy");
+    }
 
-        WindowViewStrategy::~WindowViewStrategy()
-        {
-            EventManager::Get().DispatchEvent(event::E_WindowClosed());
-            m_window->close();
-        }
+    WindowViewStrategy::~WindowViewStrategy()
+    {
+        EventManager::Get().DispatchEvent(event::E_WindowClosed());
+        m_window->close();
+    }
 
-        void WindowViewStrategy::PollEvents()
-        {
-            sf::Event event;
-            while (m_window->pollEvent(event))
-                Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
-        }
+    void WindowViewStrategy::PollEvents()
+    {
+        sf::Event event;
+        while (m_window->pollEvent(event))
+            Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
+    }
 
 		void WindowViewStrategy::ReloadWindow()
 		{
@@ -157,65 +155,99 @@ namespace Engine
  
  		sf::Vector2i WindowViewStrategy::BVec2ToVector2i(b2Vec2 vec)
  		{
-             return { static_cast<int>(vec.x), static_cast<int>(vec.y) };
-             //return { vec.x, vec.y };
+      return { static_cast<int>(vec.x), static_cast<int>(vec.y) };
+      //return { vec.x, vec.y };
  		}
 
 		sf::Vector2f WindowViewStrategy::CameraSpaceToCoords(math::Vec2 vec)
 		{
-            sf::Vector2i ivec = BVec2ToVector2i(vec);
-            return m_window->mapPixelToCoords(ivec);
+      sf::Vector2i ivec = BVec2ToVector2i(vec);
+      return m_window->mapPixelToCoords(ivec);
 		}
 
 		// ==============================================
 
-        void WindowViewStrategy::PreRender()
-        {
-            m_window->clear();
-        }
+    void WindowViewStrategy::PreRender()
+    {
+      m_window->clear();
+    }
         
 		void WindowViewStrategy::RenderRenderable(Renderable& renderable)
 		{
-            switch (renderable.Type)
-            {
-            case Renderable::RenderableType::SHAPE:
-                m_window->draw(GetSFMLCircleFromShape(renderable.Transform, renderable.shape));
-                break;
-            }
+      switch (renderable.Type)
+      {
+      case Renderable::RenderableType::SHAPE:
+        m_window->draw(GetSFMLCircleFromShape(renderable.Transform, renderable.shape));
+        break;
+      case Renderable::RenderableType::RECTANGLE:
+        m_window->draw(GetSFMLRectangleFromRectangle(renderable.Transform, renderable.rectangle));
+        break;
+      }
 		}
 
 		sf::CircleShape WindowViewStrategy::GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape)
 		{
-            sf::Vector2f position;
-            float angle;
-            float radius;
-            // convert Coords to pixel
-            if (transform.Space == ITransform::PositionSpace::CameraSpace)
-            {
-                position    = CameraSpaceToCoords(transform.Position);
-                radius      = shape.Radius;
-            }
-            else
-            {
+      sf::Vector2f position;
+      float angle;
+      float radius;
+      // convert Coords to pixel
+      if (transform.Space == ITransform::PositionSpace::CameraSpace)
+      {
+        position = CameraSpaceToCoords(transform.Position);
+        radius = shape.Radius;
+      }
+      else
+      {
 				position    = m_viewManager.coordsToPixels(transform.Position);
 				radius      = m_viewManager.coordToPixel(shape.Radius);
-            }
+      }
             
-            angle           = Box2DRotationToSFML(transform.Rotation); // shared in both
+      angle           = Box2DRotationToSFML(transform.Rotation); // shared in both
 
-            // create sfml object
-            auto obj = sf::CircleShape();
-            obj.setPointCount(shape.PointCount);
-            obj.setRadius(radius);
-            obj.setPosition(position);
-            obj.setFillColor(shape.Color);
-            obj.setRotation(angle);
-            obj.setScale({ 1,1 });
-            obj.setOrigin({ radius, radius });
-            return obj;
+      // create sfml object
+      auto obj = sf::CircleShape();
+      obj.setPointCount(shape.PointCount);
+      obj.setRadius(radius);
+      obj.setPosition(position);
+      obj.setFillColor(shape.Color);
+      obj.setRotation(angle);
+      obj.setScale({ 1,1 });
+      obj.setOrigin({ radius, radius });
+      return obj;
 		}
 
-		// =======================================================================================
+    sf::RectangleShape WindowViewStrategy::GetSFMLRectangleFromRectangle(const ITransform::AbsoluteTransform& transform, const view::Renderable::Rectangle& rect)
+    {
+      //convert box2d to sfml
+      sf::Vector2f sfmlPosition;
+      sf::Vector2f sfmlSize;
+      auto sfmlAngle = Box2DRotationToSFML(transform.Rotation);
+
+      if (transform.Space == ITransform::PositionSpace::CameraSpace)
+      {
+        sfmlPosition = CameraSpaceToCoords(transform.Position);
+        sfmlSize    = { rect.Size.x, rect.Size.y };
+      }
+      else
+      {
+        sfmlPosition = ViewManager::Get().coordsToPixels(transform.Position);
+        sfmlSize = ViewManager::Get().coordsToPixels(rect.Size);
+      }
+
+      // create SFML rectangle
+      auto obj = sf::RectangleShape();
+      obj.setOutlineColor(sf::Color::Transparent);
+      obj.setOutlineThickness(3);
+      obj.setSize(sfmlSize);
+      obj.setFillColor(rect.FillColor);
+      obj.setRotation(sfmlAngle);
+      obj.setScale({ 1.0f, 1.0f });
+      obj.setOrigin({0.0f, 0.0f});
+      obj.setPosition(sfmlPosition);
+      return obj;
+    }
+
+    // =======================================================================================
         // Render each renderable type
         // =======================================================================================
 
@@ -252,10 +284,10 @@ namespace Engine
 		// ==================================================================================
         // Debug Renders
 
-        void WindowViewStrategy::DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color)
+    void WindowViewStrategy::DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color)
  		{
-             auto p1 = ViewManager::Get().coordsToPixels(a);
-             auto p2 = ViewManager::Get().coordsToPixels(b);
+      auto p1 = ViewManager::Get().coordsToPixels(a);
+      auto p2 = ViewManager::Get().coordsToPixels(b);
  
  			sf::Vertex line[] = {
                 sf::Vertex(p1, color),
@@ -269,46 +301,46 @@ namespace Engine
  			auto sfmlPosition = ViewManager::Get().coordsToPixels(center);
  			auto sfmlRadius = ViewManager::Get().coordToPixel(radius);
  
-             sf::CircleShape circle(sfmlRadius);
-             circle.setOutlineColor(color);
-             circle.setOutlineThickness(2.0f);
-             circle.setFillColor(sf::Color(0, 0, 0, 0));
-             circle.setOrigin({ sfmlRadius, sfmlRadius });
-             circle.setPosition(sfmlPosition);
-             m_window->draw(circle);
+      sf::CircleShape circle(sfmlRadius);
+      circle.setOutlineColor(color);
+      circle.setOutlineThickness(2.0f);
+      circle.setFillColor(sf::Color(0, 0, 0, 0));
+      circle.setOrigin({ sfmlRadius, sfmlRadius });
+      circle.setPosition(sfmlPosition);
+      m_window->draw(circle);
  		}
  
  		void WindowViewStrategy::DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor)
  		{
  			//convert box2d to sfml
-            sf::Vector2f sfmlPosition;
-            sf::Vector2f sfmlSize;
- 			auto sfmlAngle = Box2DRotationToSFML(angle);
+      sf::Vector2f sfmlPosition;
+      sf::Vector2f sfmlSize;
+ 		  auto sfmlAngle = Box2DRotationToSFML(angle);
 
-            if (space == ITransform::PositionSpace::CameraSpace)
-            {
-                sfmlPosition = CameraSpaceToCoords(center);
-                sfmlSize = {size.x, size.y};
-            }
-            else
-            {
-                sfmlPosition = ViewManager::Get().coordsToPixels(center);
-                sfmlSize = ViewManager::Get().coordsToPixels(size);
-				sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
-				sfmlSize.x = 2 * sfmlSize.x;
-            }
+      if (space == ITransform::PositionSpace::CameraSpace)
+      {
+        sfmlPosition = CameraSpaceToCoords(center);
+        sfmlSize = { size.x, size.y };
+      }
+      else
+      {
+        sfmlPosition = ViewManager::Get().coordsToPixels(center);
+        sfmlSize = ViewManager::Get().coordsToPixels(size);
+        sfmlSize.y = 2 * std::fabsf(sfmlSize.y);
+        sfmlSize.x = 2 * sfmlSize.x;
+      }
  
  			// create SFML rectangle
  			auto obj = sf::RectangleShape();
  			obj.setOutlineColor(color);
-            obj.setOutlineThickness(3);
+      obj.setOutlineThickness(3);
  			obj.setSize(sfmlSize);
-            obj.setFillColor(fillColor);
+      obj.setFillColor(fillColor);
  			obj.setRotation(sfmlAngle);
  			obj.setScale({1.0f, 1.0f});
  			obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
  			obj.setPosition(sfmlPosition);
-            m_window->draw(obj);
+      m_window->draw(obj);
  		}
  
  		void WindowViewStrategy::DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color)
@@ -318,7 +350,7 @@ namespace Engine
  
  			auto obj = sf::Text();
  			obj.setFont(m_consoleFont);
-             obj.setString(text);
+      obj.setString(text);
  			obj.setCharacterSize(size);
  			obj.setFillColor(color);
  			// center text, need to do it after setting font
@@ -326,37 +358,37 @@ namespace Engine
  			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
  			obj.setPosition(sfmlPosition);
  
-             m_window->draw(obj);
+      m_window->draw(obj);
  		}
 
 		// ==================================================================================
 
-        void WindowViewStrategy::SetView(const CameraData& cameraData)
-        {
-            sf::View view;
-			view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
-            view.setSize(m_windowWidth, m_windowHeight);
-            view.setViewport({ .0f, .0f, 1.f, 1.f });
-            m_window->setView(view);
-        }
+    void WindowViewStrategy::SetView(const CameraData& cameraData)
+    {
+      sf::View view;
+      view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));
+      view.setSize(m_windowWidth, m_windowHeight);
+      view.setViewport({ .0f, .0f, 1.f, 1.f });
+      m_window->setView(view);
+    }
 
-        sf::Vector2f WindowViewStrategy::GetMousePosition()
-        {
-            auto pos = sf::Mouse::getPosition(*m_window);
-            return m_window->mapPixelToCoords(pos);
-        }
+    sf::Vector2f WindowViewStrategy::GetMousePosition()
+    {
+      auto pos = sf::Mouse::getPosition(*m_window);
+      return m_window->mapPixelToCoords(pos);
+    }
 
 		IConfigurable::ConfigurableData WindowViewStrategy::GetConfigurableData()
 		{
-            IConfigurable::ConfigurableData result;
+      IConfigurable::ConfigurableData result;
 
-            result.push_back({ "window_width",          std::to_string(m_windowWidth)});
-            result.push_back({ "window_height",         std::to_string(m_windowHeight) });
-            result.push_back({ "window_fullscreen",     std::to_string(m_windowFullscreen) });
-            result.push_back({ "window_name",                          m_windowName });
+      result.push_back({ "window_width",          std::to_string(m_windowWidth) });
+      result.push_back({ "window_height",         std::to_string(m_windowHeight) });
+      result.push_back({ "window_fullscreen",     std::to_string(m_windowFullscreen) });
+      result.push_back({ "window_name",                          m_windowName });
 
-            return result;
+      return result;
 		}
 
-	};
+};
 };

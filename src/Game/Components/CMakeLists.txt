@@ -56,10 +56,16 @@ set(PICKABLES_SOURCE
 	Pickables/ExperienceGlobeComponent.cpp
 )
 
+set(UI_SOURCE
+	UI/ExperienceBarComponent.h
+	UI/ExperienceBarComponent.cpp
+)
+
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}
 	${PLAYER_SOURCE}
 	${ENEMY_SOURCE}
 	${STATES_SOURCE}
 	${PICKABLES_SOURCE}
+	${UI_SOURCE}
 )

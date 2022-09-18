@@ -17,7 +17,7 @@ namespace Engine
 	void RectTransform::SetPosition(math::Vec2 pos)
 	{
 		m_position = pos;
-		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
+		NotifyTransformChanged();
 	}
 
 	math::Vec2 RectTransform::GetPosition() const
@@ -80,7 +80,8 @@ namespace Engine
 	ITransform::AbsoluteTransform RectTransform::GetAbsoluteTransform() const
 	{
 		ITransform::AbsoluteTransform result;
-		result.Position = GetPosition();
+		auto bb = GetBoundingBox();
+		result.Position = { bb.left, bb.top };
 		result.Rotation = GetRotation();
 		result.Scale = { 1.0f, 1.0f };
 		result.Space = GetPositionSpace();

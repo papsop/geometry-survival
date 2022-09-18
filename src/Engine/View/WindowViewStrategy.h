@@ -29,7 +29,10 @@ namespace view{
 
       ConfigurableData GetConfigurableData() override;
 
-  private:
+
+      math::Vec2 GetResolution() override;
+
+    private:
       // conversions
 //             sf::CircleShape     CircleToSFMLCircleShape(const view::Circle& circle);
 // 			   sf::CircleShape     ShapeToSFMLCircleShape(const view::Shape& shape);
@@ -41,6 +44,7 @@ namespace view{
 
     sf::CircleShape         GetSFMLCircleFromShape(const ITransform::AbsoluteTransform& transform, const view::Renderable::Shape& shape);
     sf::RectangleShape      GetSFMLRectangleFromRectangle(const ITransform::AbsoluteTransform& transform, const view::Renderable::Rectangle& rect);
+    sf::Text                GetSFMLTextFromText(const ITransform::AbsoluteTransform& transform, const view::Renderable::Text& text);
     // ==============
 
     void RenderShape(const Renderable& renderable);

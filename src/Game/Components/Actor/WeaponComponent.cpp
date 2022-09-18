@@ -99,4 +99,20 @@ namespace Game
             m_equippedWeapon->ProcessMessage(message);
 	}
 
+  unsigned int WeaponComponent::GetMaxAmmo()
+  {
+    if (m_equippedWeapon)
+      return m_equippedWeapon->GetWeaponMaxAmmo();
+    
+    return 0;
+  }
+
+  unsigned int WeaponComponent::GetCurrentAmmo()
+  {
+    if (m_equippedWeapon)
+      return m_equippedWeapon->GetCurrentAmmoCount();
+
+    return 0;
+  }
+
 }

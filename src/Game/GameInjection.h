@@ -33,6 +33,7 @@
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "Components/UI/ExperienceBarComponent.h"
+#include "Components/UI/AmmoHUDComponent.h"
 #include "Physics/Filters.h"
 
 namespace Game
@@ -59,6 +60,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceBarComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<AmmoHUDComponent>();
       // TODO: shouldnt be here, handle in UI manager?
       Engine::ComponentManager::Get().RegisterComponentType<Engine::HorizontalLayoutComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<Engine::VerticalLayoutComponent>();
@@ -126,68 +128,84 @@ namespace Game
       player->AddComponent<PlayerComponent>();
       player->AddComponent<LevelComponent>();
 
-		auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
-        camera->AddComponent<Engine::CameraComponent>(player);
+		  auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
+      camera->AddComponent<Engine::CameraComponent>(player);
 
 
-        physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
-        physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
-        shapeViewDef.Color = sf::Color::Red;
+      physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
+      physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
+      shapeViewDef.Color = sf::Color::Red;
 
-        //enemy spawner
-        auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
-        enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
+      //enemy spawner
+      auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+      enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
-		Engine::ShapeViewDef shapeViewDef2;
-		shapeViewDef2.Color = sf::Color::Magenta;
-		shapeViewDef2.PointCount = 7;
-		shapeViewDef2.Radius = 25.0f;
+		  Engine::ShapeViewDef shapeViewDef2;
+		  shapeViewDef2.Color = sf::Color::Magenta;
+		  shapeViewDef2.PointCount = 7;
+		  shapeViewDef2.Radius = 25.0f;
 
-        // =======================================================================================
-        // UI
-        // =======================================================================================
-        Engine::ITransform::TransformDefinition transformDefUI;
-        transformDefUI.TransType = Engine::ITransform::TransformType::RectTransform;
-        transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
-		transformDefUI.Position = { 0.0f, 0.0f };
-		transformDefUI.Size = { 1280.0f, 720.0f };
-        transformDefUI.Space = Engine::ITransform::PositionSpace::CameraSpace;
-        transformDefUI.PosType = Engine::ITransform::PositionType::Absolute;
-        auto* UICanvas = Engine::GameObjectManager::Get().CreateGameObject("Canvas", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+      // =======================================================================================
+      // UI
+      // =======================================================================================
+      Engine::ITransform::TransformDefinition transformDefUI;
+      transformDefUI.TransType = Engine::ITransform::TransformType::RectTransform;
+      transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
+		  transformDefUI.Position = { 0.0f, 0.0f };
+      transformDefUI.Size = app.GetViewManager().GetResolution(); // UI canvas is always full window size
+      transformDefUI.Space = Engine::ITransform::PositionSpace::CameraSpace;
+      transformDefUI.PosType = Engine::ITransform::PositionType::Absolute;
+      auto* UICanvas = Engine::GameObjectManager::Get().CreateGameObject("Canvas", Engine::GameObjectTag::UNTAGGED, transformDefUI);
 
-        transformDefUI.PosType = Engine::ITransform::PositionType::Relative;
-        transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
-        auto* expBarWrapper = Engine::GameObjectManager::Get().CreateGameObject("Experience bar", Engine::GameObjectTag::UNTAGGED, transformDefUI);
-        if (auto* expBarWrapperTrans = expBarWrapper->GetTransformAs<Engine::RectTransform>())
-        {
-            expBarWrapperTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Width, Engine::RelativeConstraint(1.0f));
-            expBarWrapperTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Height, Engine::RelativeConstraint(.025f));
+      transformDefUI.PosType = Engine::ITransform::PositionType::Relative;
+      transformDefUI.Anchor = Engine::RectAnchor::TopLeft;
+      auto* expBarWrapper = Engine::GameObjectManager::Get().CreateGameObject("Experience bar", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+      if (auto* expBarWrapperTrans = expBarWrapper->GetTransformAs<Engine::RectTransform>())
+      {
+          expBarWrapperTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Width, Engine::RelativeConstraint(1.0f));
+          expBarWrapperTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Height, Engine::RelativeConstraint(.025f));
 
-            // set same size for bar for now
-            transformDefUI.Size = expBarWrapperTrans->GetSize();
-        }
-        Engine::RectangleViewDef rectangleDef;
-        rectangleDef.Color = sf::Color::Yellow;
-        rectangleDef.Layer = Engine::view::Layer::UI;
-        auto* expBar = Engine::GameObjectManager::Get().CreateGameObject("Experience bar", Engine::GameObjectTag::UNTAGGED, transformDefUI);
-        expBarWrapper->GetTransform()->SetChild(expBar);
-        expBar->AddComponent<ExperienceBarComponent>();
-        expBar->AddComponent<Engine::RectangleViewComponent>(rectangleDef);
-
-          
-        UICanvas->GetTransform()->SetChild(expBarWrapper);
-        // scene1.AddGameObject(centerCamera->ID);
-        scene1.AddGameObject(player->ID);
-        scene1.AddGameObject(enemySpawner->ID);
-        scene1.AddGameObject(camera->ID);
-        scene1.AddGameObject(UICanvas->ID);
-        scene1.AddGameObject(expBar->ID);
-        scene1.AddGameObject(expBarWrapper->ID);
-        //scene1.AddGameObject(wall2->ID);
-		//scene1.AddGameObject(wall3->ID);
-
-        Engine::SceneManager::Get().LoadSceneByIndex(scene1.ID);
+          // set same size for bar for now
+          transformDefUI.Size = expBarWrapperTrans->GetSize();
       }
+      Engine::RectangleViewDef rectangleDef;
+      rectangleDef.Color = sf::Color::Yellow;
+      rectangleDef.Layer = Engine::view::Layer::UI;
+      auto* expBar = Engine::GameObjectManager::Get().CreateGameObject("Experience bar", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+      expBarWrapper->GetTransform()->SetChild(expBar);
+      expBar->AddComponent<ExperienceBarComponent>();
+      expBar->AddComponent<Engine::RectangleViewComponent>(rectangleDef);
+
+      transformDefUI.Anchor = Engine::RectAnchor::TopRight;
+      auto* ammoHUD = Engine::GameObjectManager::Get().CreateGameObject("Ammo hud", Engine::GameObjectTag::UNTAGGED, transformDefUI);
+      if (auto* ammoHUDRectTrans= ammoHUD->GetTransformAs<Engine::RectTransform>())
+      {
+        ammoHUDRectTrans->SetConstraint(Engine::RectTransform::ConstraintParam::X, Engine::RelativeConstraint(1.0f));
+        ammoHUDRectTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Y, Engine::RelativeConstraint(.03f));
+        ammoHUDRectTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Width, Engine::RelativeConstraint(.15f));
+        ammoHUDRectTrans->SetConstraint(Engine::RectTransform::ConstraintParam::Height, Engine::RelativeConstraint(.15f));
+      }
+      ammoHUD->AddComponent<AmmoHUDComponent>();
+      Engine::TextViewDef textDef;
+      textDef.ShouldCenter = false;
+      textDef.FontSize = 64;
+      ammoHUD->AddComponent<Engine::TextViewComponent>(textDef);
+
+      UICanvas->GetTransform()->SetChild(expBarWrapper);
+      UICanvas->GetTransform()->SetChild(ammoHUD);
+      // scene1.AddGameObject(centerCamera->ID);
+      scene1.AddGameObject(player->ID);
+      scene1.AddGameObject(enemySpawner->ID);
+      scene1.AddGameObject(camera->ID);
+      scene1.AddGameObject(UICanvas->ID);
+      scene1.AddGameObject(expBar->ID);
+      scene1.AddGameObject(expBarWrapper->ID);
+      scene1.AddGameObject(ammoHUD->ID);
+      //scene1.AddGameObject(wall2->ID);
+	    //scene1.AddGameObject(wall3->ID);
+
+      Engine::SceneManager::Get().LoadSceneByIndex(scene1.ID);
+    }
   };
 }
 

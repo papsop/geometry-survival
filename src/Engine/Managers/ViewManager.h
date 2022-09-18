@@ -4,7 +4,7 @@
 #include "../View/IViewStrategy.h"
 #include "../Debug/IDebuggable.h"
 #include "ViewLayers.h"
-
+#include "../Utils/VectorUtils.h"
 #include <vector>
 #include <map>
 #include <memory>
@@ -42,6 +42,8 @@ namespace Engine
 
 		int GetZIndexFromPool() { return 0; }
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
+
+		math::Vec2 GetResolution() { return m_viewStrategy->GetResolution(); };
 	private:
 		int m_pixelsPerMeter; // config?
 

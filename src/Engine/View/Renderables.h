@@ -36,7 +36,7 @@ namespace view{
 
 		struct Text
 		{
-			std::string Value;
+			const char* Value;		// has to be const char*, because an union doesn't allow std::string
 			sf::Color Color;
 			unsigned int Size;
 			bool ShouldCenter;
@@ -61,6 +61,7 @@ namespace view{
 			Shape shape;
 			Circle circle;
 			Rectangle rectangle;
+			Text text;
 		};
 
 		Renderable(RenderableType type) : Type(type) {};

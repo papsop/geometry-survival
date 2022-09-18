@@ -21,6 +21,8 @@ namespace Game
 
         void ProcessMessage(const Engine::Message& message) override;
 
+        unsigned int GetMaxAmmo();
+        unsigned int GetCurrentAmmo();
     private:
 		std::unique_ptr<IWeapon> m_equippedWeapon;
     };

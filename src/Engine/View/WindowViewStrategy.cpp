@@ -53,100 +53,9 @@ namespace view{
             m_window->setJoystickThreshold(10);
 		}
 
-        // ==============================================
-        // Conversions
-        // ==============================================
-// 		sf::CircleShape WindowViewStrategy::CircleToSFMLCircleShape(const view::Circle& circle)
-// 		{
-//             // convert box2d to sfml
-//             auto sfmlPosition = ViewManager::Get().coordsToPixels(circle.Transform->Position);
-//             auto sfmlRadius = ViewManager::Get().coordToPixel(circle.Radius);
-//             auto sfmlScale = sf::Vector2f(circle.Transform->Scale.x, circle.Transform->Scale.y);
-//             auto sfmlAngle = Box2DRotationToSFML(circle.Transform->Rotation);
-// 
-//             // create sfml circle shape
-// 			auto obj = sf::CircleShape();
-// 			obj.setPointCount(50);
-// 			obj.setRadius(sfmlRadius);
-// 			obj.setFillColor(circle.FillColor);
-// 			obj.setPosition(sfmlPosition);
-// 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-// 			obj.setRotation(sfmlAngle);
-// 			obj.setScale(sfmlScale);
-// 			obj.setOrigin(sf::Vector2f(circle.Radius, circle.Radius));
-// 			return obj;
-// 		}
-// 
-// 		sf::CircleShape WindowViewStrategy::ShapeToSFMLCircleShape(const view::Shape& shape)
-// 		{
-// 			// convert box2d to sfml
-// 			auto sfmlPosition = ViewManager::Get().coordsToPixels(shape.Transform->Position);
-//             auto sfmlRadius = ViewManager::Get().coordToPixel(shape.Radius);
-// 			auto sfmlScale = sf::Vector2f(shape.Transform->Scale.x, shape.Transform->Scale.y);
-//             auto sfmlAngle = Box2DRotationToSFML(shape.Transform->Rotation);
-// 
-// 			// create sfml circle shape
-// 			auto obj = sf::CircleShape();
-// 			obj.setPointCount(shape.PointCount);
-// 			obj.setRadius(sfmlRadius);
-// 			obj.setPosition(sfmlPosition);
-//             obj.setFillColor(shape.Color);
-// 			// SFML uses bearings, north is 0 and east is 90 (the fuck?)
-// 			obj.setRotation(sfmlAngle);
-// 			obj.setScale(sfmlScale);
-//             obj.setOrigin({ sfmlRadius, sfmlRadius });
-// 			return obj;
-// 		}
-// 
-// 		sf::RectangleShape WindowViewStrategy::RectangleToSFMLRectangleShape(const view::Rectangle& rectangle)
-// 		{
-//             //convert box2d to sfml
-// 			auto sfmlPosition = ViewManager::Get().coordsToPixels(rectangle.Transform->Position);
-// 			auto sfmlSize = ViewManager::Get().coordsToPixels(rectangle.Size);
-//             sfmlSize.y  = 2 * std::fabsf(sfmlSize.y);
-//             sfmlSize.x  = 2 * sfmlSize.x;
-// 			auto sfmlScale = sf::Vector2f(rectangle.Transform->Scale.x, rectangle.Transform->Scale.y);
-//             auto sfmlAngle = Box2DRotationToSFML(rectangle.Transform->Rotation);
-// 
-//             // create SFML rectangle
-//             auto obj = sf::RectangleShape();
-//             obj.setFillColor(rectangle.FillColor);
-//             obj.setSize(sfmlSize);
-// 			obj.setRotation(sfmlAngle);
-//             obj.setScale(sfmlScale);
-//             obj.setOrigin(sfmlSize.x / 2, sfmlSize.y / 2);
-//             obj.setPosition(sfmlPosition);
-//             return obj;
-// 		}
-// 
-// 		sf::Text WindowViewStrategy::TextToSFMLText(const view::Text& text)
-// 		{
-//             //convert box2d to sfml
-//             sf::Vector2f sfmlPosition;
-//             if (text.UseScreenPosition)
-//             {
-//                 sfmlPosition = m_window->mapPixelToCoords(BVec2ToVector2i(text.Transform->Position));
-//             }
-//             else
-//             {
-//                 sfmlPosition = ViewManager::Get().coordsToPixels(text.Transform->Position);
-//             }
-// 
-//             auto obj = sf::Text();
-//             obj.setFont(m_consoleFont);
-//             obj.setCharacterSize(text.Size);
-//             obj.setFillColor(text.Color);
-//             obj.setString(text.Value);
-// 			if (text.ShouldCenter)
-// 			{
-// 				// center text, need to do it after setting font
-// 				sf::FloatRect textRect = obj.getLocalBounds();
-// 				obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
-// 			}
-//             obj.setPosition(sfmlPosition);
-//             
-//             return obj;
-// 		}
+    // ==============================================
+    // Conversions
+    // ==============================================
 
  		float WindowViewStrategy::Box2DRotationToSFML(float angle)
  		{
@@ -181,6 +90,9 @@ namespace view{
         break;
       case Renderable::RenderableType::RECTANGLE:
         m_window->draw(GetSFMLRectangleFromRectangle(renderable.Transform, renderable.rectangle));
+        break;
+      case Renderable::RenderableType::TEXT:
+        m_window->draw(GetSFMLTextFromText(renderable.Transform, renderable.text));
         break;
       }
 		}
@@ -244,6 +156,34 @@ namespace view{
       obj.setScale({ 1.0f, 1.0f });
       obj.setOrigin({0.0f, 0.0f});
       obj.setPosition(sfmlPosition);
+      return obj;
+    }
+
+    sf::Text WindowViewStrategy::GetSFMLTextFromText(const ITransform::AbsoluteTransform& transform, const view::Renderable::Text& text)
+    {
+      //convert box2d to sfml
+      auto sfmlPosition = ViewManager::Get().coordsToPixels(transform.Position);
+      if (transform.Space == ITransform::PositionSpace::CameraSpace)
+      {
+        sfmlPosition = CameraSpaceToCoords(transform.Position);
+      }
+      else
+      {
+        sfmlPosition = ViewManager::Get().coordsToPixels(transform.Position);
+      }
+
+      auto obj = sf::Text();
+      obj.setFont(m_consoleFont);
+      std::cout << text.Value << std::endl;
+      obj.setString(std::string(text.Value));
+      obj.setCharacterSize(text.Size);
+      obj.setFillColor(text.Color);
+      // center text, need to do it after setting font
+      sf::FloatRect textRect = obj.getLocalBounds();
+      if(text.ShouldCenter)
+        obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
+      obj.setPosition(sfmlPosition);
+
       return obj;
     }
 
@@ -377,6 +317,12 @@ namespace view{
       auto pos = sf::Mouse::getPosition(*m_window);
       return m_window->mapPixelToCoords(pos);
     }
+
+    math::Vec2 WindowViewStrategy::GetResolution()
+    {
+      return { static_cast<float>(m_windowWidth), static_cast<float>(m_windowHeight) };
+    }
+
 
 		IConfigurable::ConfigurableData WindowViewStrategy::GetConfigurableData()
 		{

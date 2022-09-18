@@ -11,7 +11,7 @@ add_executable(
     ${PROJECT_NAME}
     Game.cpp
 	GameInjection.h
- "Components/UI/ExperienceBarComponent.h")
+ )
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

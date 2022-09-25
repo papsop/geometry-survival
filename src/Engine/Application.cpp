@@ -66,8 +66,8 @@ namespace Engine
     LOG_DEBUG("Initializing managers");
     m_configManager.OnInit();
     m_configManager.LoadCvarsFromFile();
-    m_physicsManager.OnInit();
     m_viewManager.OnInit();
+    m_physicsManager.OnInit();
 	  m_inputManager.OnInit();
 	  m_sceneManager.OnInit();
     m_componentManager.OnInit();

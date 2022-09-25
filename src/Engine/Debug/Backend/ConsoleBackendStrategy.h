@@ -3,14 +3,14 @@
 
 namespace Engine
 {
-    class ConsoleBackendStrategy : public IBackendStrategy
-    {
-    public:
-        ConsoleBackendStrategy() = default;
-        ~ConsoleBackendStrategy() override = default;
+  class ConsoleBackendStrategy : public IBackendStrategy
+  {
+  public:
+    ConsoleBackendStrategy() = default;
+    ~ConsoleBackendStrategy() override = default;
 
-        void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
-    };
+    void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
+  };
 };
 
 

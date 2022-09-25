@@ -26,8 +26,7 @@ namespace Engine
 
 		virtual void Update(float dt) { /* */ };
 		virtual void FixedUpdate(float dt) { /* */ };
-	private:
-
+	protected:
 		virtual void VirtualOnInit() { /* NO IMPLEMENTATION IN BASE CLASS */ };
 		virtual void VirtualOnDestroy() { /* NO IMPLEMENTATION IN BASE CLASS */ };
 		bool m_initialized = false;

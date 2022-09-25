@@ -11,19 +11,19 @@ namespace Engine
 {
     void WindowBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)
     {
-        DebugEntry entry;
-        entry.Text = "" + std::string(source) + " - " + std::string(text);
+      DebugEntry entry;
+      entry.Text = "" + std::string(source) + " - " + std::string(text);
 
-        if (level == LOGGER_LEVEL::DEBUG)
-            entry.Color = sf::Color::Green;
-        else if (level == LOGGER_LEVEL::INFO)
-            entry.Color = sf::Color::Cyan;
-        else if (level == LOGGER_LEVEL::WARN)
-            entry.Color = sf::Color::Yellow;
-        else if (level == LOGGER_LEVEL::ERROR)
-            entry.Color = sf::Color::Red;
+      if (level == LOGGER_LEVEL::DEBUG)
+        entry.Color = sf::Color::Green;
+      else if (level == LOGGER_LEVEL::INFO)
+        entry.Color = sf::Color::Cyan;
+      else if (level == LOGGER_LEVEL::WARN)
+        entry.Color = sf::Color::Yellow;
+      else if (level == LOGGER_LEVEL::ERROR)
+        entry.Color = sf::Color::Red;
 
-        m_entries.emplace_back(entry);
+      m_entries.emplace_back(entry);
     }
 
 	void WindowBackendStrategy::Debug(view::IViewStrategy* viewStrategy)

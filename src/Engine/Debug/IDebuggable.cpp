@@ -3,12 +3,12 @@
 
 namespace Engine
 {
-	void IDebuggable::OnInit()
+	void IDebuggable::DebuggableOnInit()
 	{
-        ViewManager::Get().RegisterComponent(this);
+		ViewManager::Get().RegisterComponent(this);
 	}
 
-	void IDebuggable::OnDestroy()
+	void IDebuggable::DebuggableOnDestroy()
 	{
 		ViewManager::Get().UnregisterComponent(this);
 	}

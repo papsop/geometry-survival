@@ -138,10 +138,6 @@ namespace Game
       physBodyDef.MaskBits= physics::EntityMask::M_ENEMY;
       shapeViewDef.Color = sf::Color::Red;
 
-      //enemy spawner
-      auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
-      enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
-
 		  Engine::ShapeViewDef shapeViewDef2;
 		  shapeViewDef2.Color = sf::Color::Magenta;
 		  shapeViewDef2.PointCount = 7;
@@ -217,6 +213,11 @@ namespace Game
       UICanvas->GetTransform()->AddChild(ammoHUD);
       UICanvas->GetTransform()->AddChild(ammoHUD);
       UICanvas->GetTransform()->AddChild(levelHUD);
+      
+      // ================== Enemy spawner ==================
+      auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+      enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
+
       // scene1.AddGameObject(centerCamera->ID);
       scene1.AddGameObject(player->ID);
       scene1.AddGameObject(enemySpawner->ID);
@@ -230,6 +231,8 @@ namespace Game
 	    //scene1.AddGameObject(wall3->ID);
 
       Engine::SceneManager::Get().LoadSceneByIndex(scene1.ID);
+
+      //UICanvas->Destroy();
     }
   };
 }

@@ -76,6 +76,7 @@ namespace Engine
 		ITransform(GameObject& owner, const TransformDefinition& def);
 
 		virtual ~ITransform() = default;
+		void OnDestroy();
 
 		virtual void SetPosition(math::Vec2 pos) = 0;
 		virtual math::Vec2 GetPosition() const = 0;

@@ -26,7 +26,7 @@ namespace Engine
       virtual void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color) {};
       virtual void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) {};
       virtual void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) {};
-      virtual void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color) {};
+      virtual void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, bool shouldCenter, float size, sf::Color color) {};
 
       virtual void SetView(const CameraData& cameraData) = 0;
       virtual sf::Vector2f GetMousePosition() = 0;

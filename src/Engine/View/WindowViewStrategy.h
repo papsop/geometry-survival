@@ -19,10 +19,10 @@ namespace view{
       void PostRender() override;
 
 
- 	    void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color) override;
- 	    void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) override;
+      void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color) override;
+      void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) override;
       void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) override;
-      void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color) override;
+      void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, bool shouldCenter, float size, sf::Color color) override;
 
       void SetView(const CameraData& cameraData) override;
       sf::Vector2f GetMousePosition() override;
@@ -59,8 +59,8 @@ namespace view{
     int m_windowHeight;
     int m_windowFullscreen;
     std::string m_windowName;
-
   };
+
 };
 };
 

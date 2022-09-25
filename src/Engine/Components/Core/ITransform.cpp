@@ -1,5 +1,6 @@
 #include "ITransform.h"
 #include "../../Core/GameObject/GameObject.h"
+#include "../../Managers/GameObjectManager.h"
 
 #include <algorithm>
 
@@ -15,7 +16,20 @@ namespace Engine
 		SetParent(def.Parent);
 	}
 
-	void ITransform::SetParent(GameObject* parent)
+  void ITransform::OnDestroy()
+  {
+    if (m_parent != nullptr && GameObjectManager::Get().GetGameObjectByID(m_parent->ID))
+    {
+      m_parent->GetTransform()->RemoveChild(&m_owner);
+    }
+		
+		for (auto& child : m_children)
+		{
+			child->Destroy();
+		}
+  }
+
+  void ITransform::SetParent(GameObject* parent)
 	{
 		m_parent = parent;
 	}

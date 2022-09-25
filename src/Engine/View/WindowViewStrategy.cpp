@@ -283,21 +283,24 @@ namespace view{
       m_window->draw(obj);
  		}
  
- 		void WindowViewStrategy::DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, float size, sf::Color color)
+ 		void WindowViewStrategy::DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, bool shouldCenter, float size, sf::Color color)
  		{
- 			//convert box2d to sfml
- 			auto sfmlPosition = ViewManager::Get().coordsToPixels(position);
- 
- 			auto obj = sf::Text();
- 			obj.setFont(m_consoleFont);
-      obj.setString(text);
- 			obj.setCharacterSize(size);
- 			obj.setFillColor(color);
- 			// center text, need to do it after setting font
- 			sf::FloatRect textRect = obj.getLocalBounds();
- 			obj.setOrigin(textRect.width / 2.0f, textRect.height / 2.0f);
- 			obj.setPosition(sfmlPosition);
- 
+      ITransform::AbsoluteTransform absoluteTransform;
+      view::Renderable::Text textObj;
+
+      absoluteTransform.Position = position;
+      absoluteTransform.Rotation = 0.0f;
+      absoluteTransform.Scale = { 1.0f, 1.0f };
+      absoluteTransform.Space = space;
+
+      textObj.Color = color;
+      textObj.ShouldCenter = shouldCenter;
+      textObj.Size = size;
+      // normally we would have an issue with storing c_str(), but since we are instantly rendering it -> it's fine
+      textObj.Value = text.c_str();
+      
+      auto obj = GetSFMLTextFromText(absoluteTransform, textObj);
+
       m_window->draw(obj);
  		}
 

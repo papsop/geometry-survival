@@ -174,7 +174,6 @@ namespace view{
 
       auto obj = sf::Text();
       obj.setFont(m_consoleFont);
-      std::cout << text.Value << std::endl;
       obj.setString(std::string(text.Value));
       obj.setCharacterSize(text.Size);
       obj.setFillColor(text.Color);
@@ -187,9 +186,9 @@ namespace view{
       return obj;
     }
 
-    // =======================================================================================
-        // Render each renderable type
-        // =======================================================================================
+    // ==================================================================================
+    // Render each renderable type
+    // ==================================================================================
 
 		void WindowViewStrategy::RenderShape(const Renderable& renderable)
 		{
@@ -212,9 +211,9 @@ namespace view{
 // 			return obj;
 		}
 
-		// =======================================================================================
-        // 
-        // =======================================================================================
+		// ==================================================================================
+    // 
+    // ==================================================================================
 
 		void WindowViewStrategy::PostRender()
 		{
@@ -222,7 +221,8 @@ namespace view{
 		}
 
 		// ==================================================================================
-        // Debug Renders
+    // Debug Renders
+    // ==================================================================================
 
     void WindowViewStrategy::DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color)
  		{
@@ -323,18 +323,12 @@ namespace view{
       return { static_cast<float>(m_windowWidth), static_cast<float>(m_windowHeight) };
     }
 
+    void WindowViewStrategy::GetConfigurableData(ConfigurableData& data)
+    {
+      data.push_back({ "window_width",          std::to_string(m_windowWidth) });
+      data.push_back({ "window_height",         std::to_string(m_windowHeight) });
+      data.push_back({ "window_fullscreen",     std::to_string(m_windowFullscreen) });
+      data.push_back({ "window_name",                          m_windowName });
+    }
 
-		IConfigurable::ConfigurableData WindowViewStrategy::GetConfigurableData()
-		{
-      IConfigurable::ConfigurableData result;
-
-      result.push_back({ "window_width",          std::to_string(m_windowWidth) });
-      result.push_back({ "window_height",         std::to_string(m_windowHeight) });
-      result.push_back({ "window_fullscreen",     std::to_string(m_windowFullscreen) });
-      result.push_back({ "window_name",                          m_windowName });
-
-      return result;
-		}
-
-};
-};
+}}

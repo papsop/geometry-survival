@@ -22,7 +22,7 @@ namespace Game
 		float GetCurrentLevelProgress();
 	private:
 		float m_totalExp = 0;
-		int m_currentLevel = 0;
+		int m_currentLevel = 1;
 		float m_firstLevelExperience;
 	};
 }

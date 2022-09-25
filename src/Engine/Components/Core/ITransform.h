@@ -95,11 +95,13 @@ namespace Engine
 		GameObject* GetParent() const { return m_parent; };
 		const std::list<GameObject*>& GetChildren() const { return m_children; };
 
-		void SetParent(GameObject* parent);
-		void SetChild(GameObject* child);
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
+
 		void SetPositionType(PositionType posType);
 
 	protected:
+		void SetParent(GameObject* parent);
 		void NotifyTransformChanged();
 
 		GameObject& m_owner;

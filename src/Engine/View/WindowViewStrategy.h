@@ -27,10 +27,10 @@ namespace view{
       void SetView(const CameraData& cameraData) override;
       sf::Vector2f GetMousePosition() override;
 
-      ConfigurableData GetConfigurableData() override;
-
-
       math::Vec2 GetResolution() override;
+
+
+      void GetConfigurableData(ConfigurableData& data) override;
 
     private:
       // conversions

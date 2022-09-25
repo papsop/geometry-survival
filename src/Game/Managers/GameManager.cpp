@@ -102,14 +102,11 @@ namespace Game
     return result;
   }
 
-  Engine::IConfigurable::ConfigurableData GameManager::GetConfigurableData()
+  void GameManager::GetConfigurableData(ConfigurableData& data)
   {
-    IConfigurable::ConfigurableData result;
-
-    result.push_back({ "spawner_radius",			std::to_string(m_spawnRadius) });
-    result.push_back({ "spawner_cooldown",			std::to_string(m_spawnCooldown) });
-    result.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
-
-    return result;
+    data.push_back({ "spawner_radius",			std::to_string(m_spawnRadius) });
+    data.push_back({ "spawner_cooldown",			std::to_string(m_spawnCooldown) });
+    data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
   }
+
 }

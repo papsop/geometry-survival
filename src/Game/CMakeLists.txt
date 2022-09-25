@@ -10,8 +10,8 @@ project(
 add_executable(
     ${PROJECT_NAME}
     Game.cpp
-	GameInjection.h
- )
+	  GameInjection.h
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

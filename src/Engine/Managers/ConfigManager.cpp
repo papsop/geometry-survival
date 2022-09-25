@@ -68,21 +68,22 @@ namespace Engine
 
 	void ConfigManager::StoreModifiedCvars()
 	{
+    IConfigurable::ConfigurableData configurableData = {};
+    for (auto&& configurable : m_configurables)
+    {
+      configurable->GetConfigurableData(configurableData);
+    }
 
 		LOG_INFO("Storing cvar data to '%s'", m_configFilePath);
 		std::ofstream outfile(m_configFilePath);
 		YAML::Emitter out;
 		out << YAML::BeginMap;
 
-		for (auto&& configurable : m_configurables)
-		{
-			IConfigurable::ConfigurableData configurableData = configurable->GetConfigurableData();
-			for (auto&& entry : configurableData)
-			{
-				out << YAML::Key << entry.first;
-				out << YAML::Value << entry.second;
-			}
-		}
+    for (auto&& entry : configurableData)
+    {
+      out << YAML::Key << entry.first;
+      out << YAML::Value << entry.second;
+    }
 
 		out << YAML::EndMap;
 

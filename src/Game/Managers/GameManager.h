@@ -38,8 +38,7 @@ namespace Game
 
 		void SetGameState(GameState state);
 
-		Engine::IConfigurable::ConfigurableData GetConfigurableData() override;
-
+		void GetConfigurableData(ConfigurableData& data) override;
 	private:
 		Engine::GameObject* m_player;
 		float m_spawnRadius;

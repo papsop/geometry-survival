@@ -13,7 +13,7 @@ namespace Engine
 		IConfigurable();
 		virtual ~IConfigurable();
 
-		// configurable derived classes should return a vector of key-values to store into config
-		virtual ConfigurableData GetConfigurableData() = 0;
+		// configurable derived classes push_back their data onto the data vector
+		virtual void GetConfigurableData(ConfigurableData& data) = 0;
 	};
 }

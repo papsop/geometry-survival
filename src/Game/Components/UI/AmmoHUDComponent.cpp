@@ -29,7 +29,7 @@ namespace Game
   {
     if (m_playerWeaponComponent)
     {
-      std::string text = std::to_string(m_playerWeaponComponent->GetCurrentAmmo()) + "/" + std::to_string(m_playerWeaponComponent->GetMaxAmmo());
+      std::string text = "Ammo " + std::to_string(m_playerWeaponComponent->GetCurrentAmmo()) + "/" + std::to_string(m_playerWeaponComponent->GetMaxAmmo());
       Owner.GetComponent<Engine::TextViewComponent>()->SetText(text);
     }
   }

@@ -61,6 +61,8 @@ set(UI_SOURCE
 	UI/ExperienceBarComponent.cpp
 	UI/AmmoHUDComponent.h
 	UI/AmmoHUDComponent.cpp
+	UI/LevelHUDComponent.h
+	UI/LevelHUDComponent.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

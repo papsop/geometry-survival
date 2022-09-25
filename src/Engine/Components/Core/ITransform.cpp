@@ -1,5 +1,8 @@
 #include "ITransform.h"
 #include "../../Core/GameObject/GameObject.h"
+
+#include <algorithm>
+
 namespace Engine
 {
 
@@ -13,17 +16,32 @@ namespace Engine
 	}
 
 	void ITransform::SetParent(GameObject* parent)
-	{ // todo notify parent
+	{
 		m_parent = parent;
 	}
 
-	void ITransform::SetChild(GameObject* child)
-	{ // todo notify child
-		m_children.emplace_back(child);
-		child->GetTransform()->SetParent(&m_owner);
+	void ITransform::AddChild(GameObject* child)
+	{ // just ignore the call if already a child
+		if (std::find(m_children.begin(), m_children.end(), child) == m_children.end())
+		{
+      m_children.emplace_back(child);
+      child->GetTransform()->SetParent(&m_owner);
+		}
 	}
 
-	void ITransform::SetPositionType(PositionType posType)
+  void ITransform::RemoveChild(GameObject* child)
+  {
+    if (std::find(m_children.begin(), m_children.end(), child) != m_children.end())
+    {
+			m_children.erase(std::remove_if(m_children.begin(), m_children.end(), 
+				[&](const GameObject* val) 
+				{ return val == child; }
+			), m_children.end());
+      child->GetTransform()->SetParent(nullptr);
+    }
+  }
+
+  void ITransform::SetPositionType(PositionType posType)
 	{
 		m_positionType = posType;
 	}

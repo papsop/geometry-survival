@@ -1,3 +1,3 @@
 # Dungeons & Geometry
 
-![image](https://user-images.githubusercontent.com/9076709/155303636-18c13151-962f-4707-a7a1-2107b92c55e2.png)
+![image](https://user-images.githubusercontent.com/9076709/192764239-a0f3a150-5699-4641-8ca0-06c553d1df7d.png)

@@ -18,13 +18,17 @@ namespace Engine
 
   void ITransform::OnDestroy()
   {
-    if (m_parent != nullptr && GameObjectManager::Get().GetGameObjectByID(m_parent->ID))
+		// Deleting only myself
+    if (m_parent != nullptr)
     {
       m_parent->GetTransform()->RemoveChild(&m_owner);
     }
 		
+		// Delete all my children
+		// First set their parent to nullptr - otherwise there will be a dangling ref
 		for (auto& child : m_children)
 		{
+			child->GetTransform()->SetParent(nullptr);
 			child->Destroy();
 		}
   }

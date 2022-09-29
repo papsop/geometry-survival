@@ -49,7 +49,7 @@ namespace Engine
 
 	void GameObjectManager::DestroyGameObject(uint32_t ID)
   {
-    auto gameObject = GetGameObjectByID(ID);
+    auto* gameObject = GetGameObjectByID(ID);
     if (gameObject != nullptr)
     {
       gameObject->m_shouldDestroy = true;
@@ -61,7 +61,7 @@ namespace Engine
   {
     while (!m_gameObjectsToCleanup.empty())
     {
-      auto e = m_gameObjectsToCleanup.front();
+      auto* e = m_gameObjectsToCleanup.front();
 
       e->OnDestroy();
       event::E_GameObjectDeleted eventData(e->ID);

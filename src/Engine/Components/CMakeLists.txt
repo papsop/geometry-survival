@@ -34,8 +34,6 @@ set(SOURCES
 	View/ShapeViewComponent.cpp
 	View/RectangleViewComponent.h
 	View/RectangleViewComponent.cpp
-	View/TextViewComponent.h
-	View/TextViewComponent.cpp
 
 	UI/LayoutElementComponent.h
 	UI/LayoutElementComponent.cpp

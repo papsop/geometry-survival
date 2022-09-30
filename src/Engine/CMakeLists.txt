@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
- )
+ "Components/View/TextViewComponent.h" "Components/View/TextViewComponent.cpp")
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

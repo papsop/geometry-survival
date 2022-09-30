@@ -8,3 +8,6 @@
 [submodule "libs/yaml"]
 	path = libs/yaml
 	url = https://github.com/jbeder/yaml-cpp/
+[submodule "libs/nuklear"]
+	path = libs/nuklear
+	url = https://github.com/Immediate-Mode-UI/Nuklear

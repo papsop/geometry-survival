@@ -8,3 +8,6 @@
 [submodule "libs/yaml"]
 	path = libs/yaml
 	url = https://github.com/jbeder/yaml-cpp/
+[submodule "libs/TGUI"]
+	path = libs/TGUI
+	url = https://github.com/texus/TGUI

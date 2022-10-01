@@ -12,32 +12,35 @@ namespace view{
     WindowViewStrategy::WindowViewStrategy(ViewManager& viewManager)
         : IViewStrategy(viewManager)
     {
-        // todo config
-        ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
-        ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
-        ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
-        ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
+      // todo config
+      ConfigManager::Get().RegisterCvar("window_width", &m_windowWidth, 1280);
+      ConfigManager::Get().RegisterCvar("window_height", &m_windowHeight, 720);
+      ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
+      ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
 
-        ReloadWindow();
+      ReloadWindow();
 
-        if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
-        {
-            LOG_ERROR("Unable to load console font");
-        }
-        LOG_DEBUG("Created WindowViewStrategy");
+      if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
+      {
+          LOG_ERROR("Unable to load console font");
+      }
+      LOG_DEBUG("Created WindowViewStrategy");
     }
 
     WindowViewStrategy::~WindowViewStrategy()
     {
-        EventManager::Get().DispatchEvent(event::E_WindowClosed());
-        m_window->close();
+      EventManager::Get().DispatchEvent(event::E_WindowClosed());
+      m_window->close();
     }
 
     void WindowViewStrategy::PollEvents()
     {
-        sf::Event event;
-        while (m_window->pollEvent(event))
-            Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
+      sf::Event event;
+      while (m_window->pollEvent(event))
+      {
+        m_gui.handleEvent(event);
+        Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
+      }
     }
 
 		void WindowViewStrategy::ReloadWindow()
@@ -50,7 +53,9 @@ namespace view{
 				style = sf::Style::Fullscreen;
 
 			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
-            m_window->setJoystickThreshold(10);
+      m_window->setJoystickThreshold(10);
+
+      m_gui.setWindow(*m_window);
 		}
 
     // ==============================================
@@ -217,6 +222,7 @@ namespace view{
 
 		void WindowViewStrategy::PostRender()
 		{
+      m_gui.draw();
 			m_window->display();
 		}
 

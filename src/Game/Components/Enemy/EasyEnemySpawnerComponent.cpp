@@ -36,7 +36,7 @@ namespace Game
 			enemyFactoryDef.Position = gameManager->GetRandomEnemySpawnPoint();
 			auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
 			Owner.GetTransform()->AddChild(enemyObj);
-			Owner.GetScene().AddGameObject(enemyObj->ID);
+			//Owner.GetScene().AddGameObject(enemyObj->ID);
 
 			m_currentCooldown = Engine::Application::Instance().GetGameManager<GameManager>()->GetSpawnCooldown();
 		}

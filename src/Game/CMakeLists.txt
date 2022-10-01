@@ -16,12 +16,14 @@ add_executable(
 add_subdirectory(Managers)
 add_subdirectory(Components)
 add_subdirectory(Core)
+add_subdirectory(Scenes)
 
 target_include_directories(
     ${GAME_PROJECT}
     PRIVATE
     ${CMAKE_SOURCE_DIR}/src
     ${SFML_INCLUDE}
+    ${TGUI_INCLUDE}
 )
 
 target_link_libraries(

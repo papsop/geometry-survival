@@ -57,12 +57,7 @@ set(PICKABLES_SOURCE
 )
 
 set(UI_SOURCE
-	UI/ExperienceBarComponent.h
-	UI/ExperienceBarComponent.cpp
-	UI/AmmoHUDComponent.h
-	UI/AmmoHUDComponent.cpp
-	UI/LevelHUDComponent.h
-	UI/LevelHUDComponent.cpp
+
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

@@ -12,8 +12,8 @@ set(SOURCES
 
 	Scene/Scene.h
 	Scene/Scene.cpp
-	Scene/SceneLoader.h
-	Scene/SceneLoader.cpp
+	Scene/IScene.h
+
 
 	StateMachine/IState.h
 	StateMachine/BasicSceneState.h

@@ -57,6 +57,16 @@ namespace Engine
     }
   }
 
+  void GameObjectManager::DestroyAllGameObjects()
+  {
+    for (auto& gameObject : m_gameObjects)
+    {
+      gameObject.second->Destroy();
+    }
+
+    CleanupGameObjects();
+  }
+
   void GameObjectManager::CleanupGameObjects()
   {
     while (!m_gameObjectsToCleanup.empty())

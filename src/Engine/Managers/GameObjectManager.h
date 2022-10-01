@@ -21,6 +21,7 @@ namespace Engine
 
       void Update(float dt) override;
       void DestroyGameObject(GameObjectID ID);
+      void DestroyAllGameObjects();
       void CleanupGameObjects();
 
       void Debug(view::IViewStrategy * viewStrategy) override;

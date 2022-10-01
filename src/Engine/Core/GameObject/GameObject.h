@@ -16,8 +16,6 @@
 namespace Engine
 {
     using GameObjectID = uint32_t;
-
-    class Scene;
     struct CollisionData;
 
     class GameObject
@@ -77,9 +75,6 @@ namespace Engine
       bool IsActive() const { return m_isActive; }
       bool ShouldUpdate() const { return m_isActive && !m_shouldDestroy; }
 
-      void SetScene(Scene* scene) { m_scene = scene; }
-      Scene& GetScene() { return *m_scene; }
-
       void SendMessageTo(GameObject* receiver, MessageType type);
       void ReceiveMessage(Message message);
 
@@ -88,10 +83,9 @@ namespace Engine
     private:
       std::unordered_map<uint32_t, std::unique_ptr<IComponent>> m_components = {};
       bool m_shouldDestroy = false;
-      bool m_isActive = false;
+      bool m_isActive = true;
 
       std::unique_ptr<ITransform> m_transform;
-      Scene* m_scene;
 
       std::queue<Message> m_messageQueue;
       friend class GameObjectManager;

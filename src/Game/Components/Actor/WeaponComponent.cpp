@@ -89,7 +89,6 @@ namespace Game
         bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
         bullet->AddComponent<BulletComponent>(m_equippedWeapon->GetWeaponDamage());
 
-        Owner.GetScene().AddGameObject(bullet->ID);
         return bullet;
     }
 

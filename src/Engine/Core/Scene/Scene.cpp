@@ -17,7 +17,6 @@ namespace Engine
         {
             if (m_isLoaded) entity->SetActive(m_isLoaded);
             m_gameObjects.emplace_back(id);
-            entity->SetScene(this);
         }
 
     }

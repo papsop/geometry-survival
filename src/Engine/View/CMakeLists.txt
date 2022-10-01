@@ -5,6 +5,7 @@ set(SOURCES
 	ConsoleViewStrategy.cpp
 	WindowViewStrategy.h
 	WindowViewStrategy.cpp
+	IGuiView.h
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

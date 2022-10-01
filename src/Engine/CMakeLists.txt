@@ -12,7 +12,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
- )
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)
@@ -28,6 +28,7 @@ target_include_directories(
     PRIVATE
     ${SFML_INCLUDE}
     ${YAML_INCLUDE}
+    ${TGUI_INCLUDE}
 )
 
 # PUBLIC because we want to propagate SFML into Game as well without explicit linking there
@@ -39,4 +40,5 @@ target_link_libraries(
     sfml-system
     box2d
     yaml-cpp
+    tgui
 )

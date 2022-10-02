@@ -59,7 +59,7 @@ namespace Game
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
 
     // ================== Player ==================
-    auto player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
+    auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
     player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
@@ -75,13 +75,13 @@ namespace Game
     player->AddComponent<PickUpFieldComponent>();
     player->AddComponent<InputComponent>();
     player->AddComponent<WeaponComponent>();
-    auto weaponComp = player->GetComponent<WeaponComponent>();
+    auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
     player->AddComponent<PlayerComponent>();
     player->AddComponent<LevelComponent>();
 
     // ================== Camera ==================
-    auto camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
+    auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
     camera->AddComponent<Engine::CameraComponent>(player);
 
     physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
@@ -94,7 +94,7 @@ namespace Game
     shapeViewDef2.Radius = 25.0f;
 
     // ================== Enemy spawner ==================
-    auto enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+    auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
   }
 

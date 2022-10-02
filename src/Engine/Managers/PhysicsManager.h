@@ -48,7 +48,7 @@ namespace Engine
 		std::unique_ptr<b2World> m_b2World;
 		std::vector<PhysicsBodyComponent*> m_physicsBodies;	
 
-		const float m_fixedUpdate = 0.00694f; // 1s/60
+		const float m_fixedUpdate = 1.0f/60.0f;
 	friend class Application;
 	};
 }

@@ -66,6 +66,7 @@ namespace Engine
     LOG_DEBUG("Initializing managers");
     m_configManager.OnInit();
     m_configManager.LoadCvarsFromFile();
+    m_uiManager.OnInit();
     m_viewManager.OnInit();
     m_physicsManager.OnInit();
 	  m_inputManager.OnInit();
@@ -73,15 +74,10 @@ namespace Engine
     m_componentManager.OnInit();
     m_gameObjectManager.OnInit();
     LOG_DEBUG("Initializing complete");
-    // Let game create it's subsystems
-    injection.RegisterGameComponents(*this);
+    // Let the game create it's subsystems
+    //injection.RegisterGameComponents(*this);
 
     m_fixedUpdate = m_physicsManager.GetFixedUpdate();
-
-    //Scene scene;
-    //auto debugID = scene.AddGameObjectViaFactory(DebugGOFactory());
-    //auto playerID = scene.AddGameObjectViaFactory(PlayerFactory());
-    //auto enemyID = scene.AddGameObjectViaFactory(SeekingEnemyFactory());
 
     // Create and set ViewStrategy
 	  m_viewManager.SetViewStrategy(new view::WindowViewStrategy(m_viewManager));
@@ -93,31 +89,31 @@ namespace Engine
 
     while (m_applicationIsRunning)
     {
-        sf::Time elapsed = clock.restart();
-        float lastFrameMS = elapsed.asSeconds();
-            
-        m_viewManager.PollEvents();
-	  // debug exit
-	  if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
-          if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
+      sf::Time elapsed = clock.restart();
+      float lastFrameMS = elapsed.asSeconds();
 
-          // Update managers
-          m_inputManager.Update();
+      m_viewManager.PollEvents();
+	    // debug exit
+	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
+            if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager.StoreModifiedCvars();
 
-          // Process GameObject messages
-          m_gameObjectManager.Update(lastFrameMS);
-          // Update custom managers that the game registered
-          // These managers actually update Components etc. as they see fit
-          for (auto&& managerEntry : m_managers)
-          {
-              managerEntry.second->Update(lastFrameMS);
-          }
+            // Update managers
+            m_inputManager.Update();
 
-          // Rendering
-          m_viewManager.Update(lastFrameMS);
-          // reset input for this frame
-          m_inputManager.PostUpdate();
-          m_gameObjectManager.CleanupGameObjects();
+            // Process GameObject messages
+            m_gameObjectManager.Update(lastFrameMS);
+            // Update custom managers that the game registered
+            // These managers actually update Components etc. as they see fit
+            for (auto&& managerEntry : m_managers)
+            {
+                managerEntry.second->Update(lastFrameMS);
+            }
+
+            // Rendering
+            m_viewManager.Update(lastFrameMS);
+            // reset input for this frame
+            m_inputManager.PostUpdate();
+            m_gameObjectManager.CleanupGameObjects();
       }
 
       //m_configManager.StoreModifiedCvars();
@@ -129,6 +125,7 @@ namespace Engine
       m_inputManager.OnDestroy();
       m_physicsManager.OnDestroy();
       m_viewManager.OnDestroy();
+      m_uiManager.OnDestroy();
       m_configManager.OnDestroy();
 		  LOG_DEBUG("Destroying complete");
     }

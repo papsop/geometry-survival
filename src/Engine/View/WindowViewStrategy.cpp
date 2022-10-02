@@ -38,7 +38,6 @@ namespace view{
       sf::Event event;
       while (m_window->pollEvent(event))
       {
-        m_gui.handleEvent(event);
         Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
       }
     }
@@ -54,8 +53,7 @@ namespace view{
 
 			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
       m_window->setJoystickThreshold(10);
-
-      m_gui.setWindow(*m_window);
+      UIManager::Get().SetSFMLWindow(*m_window);
 		}
 
     // ==============================================
@@ -222,7 +220,6 @@ namespace view{
 
 		void WindowViewStrategy::PostRender()
 		{
-      m_gui.draw();
 			m_window->display();
 		}
 

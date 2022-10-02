@@ -4,6 +4,7 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
+#include <Engine/Debug/Backend/UIBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
@@ -34,6 +35,7 @@
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 
 #include "Scenes/GamePlayScene.h"
+#include "Scenes/MainMenuScene.h"
 
 
 namespace Game
@@ -44,10 +46,15 @@ namespace Game
   public:
     void RegisterGameComponents(Engine::Application& app) override
     {
-		  // setup logger
-		  Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
-		  Engine::Logger::Instance().AddBackend(std::make_unique<Engine::WindowBackendStrategy>());
-		  Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
+
+    }
+
+    void BeforeGameLoop(Engine::Application& app) override
+    {
+      // setup logger
+      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
+      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::UIBackendStrategy>());
+      Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
       // Order is important
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
@@ -64,11 +71,8 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<Engine::VerticalLayoutComponent>();
 
       Engine::Application::Instance().RegisterGameManager<GameManager>();
-    }
-
-    void BeforeGameLoop(Engine::Application& app) override
-    {
-      app.GetSceneManager().LoadSceneDestroyPrevious(GamePlayScene());
+    
+      app.GetSceneManager().LoadSceneDestroyPrevious(MainMenuScene());
     }
   };
 }

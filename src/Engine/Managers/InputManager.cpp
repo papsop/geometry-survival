@@ -9,42 +9,42 @@ namespace Engine
     InputManager& InputManager::Get() { return Application::Instance().GetInputManager(); }
 
     InputManager::InputManager()
-        : m_actions()
-        , m_axis()
-        , m_mapKeyToAction()
-        , m_mapMouseToAction()
-        , m_mousePosition(0, 0)
-        , m_currentCursorInput(InputManager::CursorInput::Mouse)
+      : m_actions()
+      , m_axis()
+      , m_mapKeyToAction()
+      , m_mapMouseToAction()
+      , m_mousePosition(0, 0)
+      , m_currentCursorInput(InputManager::CursorInput::Mouse)
     {
-        // Keyboard
-        m_mapKeyToAction[sf::Keyboard::A] = Action::MoveLeft;
-        m_mapKeyToAction[sf::Keyboard::D] = Action::MoveRight;
-        m_mapKeyToAction[sf::Keyboard::W] = Action::MoveUp;
-        m_mapKeyToAction[sf::Keyboard::S] = Action::MoveDown;
+      // Keyboard
+      m_mapKeyToAction[sf::Keyboard::A] = Action::MoveLeft;
+      m_mapKeyToAction[sf::Keyboard::D] = Action::MoveRight;
+      m_mapKeyToAction[sf::Keyboard::W] = Action::MoveUp;
+      m_mapKeyToAction[sf::Keyboard::S] = Action::MoveDown;
 
-        m_mapKeyToAction[sf::Keyboard::Left] = Action::MoveLeft;
-        m_mapKeyToAction[sf::Keyboard::Right] = Action::MoveRight;
-        m_mapKeyToAction[sf::Keyboard::Up] = Action::MoveUp;
-        m_mapKeyToAction[sf::Keyboard::Down] = Action::MoveDown;
+      m_mapKeyToAction[sf::Keyboard::Left] = Action::MoveLeft;
+      m_mapKeyToAction[sf::Keyboard::Right] = Action::MoveRight;
+      m_mapKeyToAction[sf::Keyboard::Up] = Action::MoveUp;
+      m_mapKeyToAction[sf::Keyboard::Down] = Action::MoveDown;
 
-        m_mapKeyToAction[sf::Keyboard::Space] = Action::Fire1;
-        m_mapKeyToAction[sf::Keyboard::R] = Action::Reload;
+      m_mapKeyToAction[sf::Keyboard::Space] = Action::Fire1;
+      m_mapKeyToAction[sf::Keyboard::R] = Action::Reload;
 
-        m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
-        m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
-        m_mapKeyToAction[sf::Keyboard::F7] = Action::TestButton;
+      m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
+      m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
+      m_mapKeyToAction[sf::Keyboard::F7] = Action::TestButton;
 
-        m_mapKeyToAction[sf::Keyboard::P] = Action::PauseGame;
+      m_mapKeyToAction[sf::Keyboard::P] = Action::PauseGame;
 
-        // Mouse
-        m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
+      // Mouse
+      m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
 
-        // Joystick
-        // A = 0
-        // B = 1
-        // X = 2
-        // Y = 3
-        m_mapJoystickToAction[1] = Action::Fire1;
+      // Joystick
+      // A = 0
+      // B = 1
+      // X = 2
+      // Y = 3
+      m_mapJoystickToAction[1] = Action::Fire1;
     }
 
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)
@@ -73,64 +73,67 @@ namespace Engine
 
 	math::Vec2 InputManager::GetJoystickMoveAxes(size_t joystickId)
 	{
-        if (sf::Joystick::isConnected(joystickId))
-        {
-            return { 
-                sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.0f,
-                sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.0f 
-            };
-        }
-        return {0.0f, 0.0f};
+    if (sf::Joystick::isConnected(joystickId))
+    {
+      return {
+          sf::Joystick::getAxisPosition(0, sf::Joystick::X) / 100.0f,
+          sf::Joystick::getAxisPosition(0, sf::Joystick::Y) / 100.0f
+      };
+    }
+    return { 0.0f, 0.0f };
 	}
 
 	void InputManager::UpdateAction(Action action, bool isPressed)
 	{
-        if (action == Action::Unknown)
-            return;
+    if (action == Action::Unknown)
+      return;
 
-        auto& entry = m_actions[static_cast<size_t>(action)];
-        entry.Pressed = isPressed;
+    auto& entry = m_actions[static_cast<size_t>(action)];
+    entry.Pressed = isPressed;
 
-        if (isPressed && !entry.WasPressedLastFrame)
-            entry.PressedThisFrame = true;
-        else if (!isPressed && entry.WasPressedLastFrame)
-            entry.ReleasedThisFrame = true;
+    if (isPressed && !entry.WasPressedLastFrame)
+      entry.PressedThisFrame = true;
+    else if (!isPressed && entry.WasPressedLastFrame)
+      entry.ReleasedThisFrame = true;
 
-        // InputManager::PostUpdate() takes cares of cleaning the entries
+    E_InputActionEvent inputEvent;
+    inputEvent.Action = action;
+    inputEvent.ActionEntry = GetAction(action);
+    EventManager::Get().DispatchEvent(inputEvent);
 	}
 
 	void InputManager::Update()
     {
-        // mouse position update
-        m_mousePosition = ViewManager::Get().GetMousePosition();
+      // mouse position update
+      m_mousePosition = ViewManager::Get().GetMousePosition();
 
-        float horizontal = 0;
-        float vertical = 0;
+      float horizontal = 0;
+      float vertical = 0;
 
-        // Axis check
-        if (GetAction(Action::MoveLeft).Pressed)
-            horizontal -= 1;
-        if (GetAction(Action::MoveRight).Pressed)
-            horizontal += 1;
+      // Axis check
+      if (GetAction(Action::MoveLeft).Pressed)
+          horizontal -= 1;
+      if (GetAction(Action::MoveRight).Pressed)
+          horizontal += 1;
 
-        if (GetAction(Action::MoveUp).Pressed)
-            vertical -= 1;
-        if (GetAction(Action::MoveDown).Pressed)
-            vertical += 1;
+      if (GetAction(Action::MoveUp).Pressed)
+          vertical -= 1;
+      if (GetAction(Action::MoveDown).Pressed)
+          vertical += 1;
 
-        m_axis[static_cast<size_t>(Axis::Horizontal)] = horizontal;
-        m_axis[static_cast<size_t>(Axis::Vertical)] = vertical;
+      m_axis[static_cast<size_t>(Axis::Horizontal)] = horizontal;
+      m_axis[static_cast<size_t>(Axis::Vertical)] = vertical;
     }
 
     void InputManager::PostUpdate()
     {
-        // update last frame states
-        for (auto& entry : m_actions)
-        {
-            entry.WasPressedLastFrame = entry.Pressed;
-            entry.PressedThisFrame = false;
-            entry.ReleasedThisFrame = false;
-        }
+      // update last frame states
+      for (auto& entry : m_actions)
+      {
+          entry.WasPressedLastFrame = entry.Pressed;
+          entry.PressedThisFrame = false;
+          entry.ReleasedThisFrame = false;
+      }
     }
 
 	// Public

@@ -132,6 +132,9 @@ namespace Engine
 				d->Debug(m_viewStrategy.get());
 		}
 
+		// draw UI
+		UIManager::Get().DrawGui();
+
 		m_viewStrategy->PostRender();
 	}
 };

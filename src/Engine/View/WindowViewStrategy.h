@@ -1,13 +1,12 @@
 #pragma once
 #include "IViewStrategy.h"
-#include "IGuiView.h"
 #include "../Core/Events.h"
 #include <SFML/Graphics.hpp>
 #include "../Managers/ConfigManager.h"
 
 namespace Engine{
 namespace view{
-  class WindowViewStrategy : public IViewStrategy, public IGuiView, public IConfigurable
+  class WindowViewStrategy : public IViewStrategy, public IConfigurable
     {
     public:
       WindowViewStrategy(ViewManager& viewManager);

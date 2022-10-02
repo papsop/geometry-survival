@@ -38,6 +38,9 @@ namespace Game
 
 		void SetGameState(GameState state);
 
+		void RestartGamePlay();
+		void QuitGame();
+
 		void GetConfigurableData(ConfigurableData& data) override;
 	private:
 		Engine::GameObject* m_player;

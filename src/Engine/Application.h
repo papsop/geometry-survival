@@ -34,6 +34,7 @@ namespace Engine
         ViewManager& GetViewManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
         ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
         ConfigManager& GetConfigManager() { GET_MANAGER_HELPER("ConfigManager", m_configManager); };
+        UIManager& GetUIManager() { GET_MANAGER_HELPER("UIManager", m_uiManager); };
 
         // Game managers
         template<typename T,
@@ -67,6 +68,7 @@ namespace Engine
         ViewManager m_viewManager;
         ComponentManager m_componentManager;
         ConfigManager m_configManager;
+        UIManager m_uiManager;
 
         std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
 

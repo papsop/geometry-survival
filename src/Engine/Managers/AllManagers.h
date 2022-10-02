@@ -8,3 +8,4 @@
 #include "ViewManager.h"
 #include "ComponentManager.h"
 #include "ConfigManager.h"
+#include "UIManager.h"

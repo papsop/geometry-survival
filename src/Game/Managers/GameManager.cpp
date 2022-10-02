@@ -7,6 +7,7 @@
 #include <Engine/Application.h>
 #include <Engine/Managers/EventManager.h>
 #include "../Core/EventData.h"
+#include "../Scenes/GamePlayScene.h"
 
 namespace Game
 {
@@ -102,6 +103,21 @@ namespace Game
     return result;
   }
 
+  // UI Callbacks
+
+
+  void GameManager::RestartGamePlay()
+  {
+    Engine::SceneManager::Get().LoadSceneDestroyPrevious(GamePlayScene());
+  }
+
+  void GameManager::QuitGame()
+  { // TODO: add cool effect or something before closing application
+    Engine::Application::Instance().Stop();
+  }
+
+
+  // Config
   void GameManager::GetConfigurableData(ConfigurableData& data)
   {
     data.push_back({ "spawner_radius",			std::to_string(m_spawnRadius) });

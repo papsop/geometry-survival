@@ -1,5 +1,6 @@
 #include "IDebuggable.h"
 #include "../Application.h"
+#include "../Managers/ViewManager.h"
 
 namespace Engine
 {

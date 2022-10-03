@@ -1,9 +1,11 @@
 #include "ActorComponent.h"
 #include "WeaponComponent.h"
 #include "RPGComponent.h"
+
 #include <Engine/Components/Physics.h>
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject/GameObject.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {

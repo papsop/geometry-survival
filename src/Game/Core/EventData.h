@@ -13,6 +13,6 @@ namespace Game
 
 		// General ui input events
 		// - things like fire/movement/etc. should be handled in InputComponent
-		struct E_OnMenuKeyClicked {};
+		struct E_OnMenuKeyAction {};
 	}
 }

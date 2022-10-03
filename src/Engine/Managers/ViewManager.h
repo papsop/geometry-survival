@@ -5,6 +5,9 @@
 #include "../Debug/IDebuggable.h"
 #include "ViewLayers.h"
 #include "../Utils/VectorUtils.h"
+#include "../Core/Events.h"
+#include "../Core/EventData.h"
+
 #include <vector>
 #include <map>
 #include <memory>
@@ -12,7 +15,7 @@
 namespace Engine
 {
 	class CameraComponent;
-	class ViewManager : public IManager
+	class ViewManager : public IManager, public IEventListener<event::E_OnShowDebugKeyAction>
 	{
 	public:
 		~ViewManager() = default;
@@ -44,6 +47,9 @@ namespace Engine
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 
 		math::Vec2 GetResolution() { return m_viewStrategy->GetResolution(); };
+
+  protected:
+    void ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData) override;
 	private:
 		int m_pixelsPerMeter; // config?
 
@@ -61,5 +67,6 @@ namespace Engine
 
 		friend class Application;
 		friend class CameraComponent;
+
 	};
 };

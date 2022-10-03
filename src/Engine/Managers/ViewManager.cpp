@@ -4,6 +4,11 @@
 #include "../Core/GameObject/GameObject.h"
 #include "../Debug/Logger.h"
 
+#include "../Managers/ViewManager.h"
+#include "../Managers/ConfigManager.h"
+#include "../Managers/InputManager.h"
+#include "../Managers/UIManager.h"
+
 namespace Engine
 {
 	ViewManager::ViewManager()
@@ -27,7 +32,12 @@ namespace Engine
 		m_viewStrategy = nullptr;
 	}
 
-	void ViewManager::SetViewStrategy(view::IViewStrategy* viewStrategy)
+  void ViewManager::ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData)
+  {
+    m_shouldDrawDebug = !m_shouldDrawDebug;
+  }
+
+  void ViewManager::SetViewStrategy(view::IViewStrategy* viewStrategy)
 	{
 		m_viewStrategy.reset(viewStrategy);
 	}
@@ -106,9 +116,6 @@ namespace Engine
 
 	void ViewManager::Update(float dt)
 	{
-		if (InputManager::Get().GetAction(InputManager::Action::ShowDebugDraw).PressedThisFrame)
-			m_shouldDrawDebug = !m_shouldDrawDebug;
-
 		m_viewStrategy->PreRender();
 
 		for (auto& c : m_cameras)

@@ -6,6 +6,8 @@
 #include <stdio.h>
 #include <Engine/Application.h>
 #include <Engine/Managers/EventManager.h>
+#include <Engine/Managers/SceneManager.h>
+
 #include "../Core/EventData.h"
 #include "../Scenes/GamePlayScene.h"
 
@@ -56,20 +58,14 @@ namespace Game
 
   void GameManager::Update(float dt)
   {
-	if (m_app.GetInputManager().GetAction(Engine::InputManager::Action::PauseGame).PressedThisFrame)
-	{
-		if (m_currentGameState == GameState::Gameplay) SetGameState(GameState::Paused);
-		else SetGameState(GameState::Gameplay);
-	}
-
-	if (m_currentGameState == GameState::Gameplay)
-	{
-		m_app.UpdateGameplay(dt);
-	}
-	else if(m_currentGameState == GameState::Paused)
-	{
-		/* */
-	}
+	  if (m_currentGameState == GameState::Gameplay)
+	  {
+		  m_app.UpdateGameplay(dt);
+	  }
+	  else if(m_currentGameState == GameState::Paused)
+	  {
+		  /* */
+	  }
   }
 
   void GameManager::RegisterPlayerGameObject(Engine::GameObject* player)

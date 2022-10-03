@@ -4,6 +4,8 @@
 
 #include <Engine/Application.h>
 #include <Engine/Managers/ViewManager.h>
+#include <Engine/Managers/ComponentManager.h>
+
 namespace Game
 {
     InputComponent::InputComponent(Engine::GameObject& obj)

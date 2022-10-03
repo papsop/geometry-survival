@@ -1,6 +1,5 @@
 #pragma once
-#include "GameObject/GameObject.h"
-#include <SFML/System.hpp>
+#include <SFML/Window.hpp>
 
 namespace Engine
 {
@@ -8,8 +7,8 @@ namespace Engine
 	{
 		struct E_GameObjectDeleted
 		{
-			E_GameObjectDeleted(GameObjectID id) : ID(id) {};
-			GameObjectID ID;
+			E_GameObjectDeleted(uint32_t id) : ID(id) {};
+			uint32_t ID;
 		};
 
 		struct E_SFMLEvent
@@ -23,5 +22,6 @@ namespace Engine
 
 		struct E_WindowClosed {};
 		struct E_OnConsoleKeyAction {};
+		struct E_OnShowDebugKeyAction {};
 	}
 }

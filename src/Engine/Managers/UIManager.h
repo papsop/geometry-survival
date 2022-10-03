@@ -1,6 +1,7 @@
 #pragma once
 #include "IManager.h"
 #include "../Core/Events.h"
+#include "../Core/EventData.h"
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
 

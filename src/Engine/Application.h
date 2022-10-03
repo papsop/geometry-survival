@@ -4,77 +4,81 @@
 #include <map>
 
 #include "Core/ApplicationInjection.h"
-#include "Managers/AllManagers.h"
 #include "Core/Events.h"
-
-#define GET_MANAGER_HELPER(name, var) {                                                                 \
-                                           DD_ASSERT((var).IsInitialized(), name " not initialized");   \
-                                           return (var);                                                \
-                                      }
+#include "Debug/Logger.h"
 
 namespace Engine
 {
-
-    class Application : public IEventListener<event::E_SFMLEvent>
-    {
-    public:
-        Application();
-        ~Application() = default;
-        static Application& Instance()
-        {
-            DD_ASSERT(m_instance != nullptr, "Application not created");
-            return *m_instance;
-        }
+  class InputManager;
+  class GameObjectManager;
+  class SceneManager;
+  class PhysicsManager;
+  class ViewManager;
+  class ComponentManager;
+  class ConfigManager;
+  class UIManager;
+  class Application : public IEventListener<event::E_SFMLEvent>
+  {
+  public:
+      Application();
+      ~Application() = default;
+      static Application& Instance()
+      {
+          DD_ASSERT(m_instance != nullptr, "Application not created");
+          return *m_instance;
+      }
         
-        // Engine managers
-        InputManager& GetInputManager() { GET_MANAGER_HELPER("SubsystemManager", m_inputManager); };
-        GameObjectManager& GetGameObjectManager() { GET_MANAGER_HELPER("GameObjectManager", m_gameObjectManager); };
-        SceneManager& GetSceneManager() { GET_MANAGER_HELPER("SceneManager", m_sceneManager); };
-        PhysicsManager& GetPhysicsManager() { GET_MANAGER_HELPER("PhysicsManager", m_physicsManager); };
-        ViewManager& GetViewManager() { GET_MANAGER_HELPER("ViewManager", m_viewManager); };
-        ComponentManager& GetComponentManager() { GET_MANAGER_HELPER("ComponentManager", m_componentManager); };
-        ConfigManager& GetConfigManager() { GET_MANAGER_HELPER("ConfigManager", m_configManager); };
-        UIManager& GetUIManager() { GET_MANAGER_HELPER("UIManager", m_uiManager); };
+      // Engine managers
+      InputManager& GetInputManager();
+      GameObjectManager& GetGameObjectManager();;
+      SceneManager& GetSceneManager();;
+      PhysicsManager& GetPhysicsManager();;
+      ViewManager& GetViewManager();;
+      ComponentManager& GetComponentManager();;
+      ConfigManager& GetConfigManager();;
+      UIManager& GetUIManager();;
 
-        // Game managers
-        template<typename T,
-                typename ... Args,
-                typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
-                >
-        void RegisterGameManager(Args&& ... args);
+      // Game managers
+      template<typename T,
+              typename ... Args,
+              typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
+              >
+      void RegisterGameManager(Args&& ... args);
 
-        template<typename T,
-          typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
-        >
-          T* GetGameManager();
-        void DestroyRegisteredManagers();
+      template<typename T,
+        typename = std::enable_if_t<std::is_base_of<IManager, T>::value>
+      >
+        T* GetGameManager();
+      void DestroyRegisteredManagers();
 
-        void Run(ApplicationInjection& injection);
-        bool IsRunning() const { return m_applicationIsRunning;  }
-        void Stop();
+      void Run(ApplicationInjection& injection);
+      bool IsRunning() const { return m_applicationIsRunning;  }
+      void Stop();
 
-        void UpdateGameplay(float dt);
-    protected:
-        void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
-    private:
-        static Application* m_instance;
+      void UpdateGameplay(float dt);
+  protected:
+      void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
+  private:
+      static Application* m_instance;
 
-        bool m_applicationIsRunning = true;
+      bool m_applicationIsRunning = true;
        
-        InputManager m_inputManager;
-        GameObjectManager m_gameObjectManager;
-        SceneManager m_sceneManager;
-        PhysicsManager m_physicsManager;
-        ViewManager m_viewManager;
-        ComponentManager m_componentManager;
-        ConfigManager m_configManager;
-        UIManager m_uiManager;
+      void CreateManagers();
 
-        std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
+      std::unique_ptr<InputManager> m_inputManager;
+      std::unique_ptr<GameObjectManager> m_gameObjectManager;
+      std::unique_ptr<SceneManager> m_sceneManager;
+      std::unique_ptr<PhysicsManager> m_physicsManager;
+      std::unique_ptr<ViewManager> m_viewManager;
+      std::unique_ptr<ComponentManager> m_componentManager;
+      std::unique_ptr<ConfigManager> m_configManager;
+      std::unique_ptr<UIManager> m_uiManager;
 
-        float m_timeAccumulator = 0.0f;
-        float m_fixedUpdate = -1.0f;
-    };
+      std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
+
+      float m_timeAccumulator = 0.0f;
+      float m_fixedUpdate = -1.0f;
+  };
 
 };
 

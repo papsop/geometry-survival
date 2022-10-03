@@ -1,5 +1,4 @@
 set(SOURCES
-	AllManagers.h
 	IManager.h
 
 	EventManager.h

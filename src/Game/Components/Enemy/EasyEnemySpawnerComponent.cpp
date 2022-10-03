@@ -1,8 +1,9 @@
-
 #include "EasyEnemySpawnerComponent.h"
-#include <Engine/Application.h>
 #include "../../Managers/GameManager.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
+
+#include <Engine/Application.h>
+#include <Engine/Managers/ComponentManager.h>
 
 namespace Game
 {

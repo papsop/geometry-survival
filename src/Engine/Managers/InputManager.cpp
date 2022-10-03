@@ -95,14 +95,16 @@ namespace Engine
       entry.PressedThisFrame = true;
     else if (!isPressed && entry.WasPressedLastFrame)
       entry.ReleasedThisFrame = true;
-
-    E_InputActionEvent inputEvent;
-    inputEvent.Action = action;
-    inputEvent.ActionEntry = GetAction(action);
-    EventManager::Get().DispatchEvent(inputEvent);
 	}
 
-	void InputManager::Update()
+  void InputManager::HandleShowConsolePressed()
+  {
+    auto& entry = GetAction(Action::ShowConsole);
+    if (entry.PressedThisFrame)
+      EventManager::Get().DispatchEvent(event::E_OnConsoleKeyAction());
+  }
+
+  void InputManager::Update()
     {
       // mouse position update
       m_mousePosition = ViewManager::Get().GetMousePosition();
@@ -123,6 +125,8 @@ namespace Engine
 
       m_axis[static_cast<size_t>(Axis::Horizontal)] = horizontal;
       m_axis[static_cast<size_t>(Axis::Vertical)] = vertical;
+
+      HandleShowConsolePressed();
     }
 
     void InputManager::PostUpdate()

@@ -9,7 +9,7 @@
 
 namespace Engine
 {
-  class UIBackendStrategy : public IBackendStrategy, public IEventListener<event::E_WindowClosed>, public IEventListener<InputManager::E_InputActionEvent>
+  class UIBackendStrategy : public IBackendStrategy, public IEventListener<event::E_WindowClosed>, public IEventListener<event::E_OnConsoleKeyAction>
   {
   public:
     UIBackendStrategy();
@@ -19,7 +19,7 @@ namespace Engine
 
   protected:
     void ReceiveEvent(const event::E_WindowClosed& eventData) override;
-    void ReceiveEvent(const InputManager::E_InputActionEvent& eventData) override;
+    void ReceiveEvent(const event::E_OnConsoleKeyAction& eventData) override;
 
   private:
     tgui::TextArea::Ptr m_textArea;

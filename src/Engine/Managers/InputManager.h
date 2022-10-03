@@ -60,12 +60,6 @@ namespace Engine {
           bool WasPressedLastFrame = false;
       };
 
-      struct E_InputActionEvent
-      {
-        InputManager::Action Action;
-        InputManager::ActionEntry ActionEntry;
-      };
-
       // ========================================================
       // Class members
       // ========================================================
@@ -93,6 +87,7 @@ namespace Engine {
       void Update();
       void PostUpdate();
       void UpdateAction(Action action, bool isPressed);
+      void HandleShowConsolePressed();
 
       std::array<float, 3> m_axis;
 

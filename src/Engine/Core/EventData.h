@@ -22,5 +22,6 @@ namespace Engine
 		struct E_ApplicationStopped {};
 
 		struct E_WindowClosed {};
+		struct E_OnConsoleKeyAction {};
 	}
 }

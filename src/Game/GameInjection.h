@@ -67,8 +67,6 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       // TODO: shouldnt be here, handle in UI manager?
-      Engine::ComponentManager::Get().RegisterComponentType<Engine::HorizontalLayoutComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<Engine::VerticalLayoutComponent>();
 
       Engine::Application::Instance().RegisterGameManager<GameManager>();
     

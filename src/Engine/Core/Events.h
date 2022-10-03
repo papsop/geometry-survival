@@ -7,24 +7,22 @@
 
 namespace Engine
 {
-    template<typename T>
-    class IEventListener
+  template<typename T>
+  class IEventListener
+  {
+  public:
+    IEventListener()
     {
-    public:
-        IEventListener()
-        {
-            EventManager::Get().RegisterEventListener<T>(this);
-        }
-        ~IEventListener()
-        {
-            EventManager::Get().UnregisterEventListener<T>(this);
-        }
+      EventManager::Get().RegisterEventListener<T>(this);
+    }
+    ~IEventListener()
+    {
+      EventManager::Get().UnregisterEventListener<T>(this);
+    }
 
-    protected:
-        virtual void ReceiveEvent(const T& eventData) = 0;
+  protected:
+    virtual void ReceiveEvent(const T& eventData) = 0;
 
     friend class EventManager;
-    };
+  };
 }
-
-

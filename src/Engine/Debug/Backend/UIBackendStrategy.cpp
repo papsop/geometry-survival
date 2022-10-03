@@ -41,20 +41,9 @@ namespace Engine
     Logger::Instance().UnregisterBackend(this);
   }
 
-  void UIBackendStrategy::ReceiveEvent(const InputManager::E_InputActionEvent& eventData)
+  void UIBackendStrategy::ReceiveEvent(const event::E_OnConsoleKeyAction& eventData)
   {
-    if (eventData.Action != InputManager::Action::ShowConsole)
-      return;
-
-    if (eventData.ActionEntry.PressedThisFrame && !m_shouldShowConsole)
-    {
-      m_shouldShowConsole = true; 
-    }
-    else if (eventData.ActionEntry.PressedThisFrame && m_shouldShowConsole)
-    {
-      m_shouldShowConsole = false;
-    }
-
+    m_shouldShowConsole = !m_shouldShowConsole;
     m_textArea->setVisible(m_shouldShowConsole);
     m_textArea->moveToFront();
   }

@@ -68,6 +68,8 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<AIChaseTargetComponent>(def.Player);
+
+		obj->SetActive(true);
 		return obj;
 	}
 
@@ -96,6 +98,8 @@ namespace Game
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<ExperienceGlobeComponent>();
+
+		obj->SetActive(true);
 		return obj;
 	}
 

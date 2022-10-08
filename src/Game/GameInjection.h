@@ -36,9 +36,11 @@
 #include "Components/Actor/BulletComponent.h"
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
+#include "Components/UI/SplashScreenComponent.h"
 
 #include "Scenes/GamePlayScene.h"
 #include "Scenes/MainMenuScene.h"
+#include "Scenes/SplashScreenScene.h"
 
 
 namespace Game
@@ -69,11 +71,12 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       // TODO: shouldnt be here, handle in UI manager?
 
       Engine::Application::Instance().RegisterGameManager<GameManager>();
     
-      app.GetSceneManager().LoadSceneDestroyPrevious(MainMenuScene());
+      app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
     }
   };
 }

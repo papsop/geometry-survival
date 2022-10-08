@@ -7,6 +7,7 @@
 #include <Engine/Application.h>
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/SceneManager.h>
+#include <Engine/Managers/InputManager.h>
 
 #include "../Core/EventData.h"
 #include "../Scenes/GamePlayScene.h"
@@ -58,6 +59,7 @@ namespace Game
 
   void GameManager::Update(float dt)
   {
+    // TODO: gameManager states
 	  if (m_currentGameState == GameState::Gameplay)
 	  {
 		  m_app.UpdateGameplay(dt);
@@ -105,6 +107,7 @@ namespace Game
   void GameManager::RestartGamePlay()
   {
     Engine::SceneManager::Get().LoadSceneDestroyPrevious(GamePlayScene());
+    m_currentGameState = GameState::Gameplay;
   }
 
   void GameManager::QuitGame()
@@ -119,6 +122,18 @@ namespace Game
     data.push_back({ "spawner_radius",			std::to_string(m_spawnRadius) });
     data.push_back({ "spawner_cooldown",			std::to_string(m_spawnCooldown) });
     data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
+  }
+
+  void GameManager::ReceiveEvent(const event::E_OnGameMenu& eventData)
+  {
+    if (m_currentGameState == GameState::Gameplay && eventData.IsActive)
+    {
+      m_currentGameState = GameState::Paused;
+    }
+    else if (m_currentGameState == GameState::Paused && !eventData.IsActive)
+    {
+      m_currentGameState = GameState::Gameplay;
+    }
   }
 
 }

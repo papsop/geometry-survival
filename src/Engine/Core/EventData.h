@@ -23,5 +23,6 @@ namespace Engine
 		struct E_WindowClosed {};
 		struct E_OnConsoleKeyAction {};
 		struct E_OnShowDebugKeyAction {};
+		struct E_EscapeAction {};
 	}
 }

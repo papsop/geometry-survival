@@ -52,6 +52,10 @@ namespace Engine
     auto* gameObject = GetGameObjectByID(ID);
     if (gameObject != nullptr)
     {
+
+      if (gameObject->ShouldDestroy())
+        return; // GameObject is already scheduled to be destroyed
+
       gameObject->m_shouldDestroy = true;
       m_gameObjectsToCleanup.push(gameObject);
     }

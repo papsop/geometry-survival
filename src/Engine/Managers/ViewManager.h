@@ -50,6 +50,7 @@ namespace Engine
 
   protected:
     void ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData) override;
+
 	private:
 		int m_pixelsPerMeter; // config?
 

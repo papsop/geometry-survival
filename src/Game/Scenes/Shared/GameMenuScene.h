@@ -3,12 +3,9 @@
 
 namespace Game
 {
-  class MainMenuScene : public Engine::IScene
+  class GameMenuScene : public Engine::IScene
   {
   public:
-    MainMenuScene() = default;
-    ~MainMenuScene() = default;
-
     void InstantiateObjects() const override;
   };
 }

@@ -28,6 +28,7 @@ namespace Game
 		auto forward = ownerGO.GetTransform()->Forward();
 		forward *= 30.0f;
 		bullet->GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
+		bullet->SetActive(true);
 	}
 
 }

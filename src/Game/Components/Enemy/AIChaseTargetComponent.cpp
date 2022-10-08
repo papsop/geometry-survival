@@ -62,6 +62,7 @@ namespace Game
 			ExperienceGlobeDef experienceGlobeDef;
 			experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
 
+			auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
 			//Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
 		}
 	}

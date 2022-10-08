@@ -33,8 +33,8 @@ namespace Engine
       m_mapKeyToAction[sf::Keyboard::Tilde] = Action::ShowConsole;
       m_mapKeyToAction[sf::Keyboard::F9] = Action::ShowDebugDraw;
       m_mapKeyToAction[sf::Keyboard::F7] = Action::TestButton;
-
       m_mapKeyToAction[sf::Keyboard::P] = Action::PauseGame;
+      m_mapKeyToAction[sf::Keyboard::Escape] = Action::Escape;
 
       // Mouse
       m_mapMouseToAction[sf::Mouse::Button::Left] = Action::Fire1;
@@ -97,6 +97,20 @@ namespace Engine
       entry.ReleasedThisFrame = true;
 	}
 
+  void InputManager::HandleEscapeAction()
+  {
+    auto& entry = GetAction(Action::Escape);
+    if (entry.PressedThisFrame)
+      EventManager::Get().DispatchEvent(event::E_EscapeAction());
+  }
+
+  void InputManager::HandleShowDebugAction()
+  {
+    auto& entry = GetAction(Action::ShowDebugDraw);
+    if (entry.PressedThisFrame)
+      EventManager::Get().DispatchEvent(event::E_OnShowDebugKeyAction());
+  }
+
   void InputManager::HandleShowConsolePressed()
   {
     auto& entry = GetAction(Action::ShowConsole);
@@ -126,6 +140,9 @@ namespace Engine
       m_axis[static_cast<size_t>(Axis::Horizontal)] = horizontal;
       m_axis[static_cast<size_t>(Axis::Vertical)] = vertical;
 
+      // Engine wide actions
+      HandleEscapeAction();
+      HandleShowDebugAction();
       HandleShowConsolePressed();
     }
 

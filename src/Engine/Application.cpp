@@ -172,7 +172,7 @@ namespace Engine
 
       m_viewManager->PollEvents();
 	    // debug exit
-	    if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
+	    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager->StoreModifiedCvars();
 
       // Update managers

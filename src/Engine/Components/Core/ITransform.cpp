@@ -18,10 +18,11 @@ namespace Engine
 
   void ITransform::OnDestroy()
   {
+		LOG_INFO("Destroying %s", m_owner.DebugName);
 		// Deleting only myself
     if (m_parent != nullptr)
-    {
-      m_parent->GetTransform()->RemoveChild(&m_owner);
+		{
+			m_parent->GetTransform()->RemoveChild(&m_owner);
     }
 		
 		// Delete all my children
@@ -55,6 +56,7 @@ namespace Engine
 				[&](const GameObject* val) 
 				{ return val == child; }
 			), m_children.end());
+
       child->GetTransform()->SetParent(nullptr);
     }
   }

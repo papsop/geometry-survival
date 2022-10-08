@@ -7,13 +7,16 @@
 namespace Game
 {
 
-  void MainMenuScene::InstantiateScene() const
+  void MainMenuScene::InstantiateObjects() const
   {
     Engine::ITransform::TransformDefinition transformDefDefault; // use default
 
-    // ================== Player ==================
+    // ================== Main menu ==================
     auto* mainMenu = Engine::GameObjectManager::Get().CreateGameObject("MainMenu", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     mainMenu->AddComponent<MainMenuScreenComponent>();
+
+    // ================== Activate objects ==================
+    mainMenu->SetActive(true);
   }
 
 }

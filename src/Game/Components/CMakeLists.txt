@@ -57,7 +57,12 @@ set(PICKABLES_SOURCE
 )
 
 set(UI_SOURCE
-
+	UI/MainMenuScreenComponent.h
+	UI/MainMenuScreenComponent.cpp
+	UI/SplashScreenComponent.h
+	UI/SplashScreenComponent.cpp
+	UI/GameMenuComponent.h
+	UI/GameMenuComponent.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

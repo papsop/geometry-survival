@@ -17,7 +17,7 @@ namespace Engine
       GameObjectManager::Get().DestroyAllGameObjects();
 
       // Instantiate new scene
-      scene.InstantiateScene();
+      scene.InstantiateObjects();
     }
 
 }

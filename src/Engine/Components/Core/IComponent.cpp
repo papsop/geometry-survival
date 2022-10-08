@@ -27,8 +27,8 @@ namespace Engine
 	{
 		if (!m_isActive)
 		{
-			VirtualOnActivated();
 			m_isActive = true;
+			VirtualOnActivated();
 		}
 	}
 
@@ -36,8 +36,8 @@ namespace Engine
 	{
 		if (m_isActive)
 		{
-			VirtualOnDeactivated();
 			m_isActive = false;
+			VirtualOnDeactivated();
 		}
 	}
 

@@ -56,41 +56,41 @@ namespace Game
 	}
 
 	Engine::GameObject* WeaponComponent::CreateBulletGameObject()
-    {
-        if (!m_equippedWeapon)
-            return nullptr;
-        Engine::ITransform::TransformDefinition transformDef;
-        transformDef.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
-        transformDef.Rotation = Owner.GetTransform()->GetRotation();
+  {
+    if (!m_equippedWeapon)
+      return nullptr;
+    Engine::ITransform::TransformDefinition transformDef;
+    transformDef.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
+    transformDef.Rotation = Owner.GetTransform()->GetRotation();
 
-        auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
+    auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
 
 
-        Engine::PhysicsBodyDef physBodyDef;
-        physBodyDef.BodyType = b2_dynamicBody;
-        physBodyDef.IsBullet = true;
-		physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
-		physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
+    Engine::PhysicsBodyDef physBodyDef;
+    physBodyDef.BodyType = b2_dynamicBody;
+    physBodyDef.IsBullet = true;
+    physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
+    physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
 
-        bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-        
+    bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 
-        Engine::ShapeViewDef shapeViewDef;
-        shapeViewDef.Color = sf::Color::Blue;
-        shapeViewDef.PointCount = 3;
-        shapeViewDef.Radius = 0.5f;
-        shapeViewDef.Layer = Engine::view::Layer::BULLET;
 
-        Engine::CircleFixtureDef circleFixtureDef;
-        circleFixtureDef.Radius = 0.5f;
-        circleFixtureDef.IsSensor = true;
+    Engine::ShapeViewDef shapeViewDef;
+    shapeViewDef.Color = sf::Color::Blue;
+    shapeViewDef.PointCount = 3;
+    shapeViewDef.Radius = 0.5f;
+    shapeViewDef.Layer = Engine::view::Layer::BULLET;
 
-        bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-        bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-        bullet->AddComponent<BulletComponent>(m_equippedWeapon->GetWeaponDamage());
+    Engine::CircleFixtureDef circleFixtureDef;
+    circleFixtureDef.Radius = 0.5f;
+    circleFixtureDef.IsSensor = true;
 
-        return bullet;
-    }
+    bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+    bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+    bullet->AddComponent<BulletComponent>(m_equippedWeapon->GetWeaponDamage());
+
+    return bullet;
+  }
 
 	void WeaponComponent::ProcessMessage(const Engine::Message& message)
 	{

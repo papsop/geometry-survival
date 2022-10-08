@@ -34,11 +34,21 @@
 #include "../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../Physics/Filters.h"
 
+
+#include "Shared/GameMenuScene.h"
+
 namespace Game
 {
   
-  void GamePlayScene::InstantiateScene() const
+  void GamePlayScene::InstantiateObjects() const
   {
+
+    // ================== Shared scenes ==================
+    GameMenuScene gameMenuScene;
+    gameMenuScene.InstantiateObjects();
+
+    // ===================================================
+
     Engine::ShapeViewDef shapeViewDef;
     shapeViewDef.Color = sf::Color::Green;
     shapeViewDef.PointCount = 3;
@@ -96,6 +106,11 @@ namespace Game
     // ================== Enemy spawner ==================
     auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
+
+    // ================== Activate objects ==================
+    player->SetActive(true);
+    camera->SetActive(true);
+    enemySpawner->SetActive(true);
   }
 
 };

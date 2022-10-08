@@ -40,6 +40,11 @@ namespace Game
       m_menuLayout->add(m_playButton);
       m_menuLayout->add(m_quitButton);
       m_menuLayout->insertSpace(1, 0.5f);
+
+      m_playButton->setVisible(false);
+      m_quitButton->setVisible(false);
+      m_menuLayout->setVisible(false);
+
       gui->add(m_menuLayout);
     }
   }
@@ -55,6 +60,20 @@ namespace Game
     }
   }
 
+  void MainMenuScreenComponent::VirtualOnActivated()
+  {
+    m_playButton->setVisible(true);
+    m_quitButton->setVisible(true);
+    m_menuLayout->setVisible(true);
+  }
+
+  void MainMenuScreenComponent::VirtualOnDeactivated()
+  {
+    m_playButton->setVisible(false);
+    m_quitButton->setVisible(false);
+    m_menuLayout->setVisible(false);
+  }
+
   // Button callbacks
   void MainMenuScreenComponent::PlayButtonCallback()
   {
@@ -65,4 +84,5 @@ namespace Game
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->QuitGame();
   }
+
 }

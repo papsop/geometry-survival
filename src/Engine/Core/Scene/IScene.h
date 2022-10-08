@@ -8,8 +8,7 @@ namespace Engine
     IScene() = default;
     ~IScene() = default;
 
-    // Derived class will create it's objects here
-    virtual void InstantiateScene() const = 0;
+    virtual void InstantiateObjects() const = 0;
   };
 
 }

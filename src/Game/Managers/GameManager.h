@@ -4,10 +4,11 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Utils/VectorUtils.h>
 #include <Engine/Core/Events.h>
+#include "../Core/EventData.h"
 
 namespace Game
 {
-	class GameManager : public Engine::IManager, public Engine::IConfigurable
+	class GameManager : public Engine::IManager, public Engine::IConfigurable, public Engine::IEventListener<event::E_OnGameMenu>
 	{
 	public:
 		enum class GameState
@@ -42,6 +43,10 @@ namespace Game
 		void QuitGame();
 
 		void GetConfigurableData(ConfigurableData& data) override;
+
+	protected:
+		void ReceiveEvent(const event::E_OnGameMenu& eventData) override;
+
 	private:
 		Engine::GameObject* m_player;
 		float m_spawnRadius;

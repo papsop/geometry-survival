@@ -48,6 +48,7 @@ namespace Engine {
           ShowDebugDraw,
           TestButton,
           PauseGame,
+          Escape,
 
           // always last
           NumberOfActions
@@ -87,6 +88,9 @@ namespace Engine {
       void Update();
       void PostUpdate();
       void UpdateAction(Action action, bool isPressed);
+
+      void HandleEscapeAction();
+      void HandleShowDebugAction();
       void HandleShowConsolePressed();
 
       std::array<float, 3> m_axis;

@@ -26,14 +26,14 @@ namespace Engine
 
   void GameObject::OnDestroy()
   {
-    m_transform->OnDestroy();
-
     ForEachComponent(
       [](IComponent* c)
       {
         c->OnDestroy();
       }
     );
+
+    m_transform->OnDestroy();
   }
 
   void GameObject::SendMessageTo(GameObject* receiver, MessageType type)

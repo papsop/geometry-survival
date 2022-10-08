@@ -9,6 +9,6 @@ namespace Game
     GamePlayScene() = default;
     ~GamePlayScene() = default;
 
-    void InstantiateScene() const override;
+    void InstantiateObjects() const override;
   };
 }

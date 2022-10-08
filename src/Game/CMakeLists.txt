@@ -11,7 +11,7 @@ add_executable(
     ${PROJECT_NAME}
     Game.cpp
 	  GameInjection.h
- "Components/UI/MainMenuScreenComponent.h" "Components/UI/MainMenuScreenComponent.cpp")
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

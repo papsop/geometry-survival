@@ -5,6 +5,9 @@ set(SCENES_SOURCE
 	MainMenuScene.cpp
 	SplashScreenScene.h
 	SplashScreenScene.cpp
+
+	Shared/GameMenuScene.h
+	Shared/GameMenuScene.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

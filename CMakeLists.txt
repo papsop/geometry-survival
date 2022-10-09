@@ -53,5 +53,4 @@ set_target_properties(yaml-cpp-parse PROPERTIES FOLDER "Libraries/YAML")
 set_target_properties(yaml-cpp-sandbox PROPERTIES FOLDER "Libraries/YAML")
 
 set_target_properties(tgui PROPERTIES FOLDER "Libraries/TGUI")
-set_target_properties(format PROPERTIES FOLDER "Libraries/TGUI")
 set_target_properties(gui-builder PROPERTIES FOLDER "Libraries/TGUI")

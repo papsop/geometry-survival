@@ -56,12 +56,15 @@ namespace Game
 
     void BeforeGameLoop(Engine::Application& app) override
     {
-      // setup logger
+      // Setup logger
       Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
       Engine::Logger::Instance().AddBackend(std::make_unique<Engine::UIBackendStrategy>());
       Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
 
-      // Order is important
+      // Setup components
+      //  - order is important because of updates
+      //  - only components that need to be updated should be placed here
+      //  - components without update are still usable, just won't get updated
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
@@ -72,10 +75,11 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
-      // TODO: shouldnt be here, handle in UI manager?
-
+      
+      // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();
     
+      // First scene after starting application
       app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
     }
   };

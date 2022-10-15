@@ -19,11 +19,7 @@
 #include "../Core/GameObject/GameObjectFactory.h"
 #include "../Managers/GameManager.h"
 
-#include "../Components/Player/InputComponent.h"
-#include "../Components/Player/PlayerComponent.h"
-#include "../Components/Player/PickUpFieldComponent.h"
-#include "../Components/Player/LevelComponent.h"
-#include "../Components/Actor/ActorComponent.h"
+#include "../Components/Player/PlayerSpawnerComponent.h"
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Enemy/AIChaseTargetComponent.h"
 #include "../Components/Enemy/EasyEnemySpawnerComponent.h"
@@ -68,31 +64,13 @@ namespace Game
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
 
-    // ================== Player ==================
-    auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
-    player->GetTransform()->SetPosition({ 5.0f, 0.0f });
-    player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-    player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-    player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-
-    RPGActorDef rpgActorDef;
-    rpgActorDef.MaxHealth = 5;
-    rpgActorDef.AttackSpeed = 100.0f;
-    rpgActorDef.WeaponDamage = 100.0f;
-    rpgActorDef.MovementSpeed = 20.0f;
-    player->AddComponent<RPGComponent>(rpgActorDef);
-    player->AddComponent<ActorComponent>();
-    player->AddComponent<PickUpFieldComponent>();
-    player->AddComponent<InputComponent>();
-    player->AddComponent<WeaponComponent>();
-    auto* weaponComp = player->GetComponent<WeaponComponent>();
-    weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
-    player->AddComponent<PlayerComponent>();
-    player->AddComponent<LevelComponent>();
+    // ================== Player spawner ==================
+    auto* playerSpawner = Engine::GameObjectManager::Get().CreateGameObject("PlayerSpawner", Engine::GameObjectTag::CAMERA, transformDefDefault);
+    playerSpawner->AddComponent<PlayerSpawnerComponent>();
 
     // ================== Camera ==================
     auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
-    camera->AddComponent<Engine::CameraComponent>(player);
+    camera->AddComponent<Engine::CameraComponent>(nullptr);
 
     physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
     physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
@@ -108,9 +86,9 @@ namespace Game
     enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
 
     // ================== Activate objects ==================
-    player->SetActive(true);
     camera->SetActive(true);
     enemySpawner->SetActive(true);
+    playerSpawner->SetActive(true);
   }
 
 };

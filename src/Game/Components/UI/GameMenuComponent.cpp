@@ -116,8 +116,9 @@ namespace Game
 
   void GameMenuComponent::BackToMenuButtonCallback()
   {
-
+    Engine::Application::Instance().GetGameManager<GameManager>()->GoMainMenu();
   }
+
   void GameMenuComponent::QuitButtonCallback()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->QuitGame();

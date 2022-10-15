@@ -40,6 +40,7 @@ namespace Game
 		void SetGameState(GameState state);
 
 		void RestartGamePlay();
+		void GoMainMenu();
 		void QuitGame();
 
 		void GetConfigurableData(ConfigurableData& data) override;
@@ -48,6 +49,8 @@ namespace Game
 		void ReceiveEvent(const event::E_OnGameMenu& eventData) override;
 
 	private:
+		void SendPlayerRegistrationEvent(bool registered);
+
 		Engine::GameObject* m_player;
 		float m_spawnRadius;
 		float m_spawnCooldown;

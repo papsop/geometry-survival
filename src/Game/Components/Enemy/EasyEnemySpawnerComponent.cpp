@@ -29,17 +29,22 @@ namespace Game
 		m_currentCooldown -= dt;
 		if (m_currentCooldown <= 0.0f)
 		{
-			auto gameManager = Engine::Application::Instance().GetGameManager<GameManager>();
-			// spawn
-			EnemyFactoryDef enemyFactoryDef;
-			enemyFactoryDef.MovementSpeed = 5.0f;
-			enemyFactoryDef.Player = gameManager->GetPlayerGameObject();
-			enemyFactoryDef.Position = gameManager->GetRandomEnemySpawnPoint();
-			auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
-			Owner.GetTransform()->AddChild(enemyObj);
-			//Owner.GetScene().AddGameObject(enemyObj->ID);
+			auto* gameManager = Engine::Application::Instance().GetGameManager<GameManager>();
+			auto* player = gameManager->GetPlayerGameObject();
 
-			m_currentCooldown = Engine::Application::Instance().GetGameManager<GameManager>()->GetSpawnCooldown();
+			if (player)
+			{
+        // spawn
+        EnemyFactoryDef enemyFactoryDef;
+        enemyFactoryDef.MovementSpeed = 5.0f;
+        enemyFactoryDef.Player = player;
+        enemyFactoryDef.Position = gameManager->GetRandomEnemySpawnPoint();
+        auto enemyObj = GameObjectFactory::CreateEnemy(enemyFactoryDef);
+        Owner.GetTransform()->AddChild(enemyObj);
+        //Owner.GetScene().AddGameObject(enemyObj->ID);
+
+        m_currentCooldown = Engine::Application::Instance().GetGameManager<GameManager>()->GetSpawnCooldown();
+			}
 		}
 	}
 

@@ -28,6 +28,8 @@ set(PLAYER_SOURCE
 	Player/PickUpFieldComponent.cpp
 	Player/LevelComponent.h
 	Player/LevelComponent.cpp
+	Player/PlayerSpawnerComponent.h
+	Player/PlayerSpawnerComponent.cpp
 )
 
 set(ENEMY_SOURCE
@@ -63,6 +65,8 @@ set(UI_SOURCE
 	UI/SplashScreenComponent.cpp
 	UI/GameMenuComponent.h
 	UI/GameMenuComponent.cpp
+	UI/GameHUDComponent.h
+	UI/GameHUDComponent.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

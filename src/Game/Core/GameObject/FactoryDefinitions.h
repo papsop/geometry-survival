@@ -25,4 +25,9 @@ namespace Game
 	{
 		Engine::math::Vec2 Position;
 	};
+
+	struct PlayerObjectDef
+	{
+		bool IncludeInputControl;
+	};
 }

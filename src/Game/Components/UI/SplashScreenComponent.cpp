@@ -2,6 +2,9 @@
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/UIManager.h>
 #include <Engine/Managers/ComponentManager.h>
+#include <Engine/Application.h>
+
+#include "../../Managers/GameManager.h"
 #include "../../Scenes/MainMenuScene.h"
 
 namespace Game
@@ -52,7 +55,7 @@ namespace Game
 
   void SplashScreenComponent::HandleSwitchToMainMenu()
   {
-    Engine::SceneManager::Get().LoadSceneDestroyPrevious(MainMenuScene());
+    Engine::Application::Instance().GetGameManager<GameManager>()->GoMainMenu();
   }
 
   void SplashScreenComponent::Update(float dt)

@@ -1,5 +1,10 @@
 #pragma once
 
+namespace Engine
+{
+	class GameObject;
+}
+
 namespace Game
 {
 	namespace event
@@ -14,6 +19,12 @@ namespace Game
 		struct E_OnGameMenu 
 		{
 			bool IsActive;
+		};
+
+		struct E_PlayerObjectRegistrationChanged
+		{
+			Engine::GameObject* PlayerObject;		// new player object
+			bool Registered;										// registered/unregistered
 		};
 	}
 }

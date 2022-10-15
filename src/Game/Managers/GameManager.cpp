@@ -11,12 +11,14 @@
 
 #include "../Core/EventData.h"
 #include "../Scenes/GamePlayScene.h"
+#include "../Scenes/MainMenuScene.h"
 
 namespace Game
 {
   GameManager::GameManager(Engine::Application& app)
     : m_app(app)
     , m_currentGameState(GameState::Gameplay)
+    , m_player(nullptr)
   {
   }
 
@@ -70,14 +72,24 @@ namespace Game
 	  }
   }
 
+  void GameManager::SendPlayerRegistrationEvent(bool registered)
+  {
+    event::E_PlayerObjectRegistrationChanged event;
+    event.PlayerObject = m_player;
+    event.Registered = registered;
+    Engine::EventManager::Get().DispatchEvent(event);
+  }
+
   void GameManager::RegisterPlayerGameObject(Engine::GameObject* player)
   {
     m_player = player;
+    SendPlayerRegistrationEvent(true);
   }
 
   void GameManager::UnregisterPlayerGameObject()
   {
     m_player = nullptr;
+    SendPlayerRegistrationEvent(false);
   }
 
   Engine::GameObject* GameManager::GetPlayerGameObject()
@@ -101,13 +113,17 @@ namespace Game
     return result;
   }
 
-  // UI Callbacks
-
+  // Global UI Callbacks
 
   void GameManager::RestartGamePlay()
   {
     Engine::SceneManager::Get().LoadSceneDestroyPrevious(GamePlayScene());
     m_currentGameState = GameState::Gameplay;
+  }
+
+  void GameManager::GoMainMenu()
+  {
+    Engine::SceneManager::Get().LoadSceneDestroyPrevious(MainMenuScene());
   }
 
   void GameManager::QuitGame()
@@ -119,8 +135,8 @@ namespace Game
   // Config
   void GameManager::GetConfigurableData(ConfigurableData& data)
   {
-    data.push_back({ "spawner_radius",			std::to_string(m_spawnRadius) });
-    data.push_back({ "spawner_cooldown",			std::to_string(m_spawnCooldown) });
+    data.push_back({ "spawner_radius",			      std::to_string(m_spawnRadius) });
+    data.push_back({ "spawner_cooldown",			    std::to_string(m_spawnCooldown) });
     data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
   }
 

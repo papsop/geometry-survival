@@ -21,45 +21,45 @@ namespace Engine
     class IComponent
     {
     public:
-        using TRequiredFunc = std::function<void(const GameObject&)>;
+      using TRequiredFunc = std::function<void(const GameObject&)>;
 
-        IComponent(GameObject& obj) : Owner(obj) {};
-        virtual ~IComponent() = default;
+      IComponent(GameObject& obj) : Owner(obj) {};
+      virtual ~IComponent() = default;
 
-        void Activate();
-        void Deactivate();
-        bool IsActive() { return m_isActive; }
+      void Activate();
+      void Deactivate();
+      bool IsActive() { return m_isActive; }
 
-        virtual void OnCreate() {};
-        virtual void OnDestroy() {};
-        virtual void Update(float dt) {};
-        virtual void FixedUpdate(float dt) {};
-        virtual void OnCollisionStart(CollisionData& collision) {};
-        virtual void OnCollisionEnd(CollisionData& collision) {};
-        virtual void ProcessMessage(const Message& message) { };
+      virtual void OnCreate() {};
+      virtual void OnDestroy() {};
+      virtual void Update(float dt) {};
+      virtual void FixedUpdate(float dt) {};
+      virtual void OnCollisionStart(CollisionData & collision) {};
+      virtual void OnCollisionEnd(CollisionData & collision) {};
+      virtual void ProcessMessage(const Message & message) { };
 
-		GameObject& Owner;
+      GameObject& Owner;
 
-        void CheckRequiredComponents()
-        {
-            if(m_requiredFunction != nullptr)
-                m_requiredFunction(Owner);
-        }
+      void CheckRequiredComponents()
+      {
+        if (m_requiredFunction != nullptr)
+          m_requiredFunction(Owner);
+      }
 
     protected:
-        template<typename... Ts>
-        struct requires_impl;
+      template<typename... Ts>
+      struct requires_impl;
 
-        template<typename T>
-        struct requires_impl<T>;
+      template<typename T>
+      struct requires_impl<T>;
         
-        template<typename T, typename... Ts>
-        struct requires_impl<T, Ts...>;
+      template<typename T, typename... Ts>
+      struct requires_impl<T, Ts...>;
 
-        // This function asserts required components on the Owner gameObject.
-        // Function call gets stored and called every time a component
-        // is removed from the owner
-		template<typename... Ts>
+      // This function asserts required components on the Owner gameObject.
+      // Function call gets stored and called every time a component
+      // is removed from the owner
+	  template<typename... Ts>
 		void SetRequiredComponents();
 
         TRequiredFunc m_requiredFunction = nullptr;

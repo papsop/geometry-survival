@@ -2,14 +2,15 @@
 
 #include "../../Core/GameObject/GameObject.h"
 #include "../../Application.h"
+#include "../../Managers/ViewManager.h"
 
 namespace Engine
 {
-    // view
-    IRenderableComponent::IRenderableComponent(GameObject& obj, view::Layer layer)
-        : IComponent(obj)
-        , m_layer(layer)
-    {
+   // view
+  IRenderableComponent::IRenderableComponent(GameObject& obj, view::Layer layer)
+    : IComponent(obj)
+    , m_layer(layer)
+  {
 	};	
 	
 	void IRenderableComponent::OnCreate()

@@ -23,11 +23,9 @@ namespace Engine
 
 		void RegisterComponent(IRenderableComponent* component);
 		void RegisterComponent(IDebuggable* component);
-		void RegisterComponent(CameraComponent* component);
 
 		void UnregisterComponent(IRenderableComponent* component);
 		void UnregisterComponent(IDebuggable* component);
-		void UnregisterComponent(CameraComponent* component);
 
 		// Application's interface to ViewStrategy
 		void PollEvents();
@@ -62,7 +60,6 @@ namespace Engine
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
 		std::multimap< view::Layer, IRenderableComponent*> m_renderableComponents;
 		std::vector< IDebuggable* > m_debugs;
-		std::vector< CameraComponent* > m_cameras;
 
 		bool m_shouldDrawDebug = false;
 

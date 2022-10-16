@@ -84,11 +84,6 @@ namespace Engine
 		m_debugs.emplace_back(component);
 	}
 
-	void ViewManager::RegisterComponent(CameraComponent* component)
-	{
-		m_cameras.emplace_back(component);
-	}
-
 	// ==================================================================
 
 	void ViewManager::UnregisterComponent(IRenderableComponent* component)
@@ -107,20 +102,11 @@ namespace Engine
 		m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
 	}
 
-	void ViewManager::UnregisterComponent(CameraComponent* component)
-	{
-		m_cameras.erase(std::remove(m_cameras.begin(), m_cameras.end(), component), m_cameras.end());
-	}
-
 	// ==================================================================
 
 	void ViewManager::Update(float dt)
 	{
 		m_viewStrategy->PreRender();
-
-		for (auto& c : m_cameras)
-			if (c->Owner.ShouldUpdate())
-				c->Update(dt);
 
 		for (auto& r : m_renderableComponents)
 		{

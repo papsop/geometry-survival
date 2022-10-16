@@ -27,9 +27,6 @@ set(SOURCES
 	Physics/TriangleFixtureComponent.h
 	Physics/TriangleFixtureComponent.cpp
 
-	View/CameraComponent.h
-	View/CameraComponent.cpp
-
 	View/ShapeViewComponent.h
 	View/ShapeViewComponent.cpp
 	View/RectangleViewComponent.h

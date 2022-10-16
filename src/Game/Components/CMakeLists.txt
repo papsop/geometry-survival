@@ -69,6 +69,11 @@ set(UI_SOURCE
 	UI/GameHUDComponent.cpp
 )
 
+set(VIEW_SOURCE
+	View/CameraComponent.h
+	View/CameraComponent.cpp
+)
+
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}
 	${PLAYER_SOURCE}
@@ -76,4 +81,5 @@ target_sources(${GAME_PROJECT} PUBLIC
 	${STATES_SOURCE}
 	${PICKABLES_SOURCE}
 	${UI_SOURCE}
+	${VIEW_SOURCE}
 )

@@ -28,6 +28,7 @@
 #include "../Components/Actor/BulletComponent.h"
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Pickables/ExperienceGlobeComponent.h"
+#include "../Components/View/CameraComponent.h"
 #include "../Physics/Filters.h"
 
 
@@ -70,7 +71,7 @@ namespace Game
 
     // ================== Camera ==================
     auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
-    camera->AddComponent<Engine::CameraComponent>(nullptr);
+    camera->AddComponent<CameraComponent>(nullptr);
 
     physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
     physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
@@ -89,6 +90,8 @@ namespace Game
     camera->SetActive(true);
     enemySpawner->SetActive(true);
     playerSpawner->SetActive(true);
+
+    playerSpawner->GetComponent<PlayerSpawnerComponent>()->CreatePlayerObject();
   }
 
 };

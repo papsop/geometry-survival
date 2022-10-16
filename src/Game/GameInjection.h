@@ -37,6 +37,7 @@
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "Components/UI/SplashScreenComponent.h"
+#include "Components/View/CameraComponent.h"
 
 #include "Scenes/GamePlayScene.h"
 #include "Scenes/MainMenuScene.h"
@@ -66,6 +67,7 @@ namespace Game
       //  - only components that need to be updated should be placed here
       //  - components without update are still usable, just won't get updated
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();

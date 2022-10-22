@@ -65,8 +65,8 @@ set(UI_SOURCE
 	UI/SplashScreenComponent.cpp
 	UI/GameMenuComponent.h
 	UI/GameMenuComponent.cpp
-	UI/GameHUDComponent.h
-	UI/GameHUDComponent.cpp
+	UI/IngameUIComponent.h
+	UI/IngameUIComponent.cpp
 )
 
 set(VIEW_SOURCE

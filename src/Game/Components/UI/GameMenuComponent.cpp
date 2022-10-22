@@ -92,9 +92,9 @@ namespace Game
 
   void GameMenuComponent::SendMainMenuEvent()
   {
-    event::E_OnGameMenu event;
-    event.IsActive = IsActive();
-    Engine::EventManager::Get().DispatchEvent(event);
+//     event::E_OnGameMenu event;
+//     event.IsActive = IsActive();
+//     Engine::EventManager::Get().DispatchEvent(event);
   }
 
   void GameMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)

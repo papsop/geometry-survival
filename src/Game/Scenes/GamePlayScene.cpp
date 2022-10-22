@@ -4,7 +4,6 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
-#include <Engine/Core/StateMachine/BasicSceneState.h>
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
 #include <Engine/Components/View.h>

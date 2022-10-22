@@ -1,7 +1,7 @@
 #include "GameMenuScene.h"
 #include <Engine/Managers/GameObjectManager.h>
 
-#include "../../Components/UI/GameMenuComponent.h"
+#include "../../Components/UI/IngameUIComponent.h"
 namespace Game
 {
 
@@ -9,12 +9,12 @@ namespace Game
   {
     Engine::ITransform::TransformDefinition transformDefDefault; // use default
 
-// ================== Game menu ==================
-    auto* gameMenu = Engine::GameObjectManager::Get().CreateGameObject("GameMenu", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
-    gameMenu->AddComponent<GameMenuComponent>();
+    // ================== Game menu ==================
+    auto* gameMenu = Engine::GameObjectManager::Get().CreateGameObject("IngameUI", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+    gameMenu->AddComponent<IngameUIComponent>();
 
     // ================== Activate objects ==================
-    gameMenu->SetActive(false); // game menu should be disabled by default
+    gameMenu->SetActive(true);
   }
 
 };

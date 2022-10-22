@@ -8,7 +8,7 @@
 
 namespace Game
 {
-	class GameManager : public Engine::IManager, public Engine::IConfigurable, public Engine::IEventListener<event::E_OnGameMenu>
+	class GameManager : public Engine::IManager, public Engine::IConfigurable
 	{
 	public:
 		enum class GameState
@@ -44,9 +44,6 @@ namespace Game
 		void QuitGame();
 
 		void GetConfigurableData(ConfigurableData& data) override;
-
-	protected:
-		void ReceiveEvent(const event::E_OnGameMenu& eventData) override;
 
 	private:
 		void SendPlayerRegistrationEvent(bool registered);

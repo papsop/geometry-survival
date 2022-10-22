@@ -6,11 +6,10 @@ namespace Engine
 {
     class Scene;
     class PushdownStateMachine;
-    class FiniteStateMachine;
 
     template<
         typename T, 
-        typename = std::enable_if_t< std::is_same_v<PushdownStateMachine, T> || std::is_same_v<FiniteStateMachine, T> >
+        typename = std::enable_if_t< std::is_same_v<PushdownStateMachine, T>>
         >
     class IState
     {

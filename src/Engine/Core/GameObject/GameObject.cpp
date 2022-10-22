@@ -97,8 +97,6 @@ namespace Engine
 
 	void GameObject::SetActive(bool a)
 	{
-
-    // only call callbacks when changing active state
     if (a && !m_isActive)
     {
       ForEachComponent(

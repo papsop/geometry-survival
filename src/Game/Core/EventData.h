@@ -16,9 +16,10 @@ namespace Game
 
 		};
 
-		struct E_OnGameMenu 
+		enum PauseState {UNKNOWN, PAUSED, RUNNING};
+		struct E_GamePausedChanged 
 		{
-			bool IsActive;
+			PauseState NewState;
 		};
 
 		struct E_PlayerObjectRegistrationChanged

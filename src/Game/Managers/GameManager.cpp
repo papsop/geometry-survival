@@ -140,16 +140,4 @@ namespace Game
     data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
   }
 
-  void GameManager::ReceiveEvent(const event::E_OnGameMenu& eventData)
-  {
-    if (m_currentGameState == GameState::Gameplay && eventData.IsActive)
-    {
-      m_currentGameState = GameState::Paused;
-    }
-    else if (m_currentGameState == GameState::Paused && !eventData.IsActive)
-    {
-      m_currentGameState = GameState::Gameplay;
-    }
-  }
-
 }

@@ -23,10 +23,10 @@ namespace Game
 
 	void CameraComponent::Update(float dt)
 	{
-		if (m_target)
-		{	// camera based on target
+    if (m_target)
+    {
 			Owner.GetTransform()->SetPosition(m_target->GetTransform()->GetPosition());
-		} // if no target present - just static position
+		}
 
 		m_cameraData.Center = Owner.GetTransform()->GetPosition();
 		Engine::ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);

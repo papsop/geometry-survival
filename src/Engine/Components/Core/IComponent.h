@@ -12,6 +12,9 @@
 #include <stdint.h>
 #include <type_traits>
 #include <type_traits>
+
+#include <TGUI/TGUI.hpp>
+#include <TGUI/Backend/SFML-Graphics.hpp>
 namespace Engine
 {
 
@@ -88,6 +91,26 @@ namespace Engine
     protected:
         // maybe changeable? not right now tho
         const view::Layer m_layer;
+    };
+
+    // UI
+
+    class IUIComponent : public IComponent
+    {
+    public:
+      IUIComponent(GameObject& obj);
+      ~IUIComponent() = default;
+
+      virtual void OnCreate();
+      virtual void OnDestroy();
+      virtual void VirtualOnActivated();
+      virtual void VirtualOnDeactivated();
+
+    protected:
+      virtual void RegisterUIElements() = 0;
+      tgui::Group::Ptr m_group = nullptr;
+    private:
+      tgui::Gui* m_gui = nullptr;
     };
 
 	template<typename T>

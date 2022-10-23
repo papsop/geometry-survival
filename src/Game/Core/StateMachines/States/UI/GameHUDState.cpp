@@ -7,7 +7,7 @@ namespace Game
 
   void GameHUDState::OnCreate()
   {
-    
+    // TODO: 
   }
 
   void GameHUDState::OnDestroy()

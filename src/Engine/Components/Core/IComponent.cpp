@@ -3,6 +3,7 @@
 #include "../../Core/GameObject/GameObject.h"
 #include "../../Application.h"
 #include "../../Managers/ViewManager.h"
+#include "../../Managers/UIManager.h"
 
 namespace Engine
 {
@@ -41,5 +42,45 @@ namespace Engine
 			VirtualOnDeactivated();
 		}
 	}
+
+  // UI COMPONENT
+
+
+  IUIComponent::IUIComponent(GameObject& obj)
+    : IComponent(obj)
+  {
+
+  }
+
+  void IUIComponent::OnCreate()
+  {
+    m_gui = Engine::UIManager::Get().GetGui();
+    if (!m_gui) return;
+
+
+    m_group = tgui::Group::create();
+    m_gui->add(m_group);
+    m_group->setVisible(false);
+
+    // For the derived class
+    RegisterUIElements();
+  }
+
+  void IUIComponent::OnDestroy()
+  {
+    if (!m_gui) return;
+
+    m_gui->remove(m_group);
+  }
+
+  void IUIComponent::VirtualOnActivated()
+  {
+    m_group->setVisible(true);
+  }
+
+  void IUIComponent::VirtualOnDeactivated()
+  {
+    m_group->setVisible(false);
+  }
 
 };

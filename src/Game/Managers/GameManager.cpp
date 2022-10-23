@@ -44,6 +44,8 @@ namespace Game
 
   void GameManager::SetGameState(GameState state)
   {
+    if (state == m_currentGameState) return;
+
     switch (state)
     {
     case GameState::Gameplay:

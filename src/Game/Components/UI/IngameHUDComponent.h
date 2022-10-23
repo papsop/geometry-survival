@@ -9,22 +9,18 @@
 
 namespace Game
 {
-  class IngameUIComponent : public Engine::IComponent, public Engine::IEventListener<Engine::event::E_EscapeAction>
+  class IngameHUDComponent : public Engine::IUIComponent, public Engine::IEventListener<Engine::event::E_EscapeAction>
   {
   public:
-    IngameUIComponent(Engine::GameObject& obj);
-    ~IngameUIComponent() override = default;
-
-    void OnCreate() override;
-    void OnDestroy() override;
+    IngameHUDComponent(Engine::GameObject& obj);
+    ~IngameHUDComponent() override = default;
 
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
-
-    void VirtualOnActivated() override;
-    void VirtualOnDeactivated() override;
+    void RegisterUIElements() override;
 
   private:
     UIStateMachine m_stateMachine;
+    tgui::Label::Ptr m_label;
   };
 }

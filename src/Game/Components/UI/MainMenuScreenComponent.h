@@ -5,22 +5,19 @@
 
 namespace Game
 {
-  class MainMenuScreenComponent : public Engine::IComponent
+  class MainMenuScreenComponent : public Engine::IUIComponent
   {
   public:
     MainMenuScreenComponent(Engine::GameObject& obj);
     ~MainMenuScreenComponent() override = default;
 
-    void OnCreate() override;
-    void OnDestroy() override;
 
     // callbacks for buttons
     void PlayButtonCallback();
     void QuitButtonCallback();
 
   protected:
-    void VirtualOnActivated() override;
-    void VirtualOnDeactivated() override;
+    void RegisterUIElements() override;
 
   private:
     tgui::VerticalLayout::Ptr m_menuLayout;

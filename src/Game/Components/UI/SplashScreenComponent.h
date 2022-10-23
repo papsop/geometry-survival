@@ -15,7 +15,7 @@ namespace Game
 
     //void OnCreate() override;
     //void OnDestroy() override;
-    //void Update(float dt) override;
+    void Update(float dt) override;
 
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;

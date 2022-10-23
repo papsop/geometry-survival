@@ -57,6 +57,7 @@ namespace Engine
     m_gui = Engine::UIManager::Get().GetGui();
     if (!m_gui) return;
 
+    ViewManager::Get().RegisterComponent(this);
 
     m_group = tgui::Group::create();
     m_gui->add(m_group);
@@ -70,17 +71,20 @@ namespace Engine
   {
     if (!m_gui) return;
 
+    ViewManager::Get().UnregisterComponent(this);
     m_gui->remove(m_group);
   }
 
   void IUIComponent::VirtualOnActivated()
   {
     m_group->setVisible(true);
+    UIShown();
   }
 
   void IUIComponent::VirtualOnDeactivated()
   {
     m_group->setVisible(false);
+    UIHidden();
   }
 
 };

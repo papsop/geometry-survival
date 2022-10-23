@@ -84,6 +84,11 @@ namespace Engine
 		m_debugs.emplace_back(component);
 	}
 
+  void ViewManager::RegisterComponent(IUIComponent* component)
+  {
+    m_uiComponents.emplace_back(component);
+  }
+
 	// ==================================================================
 
 	void ViewManager::UnregisterComponent(IRenderableComponent* component)
@@ -97,17 +102,31 @@ namespace Engine
 		}
 	}
 
+  void ViewManager::UnregisterComponent(IUIComponent* component)
+  {
+    m_uiComponents.erase(std::remove(m_uiComponents.begin(), m_uiComponents.end(), component), m_uiComponents.end());
+  }
+
 	void ViewManager::UnregisterComponent(IDebuggable* component)
 	{
 		m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
 	}
-
 	// ==================================================================
 
 	void ViewManager::Update(float dt)
 	{
 		m_viewStrategy->PreRender();
 
+		// UI
+    for (auto& c : m_uiComponents)
+    {
+			if (c->Owner.ShouldUpdate())
+			{
+				c->Update(dt);
+			}
+    }
+
+		// VIEW
 		for (auto& r : m_renderableComponents)
 		{
 			auto component = r.second;

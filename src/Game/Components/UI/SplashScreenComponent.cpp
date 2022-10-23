@@ -31,14 +31,16 @@ namespace Game
     Engine::Application::Instance().GetGameManager<GameManager>()->GoMainMenu();
   }
 
-//   void SplashScreenComponent::Update(float dt)
-//   {
-//     m_splashTimer -= dt;
-//     if (m_splashTimer < 0.0f)
-//     {
-//       HandleSwitchToMainMenu();
-//     }
-//   }
+  void SplashScreenComponent::Update(float dt)
+  {
+    m_splashTimer -= dt;
+    if (m_splashTimer < 0.0f)
+    {
+      HandleSwitchToMainMenu();
+    }
+  }
+
+
 
   void SplashScreenComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
   {

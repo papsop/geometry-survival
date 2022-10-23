@@ -8,8 +8,6 @@ set(SCENES_SOURCE
 
 	Shared/GameMenuScene.h
 	Shared/GameMenuScene.cpp
-	Shared/SettingsScreenScene.h
-	Shared/SettingsScreenScene.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

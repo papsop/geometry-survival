@@ -37,9 +37,9 @@ namespace Engine
       virtual void OnDestroy() {};
       virtual void Update(float dt) {};
       virtual void FixedUpdate(float dt) {};
-      virtual void OnCollisionStart(CollisionData & collision) {};
-      virtual void OnCollisionEnd(CollisionData & collision) {};
-      virtual void ProcessMessage(const Message & message) { };
+      virtual void OnCollisionStart(CollisionData& collision) {};
+      virtual void OnCollisionEnd(CollisionData& collision) {};
+      virtual void ProcessMessage(const Message& message) { };
 
       GameObject& Owner;
 
@@ -62,13 +62,13 @@ namespace Engine
       // This function asserts required components on the Owner gameObject.
       // Function call gets stored and called every time a component
       // is removed from the owner
-	  template<typename... Ts>
-		void SetRequiredComponents();
+      template<typename... Ts>
+      void SetRequiredComponents();
 
-        TRequiredFunc m_requiredFunction = nullptr;
+      TRequiredFunc m_requiredFunction = nullptr;
 
-        virtual void VirtualOnActivated() {};
-        virtual void VirtualOnDeactivated() {};
+      virtual void VirtualOnActivated() {};
+      virtual void VirtualOnDeactivated() {};
 
     private:
         bool m_isActive = false;
@@ -78,19 +78,19 @@ namespace Engine
     class IRenderableComponent : public IComponent
     {
     public:
-        IRenderableComponent(GameObject& obj, view::Layer layer);
-         
-        ~IRenderableComponent();
+      IRenderableComponent(GameObject& obj, view::Layer layer);
 
-        void OnCreate() override;
-        
-        virtual view::Renderable GetRenderable() = 0;
-        virtual view::Renderable& GetMutableRenderable() = 0;
+      ~IRenderableComponent();
 
-        view::Layer GetLayer() const { return m_layer; };
+      void OnCreate() override;
+
+      virtual view::Renderable GetRenderable() = 0;
+      virtual view::Renderable& GetMutableRenderable() = 0;
+
+      view::Layer GetLayer() const { return m_layer; };
     protected:
-        // maybe changeable? not right now tho
-        const view::Layer m_layer;
+      // maybe changeable? not right now tho
+      const view::Layer m_layer;
     };
 
     // UI
@@ -105,10 +105,15 @@ namespace Engine
       virtual void OnDestroy();
       virtual void VirtualOnActivated();
       virtual void VirtualOnDeactivated();
+      virtual void Update(float dt) {};
 
     protected:
       virtual void RegisterUIElements() = 0;
+      virtual void UIShown() {};
+      virtual void UIHidden() {};
+
       tgui::Group::Ptr m_group = nullptr;
+
     private:
       tgui::Gui* m_gui = nullptr;
     };

@@ -11,10 +11,6 @@
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
 
-#include <Engine/Components/UI/LayoutElementComponent.h>
-#include <Engine/Components/UI/HorizontalLayoutComponent.h>
-#include <Engine/Components/UI/VerticalLayoutComponent.h>
-
 #include "../Core/GameObject/GameObjectFactory.h"
 #include "../Managers/GameManager.h"
 

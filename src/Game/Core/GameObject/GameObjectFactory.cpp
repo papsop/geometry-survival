@@ -133,6 +133,8 @@ namespace Game
 
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
+    player->AddComponent<PlayerComponent>();
+		player->AddComponent<LevelComponent>();
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
     player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
     player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
@@ -150,8 +152,6 @@ namespace Game
 
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
-    player->AddComponent<PlayerComponent>();
-    player->AddComponent<LevelComponent>();
 
 		player->SetActive(true);
 		return player;

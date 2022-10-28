@@ -8,7 +8,16 @@ namespace Game
 	PlayerComponent::PlayerComponent(Engine::GameObject& obj)
 		: IComponent(obj)
 	{
-		Engine::Application::Instance().GetGameManager<GameManager>()->RegisterPlayerGameObject(&obj);
 	}
+
+  void PlayerComponent::VirtualOnActivated()
+  {
+    Engine::Application::Instance().GetGameManager<GameManager>()->RegisterPlayerGameObject(&Owner);
+  }
+
+  void PlayerComponent::VirtualOnDeactivated()
+  {
+    Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
+  }
 
 }

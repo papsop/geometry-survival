@@ -64,8 +64,6 @@ namespace Game
 
   void IngameMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
   {
-    if (!IsActive()) return;
-
     auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
     if (parentController)
     {

@@ -24,6 +24,7 @@ namespace Game
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
     void RegisterUIElements() override;
     void UIShown() override;
+    void UIHidden() override;
 
   private:
     tgui::VerticalLayout::Ptr m_menuLayout;

@@ -30,13 +30,13 @@ namespace Engine
         
       // Engine managers
       InputManager& GetInputManager();
-      GameObjectManager& GetGameObjectManager();;
-      SceneManager& GetSceneManager();;
-      PhysicsManager& GetPhysicsManager();;
-      ViewManager& GetViewManager();;
-      ComponentManager& GetComponentManager();;
-      ConfigManager& GetConfigManager();;
-      UIManager& GetUIManager();;
+      GameObjectManager& GetGameObjectManager();
+      SceneManager& GetSceneManager();
+      PhysicsManager& GetPhysicsManager();
+      ViewManager& GetViewManager();
+      ComponentManager& GetComponentManager();
+      ConfigManager& GetConfigManager();
+      UIManager& GetUIManager();
 
       // Game managers
       template<typename T,

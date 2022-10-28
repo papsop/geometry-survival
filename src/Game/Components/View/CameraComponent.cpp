@@ -16,6 +16,21 @@ namespace Game
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
 
+  void CameraComponent::VirtualOnActivated()
+  {
+    IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+  }
+
+  void CameraComponent::VirtualOnDeactivated()
+  {
+    IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+  }
+
+  void CameraComponent::OnDestroy()
+  {
+    IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+  }
+
 	CameraComponent::~CameraComponent()
 	{
 		Engine::ComponentManager::Get().UnregisterComponent(this);

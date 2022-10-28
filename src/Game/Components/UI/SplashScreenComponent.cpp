@@ -25,7 +25,17 @@ namespace Game
 
     m_group->add(m_splashLabel);
   }
-  
+
+  void SplashScreenComponent::UIShown()
+  {
+    IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+  }
+
+  void SplashScreenComponent::UIHidden()
+  {
+    IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
+  }
+
   void SplashScreenComponent::HandleSwitchToMainMenu()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->GoMainMenu();
@@ -39,8 +49,6 @@ namespace Game
       HandleSwitchToMainMenu();
     }
   }
-
-
 
   void SplashScreenComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
   {

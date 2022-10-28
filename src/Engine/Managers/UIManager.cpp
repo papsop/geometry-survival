@@ -9,6 +9,16 @@ namespace Engine
     return Application::Instance().GetUIManager();
   }
 
+  void UIManager::VirtualOnInit()
+  {
+    IEventListener<event::E_SFMLEvent>::RegisterListener();
+  }
+
+  void UIManager::VirtualOnDestroy()
+  {
+    IEventListener<event::E_SFMLEvent>::UnregisterListener();
+  }
+
   void UIManager::SetSFMLWindow(sf::RenderWindow& window)
   {
     m_gui = std::make_unique<tgui::Gui>(window);
@@ -30,5 +40,4 @@ namespace Engine
     if (m_gui)
       m_gui->handleEvent(eventData.Event);
   }
-
 }

@@ -13,14 +13,18 @@ namespace Game
 		CameraComponent(Engine::GameObject& obj, Engine::GameObject* target);
 		~CameraComponent() override;
 		void OnCreate() override;
+		void OnDestroy() override;
 		void Update(float dt) override;
 
 		void SetTarget(Engine::GameObject* newTarget);
 
-		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
+    void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
-  protected:
+	protected:
     void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
+
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
 
 	private:
 		Engine::CameraData m_cameraData;

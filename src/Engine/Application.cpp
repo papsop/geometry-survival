@@ -152,6 +152,7 @@ namespace Engine
     m_componentManager->OnInit();
     m_gameObjectManager->OnInit();
     LOG_INFO("Initializing complete");
+    IEventListener<event::E_SFMLEvent>::RegisterListener();
     // Let the game create it's subsystems
     //injection.RegisterGameComponents(*this);
 

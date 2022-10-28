@@ -101,10 +101,10 @@ namespace Engine
       IUIComponent(GameObject& obj);
       ~IUIComponent() = default;
 
-      virtual void OnCreate();
-      virtual void OnDestroy();
-      virtual void VirtualOnActivated();
-      virtual void VirtualOnDeactivated();
+      virtual void OnCreate() final;
+      virtual void OnDestroy() final;
+      virtual void VirtualOnActivated() final;
+      virtual void VirtualOnDeactivated() final;
       virtual void Update(float dt) {};
 
     protected:

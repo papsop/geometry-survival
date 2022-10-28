@@ -15,6 +15,9 @@ namespace Engine
 
       gui->add(m_textArea);
     }
+
+    IEventListener<event::E_WindowClosed>::RegisterListener();
+    IEventListener<event::E_OnConsoleKeyAction>::RegisterListener();
   }
 
   UIBackendStrategy::~UIBackendStrategy()
@@ -24,6 +27,9 @@ namespace Engine
     {
       gui->remove(m_textArea);
     }
+
+    IEventListener<event::E_WindowClosed>::UnregisterListener();
+    IEventListener<event::E_OnConsoleKeyAction>::UnregisterListener();
   }
 
   void UIBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)

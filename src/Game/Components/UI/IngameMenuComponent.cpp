@@ -54,6 +54,12 @@ namespace Game
   void IngameMenuComponent::UIShown()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+    IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+  }
+
+  void IngameMenuComponent::UIHidden()
+  {
+    IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
   }
 
   void IngameMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)

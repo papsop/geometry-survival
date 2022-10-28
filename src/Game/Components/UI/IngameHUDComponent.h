@@ -19,6 +19,9 @@ namespace Game
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
     void RegisterUIElements() override;
 
+    void UIShown() override;
+    void UIHidden() override;
+
   private:
     UIStateMachine m_stateMachine;
     tgui::Label::Ptr m_label;

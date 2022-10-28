@@ -20,11 +20,15 @@ namespace Engine
 		b2Vec2 gravity(0.f, 0.0f);// -2.f);// -9.8f);
 		m_b2World = std::make_unique<b2World>(gravity);
 		m_b2World->SetContactListener(this);
+
+    IEventListener<event::E_ApplicationStopped>::RegisterListener();
 	}
 
 	void PhysicsManager::VirtualOnDestroy()
 	{
 		m_b2World = nullptr;
+
+		IEventListener<event::E_ApplicationStopped>::UnregisterListener();
 	}
 
 	void PhysicsManager::RegisterComponent(PhysicsBodyComponent* component)

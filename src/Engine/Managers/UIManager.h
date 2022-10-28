@@ -22,6 +22,9 @@ namespace Engine
   protected:
     void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
 
+		void VirtualOnInit() override;
+		void VirtualOnDestroy() override;
+
 	private:
 		UIManager() = default;
 

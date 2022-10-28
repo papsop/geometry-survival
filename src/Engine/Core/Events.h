@@ -11,17 +11,20 @@ namespace Engine
   class IEventListener
   {
   public:
-    IEventListener()
+    IEventListener() = default;
+    ~IEventListener() = default;
+  protected:
+    virtual void ReceiveEvent(const T& eventData) = 0;
+    
+    void RegisterListener()
     {
       EventManager::Get().RegisterEventListener<T>(this);
     }
-    ~IEventListener()
+
+    void UnregisterListener()
     {
       EventManager::Get().UnregisterEventListener<T>(this);
     }
-
-  protected:
-    virtual void ReceiveEvent(const T& eventData) = 0;
 
     friend class EventManager;
   };

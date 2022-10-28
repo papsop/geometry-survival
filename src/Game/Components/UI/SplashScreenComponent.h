@@ -13,16 +13,14 @@ namespace Game
     SplashScreenComponent(Engine::GameObject& obj);
     ~SplashScreenComponent() override = default;
 
-    //void OnCreate() override;
-    //void OnDestroy() override;
     void Update(float dt) override;
 
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
     void RegisterUIElements() override;
 
-    //void VirtualOnActivated() override;
-    //void VirtualOnDeactivated() override;
+    void UIShown() override;
+    void UIHidden() override;
 
   private:
     void HandleSwitchToMainMenu();

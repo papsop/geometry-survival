@@ -73,6 +73,7 @@ namespace Engine
 
     ViewManager::Get().UnregisterComponent(this);
     m_gui->remove(m_group);
+    UIHidden();
   }
 
   void IUIComponent::VirtualOnActivated()

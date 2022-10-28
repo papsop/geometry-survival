@@ -47,6 +47,16 @@ namespace Engine
       m_mapJoystickToAction[1] = Action::Fire1;
     }
 
+    void InputManager::VirtualOnInit()
+    {
+      IEventListener<event::E_SFMLEvent>::RegisterListener();
+    }
+
+    void InputManager::VirtualOnDestroy()
+    {
+      IEventListener<event::E_SFMLEvent>::UnregisterListener();
+    }
+
     InputManager::Action InputManager::GetActionFromKey(sf::Keyboard::Key key)
     {
         if (m_mapKeyToAction.find(key) != m_mapKeyToAction.end())
@@ -209,5 +219,4 @@ namespace Engine
 			UpdateAction(action, false);
 		}
 	}
-
 };

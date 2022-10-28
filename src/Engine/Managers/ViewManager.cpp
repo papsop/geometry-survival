@@ -25,11 +25,15 @@ namespace Engine
 	void ViewManager::VirtualOnInit()
 	{
 		ConfigManager::Get().RegisterCvar("view_pixelsPerMeter", &m_pixelsPerMeter, 10);
+
+		IEventListener<event::E_OnShowDebugKeyAction>::RegisterListener();
 	}
 
 	void ViewManager::VirtualOnDestroy()
 	{
 		m_viewStrategy = nullptr;
+
+		IEventListener<event::E_OnShowDebugKeyAction>::UnregisterListener();
 	}
 
   void ViewManager::ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData)

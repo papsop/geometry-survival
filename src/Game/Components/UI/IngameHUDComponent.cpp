@@ -21,6 +21,16 @@ namespace Game
     m_group->add(m_label);
   }
 
+  void IngameHUDComponent::UIShown()
+  {
+    IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+  }
+
+  void IngameHUDComponent::UIHidden()
+  {
+    IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
+  }
+
   void IngameHUDComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
   {
     if (!IsActive()) return;

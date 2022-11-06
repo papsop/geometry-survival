@@ -3,6 +3,7 @@
 
 #include "../../Components/UI/IngameHUDComponent.h"
 #include "../../Components/UI/IngameMenuComponent.h"
+#include "../../Components/UI/SettingsScreenComponent.h"
 #include "../../Components/UI/IngameUIControllerComponent.h"
 namespace Game
 {
@@ -15,6 +16,7 @@ namespace Game
     auto* gameMenu = Engine::GameObjectManager::Get().CreateGameObject("IngameUI", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     gameMenu->AddComponent<IngameMenuComponent>();
     gameMenu->AddComponent<IngameHUDComponent>();
+    gameMenu->AddComponent<SettingsScreenComponent>();
     gameMenu->AddComponent<IngameUIControllerComponent>();
 
     // ================== Activate objects ==================

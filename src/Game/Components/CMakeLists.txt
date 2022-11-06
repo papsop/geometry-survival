@@ -69,6 +69,8 @@ set(UI_SOURCE
 	UI/IngameUIControllerComponent.cpp
 	UI/IngameHUDComponent.h
 	UI/IngameHUDComponent.cpp
+	UI/SettingsScreenComponent.h
+	UI/SettingsScreenComponent.cpp
 )
 
 set(VIEW_SOURCE

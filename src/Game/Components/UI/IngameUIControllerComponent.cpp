@@ -1,6 +1,7 @@
 #include "IngameUIControllerComponent.h"
 #include "IngameHUDComponent.h"
 #include "IngameMenuComponent.h"
+#include "SettingsScreenComponent.h"
 
 namespace Game
 {
@@ -15,7 +16,7 @@ namespace Game
   {
     m_components[0] = Owner.GetComponent<IngameHUDComponent>();
     m_components[1] = Owner.GetComponent<IngameMenuComponent>();
-    m_components[2] = nullptr;
+    m_components[2] = Owner.GetComponent<SettingsScreenComponent>();
     m_components[3] = nullptr;
 
     SetState(IngameUIState::HUD);

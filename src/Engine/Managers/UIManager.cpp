@@ -21,7 +21,14 @@ namespace Engine
 
   void UIManager::SetSFMLWindow(sf::RenderWindow& window)
   {
-    m_gui = std::make_unique<tgui::Gui>(window);
+    if (!m_gui)
+    {
+      m_gui = std::make_unique<tgui::Gui>(window);
+    }
+    else
+    {
+      m_gui->setWindow(window);
+    }
   }
 
   void UIManager::DrawGui()

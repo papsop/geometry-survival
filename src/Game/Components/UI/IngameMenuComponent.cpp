@@ -80,7 +80,11 @@ namespace Game
 
   void IngameMenuComponent::SettingsButtonCallback()
   {
-
+    auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
+    if (parentController)
+    {
+      parentController->SetState(IngameUIControllerComponent::IngameUIState::SETTINGS);
+    }
   }
 
   void IngameMenuComponent::BackToMenuButtonCallback()

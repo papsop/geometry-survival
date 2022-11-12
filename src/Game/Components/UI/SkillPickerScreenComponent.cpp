@@ -59,7 +59,7 @@ namespace Game
 
   void SkillPickerScreenComponent::PickSkillNumber(size_t index)
   {
-    if (index < 3)
+    if (index < m_numberOfSkills)
     {
       LOG_WARN("Chosen skill index '%d'", index);
       ReturnToGame();

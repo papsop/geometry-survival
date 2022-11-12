@@ -23,8 +23,11 @@ namespace Game
 
     tgui::HorizontalLayout::Ptr m_layout;
 
-    // todo: nicer?
-    tgui::Button::Ptr m_skillButtons[3];
+    // todo: nicer? config or something
+    static const size_t m_numberOfSkills = 3;
+    
+    tgui::Button::Ptr m_skillButtons[m_numberOfSkills];
+
 
     // Fake experience bar, because HUD is hidden right now
     tgui::Panel::Ptr m_experienceBar;

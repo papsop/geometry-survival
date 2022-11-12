@@ -2,6 +2,7 @@
 #include "IngameHUDComponent.h"
 #include "IngameMenuComponent.h"
 #include "SettingsScreenComponent.h"
+#include "SkillPickerScreenComponent.h"
 
 namespace Game
 {
@@ -15,9 +16,10 @@ namespace Game
   void IngameUIControllerComponent::VirtualOnActivated()
   {
     m_components[0] = Owner.GetComponent<IngameHUDComponent>();
-    m_components[1] = Owner.GetComponent<IngameMenuComponent>();
-    m_components[2] = Owner.GetComponent<SettingsScreenComponent>();
-    m_components[3] = nullptr;
+    m_components[1] = Owner.GetComponent<SkillPickerScreenComponent>();
+    m_components[2] = Owner.GetComponent<IngameMenuComponent>();
+    m_components[3] = Owner.GetComponent<SettingsScreenComponent>();
+    m_components[4] = nullptr;
 
     SetState(IngameUIState::HUD);
   }

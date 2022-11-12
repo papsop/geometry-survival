@@ -14,7 +14,10 @@
 
 namespace Game
 {
-  class IngameHUDComponent : public Engine::IUIComponent, public Engine::IEventListener<Engine::event::E_EscapeAction>, public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+  class IngameHUDComponent : public Engine::IUIComponent
+    , public Engine::IEventListener<Engine::event::E_EscapeAction>
+    , public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+    , public Engine::IEventListener<event::E_PlayerLeveledUp>
   {
   public:
     IngameHUDComponent(Engine::GameObject& obj);
@@ -25,6 +28,7 @@ namespace Game
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
     void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
+    void ReceiveEvent(const event::E_PlayerLeveledUp& eventData) override;
 
     void RegisterUIElements() override;
 

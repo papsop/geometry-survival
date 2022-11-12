@@ -21,6 +21,7 @@ namespace Game
 
     // menu label
     m_menuLabel = tgui::Label::create("Settings");
+    m_menuLayout->setOrigin(0.5f, 0.0f);
     m_menuLabel->setTextSize(72);
 
     // back to menu button

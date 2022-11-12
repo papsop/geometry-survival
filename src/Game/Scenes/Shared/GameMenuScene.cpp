@@ -5,6 +5,7 @@
 #include "../../Components/UI/IngameMenuComponent.h"
 #include "../../Components/UI/SettingsScreenComponent.h"
 #include "../../Components/UI/IngameUIControllerComponent.h"
+#include "../../Components/UI/SkillPickerScreenComponent.h"
 namespace Game
 {
 
@@ -15,6 +16,7 @@ namespace Game
     // ================== Game menu ==================
     auto* gameMenu = Engine::GameObjectManager::Get().CreateGameObject("IngameUI", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     gameMenu->AddComponent<IngameMenuComponent>();
+    gameMenu->AddComponent<SkillPickerScreenComponent>();
     gameMenu->AddComponent<IngameHUDComponent>();
     gameMenu->AddComponent<SettingsScreenComponent>();
     gameMenu->AddComponent<IngameUIControllerComponent>();

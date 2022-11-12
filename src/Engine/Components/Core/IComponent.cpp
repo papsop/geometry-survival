@@ -58,7 +58,6 @@ namespace Engine
     if (!m_gui) return;
 
     ViewManager::Get().RegisterComponent(this);
-
     m_group = tgui::Group::create();
     m_gui->add(m_group);
     m_group->setVisible(false);

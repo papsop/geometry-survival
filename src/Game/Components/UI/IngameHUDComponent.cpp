@@ -22,7 +22,7 @@ namespace Game
 
     m_experienceBar = tgui::Panel::create();
     m_experienceBar->setOrigin(0.0f, 0.0f);
-    m_experienceBar->setPosition(0, 0);
+    m_experienceBar->setPosition(0, 5);
     m_experienceBar->setSize("100%", "20");
     m_group->add(m_experienceBar);
 
@@ -37,13 +37,14 @@ namespace Game
   {
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
     IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
-    
+    IEventListener<event::E_PlayerLeveledUp>::RegisterListener();
   }
 
   void IngameHUDComponent::UIHidden()
   {
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
     IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+    IEventListener<event::E_PlayerLeveledUp>::UnregisterListener();
   }
 
   void IngameHUDComponent::Update(float dt)
@@ -91,4 +92,12 @@ namespace Game
     ResetPlayerComponents(eventData.PlayerObject);
   }
 
+  void IngameHUDComponent::ReceiveEvent(const event::E_PlayerLeveledUp& eventData)
+  {
+    auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
+    if (parentController)
+    {
+      parentController->SetState(IngameUIControllerComponent::IngameUIState::SKILL_PICKER);
+    }
+  }
 }

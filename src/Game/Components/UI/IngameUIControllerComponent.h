@@ -10,7 +10,7 @@ namespace Game
   public:
     // Helpers
     // index = index in m_components
-    enum class IngameUIState {HUD, MENU, SETTINGS, GAMEOVER, COUNT};
+    enum class IngameUIState {HUD, SKILL_PICKER, MENU, SETTINGS, GAMEOVER, COUNT};
 
     // Class members
 

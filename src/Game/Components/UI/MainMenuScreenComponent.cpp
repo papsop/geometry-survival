@@ -13,7 +13,7 @@ namespace Game
   {
     // Layout
     m_menuLayout = tgui::VerticalLayout::create();
-    m_menuLayout->setSize("30%", "45d%");
+    m_menuLayout->setSize("30%", "45%");
     m_menuLayout->setOrigin(0.5f, 0.0f);
     m_menuLayout->setPosition("50%", "20%");
 

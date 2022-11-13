@@ -16,6 +16,8 @@ namespace Game
 		SetStatBase(RPGStats::ATTACK_SPEED, rpgActorDef.AttackSpeed);
 		SetStatBase(RPGStats::WEAPON_DAMAGE, rpgActorDef.WeaponDamage);
 		SetStatBase(RPGStats::AMMO_BONUS, rpgActorDef.AmmoBonus);
+
+		SetStatBase(RPGStats::AMMO_ON_KILL, 0);
 	}
 
 	void RPGComponent::VirtualOnActivated()

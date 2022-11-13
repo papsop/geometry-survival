@@ -27,5 +27,10 @@ namespace Game
 			Engine::GameObject* PlayerObject;		// new player object
 			bool Registered;										// registered/unregistered
 		};
+
+		struct E_EnemyDied
+		{
+
+		};
 	}
 }

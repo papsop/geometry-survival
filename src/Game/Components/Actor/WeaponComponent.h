@@ -7,24 +7,25 @@ namespace Game
     class WeaponComponent : public Engine::IComponent
     {
     public:
-        WeaponComponent(Engine::GameObject& obj);
-        ~WeaponComponent() override;
+      WeaponComponent(Engine::GameObject& obj);
+      ~WeaponComponent() override;
 
-        void OnCreate() override;
-        void Update(float dt) override;
+      void OnCreate() override;
+      void Update(float dt) override;
 
-        void Fire();
-        void Reload();
-        
-        void EquipWeapon(std::unique_ptr<IWeapon> weapon);
-        Engine::GameObject* CreateBulletGameObject();
+      void Fire();
+      void Reload();
 
-        void ProcessMessage(const Engine::Message& message) override;
+      void EquipWeapon(std::unique_ptr<IWeapon> weapon);
+      Engine::GameObject* CreateBulletGameObject();
 
-        unsigned int GetMaxAmmo();
-        unsigned int GetCurrentAmmo();
+      void ProcessMessage(const Engine::Message& message) override;
+      void AddAmmo(unsigned int additionalAmmo);
+
+      unsigned int GetMaxAmmo();
+      unsigned int GetCurrentAmmo();
     private:
-		std::unique_ptr<IWeapon> m_equippedWeapon;
+		  std::unique_ptr<IWeapon> m_equippedWeapon;
     };
 
 };

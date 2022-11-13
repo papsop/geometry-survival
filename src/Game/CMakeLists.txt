@@ -15,6 +15,7 @@ add_executable(
 
 add_subdirectory(Managers)
 add_subdirectory(Components)
+add_subdirectory(Skills)
 add_subdirectory(Core)
 add_subdirectory(Scenes)
 

@@ -10,6 +10,7 @@ namespace Game
 		ATTACK_SPEED,
 		WEAPON_DAMAGE,
 		AMMO_BONUS,
+		AMMO_ON_KILL,
 
 		COUNT // always last
 	};

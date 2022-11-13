@@ -2,6 +2,7 @@
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/UIManager.h>
+#include "../../Skills/ISkill.h"
 
 namespace Game
 {
@@ -27,7 +28,7 @@ namespace Game
     static const size_t m_numberOfSkills = 3;
     
     tgui::Button::Ptr m_skillButtons[m_numberOfSkills];
-
+    std::unique_ptr<ISkill> m_skillsToPick[m_numberOfSkills];
 
     // Fake experience bar, because HUD is hidden right now
     tgui::Panel::Ptr m_experienceBar;

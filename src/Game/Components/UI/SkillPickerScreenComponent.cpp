@@ -1,6 +1,7 @@
 #include "SkillPickerScreenComponent.h"
 #include <Engine/Application.h>
 
+#include "../../Skills/Skill_AmmoStealer.h"
 #include "../../Managers/GameManager.h"
 #include "IngameUIControllerComponent.h"
 namespace Game
@@ -15,6 +16,11 @@ namespace Game
   void SkillPickerScreenComponent::UIShown()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+
+    for (size_t i = 0; i < 3; i++)
+    {
+      m_skillsToPick[i] = std::make_unique<Skill_AmmoStealer>();
+    }
   }
 
   void SkillPickerScreenComponent::UIHidden()
@@ -61,7 +67,9 @@ namespace Game
   {
     if (index < m_numberOfSkills)
     {
+      auto* player = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
       LOG_WARN("Chosen skill index '%d'", index);
+      m_skillsToPick[index]->Learn(player);
       ReturnToGame();
     }
   }

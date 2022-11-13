@@ -27,7 +27,12 @@ namespace Game
 		m_currentAmmo = GetWeaponMaxAmmo();
 	}
 
-	float IWeapon::GetWeaponCooldown()
+  void IWeapon::AddAmmo(unsigned int additionalAmmo)
+  {
+
+  }
+
+  float IWeapon::GetWeaponCooldown()
 	{
 		auto finalShotsPerSecond = m_shotsPerSecond;
 		auto actorAttackSpeed = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::ATTACK_SPEED);

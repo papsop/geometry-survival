@@ -15,39 +15,39 @@
 #include "../../Physics/Filters.h"
 namespace Game
 {
-    WeaponComponent::WeaponComponent(Engine::GameObject& obj)
-        : IComponent(obj)
-    {
-        SetRequiredComponents<ActorComponent>();
-    }
+  WeaponComponent::WeaponComponent(Engine::GameObject& obj)
+    : IComponent(obj)
+  {
+    SetRequiredComponents<ActorComponent>();
+  }
 
-    void WeaponComponent::OnCreate()
-    {
-        Engine::ComponentManager::Get().RegisterComponent(this);
-    }
+  void WeaponComponent::OnCreate()
+  {
+    Engine::ComponentManager::Get().RegisterComponent(this);
+  }
 
-    WeaponComponent::~WeaponComponent()
-    {
-        Engine::ComponentManager::Get().UnregisterComponent(this);
-    }
+  WeaponComponent::~WeaponComponent()
+  {
+    Engine::ComponentManager::Get().UnregisterComponent(this);
+  }
 
 
-    void WeaponComponent::Update(float dt)
-    {
-        if (m_equippedWeapon)
-            m_equippedWeapon->Update(dt);
-    }
+  void WeaponComponent::Update(float dt)
+  {
+    if (m_equippedWeapon)
+      m_equippedWeapon->Update(dt);
+  }
 
-    void WeaponComponent::EquipWeapon(std::unique_ptr<IWeapon> weapon)
-    {
-        m_equippedWeapon = std::move(weapon);
-    }
+  void WeaponComponent::EquipWeapon(std::unique_ptr<IWeapon> weapon)
+  {
+    m_equippedWeapon = std::move(weapon);
+  }
 
-    void WeaponComponent::Fire()
-    {
-        if (m_equippedWeapon)
-            m_equippedWeapon->Fire();
-    }
+  void WeaponComponent::Fire()
+  {
+    if (m_equippedWeapon)
+      m_equippedWeapon->Fire();
+  }
 
 	void WeaponComponent::Reload()
 	{
@@ -94,9 +94,15 @@ namespace Game
 
 	void WeaponComponent::ProcessMessage(const Engine::Message& message)
 	{
-        if (m_equippedWeapon)
-            m_equippedWeapon->ProcessMessage(message);
+    if (m_equippedWeapon)
+      m_equippedWeapon->ProcessMessage(message);
 	}
+
+  void WeaponComponent::AddAmmo(unsigned int additionalAmmo)
+  {
+    if (m_equippedWeapon)
+      m_equippedWeapon->AddAmmo(additionalAmmo);
+  }
 
   unsigned int WeaponComponent::GetMaxAmmo()
   {

@@ -29,7 +29,7 @@ namespace Game
 
   void IWeapon::AddAmmo(unsigned int additionalAmmo)
   {
-
+		m_currentAmmo = std::min(m_currentAmmo + 1, m_maxAmmo);
   }
 
   float IWeapon::GetWeaponCooldown()

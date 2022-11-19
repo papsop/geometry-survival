@@ -8,45 +8,45 @@
 
 namespace Game
 {
-    InputComponent::InputComponent(Engine::GameObject& obj)
-        : IComponent(obj)
-        , m_inputManager(Engine::InputManager::Get())
-    {
-        SetRequiredComponents<ActorComponent>();
-    }
+  InputComponent::InputComponent(Engine::GameObject& obj)
+      : IComponent(obj)
+      , m_inputManager(Engine::InputManager::Get())
+  {
+      SetRequiredComponents<ActorComponent>();
+  }
 
-    void InputComponent::OnCreate()
-    {
-        Engine::ComponentManager::Get().RegisterComponent(this);
-    }
+  void InputComponent::OnCreate()
+  {
+      Engine::ComponentManager::Get().RegisterComponent(this);
+  }
 
-    InputComponent::~InputComponent()
-    {
-        Engine::ComponentManager::Get().UnregisterComponent(this);
-    }
+  InputComponent::~InputComponent()
+  {
+      Engine::ComponentManager::Get().UnregisterComponent(this);
+  }
 
-    void InputComponent::Update(float dt)
-    {
-        auto actorComponent = Owner.GetComponent<ActorComponent>();
-        if (actorComponent == nullptr) return;
+  void InputComponent::Update(float dt)
+  {
+    auto actorComponent = Owner.GetComponent<ActorComponent>();
+    if (actorComponent == nullptr) return;
 
-        // rotation
-        auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
-        float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
+    // rotation
+    auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
+    float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
 
-        actorComponent->AddCommand<RotateCommand>(angle);
-        // movement
-        float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
-        float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
+    actorComponent->AddCommand<RotateCommand>(angle);
+    // movement
+    float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
+    float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
 
-        actorComponent->AddCommand<MoveCommand>(horizontal, vertical);
+    actorComponent->AddCommand<MoveCommand>(horizontal, vertical);
         
-        // shooting
-        if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
-            actorComponent->AddCommand<FireCommand>();
+    // shooting
+    if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
+        actorComponent->AddCommand<FireCommand>();
 
 		// reloading
 		if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
 			actorComponent->AddCommand<ReloadCommand>();
-    }
+  }
 };

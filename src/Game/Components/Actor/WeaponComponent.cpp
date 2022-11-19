@@ -24,11 +24,22 @@ namespace Game
   void WeaponComponent::OnCreate()
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
+    m_rpgComponent = Owner.GetComponent<RPGComponent>();
   }
 
   WeaponComponent::~WeaponComponent()
   {
     Engine::ComponentManager::Get().UnregisterComponent(this);
+  }
+
+  void WeaponComponent::VirtualOnActivated()
+  {
+    Engine::IEventListener<event::E_EnemyDied>::RegisterListener();
+  }
+
+  void WeaponComponent::VirtualOnDeactivated()
+  {
+    Engine::IEventListener<event::E_EnemyDied>::UnregisterListener();
   }
 
 
@@ -118,6 +129,14 @@ namespace Game
       return m_equippedWeapon->GetCurrentAmmoCount();
 
     return 0;
+  }
+
+  void WeaponComponent::ReceiveEvent(const event::E_EnemyDied& eventData)
+  {
+    if (m_rpgComponent)
+    {
+      AddAmmo(m_rpgComponent->GetStat(RPGStats::AMMO_ON_KILL));
+    }
   }
 
 }

@@ -1,10 +1,14 @@
 #pragma once
 #include <Engine/Components/Core.h>
+#include <Engine/Core/Events.h>
+
+#include "../../Core/EventData.h"
+#include "../Actor/RPGComponent.h"
 #include "Weapons/IWeapon.h"
 
 namespace Game
 {
-    class WeaponComponent : public Engine::IComponent
+    class WeaponComponent : public Engine::IComponent, public Engine::IEventListener<event::E_EnemyDied>
     {
     public:
       WeaponComponent(Engine::GameObject& obj);
@@ -24,8 +28,16 @@ namespace Game
 
       unsigned int GetMaxAmmo();
       unsigned int GetCurrentAmmo();
+
+    protected:
+      void ReceiveEvent(const event::E_EnemyDied& eventData) override;
+
+      void VirtualOnActivated() override;
+      void VirtualOnDeactivated() override;
+
     private:
 		  std::unique_ptr<IWeapon> m_equippedWeapon;
+      RPGComponent* m_rpgComponent = nullptr;
     };
 
 };

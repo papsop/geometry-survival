@@ -64,6 +64,9 @@ namespace Game
 
 			auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
 			//Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
+
+			event::E_EnemyDied eventData;
+			Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
 		}
 	}
 

@@ -7,7 +7,8 @@ namespace Game
 {
   void Skill_AmmoStealer::Learn(Engine::GameObject* entity)
   {
-    auto skillBuff = std::make_unique<Buff>(-1, Buff::BuffTag::AmmoStealer);
+    // using BuffTag::None so we can stack this buff instead of overwriting
+    auto skillBuff = std::make_unique<Buff>(-1, Buff::BuffTag::None);
     skillBuff->AddAdditiveModifier(RPGStats::AMMO_ON_KILL, 1);
 
     auto* rpg = entity->GetComponent<RPGComponent>();

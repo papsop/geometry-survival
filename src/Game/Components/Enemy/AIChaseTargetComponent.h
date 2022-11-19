@@ -4,6 +4,9 @@
 #include <Engine/Core/StateMachine/IState.h>
 #include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include <Engine/Managers/PhysicsManager.h>
+#include <Engine/Managers/EventManager.h>
+
+#include "../../Core/EventData.h"
 
 namespace Game
 {

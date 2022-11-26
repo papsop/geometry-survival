@@ -54,22 +54,6 @@ namespace Game
 		m_stateMachine.AddState<Actor_Stunned>(actorComponent, 1.0f);
 	}
 
-	void AIChaseTargetComponent::OnDestroy()
-	{
-		// check if destroyed because of HP
-		if (Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
-		{
-			ExperienceGlobeDef experienceGlobeDef;
-			experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
-
-			auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
-			//Owner.GetScene().AddGameObject(GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef)->ID);
-
-			event::E_EnemyDied eventData;
-			Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
-		}
-	}
-
 }
 
 

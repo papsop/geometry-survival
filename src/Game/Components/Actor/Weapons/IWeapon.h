@@ -45,8 +45,8 @@ namespace Game
       // Derived weapon class should set these
       float m_shotsPerSecond = 3.0f;
       float m_reloadTime = 1.0f;
-      int m_currentAmmo = 0;
-      int m_maxAmmo = 0;
+      unsigned int m_currentAmmo = 0;
+      unsigned int m_maxAmmo = 0;
       float m_weaponDamage = 1.0f;
 
     // internal variables for every weapon

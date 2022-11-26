@@ -135,6 +135,7 @@ namespace Game
   {
     if (m_rpgComponent)
     {
+      LOG_WARN("Adding ammo %f", m_rpgComponent->GetStat(RPGStats::AMMO_ON_KILL));
       AddAmmo(m_rpgComponent->GetStat(RPGStats::AMMO_ON_KILL));
     }
   }

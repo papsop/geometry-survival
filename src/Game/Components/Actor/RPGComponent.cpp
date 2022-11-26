@@ -67,6 +67,11 @@ namespace Game
 		{
 			Owner.Destroy();
 		}
+
+    if (m_additiveStatBonus[6] > 0)
+    {
+      LOG_WARN("RPG_Update ammoOnKill %f", m_additiveStatBonus[6]);
+    }
 	}
 
 	void RPGComponent::SetStatBase(RPGStats stat, float value)
@@ -82,13 +87,12 @@ namespace Game
 
 	void RPGComponent::AddBuff(ptr_Buff buff)
 	{
-		// If there is a special BuffTag - overwrite already existing buff instead of adding it
 		if (buff->GetBuffTag() == Buff::BuffTag::None)
 		{
 			m_buffs.push_back(std::move(buff));
 		}
 		else
-		{
+		{ // If there is a special BuffTag - overwrite already existing buff instead of adding it
 			auto newEnd = std::remove_if(m_buffs.begin(), m_buffs.end(),
 				[&](const ptr_Buff& buff)
 				{
@@ -108,11 +112,14 @@ namespace Game
 			return 0.0f;
 		}
 
+    if (stat == RPGStats::AMMO_ON_KILL)
+    {
+      LOG_WARN("RPG_GetStat ammoOnKill %f", m_additiveStatBonus[static_cast<size_t>(RPGStats::AMMO_ON_KILL)]);
+    }
+
 		size_t statIndex = static_cast<size_t>(stat);
 		float resultValue = (m_statBase[statIndex] * m_percentageStatBonus[statIndex]) + m_additiveStatBonus[statIndex];
 		return (resultValue < 0.0f) ? 0.0f : resultValue;
 	}
-
-
 
 }

@@ -15,6 +15,7 @@
 #include "../../Components/Player/PlayerComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/Weapons/PistolWeapon.h"
+#include "../../Components/Enemy/EnemyComponent.h"
 
 namespace Game
 {
@@ -75,6 +76,7 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<AIChaseTargetComponent>(def.Player);
+		obj->AddComponent<EnemyComponent>();
 
 		obj->SetActive(true);
 		return obj;

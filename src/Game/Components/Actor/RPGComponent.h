@@ -3,6 +3,7 @@
 #include "../../Core/RPG/Buff.h"
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
+#include <Engine/Debug/IDebuggable.h>
 #include <memory>
 #include <vector>
 #include <array>
@@ -24,7 +25,7 @@ namespace Game
 		float AmmoBonus = 100.0f;
 	};
 
-	class RPGComponent : public Engine::IComponent
+	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent
 	{
 	public:
 		using ptr_Buff = std::unique_ptr<Buff>;
@@ -40,6 +41,9 @@ namespace Game
 		void  SetStatBase(RPGStats stat, float value);
 
 		void  AddBuff(ptr_Buff buff);
+
+		void  Debug(Engine::view::IViewStrategy* viewStrategy) override;
+
 	private:
 		std::vector< ptr_Buff > m_buffs;
 

@@ -67,11 +67,6 @@ namespace Game
 		{
 			Owner.Destroy();
 		}
-
-    if (m_additiveStatBonus[6] > 0)
-    {
-      LOG_WARN("RPG_Update ammoOnKill %f", m_additiveStatBonus[6]);
-    }
 	}
 
 	void RPGComponent::SetStatBase(RPGStats stat, float value)
@@ -94,9 +89,9 @@ namespace Game
 		else
 		{ // If there is a special BuffTag - overwrite already existing buff instead of adding it
 			auto newEnd = std::remove_if(m_buffs.begin(), m_buffs.end(),
-				[&](const ptr_Buff& buff)
+				[&](const ptr_Buff& b)
 				{
-					return buff->GetBuffTag() == buff->GetBuffTag();
+					return b->GetBuffTag() == buff->GetBuffTag();
 				}
 			);
 			m_buffs.erase(newEnd, m_buffs.end());
@@ -104,18 +99,28 @@ namespace Game
 		}
 	}
 
-	float RPGComponent::GetStat(RPGStats stat)
+  void RPGComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
+  {
+    // Active buffs
+    Engine::math::Vec2 pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, -2.0f);
+		std::string val{};
+
+		for (const auto& b : m_buffs)
+		{
+			auto* buff = b.get();
+			val += std::to_string(static_cast<int>(buff->GetBuffTag())) + "\n";
+		}
+
+    viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, val, pos, true, 12.0f, sf::Color::Yellow);
+  }
+
+  float RPGComponent::GetStat(RPGStats stat)
 	{
 		if (stat == RPGStats::COUNT)
 		{
 			LOG_WARN("Trying to retrieve RPGStats::Count, returning 0.0f");
 			return 0.0f;
 		}
-
-    if (stat == RPGStats::AMMO_ON_KILL)
-    {
-      LOG_WARN("RPG_GetStat ammoOnKill %f", m_additiveStatBonus[static_cast<size_t>(RPGStats::AMMO_ON_KILL)]);
-    }
 
 		size_t statIndex = static_cast<size_t>(stat);
 		float resultValue = (m_statBase[statIndex] * m_percentageStatBonus[statIndex]) + m_additiveStatBonus[statIndex];

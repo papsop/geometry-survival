@@ -14,12 +14,12 @@ namespace Game
 		: IComponent(obj)
 		, m_target(target)
 	{
-		SetRequiredComponents<ActorComponent>();
+		SetRequiredComponents<ActorComponent, EnemyComponent>();
 	}
 
 	void AIChaseTargetComponent::OnCreate()
 	{
-		auto actorComponent = Owner.GetComponent<ActorComponent>();
+		auto* actorComponent = Owner.GetComponent<ActorComponent>();
 		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
@@ -32,10 +32,6 @@ namespace Game
 	void AIChaseTargetComponent::Update(float dt)
 	{
 		m_stateMachine.Update(dt);
-	}
-
-	void AIChaseTargetComponent::ProcessMessage(const Engine::Message& message)
-	{
 	}
 
 	void AIChaseTargetComponent::OnCollisionStart(Engine::CollisionData& collision)

@@ -9,7 +9,7 @@ namespace Game
 		, m_parentActor(actorComponent)
 		, m_target(target)
 	{
-
+		
 	}
 
 	void Actor_ChaseTarget::Update(float dt)
@@ -29,6 +29,7 @@ namespace Game
 
 	void Actor_ChaseTarget::OnTransitionOut()
 	{
+
 	}
 
 };

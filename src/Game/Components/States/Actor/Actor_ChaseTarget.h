@@ -1,7 +1,7 @@
 #pragma once
 #include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include "../../Actor/ActorComponent.h"
-
+#include "../../Enemy/EnemyComponent.h"
 namespace Game
 {
 	class Actor_ChaseTarget : public Engine::IState<Engine::PushdownStateMachine>

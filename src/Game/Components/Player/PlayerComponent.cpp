@@ -2,13 +2,28 @@
 #include <Engine/Application.h>
 
 #include "../../Managers/GameManager.h"
+#include "../Actor/ActorComponent.h"
 namespace Game
 {
 
-	PlayerComponent::PlayerComponent(Engine::GameObject& obj)
-		: IComponent(obj)
-	{
-	}
+  PlayerComponent::PlayerComponent(Engine::GameObject& obj)
+    : IComponent(obj)
+  {
+  }
+
+  void PlayerComponent::OnCollisionStart(Engine::CollisionData& collision)
+  {
+    auto* playerActor = Owner.GetComponent<ActorComponent>();
+    if (playerActor)
+    {
+      playerActor->ApplyDamage(1);
+    }
+  }
+
+  void PlayerComponent::OnDestroy()
+  {
+    Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
+  }
 
   void PlayerComponent::VirtualOnActivated()
   {

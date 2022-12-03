@@ -90,8 +90,8 @@ namespace Game
 
   void GameManager::UnregisterPlayerGameObject()
   {
-    m_player = nullptr;
     SendPlayerRegistrationEvent(false);
+    m_player = nullptr;
   }
 
   Engine::GameObject* GameManager::GetPlayerGameObject()

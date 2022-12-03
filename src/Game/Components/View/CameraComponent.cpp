@@ -58,7 +58,14 @@ namespace Game
 
   void CameraComponent::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData)
   {
-		m_target = eventData.PlayerObject;
+		if (!eventData.Registered)
+		{
+			m_target = nullptr;
+		}
+		else
+		{
+			m_target = eventData.PlayerObject;
+		}
   }
 
 };

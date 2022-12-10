@@ -1,5 +1,6 @@
 #include "PlayerComponent.h"
 #include <Engine/Application.h>
+#include <Engine/Managers/PhysicsManager.h>
 
 #include "../../Managers/GameManager.h"
 #include "../Actor/ActorComponent.h"
@@ -13,6 +14,9 @@ namespace Game
 
   void PlayerComponent::OnCollisionStart(Engine::CollisionData& collision)
   {
+    if (collision.Other->Tag != Engine::GameObjectTag::ENEMY)
+      return;
+
     auto* playerActor = Owner.GetComponent<ActorComponent>();
     if (playerActor)
     {

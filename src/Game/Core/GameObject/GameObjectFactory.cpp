@@ -75,8 +75,8 @@ namespace Game
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
-		obj->AddComponent<AIChaseTargetComponent>(def.Player);
 		obj->AddComponent<EnemyComponent>();
+		obj->AddComponent<AIChaseTargetComponent>(def.Player);
 
 		obj->SetActive(true);
 		return obj;

@@ -18,7 +18,7 @@ namespace Engine
 
   void ITransform::OnDestroy()
   {
-		LOG_INFO("Destroying %s", m_owner.DebugName);
+		LOG_INFO("Destroying transform from %s", m_owner.DebugName);
 		// Deleting only myself
     if (m_parent != nullptr)
 		{

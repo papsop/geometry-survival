@@ -26,6 +26,7 @@ namespace Engine
 
   void GameObject::OnDestroy()
   {
+    LOG_INFO("Destroying components from %s", DebugName);
     ForEachComponent(
       [](IComponent* c)
       {

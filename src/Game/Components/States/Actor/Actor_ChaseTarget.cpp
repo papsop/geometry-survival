@@ -27,9 +27,4 @@ namespace Game
 	{
 	}
 
-	void Actor_ChaseTarget::OnTransitionOut()
-	{
-
-	}
-
 };

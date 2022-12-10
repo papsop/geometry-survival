@@ -19,8 +19,6 @@ namespace Game
 
 	void AIChaseTargetComponent::OnCreate()
 	{
-		auto* actorComponent = Owner.GetComponent<ActorComponent>();
-		m_stateMachine.AddState<Actor_ChaseTarget>(actorComponent, m_target);
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
 

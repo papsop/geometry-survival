@@ -15,6 +15,7 @@ namespace Engine
 
 		void Update(float dt);
 		void PopState();
+		void Clear();
 
 		template<typename T,
 				typename ... Args,

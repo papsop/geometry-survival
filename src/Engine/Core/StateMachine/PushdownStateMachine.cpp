@@ -37,4 +37,14 @@ namespace Engine
 		m_activeState = m_states.top().get();
 		m_activeState->OnTransitionIn();
 	}
+
+  void PushdownStateMachine::Clear()
+  {
+		while (!m_states.empty())
+		{
+			m_states.pop();
+		}
+		m_activeState = nullptr;
+  }
+
 }

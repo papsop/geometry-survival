@@ -4,11 +4,11 @@
 #include "../../Enemy/EnemyComponent.h"
 namespace Game
 {
-	class Actor_ChaseTarget : public Engine::IState<Engine::PushdownStateMachine>
+	class Actor_ChasePlayer : public Engine::IState<Engine::PushdownStateMachine>
 	{
 	public:
-		Actor_ChaseTarget(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* actorComponent, Engine::GameObject* target);
-		~Actor_ChaseTarget() = default;
+		Actor_ChasePlayer(Engine::PushdownStateMachine& parentStateMachine, ActorComponent* actorComponent);
+		~Actor_ChasePlayer() = default;
 
 		void Update(float dt) override;
 		void ProcessMessage(const Engine::Message& message) override;

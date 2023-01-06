@@ -1,4 +1,4 @@
-#include "AIChaseTargetComponent.h"
+#include "AIChasePlayerComponent.h"
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Core/GameObject/GameObjectTag.h>
 #include <Engine/Core/Scene/Scene.h>
@@ -10,29 +10,31 @@
 namespace Game
 {
 
-	AIChaseTargetComponent::AIChaseTargetComponent(Engine::GameObject& obj, Engine::GameObject* target)
+	AIChasePlayerComponent::AIChasePlayerComponent(Engine::GameObject& obj)
 		: IComponent(obj)
-		, m_target(target)
 	{
 		SetRequiredComponents<ActorComponent, EnemyComponent>();
 	}
 
-	void AIChaseTargetComponent::OnCreate()
+	void AIChasePlayerComponent::OnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
+
+		auto actorComponent = Owner.GetComponent<ActorComponent>();
+		m_stateMachine.AddState<Actor_ChasePlayer>(actorComponent);
 	}
 
-	AIChaseTargetComponent::~AIChaseTargetComponent()
+	AIChasePlayerComponent::~AIChasePlayerComponent()
 	{
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 
-	void AIChaseTargetComponent::Update(float dt)
+	void AIChasePlayerComponent::Update(float dt)
 	{
 		m_stateMachine.Update(dt);
 	}
 
-	void AIChaseTargetComponent::OnCollisionStart(Engine::CollisionData& collision)
+	void AIChasePlayerComponent::OnCollisionStart(Engine::CollisionData& collision)
 	{
 		auto otherGO = collision.Other;
 		// check if player bullet

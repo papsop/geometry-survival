@@ -35,16 +35,16 @@ set(PLAYER_SOURCE
 set(ENEMY_SOURCE
 	Enemy/EnemyComponent.h
 	Enemy/EnemyComponent.cpp
-	Enemy/AIChaseTargetComponent.h
-	Enemy/AIChaseTargetComponent.cpp
+	Enemy/AIChasePlayerComponent.h
+	Enemy/AIChasePlayerComponent.cpp
 	Enemy/EasyEnemySpawnerComponent.h
 	Enemy/EasyEnemySpawnerComponent.cpp
 )
 
 set(STATES_SOURCE
 	States/Actor.h
-	States/Actor/Actor_ChaseTarget.h
-	States/Actor/Actor_ChaseTarget.cpp
+	States/Actor/Actor_ChasePlayer.h
+	States/Actor/Actor_ChasePlayer.cpp
 	States/Actor/Actor_Stunned.h
 	States/Actor/Actor_Stunned.cpp
 

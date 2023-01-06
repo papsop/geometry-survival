@@ -5,7 +5,7 @@
 #include <Engine/Components/View.h>
 
 #include "../../Components/Actor/ActorComponent.h"
-#include "../../Components/Enemy/AIChaseTargetComponent.h"
+#include "../../Components/Enemy/AIChasePlayerComponent.h"
 #include "../../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../../Physics/Filters.h"
 
@@ -76,7 +76,7 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
-		obj->AddComponent<AIChaseTargetComponent>(def.Player);
+		obj->AddComponent<AIChasePlayerComponent>();
 
 		obj->SetActive(true);
 		return obj;

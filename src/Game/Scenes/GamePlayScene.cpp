@@ -16,7 +16,7 @@
 
 #include "../Components/Player/PlayerSpawnerComponent.h"
 #include "../Components/Actor/RPGComponent.h"
-#include "../Components/Enemy/AIChaseTargetComponent.h"
+#include "../Components/Enemy/AIChasePlayerComponent.h"
 #include "../Components/Enemy/EasyEnemySpawnerComponent.h"
 #include "../Components/Actor/WeaponComponent.h"
 #include "../Components/Actor/Weapons/PistolWeapon.h"

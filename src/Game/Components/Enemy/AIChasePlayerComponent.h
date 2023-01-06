@@ -11,11 +11,11 @@
 
 namespace Game
 {
-	class AIChaseTargetComponent : public Engine::IComponent
+	class AIChasePlayerComponent : public Engine::IComponent
 	{
 	public:
-		AIChaseTargetComponent(Engine::GameObject& obj, Engine::GameObject* target);
-		~AIChaseTargetComponent() override;
+		AIChasePlayerComponent(Engine::GameObject& obj);
+		~AIChasePlayerComponent() override;
 
 		void OnCreate() override;
 		void Update(float dt) override;

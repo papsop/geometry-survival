@@ -29,7 +29,7 @@
 #include "Components/Player/LevelComponent.h"
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Actor/RPGComponent.h"
-#include "Components/Enemy/AIChaseTargetComponent.h"
+#include "Components/Enemy/AIChasePlayerComponent.h"
 #include "Components/Enemy/EasyEnemySpawnerComponent.h"
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
@@ -68,7 +68,7 @@ namespace Game
       //  - components without update are still usable, just won't get updated
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<AIChaseTargetComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<AIChasePlayerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();

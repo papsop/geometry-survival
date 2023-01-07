@@ -77,7 +77,7 @@ namespace Game
   void GameManager::SendPlayerRegistrationEvent(bool registered)
   {
     event::E_PlayerObjectRegistrationChanged event;
-    event.PlayerObject = m_player;
+    event.PlayerObject = (registered) ? m_player : nullptr;
     event.Registered = registered;
     Engine::EventManager::Get().DispatchEvent(event);
   }

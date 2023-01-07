@@ -4,6 +4,7 @@
 #include "../../Skills/Skill_AmmoStealer.h"
 #include "../../Managers/GameManager.h"
 #include "IngameUIControllerComponent.h"
+#include <TGUI/String.hpp>
 namespace Game
 {
 
@@ -20,6 +21,9 @@ namespace Game
     for (size_t i = 0; i < 3; i++)
     {
       m_skillsToPick[i] = std::make_unique<Skill_AmmoStealer>();
+      // TODO: Skill description
+      tgui::String skillLabel = tgui::String(m_skillsToPick[i]->GetSkillName());
+      m_skillButtons[i]->setText(skillLabel);
     }
   }
 
@@ -39,7 +43,9 @@ namespace Game
     // skill buttons
     for (size_t i = 0; i < 3; i++)
     {
-      m_skillButtons[i] = tgui::Button::create(tgui::String(i));
+      tgui::String skillLabel = tgui::String("EmptyPicker");
+      //+tgui::String(m_skillsToPick[i]->GetSkillDescription());
+      m_skillButtons[i] = tgui::Button::create(skillLabel);
       m_skillButtons[i]->setSize("20%", "20%");
       m_skillButtons[i]->onClick(&SkillPickerScreenComponent::PickSkillNumber, this, i);
       m_layout->add(m_skillButtons[i]);

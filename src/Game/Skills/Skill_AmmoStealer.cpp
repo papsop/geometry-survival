@@ -5,6 +5,12 @@
 
 namespace Game
 {
+
+  Skill_AmmoStealer::Skill_AmmoStealer()
+    : ISkill("Ammo stealer", "Upon killing an enemy, you receive +1 ammo back")
+  {
+  }
+
   void Skill_AmmoStealer::Learn(Engine::GameObject* entity)
   {
     // using BuffTag::None so we can stack this buff instead of overwriting

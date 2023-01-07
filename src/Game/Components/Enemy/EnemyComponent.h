@@ -8,20 +8,13 @@
 
 namespace Game
 {
-  class EnemyComponent : public Engine::IComponent, public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+  class EnemyComponent : public Engine::IComponent
   {
   public:
     EnemyComponent(Engine::GameObject& obj);
     ~EnemyComponent() override = default;
 
     void OnDestroy() override;
-    Engine::GameObject* GetTarget();
-
-  protected:
-    void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
-
-    void VirtualOnActivated() override;
-    void VirtualOnDeactivated() override;
 
   private:
     Engine::GameObject* m_target = nullptr;

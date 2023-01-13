@@ -33,10 +33,14 @@ namespace Game
 	void BulletComponent::OnCollisionStart(Engine::CollisionData& collision)
 	{
     auto otherActor = collision.Other->GetComponent<ActorComponent>();
-    if (otherActor != nullptr)
-      otherActor->AddCommand<DamageCommand>(m_damage);
+    if (otherActor == nullptr) return;
+    if (m_collisions.find(otherActor->Owner.ID) != m_collisions.end()) return;
 
-    Owner.Destroy();
+    m_collisions.insert(otherActor->Owner.ID);
+    otherActor->AddCommand<DamageCommand>(m_damage);
+
+    m_hitsLeft--;
+    if(m_hitsLeft<= 0) Owner.Destroy();
 	}
 
 }

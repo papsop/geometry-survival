@@ -1,6 +1,7 @@
 #pragma once
 #include <Engine/Components/Core.h>
 #include <Engine/Managers/PhysicsManager.h>
+#include <Engine/Core/GameObject/GameObject.h>
 
 namespace Game
 {
@@ -14,9 +15,12 @@ namespace Game
         void Update(float dt) override;
 
         void OnCollisionStart(Engine::CollisionData& collision) override;
+
     private:
         float m_timeToDie = 2.0f;
         float m_damage;
+        int m_hitsLeft = 2;
+        std::set<Engine::GameObjectID> m_collisions;
     };
 }
 

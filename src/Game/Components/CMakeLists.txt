@@ -75,6 +75,8 @@ set(UI_SOURCE
 	UI/SettingsScreenComponent.cpp
 	UI/SkillPickerScreenComponent.h
 	UI/SkillPickerScreenComponent.cpp
+	UI/CombatTextComponent.h
+	UI/CombatTextComponent.cpp
 )
 
 set(VIEW_SOURCE

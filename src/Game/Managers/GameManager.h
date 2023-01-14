@@ -4,7 +4,9 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Utils/VectorUtils.h>
 #include <Engine/Core/Events.h>
+
 #include "../Core/EventData.h"
+#include "../Components/UI/CombatTextComponent.h"
 
 namespace Game
 {
@@ -48,7 +50,9 @@ namespace Game
 	private:
 		void SendPlayerRegistrationEvent(bool registered);
 
-		Engine::GameObject* m_player;
+		Engine::GameObject* m_player = nullptr;
+		CombatTextComponent* m_currentCombatText = nullptr;
+
 		float m_spawnRadius;
 		float m_spawnCooldown;
 		float m_firstLevelExperience;

@@ -5,10 +5,15 @@
 
 namespace Game
 {
+    struct BulletDef {
+      float Damage;
+      int BulletHits;
+    };
+
     class BulletComponent : public Engine::IComponent
     {
     public:
-        BulletComponent(Engine::GameObject& obj, float damage);
+        BulletComponent(Engine::GameObject& obj, const BulletDef& def);
         ~BulletComponent();
 
         void OnCreate() override;

@@ -2,6 +2,7 @@
 #include <Engine/Application.h>
 
 #include "../../Skills/Skill_AmmoStealer.h"
+#include "../../Skills/Skill_AmmoPiercer.h"
 #include "../../Managers/GameManager.h"
 #include "IngameUIControllerComponent.h"
 #include <TGUI/String.hpp>
@@ -18,9 +19,11 @@ namespace Game
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
 
+    m_skillsToPick[0] = std::make_unique<Skill_AmmoStealer>();
+    m_skillsToPick[1] = std::make_unique<Skill_AmmoPiercer>();
+    m_skillsToPick[2] = std::make_unique<Skill_AmmoPiercer>();
     for (size_t i = 0; i < 3; i++)
     {
-      m_skillsToPick[i] = std::make_unique<Skill_AmmoStealer>();
       // TODO: Skill description
       tgui::String skillLabel = tgui::String(m_skillsToPick[i]->GetSkillName());
       m_skillButtons[i]->setText(skillLabel);

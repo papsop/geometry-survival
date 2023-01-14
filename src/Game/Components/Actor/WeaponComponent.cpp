@@ -98,7 +98,11 @@ namespace Game
 
     bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
     bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-    bullet->AddComponent<BulletComponent>(m_equippedWeapon->GetWeaponDamage());
+
+    BulletDef bulletDef;
+    bulletDef.Damage = m_equippedWeapon->GetWeaponDamage();
+    bulletDef.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
+    bullet->AddComponent<BulletComponent>(bulletDef);
 
     return bullet;
   }

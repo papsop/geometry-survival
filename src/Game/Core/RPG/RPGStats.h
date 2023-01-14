@@ -11,7 +11,7 @@ namespace Game
 		WEAPON_DAMAGE,
 		AMMO_BONUS,
 		AMMO_ON_KILL,
-		AMMO_PIERCES,
+		AMMO_HITS, // pierces
 
 		COUNT // always last
 	};

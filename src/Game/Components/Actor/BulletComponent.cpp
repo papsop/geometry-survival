@@ -7,9 +7,10 @@
 namespace Game
 {
 
-  BulletComponent::BulletComponent(Engine::GameObject& obj, float damage)
+  BulletComponent::BulletComponent(Engine::GameObject& obj, const BulletDef& def)
     : IComponent(obj)
-    , m_damage(damage)
+    , m_damage(def.Damage)
+    , m_hitsLeft(def.BulletHits)
   {
   }
 

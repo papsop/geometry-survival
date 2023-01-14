@@ -23,6 +23,8 @@ namespace Game
 		float WeaponDamage = 100.0f;
 		// ammmo = ceil(weapon * (bonus/100)) 
 		float AmmoBonus = 100.0f;
+		// how many enemies can the bullet hit (piercing)
+		float AmmoHits = 1;
 	};
 
 	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent

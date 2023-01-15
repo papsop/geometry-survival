@@ -32,6 +32,9 @@ namespace Game
 		void UnregisterPlayerGameObject();
 		Engine::GameObject* GetPlayerGameObject();
 
+		void RegisterCombatTextComponent(CombatTextComponent* c);
+		void AddCombatText(CombatTextComponent::CombatTextDef def);
+
 		Engine::math::Vec2 GetRandomEnemySpawnPoint();
 
 		float GetSpawnRadius() { return m_spawnRadius; }

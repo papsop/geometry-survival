@@ -24,6 +24,7 @@
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../Components/View/CameraComponent.h"
+#include "../Components/UI/CombatTextComponent.h"
 #include "../Physics/Filters.h"
 
 
@@ -68,6 +69,10 @@ namespace Game
     auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
     camera->AddComponent<CameraComponent>(nullptr);
 
+    // ================== CombatText ==================
+    auto* combatText = Engine::GameObjectManager::Get().CreateGameObject("CombatText", Engine::GameObjectTag::CAMERA, transformDefDefault);
+    combatText->AddComponent<CombatTextComponent>();
+
     physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
     physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
     shapeViewDef.Color = sf::Color::Red;
@@ -83,6 +88,7 @@ namespace Game
 
     // ================== Activate objects ==================
     camera->SetActive(true);
+    combatText->SetActive(true);
     enemySpawner->SetActive(true);
     playerSpawner->SetActive(true);
 

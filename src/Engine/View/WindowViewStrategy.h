@@ -31,6 +31,9 @@ namespace view{
 
       void GetConfigurableData(ConfigurableData& data) override;
 
+      sf::Vector2i MapCoordsToPixel(sf::Vector2f coords) override;
+      sf::Vector2f MapPixelToCoords(sf::Vector2i pixel) override;
+
     private:
       float                   Box2DRotationToSFML(float angle);
       sf::Vector2i            BVec2ToVector2i(b2Vec2 vec);

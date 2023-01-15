@@ -31,6 +31,9 @@ namespace Engine
       virtual void SetView(const CameraData& cameraData) = 0;
       virtual sf::Vector2f GetMousePosition() = 0;
 
+      virtual sf::Vector2i MapCoordsToPixel(sf::Vector2f coords) { return {}; };
+      virtual sf::Vector2f MapPixelToCoords(sf::Vector2i pixel) { return {}; };
+      
       virtual math::Vec2 GetResolution() { return { 0.0f, 0.0f }; }
     protected:
       ViewManager& m_viewManager;

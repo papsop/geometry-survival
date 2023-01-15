@@ -76,7 +76,17 @@ namespace Engine
 		return pixel / m_pixelsPerMeter;
 	}
 
-	// ==================================================================
+  sf::Vector2i ViewManager::MapCoordsToPixel(sf::Vector2f coords)
+  {
+		return m_viewStrategy->MapCoordsToPixel(coords);
+  }
+
+  sf::Vector2f ViewManager::MapPixelToCoords(sf::Vector2i pixel)
+  {
+		return m_viewStrategy->MapPixelToCoords(pixel);
+  }
+
+  // ==================================================================
 
 	void ViewManager::RegisterComponent(IRenderableComponent* component)
 	{

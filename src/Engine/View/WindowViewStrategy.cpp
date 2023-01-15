@@ -339,4 +339,14 @@ namespace view{
       data.push_back({ "window_name",                          m_windowName });
     }
 
+    sf::Vector2i WindowViewStrategy::MapCoordsToPixel(sf::Vector2f coords)
+    {
+      return m_window->mapCoordsToPixel(coords);
+    }
+
+    sf::Vector2f WindowViewStrategy::MapPixelToCoords(sf::Vector2i pixel)
+    {
+      return m_window->mapPixelToCoords(pixel);
+    }
+
 }}

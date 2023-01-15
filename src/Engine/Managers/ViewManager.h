@@ -39,6 +39,9 @@ namespace Engine
 		float        coordToPixel(float coord);
 		float        pixelToCoord(float pixel);
 
+    sf::Vector2i MapCoordsToPixel(sf::Vector2f coords);
+    sf::Vector2f MapPixelToCoords(sf::Vector2i pixel);
+
 		void Update(float dt);
 		void SetViewStrategy(view::IViewStrategy* viewStrategy);
 		view::IViewStrategy* GetViewStrategy() { return m_viewStrategy.get(); };

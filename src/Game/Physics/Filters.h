@@ -19,7 +19,7 @@ namespace Game
 		enum EntityMask : uint16
 		{
 			M_WALL								= 0xFFFF,		// collides with everything
-			M_PLAYER							= EntityCategory::WALL | EntityCategory::ENEMY | EntityCategory::ENEMY_BULLET | EntityCategory::PLAYER,
+			M_PLAYER							= EntityCategory::WALL | EntityCategory::ENEMY | EntityCategory::ENEMY_BULLET | EntityCategory::PLAYER | EntityCategory::PICKABLE,
 			M_PLAYER_BULLET				= EntityCategory::WALL | EntityCategory::ENEMY,
 			M_PLAYER_BULLET_FIELD	= EntityCategory::ENEMY,
 			M_ENEMY								= EntityCategory::WALL | EntityCategory::PLAYER | EntityCategory::PLAYER_BULLET | EntityCategory::ENEMY | EntityCategory::PLAYER_BULLET_FIELD,

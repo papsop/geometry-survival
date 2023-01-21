@@ -16,6 +16,9 @@
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/Weapons/PistolWeapon.h"
 #include "../../Components/Enemy/EnemyComponent.h"
+#include "../../Components/Actor/WeaponComponent.h"
+#include "../../Components/Actor/BulletComponent.h"
+#include "../../Components/Actor/BulletFieldComponent.h"
 
 namespace Game
 {
@@ -158,4 +161,49 @@ namespace Game
 		player->SetActive(true);
 		return player;
 	}
+
+	Engine::GameObject* GameObjectFactory::CreateBulletObject(const BulletFactoryDef& def)
+	{
+		Engine::ITransform::TransformDefinition transformDef;
+		transformDef.Position = def.Position;
+		transformDef.Rotation = def.Rotation;
+
+		auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
+
+		Engine::PhysicsBodyDef physBodyDef;
+		physBodyDef.BodyType = b2_dynamicBody;
+		physBodyDef.IsBullet = true;
+		physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
+		physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
+
+		bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+
+
+		Engine::ShapeViewDef shapeViewDef;
+		shapeViewDef.Color = sf::Color::Blue;
+		shapeViewDef.PointCount = 3;
+		shapeViewDef.Radius = 0.5f;
+		shapeViewDef.Layer = Engine::view::Layer::BULLET;
+
+		Engine::CircleFixtureDef circleFixtureDef;
+		circleFixtureDef.Radius = 0.5f;
+		circleFixtureDef.IsSensor = true;
+
+		bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+
+		BulletDef bulletDef;
+		bulletDef.Damage = def.Damage;
+		bulletDef.BulletHits = def.BulletHits;
+		bullet->AddComponent<BulletComponent>(bulletDef);
+
+		if (def.Scatter)
+		{
+			bullet->AddComponent<BulletFieldComponent>();
+		}
+
+		return bullet;
+
+	}
+
 };

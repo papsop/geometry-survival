@@ -7,7 +7,7 @@ namespace Game
 {
     struct BulletDef {
       float Damage;
-      int BulletHits;
+      int   BulletHits;
     };
 
     class BulletComponent : public Engine::IComponent

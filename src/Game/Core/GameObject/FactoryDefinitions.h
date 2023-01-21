@@ -30,4 +30,14 @@ namespace Game
 	{
 		bool IncludeInputControl;
 	};
+
+	struct BulletFactoryDef
+	{
+		Engine::math::Vec2 Position;
+		float Rotation;
+
+		float Damage;
+		int		BulletHits;
+		bool	Scatter;
+	};
 }

@@ -4,6 +4,7 @@
 #include "BulletFieldComponent.h"
 
 #include "../Player/PlayerComponent.h"
+#include "../../Core/GameObject/GameObjectFactory.h"
 
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject/GameObject.h>
@@ -73,46 +74,14 @@ namespace Game
   {
     if (!m_equippedWeapon)
       return nullptr;
-    Engine::ITransform::TransformDefinition transformDef;
-    transformDef.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
-    transformDef.Rotation = Owner.GetTransform()->GetRotation();
 
-    auto bullet = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
-
-
-    Engine::PhysicsBodyDef physBodyDef;
-    physBodyDef.BodyType = b2_dynamicBody;
-    physBodyDef.IsBullet = true;
-    physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
-    physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
-
-    bullet->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-
-
-    Engine::ShapeViewDef shapeViewDef;
-    shapeViewDef.Color = sf::Color::Blue;
-    shapeViewDef.PointCount = 3;
-    shapeViewDef.Radius = 0.5f;
-    shapeViewDef.Layer = Engine::view::Layer::BULLET;
-
-    Engine::CircleFixtureDef circleFixtureDef;
-    circleFixtureDef.Radius = 0.5f;
-    circleFixtureDef.IsSensor = true;
-
-    bullet->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-    bullet->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-
-    BulletDef bulletDef;
-    bulletDef.Damage = m_equippedWeapon->GetWeaponDamage();
-    bulletDef.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
-    bullet->AddComponent<BulletComponent>(bulletDef);
-
-		if (Owner.HasComponent<PlayerComponent>())
-		{
-			bullet->AddComponent<BulletFieldComponent>();
-		}
-
-    return bullet;
+    BulletFactoryDef def;
+    def.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
+    def.Rotation = Owner.GetTransform()->GetRotation();
+    def.Damage = m_equippedWeapon->GetWeaponDamage();
+    def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
+    def.Scatter = true;
+    return GameObjectFactory::CreateBulletObject(def);
   }
 
 	void WeaponComponent::ProcessMessage(const Engine::Message& message)

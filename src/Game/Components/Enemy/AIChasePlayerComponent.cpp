@@ -3,6 +3,7 @@
 #include <Engine/Core/GameObject/GameObjectTag.h>
 #include <Engine/Core/Scene/Scene.h>
 
+#include "../../Physics/Filters.h"
 #include "../Actor/ActorComponent.h"
 #include "../States/Actor.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
@@ -38,7 +39,7 @@ namespace Game
 	{
 		auto otherGO = collision.Other;
 		// check if player bullet
-		if (otherGO->Tag != Engine::GameObjectTag::PLAYER_BULLET)
+		if (collision.OtherFilter.categoryBits != physics::EntityCategory::PLAYER_BULLET)
 			return;
 
 		// apply knockback

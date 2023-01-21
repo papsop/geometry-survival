@@ -15,6 +15,7 @@ namespace Engine
 	{
 		GameObject* Other;
 		b2Filter OtherFilter;
+		b2Filter MyFilter;
 	};
 
 	class PhysicsManager : public IManager, public b2ContactListener, public IEventListener<event::E_ApplicationStopped>

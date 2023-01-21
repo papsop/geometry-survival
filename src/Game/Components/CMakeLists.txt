@@ -4,6 +4,8 @@ set(ACTOR_SOURCE
 	Actor/ActorComponent.cpp
 	Actor/BulletComponent.h
 	Actor/BulletComponent.cpp
+	Actor/BulletFieldComponent.h
+	Actor/BulletFieldComponent.cpp
 	Actor/Commands.h
 	Actor/Commands.cpp
 

@@ -22,7 +22,7 @@ namespace Game
         void OnCollisionStart(Engine::CollisionData& collision) override;
 
     private:
-        float m_timeToDie = 2.0f;
+        float m_timeToDie = 3.0f;
         float m_damage;
         int m_hitsLeft = 2;
         std::set<Engine::GameObjectID> m_collisions;

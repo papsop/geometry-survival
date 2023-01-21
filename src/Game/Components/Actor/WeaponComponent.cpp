@@ -1,6 +1,9 @@
 #include "WeaponComponent.h"
 #include "ActorComponent.h"
 #include "BulletComponent.h"
+#include "BulletFieldComponent.h"
+
+#include "../Player/PlayerComponent.h"
 
 #include <Engine/Application.h>
 #include <Engine/Core/GameObject/GameObject.h>
@@ -103,6 +106,11 @@ namespace Game
     bulletDef.Damage = m_equippedWeapon->GetWeaponDamage();
     bulletDef.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
     bullet->AddComponent<BulletComponent>(bulletDef);
+
+		if (Owner.HasComponent<PlayerComponent>())
+		{
+			bullet->AddComponent<BulletFieldComponent>();
+		}
 
     return bullet;
   }

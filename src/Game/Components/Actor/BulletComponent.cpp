@@ -1,6 +1,7 @@
 #include "BulletComponent.h"
 #include "ActorComponent.h"
 
+#include "../../Physics/Filters.h"
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/ComponentManager.h>
 
@@ -35,6 +36,7 @@ namespace Game
 	{
     auto otherActor = collision.Other->GetComponent<ActorComponent>();
     if (otherActor == nullptr) return;
+    if (collision.MyFilter.categoryBits != physics::EntityCategory::PLAYER_BULLET) return;
     if (m_collisions.find(otherActor->Owner.ID) != m_collisions.end()) return;
 
     m_collisions.insert(otherActor->Owner.ID);

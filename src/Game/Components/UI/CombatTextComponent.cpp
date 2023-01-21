@@ -20,6 +20,7 @@ namespace Game
     // TODO:
     //  - TGUI isn't really helpful with positioning labels in world coordinates
     //  - conversion from world to space doesn't work for some reason, the label gets shown in weird locations
+    //  - maybe just draw it with a plain SFML?
     
 
 //     CombatTextEntry entry;

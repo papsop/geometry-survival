@@ -60,7 +60,7 @@ namespace Game
       // Setup logger
       Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
       Engine::Logger::Instance().AddBackend(std::make_unique<Engine::UIBackendStrategy>());
-      Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::INFO);
+      Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::ERROR);
 
       // Setup components
       //  - order is important because of updates

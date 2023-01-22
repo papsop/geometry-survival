@@ -23,12 +23,7 @@ namespace Game
 
 	void PistolWeapon::VirtualFire()
 	{
-		auto& ownerGO = m_ownerWeaponComponent.Owner;
-		auto* bullet = m_ownerWeaponComponent.CreateBulletGameObject();
-		auto forward = ownerGO.GetTransform()->Forward();
-		forward *= 30.0f;
-		bullet->GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
-		bullet->SetActive(true);
+		m_ownerWeaponComponent.CreateBulletGameObject();
 	}
 
 }

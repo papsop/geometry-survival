@@ -38,6 +38,5 @@ namespace Game
 
 		float Damage;
 		int		BulletHits;
-		bool	Scatter;
 	};
 }

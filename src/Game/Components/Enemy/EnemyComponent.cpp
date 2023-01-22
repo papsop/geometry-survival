@@ -1,4 +1,5 @@
 #include "EnemyComponent.h"
+#include "ScatterFieldComponent.h"
 
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Core/Events.h>
@@ -19,11 +20,27 @@ namespace Game
     // check if destroyed because of HP
     if (Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
     {
+      // experience orb
       ExperienceGlobeDef experienceGlobeDef;
       experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
 
       auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
 
+      // scatter
+
+			BulletFactoryDef def;
+			def.Position = Owner.GetTransform()->GetPosition();
+			def.Damage = 2;
+			def.BulletHits = 1;
+
+      for (auto& enemy : Owner.GetComponent<ScatterFieldComponent>()->GetValidEnemyTargets())
+      {
+				def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());	
+				GameObjectFactory::CreateBulletObject(def);
+      }
+
+
+      // event
       event::E_EnemyDied eventData;
       Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
     }

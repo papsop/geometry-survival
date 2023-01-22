@@ -7,14 +7,16 @@
 
 namespace Game
 {
-	class BulletFieldComponent : public Engine::IComponent, public Engine::IDebuggableComponent
+	class ScatterFieldComponent : public Engine::IComponent, public Engine::IDebuggableComponent
 	{
 	public:
-		BulletFieldComponent(Engine::GameObject& obj);
-		~BulletFieldComponent() = default;
+		ScatterFieldComponent(Engine::GameObject& obj);
+		~ScatterFieldComponent() = default;
 
 		void OnCreate() override;
 		void Update(float dt) override;
+
+		std::vector<Engine::GameObject*> GetValidEnemyTargets();
 
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 		void OnCollisionEnd(Engine::CollisionData& collision) override;

@@ -4,8 +4,6 @@ set(ACTOR_SOURCE
 	Actor/ActorComponent.cpp
 	Actor/BulletComponent.h
 	Actor/BulletComponent.cpp
-	Actor/BulletFieldComponent.h
-	Actor/BulletFieldComponent.cpp
 	Actor/Commands.h
 	Actor/Commands.cpp
 
@@ -41,6 +39,8 @@ set(ENEMY_SOURCE
 	Enemy/AIChasePlayerComponent.cpp
 	Enemy/EasyEnemySpawnerComponent.h
 	Enemy/EasyEnemySpawnerComponent.cpp
+	Enemy/ScatterFieldComponent.h
+	Enemy/ScatterFieldComponent.cpp
 )
 
 set(STATES_SOURCE

@@ -1,7 +1,6 @@
 #include "WeaponComponent.h"
 #include "ActorComponent.h"
 #include "BulletComponent.h"
-#include "BulletFieldComponent.h"
 
 #include "../Player/PlayerComponent.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
@@ -80,7 +79,6 @@ namespace Game
     def.Rotation = Owner.GetTransform()->GetRotation();
     def.Damage = m_equippedWeapon->GetWeaponDamage();
     def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
-    def.Scatter = true;
     return GameObjectFactory::CreateBulletObject(def);
   }
 

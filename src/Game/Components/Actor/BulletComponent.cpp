@@ -13,11 +13,16 @@ namespace Game
     , m_damage(def.Damage)
     , m_hitsLeft(def.BulletHits)
   {
+    SetRequiredComponents<Engine::PhysicsBodyComponent>();
   }
 
   void BulletComponent::OnCreate()
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
+
+		auto forward = Owner.GetTransform()->Forward();
+		forward *= 30.0f;
+		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
   }
 
   BulletComponent::~BulletComponent()

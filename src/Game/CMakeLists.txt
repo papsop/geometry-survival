@@ -11,7 +11,7 @@ add_executable(
   ${PROJECT_NAME}
   Game.cpp
 	GameInjection.h
- "Skills/Skill_AmmoPiercer.h" "Skills/Skill_AmmoPiercer.cpp" "Components/Actor/BulletFieldComponent.cpp")
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

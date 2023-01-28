@@ -8,9 +8,10 @@
 #include "../../Core/EventData.h"
 #include "../../Core/StateMachines/UIStateMachine.h"
 
-
 #include "../Player/LevelComponent.h"
 #include "../Actor/WeaponComponent.h"
+
+#include "../../Managers/GameManager.h"
 
 namespace Game
 {
@@ -35,7 +36,6 @@ namespace Game
     void UIShown() override;
     void UIHidden() override;
 
-
   private:
     void ResetPlayerComponents(Engine::GameObject* player);
     // Player components
@@ -46,5 +46,9 @@ namespace Game
     tgui::Label::Ptr m_levelLabel;
     tgui::Panel::Ptr m_experienceBar;
     tgui::Label::Ptr m_ammoLabel;
+    tgui::Label::Ptr m_timerLabel;
+
+    // Timer
+    GameTimer& m_gameTimer;
   };
 }

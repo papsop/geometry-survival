@@ -2,13 +2,15 @@
 #include "../../Core/StateMachines/States/UI/GameHUDState.h"
 
 #include "IngameUIControllerComponent.h"
-
+#include <Engine/Application.h>
 namespace Game
 {
 
   IngameHUDComponent::IngameHUDComponent(Engine::GameObject& obj)
     : IUIComponent(obj)
+    , m_gameTimer(Engine::Application::Instance().GetGameManager<GameManager>()->GetGameTimer())
   {
+    m_gameTimer.Reset();
   }
 
   void IngameHUDComponent::RegisterUIElements()
@@ -31,6 +33,12 @@ namespace Game
     m_ammoLabel->setPosition("100%", "100%");
     m_ammoLabel->setTextSize(48);
     m_group->add(m_ammoLabel);
+
+    m_timerLabel = tgui::Label::create("00:00");
+    m_timerLabel->setOrigin(1.0f, 0.5f);
+    m_timerLabel->setPosition("100%", "10%");
+    m_timerLabel->setTextSize(72);
+    m_group->add(m_timerLabel);
   }
 
   void IngameHUDComponent::UIShown()
@@ -49,6 +57,10 @@ namespace Game
 
   void IngameHUDComponent::Update(float dt)
   {
+    m_gameTimer.Update(dt);
+
+    m_timerLabel->setText(tgui::String(m_gameTimer.GetTimerAsString()));
+
     if (m_levelComponent)
     {
       m_levelLabel->setText(tgui::String(m_levelComponent->GetCurrentLevel()));
@@ -62,6 +74,7 @@ namespace Game
       tgui::String ammoString = tgui::String(m_weaponComponent->GetCurrentAmmo()) + "/" + tgui::String(m_weaponComponent->GetMaxAmmo());
       m_ammoLabel->setText(ammoString);
     }
+    
   }
 
   void IngameHUDComponent::ResetPlayerComponents(Engine::GameObject* player)

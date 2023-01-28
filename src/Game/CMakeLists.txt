@@ -11,7 +11,7 @@ add_executable(
   ${PROJECT_NAME}
   Game.cpp
 	GameInjection.h
-)
+ "Managers/GameTimer.h" "Managers/GameTimer.cpp")
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

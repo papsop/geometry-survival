@@ -7,6 +7,7 @@
 
 #include "../Core/EventData.h"
 #include "../Components/UI/CombatTextComponent.h"
+#include "GameTimer.h"
 
 namespace Game
 {
@@ -50,11 +51,14 @@ namespace Game
 
 		void GetConfigurableData(ConfigurableData& data) override;
 
+		GameTimer& GetGameTimer() { return m_gameTimer; }
+
 	private:
 		void SendPlayerRegistrationEvent(bool registered);
 
 		Engine::GameObject* m_player = nullptr;
 		CombatTextComponent* m_currentCombatText = nullptr;
+		GameTimer m_gameTimer;
 
 		float m_spawnRadius;
 		float m_spawnCooldown;

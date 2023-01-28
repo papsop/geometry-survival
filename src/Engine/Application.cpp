@@ -119,6 +119,7 @@ namespace Engine
 
 	void Application::UpdateGameplay(float dt)
 	{
+    auto fixedUpdate = m_physicsManager->GetFixedUpdate();
     // Update
 		m_sceneManager->Update(dt);
 		m_componentManager->Update(dt);
@@ -126,12 +127,12 @@ namespace Engine
 
     m_timeAccumulator += dt;
     // FixedUpdate
-    while (m_timeAccumulator >= m_fixedUpdate)
+    while (m_timeAccumulator >= fixedUpdate)
     {
-      m_physicsManager->FixedUpdate(m_fixedUpdate);
-      m_sceneManager->FixedUpdate(m_fixedUpdate);
-      m_componentManager->FixedUpdate(m_fixedUpdate);
-      m_timeAccumulator -= m_fixedUpdate;
+      m_physicsManager->FixedUpdate(fixedUpdate);
+      m_sceneManager->FixedUpdate(fixedUpdate);
+      m_componentManager->FixedUpdate(fixedUpdate);
+      m_timeAccumulator -= fixedUpdate;
     }
 
 	}
@@ -155,8 +156,6 @@ namespace Engine
     IEventListener<event::E_SFMLEvent>::RegisterListener();
     // Let the game create it's subsystems
     //injection.RegisterGameComponents(*this);
-
-    m_fixedUpdate = m_physicsManager->GetFixedUpdate();
 
     // Create and set ViewStrategy
 	  m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));

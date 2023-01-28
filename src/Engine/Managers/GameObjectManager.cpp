@@ -77,7 +77,9 @@ namespace Engine
     {
       auto* e = m_gameObjectsToCleanup.front();
 
+      
       e->OnDestroy();
+      e->SetActive(false); // quick fix, but really really really dumb, try to find an actual fix
       event::E_GameObjectDeleted eventData(e->ID);
 
       m_gameObjects.erase(e->ID);

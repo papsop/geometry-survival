@@ -39,7 +39,6 @@ namespace Game
 				GameObjectFactory::CreateBulletObject(def);
       }
 
-
       // event
       event::E_EnemyDied eventData;
       Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);

@@ -1,9 +1,13 @@
 #include "PlayerComponent.h"
 #include <Engine/Application.h>
 #include <Engine/Managers/PhysicsManager.h>
+#include <Engine/Managers/EventManager.h>
 
+#include "../../Core/EventData.h"
 #include "../../Managers/GameManager.h"
 #include "../Actor/ActorComponent.h"
+#include "../Actor/RPGComponent.h"
+
 namespace Game
 {
 
@@ -27,6 +31,14 @@ namespace Game
   void PlayerComponent::OnDestroy()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
+
+    
+    // Player died because of HP
+    auto* rpgComponent = Owner.GetComponent<RPGComponent>();
+    if (rpgComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0)
+    {
+      Engine::EventManager::Get().DispatchEvent(event::E_PlayerDied());
+    }
   }
 
   void PlayerComponent::VirtualOnActivated()

@@ -16,6 +16,8 @@ namespace Game
 
 		};
 
+		
+
 		enum PauseState {UNKNOWN, PAUSED, RUNNING};
 		struct E_GamePausedChanged 
 		{
@@ -29,6 +31,11 @@ namespace Game
 		};
 
 		struct E_EnemyDied
+		{
+
+		};
+
+		struct E_PlayerDied 
 		{
 
 		};

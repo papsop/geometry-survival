@@ -125,7 +125,7 @@ namespace Engine
 		m_componentManager->Update(dt);
     m_physicsManager->Update(dt);
 
-    m_timeAccumulator += dt;
+		m_timeAccumulator += dt;
     // FixedUpdate
     while (m_timeAccumulator >= fixedUpdate)
     {
@@ -133,6 +133,14 @@ namespace Engine
       m_sceneManager->FixedUpdate(fixedUpdate);
       m_componentManager->FixedUpdate(fixedUpdate);
       m_timeAccumulator -= fixedUpdate;
+
+      if (m_timeAccumulator > 0 && m_timeAccumulator < fixedUpdate)
+      {
+				m_physicsManager->FixedUpdate(m_timeAccumulator);
+				m_sceneManager->FixedUpdate(m_timeAccumulator);
+				m_componentManager->FixedUpdate(m_timeAccumulator);
+        m_timeAccumulator = 0;
+      }
     }
 
 	}

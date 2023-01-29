@@ -52,6 +52,7 @@ namespace Game
 		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 		IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
 		IEventListener<event::E_PlayerLeveledUp>::RegisterListener();
+		IEventListener<event::E_PlayerDied>::RegisterListener();
 	}
 
 	void IngameHUDComponent::UIHidden()
@@ -59,6 +60,7 @@ namespace Game
 		IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
 		IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
 		IEventListener<event::E_PlayerLeveledUp>::UnregisterListener();
+		IEventListener<event::E_PlayerDied>::UnregisterListener();
 	}
 
 	void IngameHUDComponent::Update(float dt)
@@ -127,4 +129,14 @@ namespace Game
 			parentController->SetState(IngameUIControllerComponent::IngameUIState::SKILL_PICKER);
 		}
 	}
+
+	void IngameHUDComponent::ReceiveEvent(const event::E_PlayerDied& eventData)
+	{
+		auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
+		if (parentController)
+		{
+			parentController->SetState(IngameUIControllerComponent::IngameUIState::MENU);
+		}
+	}
+
 }

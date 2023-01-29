@@ -6,7 +6,7 @@
 #include <Engine/Core/Events.h>
 
 #include "../Core/EventData.h"
-#include "../Components/UI/CombatTextComponent.h"
+
 #include "GameTimer.h"
 
 namespace Game
@@ -33,9 +33,6 @@ namespace Game
 		void UnregisterPlayerGameObject();
 		Engine::GameObject* GetPlayerGameObject();
 
-		void RegisterCombatTextComponent(CombatTextComponent* c);
-		void AddCombatText(CombatTextComponent::CombatTextDef def);
-
 		Engine::math::Vec2 GetRandomEnemySpawnPoint();
 
 		float GetSpawnRadius() { return m_spawnRadius; }
@@ -57,7 +54,6 @@ namespace Game
 		void SendPlayerRegistrationEvent(bool registered);
 
 		Engine::GameObject* m_player = nullptr;
-		CombatTextComponent* m_currentCombatText = nullptr;
 		GameTimer m_gameTimer;
 
 		float m_spawnRadius;

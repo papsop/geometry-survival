@@ -8,7 +8,7 @@ namespace Engine
   {
     sf::Color			Color         = sf::Color::White;
     unsigned int	FontSize      = 16;
-    const char*		Text          = "empty";
+    std::string		Text          = "empty";
     view::Layer		Layer         = view::Layer::UI;
     bool          ShouldCenter  = true;
   };

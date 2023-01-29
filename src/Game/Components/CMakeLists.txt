@@ -77,13 +77,13 @@ set(UI_SOURCE
 	UI/SettingsScreenComponent.cpp
 	UI/SkillPickerScreenComponent.h
 	UI/SkillPickerScreenComponent.cpp
-	UI/CombatTextComponent.h
-	UI/CombatTextComponent.cpp
 )
 
 set(VIEW_SOURCE
 	View/CameraComponent.h
 	View/CameraComponent.cpp
+	View/CombatTextComponent.h
+	View/CombatTextComponent.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

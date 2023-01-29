@@ -19,6 +19,7 @@
 #include "../../Components/Enemy/ScatterFieldComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/BulletComponent.h"
+#include "../../Components/View/CombatTextComponent.h"
 
 
 namespace Game
@@ -199,6 +200,26 @@ namespace Game
 		bulletDef.BulletHits = def.BulletHits;
 		obj->AddComponent<BulletComponent>(bulletDef);
 
+		obj->SetActive(true);
+		return obj;
+	}
+
+	Engine::GameObject* GameObjectFactory::CreateCombatTextObject(const CombatTextDef& def)
+	{
+		Engine::ITransform::TransformDefinition transformDef;
+		transformDef.Position = def.Position;
+
+		auto obj = Engine::GameObjectManager::Get().CreateGameObject("CombatText", Engine::GameObjectTag::UNTAGGED, transformDef);
+
+		Engine::TextViewDef textDef;
+		textDef.Color = sf::Color::Red;
+		textDef.FontSize = 48;
+		textDef.Text = std::to_string(def.Damage);
+		textDef.Layer = Engine::view::Layer::UI;
+
+		obj->AddComponent<Engine::TextViewComponent>(textDef);
+		obj->AddComponent<CombatTextComponent>(.15f);
+		
 		obj->SetActive(true);
 		return obj;
 	}

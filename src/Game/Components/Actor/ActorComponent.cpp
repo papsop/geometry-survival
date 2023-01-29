@@ -8,6 +8,7 @@
 #include <Engine/Managers/ComponentManager.h>
 
 #include "../../Managers/GameManager.h"
+#include "../../Core/GameObject/GameObjectFactory.h"
 
 namespace Game
 {
@@ -70,12 +71,10 @@ namespace Game
     auto currentHP = m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH);
     m_RPGComponent->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
 
-    CombatTextComponent::CombatTextDef def;
-    def.Duration = 0;
-    def.Position = Owner.GetTransform()->GetPosition();
-    def.Value = std::to_string(amount);
-
-    Engine::Application::Instance().GetGameManager<GameManager>()->AddCombatText(def);
+    CombatTextDef combatTextDef;
+    combatTextDef.Damage = amount;
+    combatTextDef.Position = Owner.GetTransform()->GetPosition();
+    GameObjectFactory::CreateCombatTextObject(combatTextDef);
 	}
 
 	void ActorComponent::WeaponFire()

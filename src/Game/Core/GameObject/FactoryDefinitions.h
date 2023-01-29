@@ -39,4 +39,10 @@ namespace Game
 		float Damage;
 		int		BulletHits;
 	};
+
+	struct CombatTextDef
+	{
+		Engine::math::Vec2 Position;
+		int Damage;
+	};
 }

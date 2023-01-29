@@ -13,5 +13,6 @@ namespace Game
 		static Engine::GameObject* CreateExperienceGlobe(const ExperienceGlobeDef& def);
 		static Engine::GameObject* CreatePlayerObject(const PlayerObjectDef& def);
 		static Engine::GameObject* CreateBulletObject(const BulletFactoryDef& def);
+		static Engine::GameObject* CreateCombatTextObject(const CombatTextDef& def);
 	};
 }

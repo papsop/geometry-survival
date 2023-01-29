@@ -6,10 +6,11 @@ namespace Engine
   TextViewComponent::TextViewComponent(GameObject& obj, const TextViewDef& def)
     : IRenderableComponent(obj, def.Layer)
     , m_renderable(view::Renderable::RenderableType::TEXT)
-  {
+	{
+		SetText(def.Text);
     m_renderable.text.Color = def.Color;
     m_renderable.text.Size = def.FontSize;
-    m_renderable.text.Value = def.Text;
+    m_renderable.text.Value = m_text.c_str();
     m_renderable.text.ShouldCenter = def.ShouldCenter;
   }
 

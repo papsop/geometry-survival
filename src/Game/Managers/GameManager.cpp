@@ -99,19 +99,6 @@ namespace Game
     return m_player;
   }
 
-  void GameManager::RegisterCombatTextComponent(CombatTextComponent* c)
-  {
-    m_currentCombatText = c;
-  }
-
-  void GameManager::AddCombatText(CombatTextComponent::CombatTextDef def)
-  {
-    if (m_currentCombatText)
-    {
-      m_currentCombatText->AddCombatTextEntry(def);
-    }
-  }
-
   Engine::math::Vec2 GameManager::GetRandomEnemySpawnPoint()
   {
     DD_ASSERT(m_player != nullptr, "Cant get enemy spawn without player entity");

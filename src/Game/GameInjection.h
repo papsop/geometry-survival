@@ -38,6 +38,7 @@
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "Components/UI/SplashScreenComponent.h"
 #include "Components/View/CameraComponent.h"
+#include "Components/View/CombatTextComponent.h"
 
 #include "Scenes/GamePlayScene.h"
 #include "Scenes/MainMenuScene.h"
@@ -77,6 +78,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
       
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();

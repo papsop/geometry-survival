@@ -45,6 +45,10 @@ namespace Game
     Engine::IEventListener<event::E_EnemyDied>::UnregisterListener();
   }
 
+	void WeaponComponent::OnDestroy()
+	{
+		Engine::IEventListener<event::E_EnemyDied>::UnregisterListener();
+	}
 
   void WeaponComponent::Update(float dt)
   {
@@ -110,7 +114,7 @@ namespace Game
     return 0;
   }
 
-  void WeaponComponent::ReceiveEvent(const event::E_EnemyDied& eventData)
+	void WeaponComponent::ReceiveEvent(const event::E_EnemyDied& eventData)
   {
     if (m_rpgComponent)
     {

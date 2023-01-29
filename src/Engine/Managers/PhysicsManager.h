@@ -50,6 +50,7 @@ namespace Engine
 		std::vector<PhysicsBodyComponent*> m_physicsBodies;	
 
 		const float m_fixedUpdate = 1.0f/120.0f;
+
 	friend class Application;
 	};
 }

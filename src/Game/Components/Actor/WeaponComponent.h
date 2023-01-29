@@ -29,12 +29,14 @@ namespace Game
       unsigned int GetMaxAmmo();
       unsigned int GetCurrentAmmo();
 
+
+      void OnDestroy() override;
+
     protected:
       void ReceiveEvent(const event::E_EnemyDied& eventData) override;
 
       void VirtualOnActivated() override;
       void VirtualOnDeactivated() override;
-
     private:
 		  std::unique_ptr<IWeapon> m_equippedWeapon;
       RPGComponent* m_rpgComponent = nullptr;

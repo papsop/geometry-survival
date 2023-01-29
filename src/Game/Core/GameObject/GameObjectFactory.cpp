@@ -56,10 +56,10 @@ namespace Game
 		Engine::PhysicsBodyDef physBodyDef;
 		physBodyDef.BodyType = b2_dynamicBody;
 		physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
-		physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;;
+		physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
 
 		Engine::ShapeViewDef shapeViewDef;
-		shapeViewDef.Color = sf::Color::Red;
+		shapeViewDef.Color = sf::Color::Yellow;
 		shapeViewDef.PointCount = 5;
 		shapeViewDef.Radius = 2.f;
 		shapeViewDef.Layer = Engine::view::Layer::ENEMY;
@@ -213,12 +213,12 @@ namespace Game
 
 		Engine::TextViewDef textDef;
 		textDef.Color = sf::Color::Red;
-		textDef.FontSize = 48;
+		textDef.FontSize = 16;
 		textDef.Text = std::to_string(def.Damage);
 		textDef.Layer = Engine::view::Layer::UI;
 
 		obj->AddComponent<Engine::TextViewComponent>(textDef);
-		obj->AddComponent<CombatTextComponent>(.15f);
+		obj->AddComponent<CombatTextComponent>(.500f);
 		
 		obj->SetActive(true);
 		return obj;

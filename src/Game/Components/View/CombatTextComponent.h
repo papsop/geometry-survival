@@ -16,5 +16,6 @@ namespace Game
 
 	private:
 		float m_durationLeft;
+		float m_initialDuration;
 	};
 }

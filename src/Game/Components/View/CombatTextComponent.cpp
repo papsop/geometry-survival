@@ -6,6 +6,7 @@ namespace Game
 
 	CombatTextComponent::CombatTextComponent(Engine::GameObject& obj, float duration)
 		: IComponent(obj)
+		, m_initialDuration(duration)
 		, m_durationLeft(duration)
 	{
 
@@ -24,6 +25,10 @@ namespace Game
 	void CombatTextComponent::Update(float dt)
 	{
 		m_durationLeft -= dt;
+
+		auto position = Owner.GetTransform()->GetPosition();
+		position.y += 10 * dt;
+		Owner.GetTransform()->SetPosition(position);
 
 		if (m_durationLeft < 0)
 		{

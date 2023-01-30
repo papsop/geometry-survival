@@ -79,6 +79,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();
       
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();

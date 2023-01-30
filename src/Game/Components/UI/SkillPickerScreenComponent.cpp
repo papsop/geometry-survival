@@ -3,6 +3,7 @@
 
 #include "../../Skills/Skill_AmmoStealer.h"
 #include "../../Skills/Skill_AmmoPiercer.h"
+#include "../../Skills/Skill_BulletDamage.h"
 #include "../../Managers/GameManager.h"
 #include "IngameUIControllerComponent.h"
 #include <TGUI/String.hpp>
@@ -21,7 +22,7 @@ namespace Game
 
     m_skillsToPick[0] = std::make_unique<Skill_AmmoStealer>();
     m_skillsToPick[1] = std::make_unique<Skill_AmmoPiercer>();
-    m_skillsToPick[2] = std::make_unique<Skill_AmmoPiercer>();
+    m_skillsToPick[2] = std::make_unique<Skill_BulletDamage>();
     for (size_t i = 0; i < 3; i++)
     {
       // TODO: Skill description

@@ -17,8 +17,11 @@ namespace Game
 		SetStatBase(RPGStats::WEAPON_DAMAGE, rpgActorDef.WeaponDamage);
 		SetStatBase(RPGStats::AMMO_BONUS, rpgActorDef.AmmoBonus);
 		SetStatBase(RPGStats::AMMO_HITS, rpgActorDef.AmmoHits);
+		SetStatBase(RPGStats::PICKUP_FIELD_SIZE, rpgActorDef.PickUpFieldSize);
 
 		SetStatBase(RPGStats::AMMO_ON_KILL, 0);
+
+		ResetModifiers();
 	}
 
 	void RPGComponent::VirtualOnActivated()
@@ -33,10 +36,7 @@ namespace Game
 
 	void RPGComponent::Update(float dt)
 	{
-		// reset all the modifiers
-		for (auto&& bonus : m_additiveStatBonus) bonus = 0.0f;
-		for (auto&& bonus : m_percentageStatBonus) bonus = 1.0f;
-
+		ResetModifiers();
 		// apply modifiers from buffs
 		for (auto it = m_buffs.begin(); it != m_buffs.end(); /* */)
 		{
@@ -100,6 +100,12 @@ namespace Game
 		}
 	}
 
+	void RPGComponent::ResetModifiers()
+	{
+		for (auto&& bonus : m_additiveStatBonus) bonus = 0.0f;
+		for (auto&& bonus : m_percentageStatBonus) bonus = 1.0f;
+	}
+
   void RPGComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
   {
     // Active buffs
@@ -115,7 +121,7 @@ namespace Game
     viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, val, pos, true, 12.0f, sf::Color::Yellow);
   }
 
-  float RPGComponent::GetStat(RPGStats stat)
+	float RPGComponent::GetStat(RPGStats stat)
 	{
 		if (stat == RPGStats::COUNT)
 		{

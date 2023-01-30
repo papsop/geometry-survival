@@ -11,7 +11,8 @@ namespace Game
 		WEAPON_DAMAGE,
 		AMMO_BONUS,
 		AMMO_ON_KILL,
-		AMMO_HITS, // pierces
+		AMMO_HITS, // number of bullet pierces
+		PICKUP_FIELD_SIZE,
 
 		COUNT // always last
 	};

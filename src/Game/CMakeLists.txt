@@ -11,7 +11,7 @@ add_executable(
   ${PROJECT_NAME}
   Game.cpp
 	GameInjection.h
-)
+ "Skills/Skill_BulletDamage.h")
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

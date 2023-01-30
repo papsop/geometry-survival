@@ -19,12 +19,14 @@ namespace Game
 		float MovementSpeed;
 		// shots per second = weapon * (attack speed/100)
 		float AttackSpeed = 100.0f;
-		// damage = weapon * (damage/100)
-		float WeaponDamage = 100.0f;
+		// +weaponDamage
+		float WeaponDamage = 0.0f;
 		// ammmo = ceil(weapon * (bonus/100)) 
 		float AmmoBonus = 100.0f;
 		// how many enemies can the bullet hit (piercing)
 		float AmmoHits = 1;
+		// +pickupFieldSize
+		float PickUpFieldSize = 10.0f;
 	};
 
 	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent
@@ -47,6 +49,7 @@ namespace Game
 		void  Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
 	private:
+		void ResetModifiers();
 		std::vector< ptr_Buff > m_buffs;
 
 		std::array<float, static_cast<size_t>(RPGStats::COUNT)> m_statBase;

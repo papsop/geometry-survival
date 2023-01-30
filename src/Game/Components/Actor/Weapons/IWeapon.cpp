@@ -44,8 +44,7 @@ namespace Game
 
 	float IWeapon::GetWeaponDamage()
 	{
-		auto actorDamageModifier = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::WEAPON_DAMAGE);
-		return m_weaponDamage * (actorDamageModifier / 100.0f);
+		return m_weaponDamage + m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::WEAPON_DAMAGE);
 	}
 
 	int IWeapon::GetWeaponMaxAmmo()

@@ -13,10 +13,11 @@ namespace Game
 		~PickUpFieldComponent() override = default;
 
 		void OnCreate() override;
+		void Update(float dt) override;
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 	private:
-		float m_radius;
 		b2Fixture* m_fixture;
+		b2Shape* m_fixtureShape;
 	};
 }

@@ -6,6 +6,7 @@
 #include "../../Components/UI/SettingsScreenComponent.h"
 #include "../../Components/UI/IngameUIControllerComponent.h"
 #include "../../Components/UI/SkillPickerScreenComponent.h"
+#include "../../Components/UI/GameOverMenuComponent.h"
 namespace Game
 {
 
@@ -19,6 +20,7 @@ namespace Game
     gameMenu->AddComponent<SkillPickerScreenComponent>();
     gameMenu->AddComponent<IngameHUDComponent>();
     gameMenu->AddComponent<SettingsScreenComponent>();
+    gameMenu->AddComponent<GameOverMenuComponent>();
     gameMenu->AddComponent<IngameUIControllerComponent>();
 
     // ================== Activate objects ==================

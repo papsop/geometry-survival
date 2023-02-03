@@ -77,6 +77,8 @@ set(UI_SOURCE
 	UI/SettingsScreenComponent.cpp
 	UI/SkillPickerScreenComponent.h
 	UI/SkillPickerScreenComponent.cpp
+	UI/GameOverMenuComponent.h
+	UI/GameOverMenuComponent.cpp
 )
 
 set(VIEW_SOURCE

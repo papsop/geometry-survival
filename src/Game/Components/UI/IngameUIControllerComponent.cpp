@@ -3,6 +3,7 @@
 #include "IngameMenuComponent.h"
 #include "SettingsScreenComponent.h"
 #include "SkillPickerScreenComponent.h"
+#include "GameOverMenuComponent.h"
 
 namespace Game
 {
@@ -19,7 +20,7 @@ namespace Game
     m_components[1] = Owner.GetComponent<SkillPickerScreenComponent>();
     m_components[2] = Owner.GetComponent<IngameMenuComponent>();
     m_components[3] = Owner.GetComponent<SettingsScreenComponent>();
-    m_components[4] = nullptr;
+    m_components[4] = Owner.GetComponent<GameOverMenuComponent>();
 
     SetState(IngameUIState::HUD);
   }

@@ -1,7 +1,7 @@
 #include "IngameHUDComponent.h"
 #include "../../Core/StateMachines/States/UI/GameHUDState.h"
 
-#include "IngameUIControllerComponent.h"
+#include "Controllers/IngameUIControllerComponent.h"
 #include <Engine/Application.h>
 namespace Game
 {

@@ -4,9 +4,10 @@
 #include "../../Components/UI/IngameHUDComponent.h"
 #include "../../Components/UI/IngameMenuComponent.h"
 #include "../../Components/UI/SettingsScreenComponent.h"
-#include "../../Components/UI/IngameUIControllerComponent.h"
+#include "../../Components/UI/Controllers/IngameUIControllerComponent.h"
 #include "../../Components/UI/SkillPickerScreenComponent.h"
 #include "../../Components/UI/GameOverMenuComponent.h"
+
 namespace Game
 {
 

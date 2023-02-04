@@ -2,7 +2,7 @@
 #include "../../Core/StateMachines/States/UI/GameHUDState.h"
 #include "../../Managers/GameManager.h"
 
-#include "IngameUIControllerComponent.h"
+#include "Controllers/IngameUIControllerComponent.h"
 #include <Engine/Application.h>
 namespace Game
 {
@@ -51,6 +51,11 @@ namespace Game
 	}
 
 
+	void GameOverMenuComponent::HandleSwitchToMainMenu()
+	{
+		Engine::Application::Instance().GetGameManager<GameManager>()->GoMainMenu();
+	}
+
 	void GameOverMenuComponent::NewGameButtonCallback()
 	{
 		Engine::Application::Instance().GetGameManager<GameManager>()->RestartGamePlay();
@@ -58,16 +63,12 @@ namespace Game
 
 	void GameOverMenuComponent::BackToMenuButtonCallback()
 	{
-		auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
-		if (parentController)
-		{
-			parentController->SetState(IngameUIControllerComponent::IngameUIState::MENU);
-		}
+		HandleSwitchToMainMenu();
 	}
 
 	void GameOverMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
 	{
-
+		HandleSwitchToMainMenu();
 	}
 
 }

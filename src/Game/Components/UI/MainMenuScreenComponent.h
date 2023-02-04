@@ -14,6 +14,7 @@ namespace Game
 
     // callbacks for buttons
     void PlayButtonCallback();
+    void SettingsButtonCallback();
     void QuitButtonCallback();
 
   protected:
@@ -22,6 +23,7 @@ namespace Game
   private:
     tgui::VerticalLayout::Ptr m_menuLayout;
     tgui::Button::Ptr m_playButton;
+    tgui::Button::Ptr m_settingsButton;
     tgui::Button::Ptr m_quitButton;
 
   };

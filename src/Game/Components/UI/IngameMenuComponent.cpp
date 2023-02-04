@@ -5,7 +5,7 @@
 
 #include "../../Managers/GameManager.h"
 #include "../../Core/EventData.h"
-#include "IngameUIControllerComponent.h"
+#include "Controllers/IngameUIControllerComponent.h"
 
 namespace Game
 {

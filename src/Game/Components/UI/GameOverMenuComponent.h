@@ -25,6 +25,8 @@ namespace Game
 		void UIHidden() override;
 
 	private:
+		void HandleSwitchToMainMenu();
+
 		tgui::VerticalLayout::Ptr m_menuLayout;
 
 		tgui::Button::Ptr m_newGameButton;

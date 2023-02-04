@@ -23,7 +23,7 @@ namespace Game
     void VirtualOnActivated() override;
 
   private:
-    IngameUIState m_currentState = IngameUIState::HUD;
+    IngameUIState m_currentState = IngameUIState::COUNT;
     std::array<IComponent*, static_cast<size_t>(IngameUIState::COUNT)> m_components;
 
   };

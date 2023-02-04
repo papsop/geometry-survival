@@ -2,7 +2,8 @@
 #include <Engine/Application.h>
 #include "../../Managers/GameManager.h"
 
-#include "IngameUIControllerComponent.h"
+#include "Controllers/IngameUIControllerComponent.h"
+#include "Controllers/MainMenuUIControllerComponent.h"
 namespace Game
 {
 
@@ -55,11 +56,20 @@ namespace Game
   // Callbacks
   void SettingsScreenComponent::BackToMenuCallback()
   {
-    auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
-    if (parentController)
+    auto* ingameController = Owner.GetComponent<IngameUIControllerComponent>();
+    if (ingameController)
     {
-      parentController->SetState(IngameUIControllerComponent::IngameUIState::MENU);
+      ingameController->SetState(IngameUIControllerComponent::IngameUIState::MENU);
+      return;
     }
+
+		auto* mainMenuController = Owner.GetComponent<MainMenuUIControllerComponent>();
+		if (mainMenuController)
+		{
+      mainMenuController->SetState(MainMenuUIControllerComponent::MainMenuUIStates::MENU);
+      return;
+		}
+
   }
 
 }

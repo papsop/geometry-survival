@@ -69,8 +69,6 @@ set(UI_SOURCE
 	UI/SplashScreenComponent.cpp
 	UI/IngameMenuComponent.h
 	UI/IngameMenuComponent.cpp
-	UI/IngameUIControllerComponent.h
-	UI/IngameUIControllerComponent.cpp
 	UI/IngameHUDComponent.h
 	UI/IngameHUDComponent.cpp
 	UI/SettingsScreenComponent.h
@@ -79,6 +77,11 @@ set(UI_SOURCE
 	UI/SkillPickerScreenComponent.cpp
 	UI/GameOverMenuComponent.h
 	UI/GameOverMenuComponent.cpp
+
+	UI/Controllers/IngameUIControllerComponent.h
+	UI/Controllers/IngameUIControllerComponent.cpp
+	UI/Controllers/MainMenuUIControllerComponent.h
+	UI/Controllers/MainMenuUIControllerComponent.cpp
 )
 
 set(VIEW_SOURCE

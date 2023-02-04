@@ -5,7 +5,7 @@
 #include "../../Skills/Skill_AmmoPiercer.h"
 #include "../../Skills/Skill_BulletDamage.h"
 #include "../../Managers/GameManager.h"
-#include "IngameUIControllerComponent.h"
+#include "Controllers/IngameUIControllerComponent.h"
 #include <TGUI/String.hpp>
 namespace Game
 {

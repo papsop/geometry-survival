@@ -1,9 +1,9 @@
 #include "IngameUIControllerComponent.h"
-#include "IngameHUDComponent.h"
-#include "IngameMenuComponent.h"
-#include "SettingsScreenComponent.h"
-#include "SkillPickerScreenComponent.h"
-#include "GameOverMenuComponent.h"
+#include "../IngameHUDComponent.h"
+#include "../IngameMenuComponent.h"
+#include "../SettingsScreenComponent.h"
+#include "../SkillPickerScreenComponent.h"
+#include "../GameOverMenuComponent.h"
 
 namespace Game
 {
@@ -27,6 +27,8 @@ namespace Game
 
   void IngameUIControllerComponent::SetState(IngameUIState newState)
   {
+    if (m_currentState == newState) return;
+
     LOG_WARN("Swapping ingameUIController state, new: %d", static_cast<size_t>(newState));
 
     for (auto& c : m_components)

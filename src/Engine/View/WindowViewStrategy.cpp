@@ -49,7 +49,7 @@ namespace view{
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
 			sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
-			uint32 style = sf::Style::Default;
+			uint32 style = sf::Style::Titlebar | sf::Style::Close;
 			if (m_windowFullscreen)
 				style = sf::Style::Fullscreen;
 
@@ -110,8 +110,8 @@ namespace view{
       // convert Coords to pixel
       if (transform.Space == ITransform::PositionSpace::CameraSpace)
       {
-        position = CameraSpaceToCoords(transform.Position);
-        radius = shape.Radius;
+        position    = CameraSpaceToCoords(transform.Position);
+        radius      = shape.Radius;
       }
       else
       {
@@ -119,7 +119,7 @@ namespace view{
 				radius      = m_viewManager.coordToPixel(shape.Radius);
       }
             
-      angle           = Box2DRotationToSFML(transform.Rotation); // shared in both
+      angle = Box2DRotationToSFML(transform.Rotation); // shared in both
 
       // create sfml object
       auto obj = sf::CircleShape();
@@ -142,13 +142,13 @@ namespace view{
 
       if (transform.Space == ITransform::PositionSpace::CameraSpace)
       {
-        sfmlPosition = CameraSpaceToCoords(transform.Position);
-        sfmlSize    = { rect.Size.x, rect.Size.y };
+        sfmlPosition  = CameraSpaceToCoords(transform.Position);
+        sfmlSize      = { rect.Size.x, rect.Size.y };
       }
       else
       {
-        sfmlPosition = ViewManager::Get().coordsToPixels(transform.Position);
-        sfmlSize = ViewManager::Get().coordsToPixels(rect.Size);
+        sfmlPosition  = ViewManager::Get().coordsToPixels(transform.Position);
+        sfmlSize      = ViewManager::Get().coordsToPixels(rect.Size);
       }
 
       // create SFML rectangle

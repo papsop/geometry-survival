@@ -17,6 +17,7 @@ namespace Game
 
 
     void BackToMenuCallback();
+    void SaveSettingsCallback();
   protected:
     void RegisterUIElements() override;
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
@@ -25,9 +26,16 @@ namespace Game
     void UIHidden() override;
 
   private:
-    tgui::VerticalLayout::Ptr m_menuLayout;
+    tgui::VerticalLayout::Ptr m_settingsLayout;
 
-    tgui::Label::Ptr m_menuLabel;
+    tgui::Label::Ptr m_headerLabel;
+
+    tgui::HorizontalLayout::Ptr m_resolutionLayout;
+    tgui::Label::Ptr m_resolutionLabel;
+    tgui::ComboBox::Ptr m_resolutionComboBox;
+
+    tgui::HorizontalLayout::Ptr m_buttonsLayout;
+    tgui::Button::Ptr m_saveSettingsButton;
     tgui::Button::Ptr m_backToMenuButton;
 
   };

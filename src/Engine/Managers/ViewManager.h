@@ -14,6 +14,12 @@
 
 namespace Engine
 {
+	struct ViewManagerSettings
+	{
+		math::Vec2 Resolution;
+		bool Fullscreen;
+	};
+
 	class CameraComponent;
 	class ViewManager : public IManager, public IEventListener<event::E_OnShowDebugKeyAction>
 	{
@@ -50,13 +56,16 @@ namespace Engine
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 
 		math::Vec2 GetResolution() { return m_viewStrategy->GetResolution(); };
+		
+		void SetSettings(const ViewManagerSettings& def);
+		ViewManagerSettings GetSettings();
 
   protected:
     void ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData) override;
 
 	private:
 		int m_pixelsPerMeter; // config?
-
+		bool m_isViewdirty = false;
 		ViewManager();
 		
 		void VirtualOnInit() override;

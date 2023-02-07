@@ -20,7 +20,7 @@ namespace view{
       ConfigManager::Get().RegisterCvar("window_name", &m_windowName, std::string("Geometry survival"));
       ConfigManager::Get().RegisterCvar("window_fullscreen", &m_windowFullscreen, 0);
 
-      ReloadWindow();
+      ReloadView();
 
       if (!m_consoleFont.loadFromFile("assets/arial.ttf"))
       {
@@ -44,7 +44,7 @@ namespace view{
       }
     }
 
-		void WindowViewStrategy::ReloadWindow()
+		void WindowViewStrategy::ReloadView()
 		{
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
@@ -331,6 +331,17 @@ namespace view{
       return { static_cast<float>(m_windowWidth), static_cast<float>(m_windowHeight) };
     }
 
+		void WindowViewStrategy::SetResolution(Engine::math::Vec2 resolution)
+		{
+      m_windowWidth   = resolution.x;
+      m_windowHeight  = resolution.y;
+		}
+
+		void WindowViewStrategy::SetFullscreen(bool fullscreen)
+		{
+      m_windowFullscreen = fullscreen;
+		}
+
     void WindowViewStrategy::GetConfigurableData(ConfigurableData& data)
     {
       data.push_back({ "window_width",          std::to_string(m_windowWidth) });
@@ -348,5 +359,6 @@ namespace view{
     {
       return m_window->mapPixelToCoords(pixel);
     }
+
 
 }}

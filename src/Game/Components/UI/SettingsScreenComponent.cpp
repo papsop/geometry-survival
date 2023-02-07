@@ -1,5 +1,6 @@
 #include "SettingsScreenComponent.h"
 #include <Engine/Application.h>
+#include <Engine/Managers/ViewManager.h>
 #include "../../Managers/GameManager.h"
 
 #include "Controllers/IngameUIControllerComponent.h"
@@ -86,7 +87,10 @@ namespace Game
   // Callbacks
 	void SettingsScreenComponent::SaveSettingsCallback()
 	{
-
+    Engine::ViewManagerSettings settings;
+    settings.Fullscreen = false;
+    settings.Resolution = { 1920, 1080 };
+    Engine::ViewManager::Get().SetSettings(settings);
 	}
 
   void SettingsScreenComponent::BackToMenuCallback()
@@ -106,7 +110,4 @@ namespace Game
 		}
 
   }
-
-
-
 }

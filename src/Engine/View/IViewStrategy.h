@@ -35,6 +35,10 @@ namespace Engine
       virtual sf::Vector2f MapPixelToCoords(sf::Vector2i pixel) { return {}; };
       
       virtual math::Vec2 GetResolution() { return { 0.0f, 0.0f }; }
+
+      virtual void SetResolution(Engine::math::Vec2 resolution) {};
+      virtual void SetFullscreen(bool fullscreen) {};
+      virtual void ReloadView() {};
     protected:
       ViewManager& m_viewManager;
     };

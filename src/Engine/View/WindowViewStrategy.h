@@ -34,6 +34,9 @@ namespace view{
       sf::Vector2i MapCoordsToPixel(sf::Vector2f coords) override;
       sf::Vector2f MapPixelToCoords(sf::Vector2i pixel) override;
 
+      void SetResolution(Engine::math::Vec2 resolution) override;
+      void SetFullscreen(bool fullscreen) override;
+      void ReloadView() override;
     private:
       float                   Box2DRotationToSFML(float angle);
       sf::Vector2i            BVec2ToVector2i(b2Vec2 vec);
@@ -45,8 +48,6 @@ namespace view{
       // ==============
 
       void RenderShape(const Renderable& renderable);
-
-      void ReloadWindow();
 
       std::unique_ptr<sf::RenderWindow> m_window;
 

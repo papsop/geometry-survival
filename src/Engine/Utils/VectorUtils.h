@@ -17,7 +17,7 @@ namespace Engine
         float AngleBetweenVecs(Vec2 a, Vec2 b);
 
         float V2fLengthSquared(const Vec2& v);
-
+        float V2FDistanceSquared(const Vec2& a, const Vec2& b);
         float V2fLength(const Vec2& v);
 
         Vec2 V2fNormalize(const Vec2& v);

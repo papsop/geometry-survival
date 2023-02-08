@@ -4,6 +4,7 @@
 #include "../Core/Events.h"
 #include "../Debug/IDebuggable.h"
 
+#include <vector>
 #include <unordered_map>
 
 namespace Engine
@@ -18,6 +19,7 @@ namespace Engine
 
       GameObject* CreateGameObject(const char* name, GameObjectTag tag, const ITransform::TransformDefinition & transformDef);
       GameObject* GetGameObjectByID(GameObjectID ID);
+      std::vector<GameObject*> GetGameObjectsByTag(GameObjectTag tag);
 
       void Update(float dt) override;
       void DestroyGameObject(GameObjectID ID);

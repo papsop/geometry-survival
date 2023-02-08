@@ -82,7 +82,7 @@ namespace Game
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
 		obj->AddComponent<AIChasePlayerComponent>();
-		obj->AddComponent<ScatterFieldComponent>();
+		//obj->AddComponent<ScatterFieldComponent>();
 
 		obj->SetActive(true);
 		return obj;

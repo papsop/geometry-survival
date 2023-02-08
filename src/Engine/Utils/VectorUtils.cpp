@@ -27,6 +27,11 @@ namespace Engine
             return v.x * v.x + v.y * v.y;
         }
 
+        float V2FDistanceSquared(const Vec2& a, const Vec2& b)
+        {
+          return V2fLengthSquared(b-a);
+        }
+
         float V2fLength(const Vec2& v)
         {
             return sqrtf(v.x * v.x + v.y * v.y);

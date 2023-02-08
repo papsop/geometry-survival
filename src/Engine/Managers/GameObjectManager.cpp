@@ -36,13 +36,28 @@ namespace Engine
     }
   }
 
-  void GameObjectManager::Update(float dt)
+	std::vector<GameObject*> GameObjectManager::GetGameObjectsByTag(GameObjectTag tag)
 	{
-    for (auto& gameObject : m_gameObjects)
+    std::vector<GameObject*> result;
+
+    for (auto& entry : m_gameObjects)
     {
-      if (gameObject.second->ShouldUpdate())
+      if (!entry.second->ShouldDestroy() && entry.second->Tag == tag)
       {
-        gameObject.second->Update(dt);
+        result.push_back(entry.second.get());
+      }
+    }
+
+    return result;
+	}
+
+	void GameObjectManager::Update(float dt)
+	{
+    for (auto& entry : m_gameObjects)
+    {
+      if (entry.second->ShouldUpdate())
+      {
+        entry.second->Update(dt);
       }
     }
 	}

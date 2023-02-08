@@ -2,7 +2,9 @@
 #include "ScatterFieldComponent.h"
 
 #include <Engine/Managers/EventManager.h>
+#include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Core/Events.h>
+
 #include "../Actor/RPGComponent.h"
 #include "../../Core/EventData.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
@@ -33,12 +35,13 @@ namespace Game
 			def.Damage = 2;
 			def.BulletHits = 1;
 
-      for (auto& enemy : Owner.GetComponent<ScatterFieldComponent>()->GetValidEnemyTargets())
-      {
-				def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());	
-				GameObjectFactory::CreateBulletObject(def);
-      }
+      auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
 
+			for (auto& enemy : enemies)
+			{
+				def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());
+			  GameObjectFactory::CreateBulletObject(def);
+			}
       // event
       event::E_EnemyDied eventData;
       Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);

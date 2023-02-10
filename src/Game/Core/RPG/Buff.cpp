@@ -45,4 +45,9 @@ namespace Game
 		return m_tag;
 	}
 
+	void Buff::SetOwnerRPGComponent(RPGComponent* owner)
+	{
+		m_ownerRPGComponent = owner;
+	}
+
 }

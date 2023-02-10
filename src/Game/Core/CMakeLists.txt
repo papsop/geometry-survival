@@ -7,6 +7,10 @@ set(CORE_SOURCE
 
 	RPG/Buff.h
 	RPG/Buff.cpp
+	RPG/FrozenBuff.h
+	RPG/FrozenBuff.cpp
+	RPG/BurningBuff.h
+	RPG/BurningBuff.cpp
 	RPG/RPGStats.h
 
 	StateMachines/UIStateMachine.h

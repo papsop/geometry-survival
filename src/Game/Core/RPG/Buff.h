@@ -5,6 +5,8 @@
 
 namespace Game
 {
+	// forward
+	class RPGComponent;
 
 	struct BuffModifierEntry
 	{
@@ -27,7 +29,7 @@ namespace Game
 		};
 
 		Buff(float duration, BuffTag tag = BuffTag::None);
-		~Buff() = default;
+		virtual ~Buff() = default;
 
 		virtual void OnInit() {};
 		virtual void OnDestroy() {};
@@ -36,6 +38,7 @@ namespace Game
 
 		bool ShouldDestroy() { return m_shouldDestroy; };
 		BuffTag GetBuffTag();
+		void SetOwnerRPGComponent(RPGComponent* owner);
 
 		Buff& AddAdditiveModifier(RPGStats stat, float value);
 		Buff& AddPercentageModifier(RPGStats stat, float value);
@@ -43,11 +46,14 @@ namespace Game
 		const std::vector<BuffModifierEntry>& GetAdditiveModifiers() { return m_additiveBuffModifiers; };
 		const std::vector<BuffModifierEntry>& GetPercentageModifiers() { return m_percentageBuffModifiers; };
 
-	private:
-		bool m_isTimed;
+	protected:
+		RPGComponent* m_ownerRPGComponent = nullptr;
 		BuffTag m_tag;
 		float m_timer;
+
+		bool m_isTimed;
 		bool m_shouldDestroy;
+
 		std::vector<BuffModifierEntry> m_additiveBuffModifiers;
 		std::vector<BuffModifierEntry> m_percentageBuffModifiers;
 	};

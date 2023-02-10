@@ -85,6 +85,7 @@ namespace Game
 	{
 		if (buff->GetBuffTag() == Buff::BuffTag::None)
 		{
+			buff->SetOwnerRPGComponent(this);
 			m_buffs.push_back(std::move(buff));
 		}
 		else

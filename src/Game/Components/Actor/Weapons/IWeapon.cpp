@@ -2,6 +2,7 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include "../WeaponComponent.h"
 #include "../ActorComponent.h"
+#include "../../../Core/RPG/Buff.h"
 
 #include "../../States/Weapons.h"
 
@@ -73,7 +74,7 @@ namespace Game
 			auto rpgActor = m_ownerWeaponComponent.Owner.GetComponent<RPGComponent>();
 
 			auto buff = std::make_unique<Buff>(GetWeaponCooldown(), Buff::BuffTag::MovementSlowAfterShooting);
-			buff->AddPercentageModifier(RPGStats::MOVEMENT_SPEED, -0.5f);
+			buff->AddPercentageModifier(RPGStats::MOVEMENT_SPEED, -0.2f);
 
 			rpgActor->AddBuff(std::move(buff));
 

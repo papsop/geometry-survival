@@ -5,12 +5,14 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Managers/ComponentManager.h>
 
+#include "../../Core/RPG/BurningBuff.h"
 namespace Game
 {
 
   BulletComponent::BulletComponent(Engine::GameObject& obj, const BulletDef& def)
     : IComponent(obj)
     , m_damage(def.Damage)
+    , m_burningDamage(def.BurningDamage)
     , m_hitsLeft(def.BulletHits)
   {
     SetRequiredComponents<Engine::PhysicsBodyComponent>();
@@ -44,9 +46,21 @@ namespace Game
     if (collision.MyFilter.categoryBits != physics::EntityCategory::PLAYER_BULLET) return;
     if (m_collisions.find(otherActor->Owner.ID) != m_collisions.end()) return;
 
-    m_collisions.insert(otherActor->Owner.ID);
-    otherActor->AddCommand<DamageCommand>(m_damage);
+    // Flat damage
 
+    m_collisions.insert(otherActor->Owner.ID);
+    otherActor->AddCommand<DamageCommand>(m_damage, Actor_DamageSource::Bullet);
+    
+    // Burning
+    auto* otherRPGComponent = collision.Other->GetComponent<RPGComponent>();
+    if (m_burningDamage && otherRPGComponent)
+    {
+      auto buff = std::make_unique<BurningBuff>(5.0f, Buff::BuffTag::Burning);
+      buff->AddPercentageModifier(RPGStats::MOVEMENT_SPEED, -0.5f);
+      otherRPGComponent->AddBuff(std::move(buff));
+    }
+
+    // =========
     m_hitsLeft--;
     if(m_hitsLeft<= 0) Owner.Destroy();
 	}

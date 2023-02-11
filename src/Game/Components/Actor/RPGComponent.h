@@ -1,6 +1,5 @@
 #pragma once
 #include "../../Core/RPG/RPGStats.h"
-#include "../../Core/RPG/Buff.h"
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/IDebuggable.h>
@@ -11,7 +10,8 @@
 namespace Game
 {
 	class ActorComponent;
-	
+	class Buff;
+
 	struct RPGActorDef
 	{
 		unsigned int MaxHealth;

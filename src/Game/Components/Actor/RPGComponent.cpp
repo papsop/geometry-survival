@@ -1,4 +1,5 @@
 #include "RPGComponent.h"
+#include "../../Core/RPG/Buff.h"
 #include <Engine/Debug/Logger.h>
 #include <Engine/Managers/ComponentManager.h>
 
@@ -83,9 +84,10 @@ namespace Game
 
 	void RPGComponent::AddBuff(ptr_Buff buff)
 	{
+		buff->SetOwnerRPGComponent(this);
+
 		if (buff->GetBuffTag() == Buff::BuffTag::None)
 		{
-			buff->SetOwnerRPGComponent(this);
 			m_buffs.push_back(std::move(buff));
 		}
 		else

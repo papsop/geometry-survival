@@ -171,6 +171,7 @@ namespace Game
 		BulletDef bulletDef;
 		bulletDef.Damage = def.Damage;
 		bulletDef.BulletHits = def.BulletHits;
+		bulletDef.BurningDamage = def.BurningDamage;
 		obj->AddComponent<BulletComponent>(bulletDef);
 
 		obj->SetActive(true);

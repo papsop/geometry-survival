@@ -8,7 +8,8 @@ namespace Engine
 		Transform_Changed,
 		Weapon_Fire,
 		Weapon_Reload,
-		Actor_TookDamage
+		Actor_TookDamage_Knockback,
+		Actor_TookDamage_NoKnockback,
 	};
 
 

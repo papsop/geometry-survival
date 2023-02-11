@@ -23,10 +23,9 @@ namespace Game
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 
-		auto actorComponent = Owner.GetComponent<ActorComponent>();
+		auto* actorComponent = Owner.GetComponent<ActorComponent>();
 		m_stateMachine.AddState<Actor_ChasePlayer>(actorComponent);
 	}
-
 
   void AIChasePlayerComponent::OnDestroy()
   {
@@ -55,7 +54,7 @@ namespace Game
 
   void AIChasePlayerComponent::ProcessMessage(const Engine::Message& message)
   {
-    if (message.Type == Engine::MessageType::Actor_TookDamage)
+    if (message.Type == Engine::MessageType::Actor_TookDamage_Knockback)
     {
       ApplyKnockbackFromPlayer();
     }

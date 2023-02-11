@@ -25,7 +25,8 @@ namespace Game
 		enum class BuffTag
 		{
 			None,
-			MovementSlowAfterShooting
+			MovementSlowAfterShooting,
+			Burning,
 		};
 
 		Buff(float duration, BuffTag tag = BuffTag::None);

@@ -38,6 +38,9 @@ namespace Game
 
 		float Damage;
 		int		BulletHits;
+
+		// burning effect 
+		float BurningDamage = 0.0f; // per second
 	};
 
 	struct CombatTextDef

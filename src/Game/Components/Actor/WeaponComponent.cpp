@@ -83,6 +83,7 @@ namespace Game
     def.Rotation = Owner.GetTransform()->GetRotation();
     def.Damage = m_equippedWeapon->GetWeaponDamage();
     def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
+    def.BurningDamage = 2.0f;
     return GameObjectFactory::CreateBulletObject(def);
   }
 

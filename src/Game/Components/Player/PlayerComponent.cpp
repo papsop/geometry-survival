@@ -23,12 +23,13 @@ namespace Game
     if (collision.Other->Tag != Engine::GameObjectTag::ENEMY)
       return;
 
-    m_actorComponent->ApplyDamage(1);
+    m_actorComponent->ApplyDamage(1, Actor_DamageSource::Collision);
   }
 
   void PlayerComponent::ProcessMessage(const Engine::Message& message)
   {
-    if (message.Type == Engine::MessageType::Actor_TookDamage)
+    if (message.Type == Engine::MessageType::Actor_TookDamage_Knockback ||
+        message.Type == Engine::MessageType::Actor_TookDamage_NoKnockback)
     {
       Engine::EventManager::Get().DispatchEvent(event::E_PlayerTookDamage());
     }

@@ -66,7 +66,7 @@ namespace Game
     physBody->GetB2Body()->SetAngularVelocity(0);
   }
 
-	void ActorComponent::ApplyDamage(float amount)
+	void ActorComponent::ApplyDamage(float amount, Actor_DamageSource source)
 	{
     auto currentHP = m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH);
     m_RPGComponent->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
@@ -76,7 +76,15 @@ namespace Game
     combatTextDef.Position = Owner.GetTransform()->GetPosition();
     GameObjectFactory::CreateCombatTextObject(combatTextDef);
 
-    Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage);
+    if (source == Actor_DamageSource::Bullet)
+    {
+      Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage_Knockback);
+    }
+    else
+    {
+      Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage_NoKnockback);
+    }
+      
 	}
 
 	void ActorComponent::WeaponFire()

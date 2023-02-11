@@ -1,6 +1,7 @@
 #pragma once
 #include "IManager.h"
 #include "../Utils/IdGenerator.h"
+#include "../Debug/Logger.h"
 
 #include <unordered_map>
 #include <vector>

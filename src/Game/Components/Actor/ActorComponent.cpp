@@ -75,6 +75,8 @@ namespace Game
     combatTextDef.Damage = amount;
     combatTextDef.Position = Owner.GetTransform()->GetPosition();
     GameObjectFactory::CreateCombatTextObject(combatTextDef);
+
+    Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage);
 	}
 
 	void ActorComponent::WeaponFire()

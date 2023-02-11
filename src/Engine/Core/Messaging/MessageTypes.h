@@ -7,7 +7,8 @@ namespace Engine
 	{
 		Transform_Changed,
 		Weapon_Fire,
-		Weapon_Reload
+		Weapon_Reload,
+		Actor_TookDamage
 	};
 
 

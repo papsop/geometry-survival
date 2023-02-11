@@ -3,7 +3,7 @@
 namespace Game
 {
 
-	FrozenBuff::FrozenBuff(RPGComponent& owner, float duration, BuffTag tag /*= BuffTag::None*/)
+	FrozenBuff::FrozenBuff(float duration, BuffTag tag /*= BuffTag::None*/)
 		: Buff(duration, tag)
 	{
 

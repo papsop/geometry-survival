@@ -6,7 +6,7 @@ namespace Game
 	class BurningBuff : public Buff
 	{
 	public:
-		BurningBuff(RPGComponent& owner, float duration, BuffTag tag = BuffTag::None);
+		BurningBuff(float duration, BuffTag tag = BuffTag::None);
 		~BurningBuff() override = default;
 
 		void OnInit() override;

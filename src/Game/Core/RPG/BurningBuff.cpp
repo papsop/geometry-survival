@@ -3,7 +3,7 @@
 namespace Game
 {
 
-	BurningBuff::BurningBuff(RPGComponent& owner, float duration, BuffTag tag /*= BuffTag::None*/)
+	BurningBuff::BurningBuff(float duration, BuffTag tag /*= BuffTag::None*/) 
 		: Buff(duration, tag)
 	{
 

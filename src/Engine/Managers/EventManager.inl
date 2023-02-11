@@ -36,6 +36,7 @@ namespace Engine
 		{
 			for (auto& listener : m_listeners[ID])
 			{
+				// "Access violation reading location" - you probably forgot to Unregister a listener (forgot about OnDestroy)
 				static_cast<IEventListener<T>*>(listener)->ReceiveEvent(eventData);
 			}
 		}

@@ -30,14 +30,8 @@ namespace Game
 			bool Registered;										// registered/unregistered
 		};
 
-		struct E_EnemyDied
-		{
-
-		};
-
-		struct E_PlayerDied 
-		{
-
-		};
+		struct E_EnemyDied{};
+		struct E_PlayerDied{};
+    struct E_PlayerTookDamage{};
 	}
 }

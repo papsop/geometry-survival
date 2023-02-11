@@ -25,32 +25,6 @@
 namespace Game
 {
 
-	Engine::GameObject* GameObjectFactory::CreateWall(const WallFactoryDef& def)
-	{
-// 		Engine::PhysicsBodyDef physBodyDef;
-// 		physBodyDef.BodyType = b2_staticBody;
-// 		physBodyDef.CategoryBits = physics::EntityMask::M_WALL;
-// 		physBodyDef.MaskBits = physics::EntityMask::M_WALL;
-// 
-// 		Engine::RectangleFixtureDef rectangleFixtureDef;
-// 		rectangleFixtureDef.Size = def.Size;
-// 
-// 		Engine::RectangleViewDef rectangleViewDef;
-// 		rectangleViewDef.Color = def.Color;
-// 		rectangleViewDef.Size = def.Size;
-// 
-// 		// Fixture/PhysicsBody set rotation
-// 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Wall by factory");
-// 		obj->GetTransform()->SetPosition(def.Position);
-// 		obj->GetTransform()->SetRotationDeg(def.RotationDeg);
-// 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-// 		obj->AddComponent<Engine::RectangleFixtureComponent>(rectangleFixtureDef);
-// 		obj->AddComponent<Engine::RectangleViewComponent>(-1, rectangleViewDef);
-// 		return obj;
-		return nullptr;
-	}
-
-
 	Engine::GameObject* GameObjectFactory::CreateEnemy(const EnemyFactoryDef& def)
 	{
 		Engine::PhysicsBodyDef physBodyDef;
@@ -141,8 +115,6 @@ namespace Game
 
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
-    player->AddComponent<PlayerComponent>();
-		player->AddComponent<LevelComponent>();
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
     player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
     player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
@@ -156,6 +128,8 @@ namespace Game
     player->AddComponent<PickUpFieldComponent>();
     player->AddComponent<InputComponent>();
     player->AddComponent<WeaponComponent>();
+		player->AddComponent<PlayerComponent>();
+		player->AddComponent<LevelComponent>();
 
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));

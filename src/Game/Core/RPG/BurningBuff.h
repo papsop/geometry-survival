@@ -14,7 +14,7 @@ namespace Game
 		void VirtualUpdate(float dt) override;
 
 	private:
-		const float c_dotTimer = 1.0f;				// maybe an RPG stat? how often a dot should apply
+		const float c_dotTimer = .5f;				// maybe an RPG stat? how often a dot should apply
 		float m_burningTimer = c_dotTimer;
 	};
 }

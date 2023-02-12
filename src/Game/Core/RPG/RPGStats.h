@@ -13,6 +13,7 @@ namespace Game
 		AMMO_ON_KILL,
 		AMMO_HITS, // number of bullet pierces
 		PICKUP_FIELD_SIZE,
+		BURNING_DAMAGE, // damage per tick, applies to bullets
 
 		COUNT // always last
 	};

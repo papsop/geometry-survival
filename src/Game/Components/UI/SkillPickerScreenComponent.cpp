@@ -5,6 +5,7 @@
 #include "../../Skills/Skill_AmmoPiercer.h"
 #include "../../Skills/Skill_BulletDamage.h"
 #include "../../Managers/GameManager.h"
+#include "../../Managers/SkillsManager.h"
 #include "Controllers/IngameUIControllerComponent.h"
 #include <TGUI/String.hpp>
 namespace Game
@@ -19,10 +20,8 @@ namespace Game
   void SkillPickerScreenComponent::UIShown()
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+    m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
 
-    m_skillsToPick[0] = std::make_unique<Skill_AmmoStealer>();
-    m_skillsToPick[1] = std::make_unique<Skill_AmmoPiercer>();
-    m_skillsToPick[2] = std::make_unique<Skill_BulletDamage>();
     for (size_t i = 0; i < 3; i++)
     {
       // TODO: Skill description

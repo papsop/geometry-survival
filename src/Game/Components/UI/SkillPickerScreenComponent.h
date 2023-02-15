@@ -28,7 +28,7 @@ namespace Game
     static const size_t m_numberOfSkills = 3;
     
     tgui::Button::Ptr m_skillButtons[m_numberOfSkills];
-    std::unique_ptr<ISkill> m_skillsToPick[m_numberOfSkills];
+    std::vector< ISkill*> m_skillsToPick;
 
     // Fake experience bar, because HUD is hidden right now
     tgui::Panel::Ptr m_experienceBar;

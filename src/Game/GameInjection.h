@@ -22,6 +22,7 @@
 
 #include "Core/GameObject/GameObjectFactory.h"
 #include "Managers/GameManager.h"
+#include "Managers/SkillsManager.h"
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Player/PlayerComponent.h"
@@ -83,6 +84,7 @@ namespace Game
       
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();
+      Engine::Application::Instance().RegisterGameManager<SkillsManager>();
     
       // First scene after starting application
       app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());

@@ -1,6 +1,9 @@
 set(MANAGERS_SOURCE
 	GameManager.h
 	GameManager.cpp
+	SkillsManager.h
+	SkillsManager.cpp
+
 	GameTimer.h
 	GameTimer.cpp
 )

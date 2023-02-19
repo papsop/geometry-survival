@@ -4,8 +4,9 @@
 namespace Game
 {
 
-	BurningBuff::BurningBuff(float duration, BuffTag tag /*= BuffTag::None*/) 
+	BurningBuff::BurningBuff(float duration, float damagePerTick, BuffTag tag /*= BuffTag::None*/) 
 		: Buff(duration, tag)
+		, m_damagePerTick(damagePerTick)
 	{
 
 	}
@@ -28,7 +29,7 @@ namespace Game
 		{
 			// apply damage
 			auto* ownerActorComponent= m_ownerRPGComponent->Owner.GetComponent<ActorComponent>();
-			ownerActorComponent->ApplyDamage(1.0f, Actor_DamageSource::DOT);
+			ownerActorComponent->ApplyDamage(m_damagePerTick, Actor_DamageSource::DOT);
 			m_burningTimer = c_dotTimer;
 		}
 	}

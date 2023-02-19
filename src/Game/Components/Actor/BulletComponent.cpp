@@ -55,7 +55,7 @@ namespace Game
     auto* otherRPGComponent = collision.Other->GetComponent<RPGComponent>();
     if (m_burningDamage && otherRPGComponent)
     {
-      auto buff = std::make_unique<BurningBuff>(5.0f, Buff::BuffTag::Burning);
+      auto buff = std::make_unique<BurningBuff>(3.0f, m_burningDamage, Buff::BuffTag::Burning);
       buff->AddPercentageModifier(RPGStats::MOVEMENT_SPEED, -0.5f);
       otherRPGComponent->AddBuff(std::move(buff));
     }

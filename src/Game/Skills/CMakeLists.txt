@@ -8,6 +8,8 @@ set(SKILLS_SOURCE
 	Skill_BulletDamage.cpp
 	Skill_PickupRadius.h
 	Skill_PickupRadius.cpp
+	Skill_BurningAmmo.h
+	Skill_BurningAmmo.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

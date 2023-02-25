@@ -13,9 +13,14 @@ namespace Game
 		~PickUpFieldComponent() override = default;
 
 		void OnCreate() override;
+		void OnDestroy() override;
 		void Update(float dt) override;
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
+	protected:
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
+
 	private:
 		b2Fixture* m_fixture;
 		b2Shape* m_fixtureShape;

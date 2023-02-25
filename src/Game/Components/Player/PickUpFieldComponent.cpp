@@ -3,6 +3,7 @@
 #include "../Actor/RPGComponent.h"
 #include "../../Physics/Filters.h"
 
+#include <Engine/Managers/ComponentManager.h>
 #include <box2d/b2_circle_shape.h>
 
 namespace Game
@@ -34,6 +35,21 @@ namespace Game
 		m_fixtureShape = m_fixture->GetShape();
 	}
 
+	void PickUpFieldComponent::OnDestroy()
+	{
+		Engine::ComponentManager::Get().UnregisterComponent(this);
+	}
+
+	void PickUpFieldComponent::VirtualOnActivated()
+	{
+		Engine::ComponentManager::Get().RegisterComponent(this);
+	}
+
+	void PickUpFieldComponent::VirtualOnDeactivated()
+	{
+		Engine::ComponentManager::Get().UnregisterComponent(this);
+	}
+
 	void PickUpFieldComponent::Update(float dt)
 	{
 		if (!m_fixture) return;
@@ -44,6 +60,7 @@ namespace Game
 
 	void PickUpFieldComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
-		viewStrategy->DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::PICKUP_FIELD_SIZE), sf::Color::White);
+		float radius = Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::PICKUP_FIELD_SIZE);
+		viewStrategy->DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), radius, sf::Color::White);
 	}
 };

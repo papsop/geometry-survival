@@ -21,8 +21,12 @@ namespace Game
 		m_menuLayout->setOrigin(0.5f, 0.0f);
 		m_menuLayout->setPosition("50%", "20%");
 
+		m_menuLabel = tgui::Label::create("GameOver");
+		m_menuLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
+		m_menuLabel->setTextSize(48);
+		
 		// New game button
-		m_newGameButton = tgui::Button::create("(gameOver) New Game");
+		m_newGameButton = tgui::Button::create("New Game");
 
 		// Back to menu button
 		m_backToMenuButton = tgui::Button::create("Back to menu");
@@ -32,6 +36,7 @@ namespace Game
 		m_backToMenuButton->onClick(&GameOverMenuComponent::BackToMenuButtonCallback, this);
 
 		// add to gui
+		m_menuLayout->add(m_menuLabel);
 		m_menuLayout->add(m_newGameButton);
 		m_menuLayout->add(m_backToMenuButton);
 

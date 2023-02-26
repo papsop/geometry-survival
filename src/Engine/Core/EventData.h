@@ -24,5 +24,6 @@ namespace Engine
 		struct E_OnConsoleKeyAction {};
 		struct E_OnShowDebugKeyAction {};
 		struct E_EscapeAction {};
+		struct E_GUIReset {};
 	}
 }

@@ -6,6 +6,8 @@
 #include "../../Debug/Logger.h"
 #include "../../Core/Messaging/MessageTypes.h"
 #include "../../Managers/ViewLayers.h"
+#include "../../Core/EventData.h"
+#include "../../Core/Events.h"
 
 #include <functional>
 #include <iostream>
@@ -95,7 +97,7 @@ namespace Engine
 
     // UI
 
-    class IUIComponent : public IComponent
+    class IUIComponent : public IComponent, public IEventListener<event::E_GUIReset>
     {
     public:
       IUIComponent(GameObject& obj);
@@ -113,6 +115,9 @@ namespace Engine
       virtual void UIHidden() {};
 
       tgui::Group::Ptr m_group = nullptr;
+
+
+      void ReceiveEvent(const event::E_GUIReset & eventData) override;
 
     private:
       tgui::Gui* m_gui = nullptr;

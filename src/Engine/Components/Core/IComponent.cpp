@@ -56,7 +56,7 @@ namespace Engine
   {
     m_gui = Engine::UIManager::Get().GetGui();
     if (!m_gui) return;
-
+    
     ViewManager::Get().RegisterComponent(this);
     m_group = tgui::Group::create();
     m_gui->add(m_group);
@@ -64,13 +64,15 @@ namespace Engine
 
     // For the derived class
     RegisterUIElements();
+		IEventListener<event::E_GUIReset>::RegisterListener();
   }
 
   void IUIComponent::OnDestroy()
   {
     if (!m_gui) return;
 
-    ViewManager::Get().UnregisterComponent(this);
+		ViewManager::Get().UnregisterComponent(this);
+		IEventListener<event::E_GUIReset>::UnregisterListener();
     UIHidden();
     m_gui->remove(m_group);
   }
@@ -87,4 +89,12 @@ namespace Engine
     UIHidden();
   }
 
+	void IUIComponent::ReceiveEvent(const event::E_GUIReset& eventData)
+	{
+    //bool isVisible = (m_group) ? m_group->isVisible() : false;
+    // meh
+    m_gui = Engine::UIManager::Get().GetGui();
+		m_gui->add(m_group);
+		//m_group->setVisible(isVisible);
+	}
 };

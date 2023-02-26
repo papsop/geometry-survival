@@ -1,6 +1,9 @@
 #include "UIManager.h"
 #include "../Application.h"
 
+#include "EventManager.h"
+#include "../Core/EventData.h"
+
 namespace Engine
 {
 
@@ -23,6 +26,7 @@ namespace Engine
   {
     // always reset, because just using ->setWindow() crashes
     m_gui = std::make_unique<tgui::Gui>(window);
+    EventManager::Get().DispatchEvent(event::E_GUIReset());
   }
 
   void UIManager::DrawGui()

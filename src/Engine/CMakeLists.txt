@@ -21,6 +21,7 @@ add_subdirectory(Utils)
 add_subdirectory(View)
 add_subdirectory(Core)
 add_subdirectory(UI)
+add_subdirectory(ImGui)
 
 # PRIVATE because we don't want to propagate
 target_include_directories(

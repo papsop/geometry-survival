@@ -1,6 +1,8 @@
 set(ENGINE_PROJECT Engine)
 set(ENGINE_PROJECT Engine PARENT_SCOPE)
 
+find_package(OpenGL REQUIRED)
+
 project(
     ${ENGINE_PROJECT}
     VERSION 1.0
@@ -21,6 +23,7 @@ add_subdirectory(Utils)
 add_subdirectory(View)
 add_subdirectory(Core)
 add_subdirectory(UI)
+add_subdirectory(ImGui)
 
 # PRIVATE because we don't want to propagate
 target_include_directories(
@@ -31,6 +34,7 @@ target_include_directories(
     ${TGUI_INCLUDE}
 )
 
+message("===============================" .. ${OPENGL_LIBRARY})
 # PUBLIC because we want to propagate SFML into Game as well without explicit linking there
 target_link_libraries(
 	${ENGINE_PROJECT}
@@ -41,4 +45,5 @@ target_link_libraries(
     box2d
     yaml-cpp
     tgui
+    ${OPENGL_LIBRARY}
 )

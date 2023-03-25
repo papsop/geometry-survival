@@ -8,6 +8,9 @@
 #include <SFML/Graphics.hpp>
 #include <iostream>
 
+#include "../ImGui/imgui.h"
+#include "../ImGui/imgui-SFML.h"
+
 namespace Engine{
     class Application;
 namespace view{
@@ -32,6 +35,7 @@ namespace view{
     WindowViewStrategy::~WindowViewStrategy()
     {
       EventManager::Get().DispatchEvent(event::E_WindowClosed());
+      ImGui::SFML::Shutdown();
       m_window->close();
     }
 
@@ -40,12 +44,15 @@ namespace view{
       sf::Event event;
       while (m_window->pollEvent(event))
       {
+        if(m_window)
+          ImGui::SFML::ProcessEvent(*m_window, event);
         Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
       }
     }
 
 		void WindowViewStrategy::ReloadView()
 		{
+      ImGui::SFML::Shutdown();
 			sf::ContextSettings settings;
 			settings.antialiasingLevel = 8;
 			sf::VideoMode videoMode(m_windowWidth, m_windowHeight, 32);
@@ -56,9 +63,16 @@ namespace view{
 			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
       m_window->setJoystickThreshold(10);
       UIManager::Get().SetSFMLWindow(*m_window);
+      ImGui::SFML::Init(*m_window);
 		}
 
-    // ==============================================
+		void WindowViewStrategy::Update(float dt)
+		{
+      if(m_window)
+        ImGui::SFML::Update(*m_window, m_deltaClock.restart());
+		}
+
+		// ==============================================
     // Conversions
     // ==============================================
 
@@ -222,6 +236,11 @@ namespace view{
 
 		void WindowViewStrategy::PostRender()
 		{
+      if (m_window)
+      {
+				ImGui::SFML::Render(*m_window);
+      }
+			
 			m_window->display();
 		}
 

@@ -87,7 +87,8 @@ namespace Game
       Engine::Application::Instance().RegisterGameManager<SkillsManager>();
     
       // First scene after starting application
-      app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
+      //app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
+      app.GetSceneManager().LoadSceneDestroyPrevious(MainMenuScene());
     }
   };
 }

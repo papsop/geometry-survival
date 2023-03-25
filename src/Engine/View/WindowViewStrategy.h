@@ -37,6 +37,9 @@ namespace view{
       void SetResolution(Engine::math::Vec2 resolution) override;
       void SetFullscreen(bool fullscreen) override;
       void ReloadView() override;
+
+      void Update(float dt) override;
+
     private:
       float                   Box2DRotationToSFML(float angle);
       sf::Vector2i            BVec2ToVector2i(b2Vec2 vec);
@@ -51,6 +54,7 @@ namespace view{
 
       std::unique_ptr<sf::RenderWindow> m_window;
 
+      sf::Clock m_deltaClock;
       sf::Font m_consoleFont;
 
       int m_windowWidth;

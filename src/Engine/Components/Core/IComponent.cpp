@@ -43,9 +43,12 @@ namespace Engine
 		}
 	}
 
-  // UI COMPONENT
+	bool IComponent::ShouldUpdate()
+	{
+    return Owner.ShouldUpdate() && IsActive();
+	}
 
-
+	// UI COMPONENT
   IUIComponent::IUIComponent(GameObject& obj)
     : IComponent(obj)
   {
@@ -97,4 +100,11 @@ namespace Engine
 		m_gui->add(m_group);
 		//m_group->setVisible(isVisible);
 	}
+
+  // ImGui
+  IImGuiComponent::IImGuiComponent(GameObject& obj)
+    : IComponent(obj)
+	{
+	}
+
 };

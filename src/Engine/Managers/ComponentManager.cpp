@@ -8,7 +8,7 @@ namespace Engine
 
 	ComponentManager& ComponentManager::Get()
 	{
-        return Application::Instance().GetComponentManager();
+		return Application::Instance().GetComponentManager();
 	}
 
 
@@ -49,7 +49,7 @@ namespace Engine
 		IterateOverComponents(
 			[&](IComponent* c)
 			{
-				if (c->Owner.ShouldUpdate())
+				if (c->ShouldUpdate())
 					c->Update(dt);
 			}
 		);
@@ -60,7 +60,7 @@ namespace Engine
 		IterateOverComponents(
 			[&](IComponent* c)
 			{
-				if (c->Owner.ShouldUpdate())
+				if (c->ShouldUpdate())
 					c->FixedUpdate(dt);
 			}
 		);

@@ -30,6 +30,7 @@ namespace Engine
     ForEachComponent(
       [](IComponent* c)
       {
+        c->Deactivate();
         c->OnDestroy();
       }
     );

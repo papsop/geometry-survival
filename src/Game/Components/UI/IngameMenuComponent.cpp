@@ -1,7 +1,9 @@
 #include "IngameMenuComponent.h"
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/UIManager.h>
+#include <Engine/Managers/ViewManager.h>
 #include <Engine/Application.h>
+#include <Engine/ImGui/imgui.h>
 
 #include "../../Managers/GameManager.h"
 #include "../../Core/EventData.h"
@@ -11,58 +13,24 @@ namespace Game
 {
 
   IngameMenuComponent::IngameMenuComponent(Engine::GameObject& obj)
-    : IUIComponent(obj)
+    : IImGuiComponent(obj)
   {
 
   }
+	void IngameMenuComponent::VirtualOnActivated()
+	{
+		Engine::ViewManager::Get().RegisterComponent(this);
+		Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+	}
 
-  void IngameMenuComponent::RegisterUIElements()
-  {
-    // Layout
-    m_menuLayout = tgui::VerticalLayout::create();
-    m_menuLayout->setSize("30%", "45d%");
-    m_menuLayout->setOrigin(0.5f, 0.0f);
-    m_menuLayout->setPosition("50%", "20%");
-
-    // New game button
-    m_newGameButton = tgui::Button::create("New Game");
-
-    // Settings button
-    m_settingsButton = tgui::Button::create("Settings");
-
-    // Back to menu button
-    m_backToMenuButton = tgui::Button::create("Back to menu");
-
-    // quit button settings
-    m_quitButton = tgui::Button::create("Quit game");
-
-    // callbacks
-    m_newGameButton->onClick(&IngameMenuComponent::NewGameButtonCallback, this);
-    m_settingsButton->onClick(&IngameMenuComponent::SettingsButtonCallback, this);
-    m_backToMenuButton->onClick(&IngameMenuComponent::BackToMenuButtonCallback, this);
-    m_quitButton->onClick(&IngameMenuComponent::QuitButtonCallback, this);
-
-    // add to gui
-    m_menuLayout->add(m_newGameButton);
-    m_menuLayout->add(m_settingsButton);
-    m_menuLayout->add(m_backToMenuButton);
-    m_menuLayout->add(m_quitButton);
-
-    m_group->add(m_menuLayout);
-  }
-
-  void IngameMenuComponent::UIShown()
-  {
-    Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
-    IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
-  }
-
-  void IngameMenuComponent::UIHidden()
-  {
+	void IngameMenuComponent::VirtualOnDeactivated()
+	{
+		Engine::ViewManager::Get().UnregisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
-  }
+	}
 
-  void IngameMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
+	void IngameMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
   {
     auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
     if (parentController)
@@ -96,4 +64,36 @@ namespace Game
   {
     Engine::Application::Instance().GetGameManager<GameManager>()->QuitGame();
   }
+
+	void IngameMenuComponent::Update(float dt)
+	{
+		// Center window
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.5f, work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+
+		if (ImGui::Begin("Main menu", NULL, window_flags))
+		{
+			ImGui::Text("Main menu\n");
+			if (ImGui::Button("New Game", ImVec2(300.0f, 100.f)))
+			{
+				NewGameButtonCallback();
+			}
+			if (ImGui::Button("Settings", ImVec2(300.0f, 100.f)))
+			{
+				SettingsButtonCallback();
+			}
+			if (ImGui::Button("Back to menu", ImVec2(300.0f, 100.f)))
+			{
+				BackToMenuButtonCallback();
+			}
+			if (ImGui::Button("Quit game", ImVec2(300.0f, 100.f)))
+			{
+				QuitButtonCallback();
+			}
+		}
+		ImGui::End();
+	}
 }

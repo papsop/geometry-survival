@@ -111,7 +111,7 @@ namespace Engine
 	{
 		for (auto& body : m_physicsBodies)
 		{
-			if (body->IsActive())
+			if (body->ShouldUpdate())
 			{
 				body->Update(dt);
 			}
@@ -124,7 +124,7 @@ namespace Engine
 		m_b2World->Step(dt, 8, 3);
 		for (auto& body : m_physicsBodies)
 		{
-			if (body->IsActive())
+			if (body->ShouldUpdate())
 			{
 				body->FixedUpdate(dt);
 			}

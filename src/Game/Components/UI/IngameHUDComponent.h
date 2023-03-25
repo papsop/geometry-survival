@@ -38,24 +38,12 @@ namespace Game
     void VirtualOnActivated() override;
     void VirtualOnDeactivated() override;
 
-//     void RegisterUIElements() override;
-// 
-//     void UIShown() override;
-//     void UIHidden() override;
-
   private:
     void ResetPlayerComponents(Engine::GameObject* player);
     // Player components
     LevelComponent* m_levelComponent = nullptr;
     WeaponComponent* m_weaponComponent = nullptr;
     RPGComponent* m_rpgComponent = nullptr;
-
-    // UI Members
-    tgui::Label::Ptr m_levelLabel;
-    tgui::Panel::Ptr m_experienceBar;
-    tgui::Label::Ptr m_ammoLabel;
-    tgui::Label::Ptr m_timerLabel;
-    tgui::Label::Ptr m_healthLabel;
 
     // Timer
     GameTimer& m_gameTimer;

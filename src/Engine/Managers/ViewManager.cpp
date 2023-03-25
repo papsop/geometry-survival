@@ -52,7 +52,7 @@ namespace Engine
 	{
 		if (!m_viewStrategy) return;
 
-		m_viewStrategy->SetResolution(def.Resolution);
+		m_viewStrategy->SetResolution(def.ResolutionEntry.Value);
 		m_viewStrategy->SetFullscreen(def.Fullscreen);
 		m_isViewdirty = true; // reload view next update to prevent destroying window mid-mouseevent
 	}
@@ -60,7 +60,7 @@ namespace Engine
 	Engine::ViewManagerSettings ViewManager::GetSettings()
 	{
 		ViewManagerSettings settings;
-		// TODO
+		// TODO:
 		return settings;
 	}
 

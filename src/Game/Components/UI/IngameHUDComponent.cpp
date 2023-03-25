@@ -15,73 +15,22 @@ namespace Game
 		m_gameTimer.Reset();
 	}
 
-// 	void IngameHUDComponent::RegisterUIElements()
-// 	{
-// 
-// 		m_levelLabel = tgui::Label::create("0");
-// 		m_levelLabel->setOrigin(0.5f, 0.5f);
-// 		m_levelLabel->setPosition("50%", "10%");
-// 		m_levelLabel->setTextSize(48);
-// 		m_group->add(m_levelLabel);
-// 
-// 		m_experienceBar = tgui::Panel::create();
-// 		m_experienceBar->setOrigin(0.0f, 0.0f);
-// 		m_experienceBar->setPosition(0, 5);
-// 		m_experienceBar->setSize("100%", "20");
-// 		m_group->add(m_experienceBar);
-// 
-// 		m_ammoLabel = tgui::Label::create("0/0");
-// 		m_ammoLabel->setOrigin(1.0f, 1.0f);
-// 		m_ammoLabel->setPosition("100%", "100%");
-// 		m_ammoLabel->setTextSize(48);
-// 		m_group->add(m_ammoLabel);
-// 
-// 		m_timerLabel = tgui::Label::create("00:00");
-// 		m_timerLabel->setOrigin(1.0f, 0.5f);
-// 		m_timerLabel->setPosition("100%", "10%");
-// 		m_timerLabel->setTextSize(48);
-// 		m_group->add(m_timerLabel);
-// 
-// 		m_healthLabel = tgui::Label::create("<3 0/0");
-// 		m_healthLabel->setOrigin(0.0f, 0.5f);
-// 		m_healthLabel->setPosition("0%", "10%");
-// 		m_healthLabel->setTextSize(48);
-// 		m_group->add(m_healthLabel);
-// 	}
-
-// 	void IngameHUDComponent::UIShown()
-// 	{
-// 		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
-// 		IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
-// 		IEventListener<event::E_PlayerLeveledUp>::RegisterListener();
-// 		IEventListener<event::E_PlayerDied>::RegisterListener();
-// 	}
-// 
-// 	void IngameHUDComponent::UIHidden()
-// 	{
-// 		IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
-// 		IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
-// 		IEventListener<event::E_PlayerLeveledUp>::UnregisterListener();
-// 		IEventListener<event::E_PlayerDied>::UnregisterListener();
-// 	}
-
 	void IngameHUDComponent::Update(float dt)
 	{
 		m_gameTimer.Update(dt);
 
 		//m_timerLabel->setText(tgui::String(m_gameTimer.GetTimerAsString()));
 
-		if (m_levelComponent)
+		if (m_weaponComponent && m_rpgComponent && m_levelComponent)
 		{
 			InitializeOverlayWindow("LevelOverlay", { 0.0f, 0.0f }, {1.0f, 0.1f}, true);
 			ImGui::ProgressBar(m_levelComponent->GetCurrentLevelProgress());
 			ImGui::End();
-		}
 
-		if (m_weaponComponent && m_rpgComponent)
-		{
-			InitializeOverlayWindow("AmmoOverlay", { 0.0f, 0.1f }, {0.2f, 0.2f}, true);
+			InitializeOverlayWindow("HUDOverlay", { 0.0f, 0.1f }, {0.2f, 0.2f}, true);
 			ImGui::SetWindowFontScale(2.0f);
+			ImGui::Text("Level: %d", m_levelComponent->GetCurrentLevel());
+			ImGui::Separator();
 			ImGui::Text("Health: %.0f/%.0f", m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH), m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
 			ImGui::Separator();
 			ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetCurrentAmmo(), m_weaponComponent->GetMaxAmmo());

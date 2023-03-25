@@ -42,7 +42,13 @@ namespace Engine
 
 	void PhysicsBodyComponent::VirtualOnDeactivated()
 	{
-		m_b2Body->SetEnabled(false);
+		if (!Owner.ShouldDestroy())
+		{ // idk, b2assert about a world being locked when trying to disable body when destroying an object
+			// the reason being that we are trying to change body during a physics step
+			// if the Owner is gonna get destroyed anyway, just wait til the end of the frame
+			m_b2Body->SetEnabled(false);
+		}
+		
 	}
 
 	void PhysicsBodyComponent::ApplyImpulseToCenter(const math::Vec2& impulse)

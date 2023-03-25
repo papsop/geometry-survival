@@ -1,6 +1,7 @@
 #include "SettingsScreenComponent.h"
 #include <Engine/Application.h>
 #include <Engine/Managers/ViewManager.h>
+#include <Engine/ImGui/imgui.h>
 #include "../../Managers/GameManager.h"
 
 #include "Controllers/IngameUIControllerComponent.h"
@@ -8,74 +9,23 @@
 namespace Game
 {
 
-  SettingsScreenComponent::SettingsScreenComponent(Engine::GameObject& obj)
-    : IUIComponent(obj)
-  {}
+	SettingsScreenComponent::SettingsScreenComponent(Engine::GameObject& obj)
+		: IImGuiComponent(obj)
+	{
+		m_resolutions.emplace_back(Engine::ResolutionEntry("1920x1080", { 1920, 1080 }));
+		m_resolutions.emplace_back(Engine::ResolutionEntry("1280x720",  { 1280, 720  }));
+		m_resolutions.emplace_back(Engine::ResolutionEntry("1024x576",  { 1024, 576  }));
+	}
 
-
-  void SettingsScreenComponent::RegisterUIElements()
+  void SettingsScreenComponent::VirtualOnActivated()
   {
-    // Main layout
-    m_settingsLayout = tgui::VerticalLayout::create();
-    m_settingsLayout->setOrigin(0.5f, 0.0f);
-    m_settingsLayout->setSize("50%", "60%");
-    m_settingsLayout->setPosition("50%", "20%");
-
-    // Header
-		m_headerLabel = tgui::Label::create("SETTINGS");
-    m_headerLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
-    m_headerLabel->setTextSize(48);
-
-
-    // Resolution
-    m_resolutionLayout = tgui::HorizontalLayout::create();
-
-		m_resolutionLabel = tgui::Label::create("Resolution:");
-    m_resolutionLabel->setVerticalAlignment(tgui::Label::VerticalAlignment::Center);
-    m_resolutionLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
-    m_resolutionLabel->setTextSize(32);
-
-    m_resolutionComboBox = tgui::ComboBox::create();
-    m_resolutionComboBox->addItem("test");
-    m_resolutionComboBox->addItem("test2");
-    m_resolutionComboBox->addItem("test3");
-
-    m_resolutionLayout->add(m_resolutionLabel);
-    m_resolutionLayout->add(m_resolutionComboBox);
-
-    // Buttons
-		m_buttonsLayout = tgui::HorizontalLayout::create();
-    
-    m_saveSettingsButton  = tgui::Button::create("Save");
-    m_backToMenuButton    = tgui::Button::create("Back");
-    
-    m_saveSettingsButton->onClick(&SettingsScreenComponent::SaveSettingsCallback, this);
-    m_backToMenuButton->onClick(&SettingsScreenComponent::BackToMenuCallback, this);
-
-    m_buttonsLayout->add(m_saveSettingsButton);
-    m_buttonsLayout->add(m_backToMenuButton);
-
-
-    // =======================
-
-    // Settings Layout
-    m_settingsLayout->add(m_headerLabel);
-    m_settingsLayout->addSpace(0.5f);
-    m_settingsLayout->add(m_resolutionLayout);
-    m_settingsLayout->addSpace(0.5f);
-    m_settingsLayout->add(m_buttonsLayout);
-
-    // Screen group
-    m_group->add(m_settingsLayout);
-  }
-
-  void SettingsScreenComponent::UIShown()
-  {
+    Engine::ViewManager::Get().RegisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
   }
 
-  void SettingsScreenComponent::UIHidden()
+  void SettingsScreenComponent::VirtualOnDeactivated()
   {
+    Engine::ViewManager::Get().UnregisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
   }
 
@@ -88,12 +38,56 @@ namespace Game
 	void SettingsScreenComponent::SaveSettingsCallback()
 	{
     Engine::ViewManagerSettings settings;
-    settings.Fullscreen = false;
-    settings.Resolution = { 1920, 1080 };
+    settings.Fullscreen = m_fullscreenVal;
+		settings.ResolutionEntry = m_resolutions[m_selectedResolution];
     Engine::ViewManager::Get().SetSettings(settings);
 	}
 
-  void SettingsScreenComponent::BackToMenuCallback()
+	void SettingsScreenComponent::Update(float dt)
+	{
+		// Center window
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.5f, work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+
+		if (ImGui::Begin("Settings", NULL, window_flags))
+		{
+			ImGui::Text("Settings\n");
+			ImGuiComboFlags flags = 0;
+			const char* comboPreview = m_resolutions[m_selectedResolution].Name;
+			if (ImGui::BeginCombo("Resolution", comboPreview, flags))
+			{
+				for (int i = 0; i < m_resolutions.size(); i++)
+				{
+					const bool isSelected = m_selectedResolution == i;
+					if (ImGui::Selectable(m_resolutions[i].Name, isSelected))
+						m_selectedResolution = i;
+
+					if (isSelected)
+						ImGui::SetItemDefaultFocus();
+				}
+				ImGui::EndCombo();
+			}
+
+      ImGui::Checkbox("Fullscreen", &m_fullscreenVal); 
+
+			ImGui::Separator();
+			if (ImGui::Button("Save", ImVec2(200.0f, 100.f)))
+			{
+				SaveSettingsCallback();
+			}
+      ImGui::SameLine();
+			if (ImGui::Button("Back to menu", ImVec2(200.0f, 100.f)))
+			{
+				BackToMenuCallback();
+			}
+		}
+		ImGui::End();
+	}
+
+	void SettingsScreenComponent::BackToMenuCallback()
   {
     auto* ingameController = Owner.GetComponent<IngameUIControllerComponent>();
     if (ingameController)

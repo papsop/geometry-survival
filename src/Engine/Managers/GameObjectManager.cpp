@@ -34,7 +34,7 @@ namespace Engine
     else
     {
       return nullptr;
-    }
+    } 
   }
 
 	std::vector<GameObject*> GameObjectManager::GetGameObjectsByTag(GameObjectTag tag)
@@ -73,13 +73,9 @@ namespace Engine
         return; // GameObject is already scheduled to be destroyed
 
       gameObject->m_shouldDestroy = true;
-// 			gameObject->ForEachComponent(
-// 				[](IComponent* c)
-// 				{
-// 					c->Deactivate();
-// 				}
-// 			);
-
+      gameObject->OnDestroy();
+			event::E_GameObjectDeleted eventData(gameObject->ID);
+			EventManager::Get().DispatchEvent(eventData);
 
       m_gameObjectsToCleanup.push(gameObject);
     }
@@ -101,14 +97,8 @@ namespace Engine
     {
       auto* e = m_gameObjectsToCleanup.front();
 
-      
-      e->OnDestroy();
-      event::E_GameObjectDeleted eventData(e->ID);
-
       m_gameObjects.erase(e->ID);
       m_gameObjectsToCleanup.pop();
-
-      EventManager::Get().DispatchEvent(eventData);
     }
   }
 
@@ -137,9 +127,9 @@ namespace Engine
   {
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
-    ImGui::SetNextWindowPos(ImVec2(0.0f, work_size.y * 0.1f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+    ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.9f, work_size.y * 0.1f), ImGuiCond_Once, ImVec2(1.0f, 0.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 
 		if (ImGui::Begin("GameObjectManager", NULL, window_flags))
 		{

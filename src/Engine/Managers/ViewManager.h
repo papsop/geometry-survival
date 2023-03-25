@@ -14,9 +14,18 @@
 
 namespace Engine
 {
+
+	struct ResolutionEntry
+	{
+		const char* Name;
+		math::Vec2 Value;
+		ResolutionEntry(const char* name, math::Vec2 val) : Name(name), Value(val) {}
+		ResolutionEntry() = default;
+	};
+
 	struct ViewManagerSettings
 	{
-		math::Vec2 Resolution;
+		ResolutionEntry ResolutionEntry;
 		bool Fullscreen;
 	};
 

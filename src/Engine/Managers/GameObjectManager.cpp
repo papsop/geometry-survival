@@ -119,6 +119,7 @@ namespace Engine
     {
 			if (ImGui::TreeNode(obj->DebugName))
 			{
+       
 				auto& children = obj->GetTransform()->GetChildren();
 				for (const auto& child : children)
 				{

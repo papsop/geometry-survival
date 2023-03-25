@@ -121,7 +121,7 @@ namespace Engine
     private:
       tgui::Gui* m_gui = nullptr;
     };
-
+    
     // ImguiComponent
     class IImGuiComponent : public IComponent
     {
@@ -133,6 +133,8 @@ namespace Engine
       virtual void OnDestroy() {};
       
       virtual void Update(float dt) {};
+    protected:
+      void InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative);
     };
 
 	template<typename T>

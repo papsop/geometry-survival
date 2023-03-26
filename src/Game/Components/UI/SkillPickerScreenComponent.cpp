@@ -1,69 +1,65 @@
 #include "SkillPickerScreenComponent.h"
 #include <Engine/Application.h>
+#include <Engine/Managers/ViewManager.h>
 
 #include "../../Skills/Skill_AmmoStealer.h"
 #include "../../Skills/Skill_AmmoPiercer.h"
 #include "../../Skills/Skill_BulletDamage.h"
 #include "../../Managers/GameManager.h"
 #include "../../Managers/SkillsManager.h"
+
 #include "Controllers/IngameUIControllerComponent.h"
 #include <TGUI/String.hpp>
+#include <Engine/ImGui/imgui.h>
+
 namespace Game
 {
 
   SkillPickerScreenComponent::SkillPickerScreenComponent(Engine::GameObject& obj)
-    : IUIComponent(obj)
+    : IImGuiComponent(obj)
   {
 
   }
 
-  void SkillPickerScreenComponent::UIShown()
+  void SkillPickerScreenComponent::Update(float dt)
   {
+		// Center window
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.5f, work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav;
+
+    if (ImGui::Begin("Skill picker", NULL, window_flags))
+    {
+      for (int i = 0; i < m_skillsToPick.size(); i++)
+      {
+        ImGui::BeginGroup();
+        if (ImGui::Button(m_skillsToPick[i]->GetSkillName().c_str()))
+        {
+
+        }
+        ImGui::EndGroup();
+        ImGui::SameLine();
+      }
+    }
+    ImGui::End();
+  }
+
+	void SkillPickerScreenComponent::VirtualOnActivated()
+	{
+    Engine::ViewManager::Get().RegisterComponent(this);
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
-    m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
+		m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
+	}
 
-    for (size_t i = 0; i < 3; i++)
-    {
-      // TODO: Skill description
-      tgui::String skillLabel = tgui::String(m_skillsToPick[i]->GetSkillName());
-      m_skillButtons[i]->setText(skillLabel);
-    }
-  }
-
-  void SkillPickerScreenComponent::UIHidden()
-  {
+	void SkillPickerScreenComponent::VirtualOnDeactivated()
+	{
+		Engine::ViewManager::Get().UnregisterComponent(this);
     Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Gameplay);
-  }
+	}
 
-  void SkillPickerScreenComponent::RegisterUIElements()
-  {
-    // Layout
-    m_layout = tgui::HorizontalLayout::create();
-    m_layout->setSize("50%", "30%");
-    m_layout->setOrigin(0.5f, 0.0f);
-    m_layout->setPosition("50%", "20%");
-
-    // skill buttons
-    for (size_t i = 0; i < 3; i++)
-    {
-      tgui::String skillLabel = tgui::String("EmptyPicker");
-      //+tgui::String(m_skillsToPick[i]->GetSkillDescription());
-      m_skillButtons[i] = tgui::Button::create(skillLabel);
-      m_skillButtons[i]->setSize("20%", "20%");
-      m_skillButtons[i]->onClick(&SkillPickerScreenComponent::PickSkillNumber, this, i);
-      m_layout->add(m_skillButtons[i]);
-    }
-
-    m_experienceBar = tgui::Panel::create();
-    m_experienceBar->setOrigin(0.0f, 0.0f);
-    m_experienceBar->setPosition(0, 5);
-    m_experienceBar->setSize("100%", "20");
-    
-    m_group->add(m_experienceBar);
-    m_group->add(m_layout);
-  }
-
-  void SkillPickerScreenComponent::ReturnToGame()
+	void SkillPickerScreenComponent::ReturnToGame()
   {
     auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
     if (parentController)

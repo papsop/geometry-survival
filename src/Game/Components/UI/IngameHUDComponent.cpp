@@ -60,7 +60,7 @@ namespace Game
 		auto* parentController = Owner.GetComponent<IngameUIControllerComponent>();
 		if (parentController)
 		{
-			parentController->SetState(IngameUIControllerComponent::IngameUIState::MENU);
+			parentController->SetState(IngameUIControllerComponent::IngameUIState::SKILL_PICKER);
 		}
 	}
 

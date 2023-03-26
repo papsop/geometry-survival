@@ -6,10 +6,21 @@
 #include "../../Managers/InputManager.h"
 
 #include <iostream>
-
+#include "../../ImGui/imgui.h"
 namespace Engine
 {
-    void WindowBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)
+
+	WindowBackendStrategy::WindowBackendStrategy()
+	{
+		IEventListener<event::E_WindowClosed>::RegisterListener();
+	}
+
+	WindowBackendStrategy::~WindowBackendStrategy()
+	{
+		IEventListener<event::E_WindowClosed>::UnregisterListener();
+	}
+
+	void WindowBackendStrategy::WriteText(LOGGER_LEVEL level, const char* source, const char* text)
     {
       DebugEntry entry;
       entry.Text = "" + std::string(source) + " - " + std::string(text);
@@ -31,20 +42,14 @@ namespace Engine
 		if (InputManager::Get().GetAction(InputManager::Action::ShowConsole).PressedThisFrame)
 			m_shouldShowConsole = !m_shouldShowConsole;
 
-		if (m_shouldShowConsole)
+		if (ImGui::Begin("Logger", &m_shouldShowConsole))
 		{
-// 			size_t bottomBound = (m_entries.size() > m_maxLinesConsole) ? (m_entries.size() - m_maxLinesConsole) : 0;
-// 			for (size_t i = bottomBound; i < m_entries.size(); ++i)
-// 			{
-// 				Transform t;
-// 				t.Position = math::Vec2(5.0f, 13.0f * (i - bottomBound));
-// 				view::Text text(&t);
-// 				text.Size = 9;
-// 				text.Color = m_entries[i].Color;
-// 				text.Value = m_entries[i].Text;
-// 				text.UseScreenPosition = true;
-// 				viewStrategy->Render(text);
-// 			}
+			if (ImGui::BeginPopup("Options"))
+			{
+				ImGui::Button("Clear");
+				ImGui::EndPopup();
+			}
+			ImGui::End();
 		}
 	}
 

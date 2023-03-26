@@ -54,7 +54,6 @@ namespace Game
 
 		if (ImGui::Begin("Settings", NULL, window_flags))
 		{
-			ImGui::Text("Settings\n");
 			ImGuiComboFlags flags = 0;
 			const char* comboPreview = m_resolutions[m_selectedResolution].Name;
 			if (ImGui::BeginCombo("Resolution", comboPreview, flags))

@@ -13,7 +13,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-  )
+   "Debug/Backend/ImGuiBackendStrategy.h")
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

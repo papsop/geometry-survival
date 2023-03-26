@@ -13,25 +13,25 @@
 
 namespace Engine
 {
-    class Logger
-    {
-    public:
-        ~Logger() = default;
-        static Logger& Instance();
+  class Logger
+  {
+  public:
+		~Logger() = default;
+		static Logger& Instance();
 
-        void Log(LOGGER_LEVEL level, const char* source, const char* format, ...);
+		void Log(LOGGER_LEVEL level, const char* source, const char* format, ...);
 
-        void AddBackend(std::unique_ptr<IBackendStrategy> backend);
-        void UnregisterBackend(IBackendStrategy* backendToUnregister);
+		void AddBackend(std::unique_ptr<IBackendStrategy> backend);
+		void UnregisterBackend(IBackendStrategy* backendToUnregister);
 
-        void SetLevel(LOGGER_LEVEL level) { m_levelFilter = level; }
-    private:
-        Logger();
-        // config file?
-        LOGGER_LEVEL m_levelFilter = LOGGER_LEVEL::DEBUG;
+		void SetLevel(LOGGER_LEVEL level) { m_levelFilter = level; }
+  private:
+    Logger();
+    // config file?
+    LOGGER_LEVEL m_levelFilter = LOGGER_LEVEL::DEBUG;
 
-        std::vector< std::unique_ptr<IBackendStrategy> > m_backends;
-    };
+    std::vector< std::unique_ptr<IBackendStrategy> > m_backends;
+  };
 };
 
 

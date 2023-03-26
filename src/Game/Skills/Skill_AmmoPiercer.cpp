@@ -7,7 +7,7 @@ namespace Game
 {
 
   Skill_AmmoPiercer::Skill_AmmoPiercer()
-    : ISkill("+1 Ammo piercing", "")
+    : ISkill("AmmoPiercer", "+1 Ammo piercing")
   {
   }
 

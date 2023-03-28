@@ -37,7 +37,7 @@ namespace Engine
 	void ImGuiBackendStrategy::Debug(view::IViewStrategy* viewStrategy)
 	{
 		ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
-		if (ImGui::Begin("Logger", &m_shouldShowConsole))
+		if (m_shouldShowConsole && ImGui::Begin("Logger", &m_shouldShowConsole))
 		{
 			if (ImGui::SmallButton("Clear"))
 			{
@@ -63,8 +63,9 @@ namespace Engine
 				ImGui::SetScrollHereY(1.0f);
 
 			ImGui::EndChild();
+			ImGui::End();
 		}
-		ImGui::End();
+		
 	}
 
 	void ImGuiBackendStrategy::Clear()

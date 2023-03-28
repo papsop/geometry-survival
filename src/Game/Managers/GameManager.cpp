@@ -157,18 +157,28 @@ namespace Game
 		{
       if (m_currentGameState == GameState::Gameplay)
       {
-				if (ImGui::Button("PAUSE"))
+				if (ImGui::Button("Pause"))
 				{
           SetGameState(GameState::Paused);
 				}
       }
       else if (m_currentGameState == GameState::Paused)
 			{
-				if (ImGui::Button("UNPAUSE"))
+				if (ImGui::Button("Unpause"))
 				{
 					SetGameState(GameState::Gameplay);
 				}
 			}
+			ImGui::SameLine();
+			if (ImGui::Button("Console (`)"))
+			{
+				Engine::EventManager::Get().DispatchEvent(Engine::event::E_OnConsoleKeyAction());
+			}
+      ImGui::SameLine();
+      if (ImGui::Button("Add skill"))
+      {
+        Engine::EventManager::Get().DispatchEvent(event::E_PlayerLeveledUp());
+      }
 		}
 		ImGui::End();
 	}

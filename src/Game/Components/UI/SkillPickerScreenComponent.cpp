@@ -32,13 +32,16 @@ namespace Game
 
     if (ImGui::Begin("Skill picker", NULL, window_flags))
     {
+      ImGui::Text("Choose a skill");
+      ImGui::Separator();
       for (int i = 0; i < m_skillsToPick.size(); i++)
       {
         ImGui::BeginGroup();
-        if (ImGui::Button(m_skillsToPick[i]->GetSkillName().c_str()))
+        if (ImGui::Button(m_skillsToPick[i]->GetSkillName().c_str(), ImVec2(150.0f, 150.0f)))
         {
           PickSkillNumber(i);
         }
+        //ImGui::Text(m_skillsToPick[i]->GetSkillDescription().c_str());
         ImGui::EndGroup();
         ImGui::SameLine();
       }

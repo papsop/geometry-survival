@@ -5,6 +5,7 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Debug/Backend/UIBackendStrategy.h>
+#include <Engine/Debug/Backend/ImGuiBackendStrategy.h>
 #include <Engine/Core/StateMachine/BasicSceneState.h>
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
@@ -60,8 +61,8 @@ namespace Game
     void BeforeGameLoop(Engine::Application& app) override
     {
       // Setup logger
-      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
-      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::UIBackendStrategy>());
+      //Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
+      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ImGuiBackendStrategy>());
       Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::ERROR);
 
       // Setup components
@@ -87,7 +88,8 @@ namespace Game
       Engine::Application::Instance().RegisterGameManager<SkillsManager>();
     
       // First scene after starting application
-      app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
+      //app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());
+      app.GetSceneManager().LoadSceneDestroyPrevious(MainMenuScene());
     }
   };
 }

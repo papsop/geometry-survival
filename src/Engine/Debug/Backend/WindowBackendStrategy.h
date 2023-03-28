@@ -10,8 +10,8 @@ namespace Engine
     class WindowBackendStrategy : public IBackendStrategy, public IEventListener<event::E_WindowClosed>, public IDebuggableComponent
     {
     public:
-      WindowBackendStrategy() = default;
-      ~WindowBackendStrategy() override = default;
+      WindowBackendStrategy();
+      ~WindowBackendStrategy() override;
 
       void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
       void Debug(view::IViewStrategy * viewStrategy) override;

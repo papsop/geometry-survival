@@ -1,6 +1,6 @@
 # Dungeons Survival
 
-![image](https://user-images.githubusercontent.com/9076709/213876773-cdfe19d5-2408-473a-bb7f-fa2528609da3.png)
+![image](https://user-images.githubusercontent.com/9076709/227787591-c3df280e-7f3e-4614-8797-9a5676a23710.png)
 
 ## Fixes I want to do but will probably forget about:
 - **Engine/Game** messageTypes - right now we only support Engine message types and game needs to add theirs into this enum. Ugly

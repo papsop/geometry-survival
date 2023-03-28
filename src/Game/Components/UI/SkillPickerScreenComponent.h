@@ -6,17 +6,18 @@
 
 namespace Game
 {
-  class SkillPickerScreenComponent : public Engine::IUIComponent
+  class SkillPickerScreenComponent : public Engine::IImGuiComponent
   {
   public:
     SkillPickerScreenComponent(Engine::GameObject& obj);
     ~SkillPickerScreenComponent() override = default;
 
-  protected:
-    void RegisterUIElements() override;
 
-    void UIShown() override;
-    void UIHidden() override;
+    void Update(float dt) override;
+
+  protected:
+    void VirtualOnActivated() override;
+    void VirtualOnDeactivated() override;
 
   private:
     void ReturnToGame();

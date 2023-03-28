@@ -5,7 +5,7 @@
 
 namespace Game
 {
-  class MainMenuScreenComponent : public Engine::IUIComponent
+  class MainMenuScreenComponent : public Engine::IImGuiComponent
   {
   public:
     MainMenuScreenComponent(Engine::GameObject& obj);
@@ -17,8 +17,14 @@ namespace Game
     void SettingsButtonCallback();
     void QuitButtonCallback();
 
+    void Update(float dt) override;
+
   protected:
-    void RegisterUIElements() override;
+
+    void VirtualOnActivated() override;
+    void VirtualOnDeactivated() override;
+
+    //void RegisterUIElements() override;
 
   private:
     tgui::VerticalLayout::Ptr m_menuLayout;

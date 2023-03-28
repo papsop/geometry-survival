@@ -4,14 +4,16 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Utils/VectorUtils.h>
 #include <Engine/Core/Events.h>
+#include <Engine/Debug/IDebuggable.h>
 
 #include "../Core/EventData.h"
+
 
 #include "GameTimer.h"
 
 namespace Game
 {
-	class GameManager : public Engine::IManager, public Engine::IConfigurable
+	class GameManager : public Engine::IManager, public Engine::IDebuggable, public Engine::IConfigurable
 	{
 	public:
 		enum class GameState
@@ -49,6 +51,8 @@ namespace Game
 		void GetConfigurableData(ConfigurableData& data) override;
 
 		GameTimer& GetGameTimer() { return m_gameTimer; }
+
+		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
 	private:
 		void SendPlayerRegistrationEvent(bool registered);

@@ -35,8 +35,7 @@ namespace Engine
     private:
       GameObjectManager() = default;
 
-      void DebugDraw_ExpandGameObject(view::IViewStrategy* viewStrategy, GameObject* obj, unsigned& line, unsigned depth);
-      void DebugDraw_WriteGameObjectLine(view::IViewStrategy* viewStrategy, GameObject* obj, unsigned& line, unsigned depth);
+      void DebugDraw_ExpandGameObject(GameObject* obj);
 
       GameObjectID m_nextGameObjectID = 0;
 

@@ -19,55 +19,56 @@
 
 namespace Engine
 {
-    Logger::Logger()
-    {
-    }
+	Logger::Logger()
+	{
+	}
 
-    Logger& Logger::Instance()
-    {
-        static Logger instance;
-        return instance;
-    }
+	Logger& Logger::Instance()
+	{
+		static Logger instance;
+		return instance;
+	}
 
-    void Logger::AddBackend(std::unique_ptr<IBackendStrategy> backend)
-    {
-        m_backends.emplace_back(std::move(backend));
-    }
+	void Logger::AddBackend(std::unique_ptr<IBackendStrategy> backend)
+	{
+		m_backends.emplace_back(std::move(backend));
+	}
 
 	void Logger::UnregisterBackend(IBackendStrategy* backendToUnregister)
 	{
-        auto removeBackendLambda = [&](const std::unique_ptr<IBackendStrategy>& backendToCheck) {
-            return backendToCheck.get() == backendToUnregister;
-        };
-        m_backends.erase(std::remove_if(m_backends.begin(), m_backends.end(), removeBackendLambda), m_backends.end());
+		auto removeBackendLambda = [&](const std::unique_ptr<IBackendStrategy>& backendToCheck) {
+			return backendToCheck.get() == backendToUnregister;
+		};
+		m_backends.erase(std::remove_if(m_backends.begin(), m_backends.end(), removeBackendLambda), m_backends.end());
 	}
 
-    void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
-    {
-        if (m_backends.size() == 0) return;
-        if (level < m_levelFilter) return;
+	void Logger::Log(LOGGER_LEVEL level, const char* source, const char* format, ...)
+  {
+    if (m_backends.size() == 0) return;
+    // For now, ImGui supports all logs because it filters itself
+    //if (level < m_levelFilter) return;
 
-        char log_message[1024];
-        va_list arg;
-        va_start(arg, format);
-        vsprintf_s(log_message, format, arg);
-        va_end(arg);
+    char log_message[1024];
+    va_list arg;
+    va_start(arg, format);
+    vsprintf_s(log_message, format, arg);
+    va_end(arg);
 
-        for(auto&& backend : m_backends)
-            backend->WriteText(level, source, log_message);
+    for(auto&& backend : m_backends)
+        backend->WriteText(level, source, log_message);
 
-        // print colored log
-        //if (level == LOGGER_LEVEL::INFO)
-        //{
-        //    printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        //}
-        //else if (level == LOGGER_LEVEL::WARN)
-        //{
-        //    printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        //}
-        //else if (level == LOGGER_LEVEL::ERROR)
-        //{
-        //    printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
-        //}
-    }
+    // print colored log
+    //if (level == LOGGER_LEVEL::INFO)
+    //{
+    //    printf(ANSI_COLOR_CYAN "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+    //}
+    //else if (level == LOGGER_LEVEL::WARN)
+    //{
+    //    printf(ANSI_COLOR_YELLOW "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+    //}
+    //else if (level == LOGGER_LEVEL::ERROR)
+    //{
+    //    printf(ANSI_COLOR_RED "[INFO-%s] %s\n" ANSI_COLOR_RESET, source, log_message);
+    //}
+  }
 };

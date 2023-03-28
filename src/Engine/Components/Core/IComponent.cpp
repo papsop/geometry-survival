@@ -5,6 +5,7 @@
 #include "../../Managers/ViewManager.h"
 #include "../../Managers/UIManager.h"
 
+#include "../../ImGui/imgui.h"
 namespace Engine
 {
    // view
@@ -43,9 +44,12 @@ namespace Engine
 		}
 	}
 
-  // UI COMPONENT
+	bool IComponent::ShouldUpdate()
+	{
+    return Owner.ShouldUpdate() && IsActive();
+	}
 
-
+	// UI COMPONENT
   IUIComponent::IUIComponent(GameObject& obj)
     : IComponent(obj)
   {
@@ -97,4 +101,34 @@ namespace Engine
 		m_gui->add(m_group);
 		//m_group->setVisible(isVisible);
 	}
+
+  // ImGui
+  IImGuiComponent::IImGuiComponent(GameObject& obj)
+    : IComponent(obj)
+	{
+	}
+
+	void IImGuiComponent::InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * RelativePos.x, work_size.y * RelativePos.y), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+		if (IsSizeRelative)
+		{
+			ImGui::SetNextWindowSize(ImVec2(work_size.x * Size.x, work_size.y * Size.y));
+		}
+		else
+		{
+			ImGui::SetNextWindowSize(ImVec2(Size.x, Size.y));
+		}
+		
+		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar |
+			ImGuiWindowFlags_NoSavedSettings |
+			ImGuiWindowFlags_NoDecoration |
+			ImGuiWindowFlags_NoBackground;
+		ImGui::Begin(name, NULL, window_flags);
+
+	}
+
 };

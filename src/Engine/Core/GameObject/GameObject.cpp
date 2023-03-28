@@ -29,7 +29,8 @@ namespace Engine
     LOG_INFO("Destroying components from %s", DebugName);
     ForEachComponent(
       [](IComponent* c)
-      {
+			{
+				c->Deactivate();
         c->OnDestroy();
       }
     );

@@ -23,6 +23,8 @@ namespace Engine
       virtual void RenderRenderable(Renderable& renderable) = 0;
       virtual void PostRender() = 0;
 
+      virtual void Update(float dt) = 0;
+
       virtual void DebugRenderLine(ITransform::PositionSpace space, math::Vec2 a, math::Vec2 b, sf::Color color) {};
       virtual void DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color) {};
       virtual void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) {};

@@ -1,5 +1,6 @@
 set(ENGINE_PROJECT Engine)
 set(ENGINE_PROJECT Engine PARENT_SCOPE)
+find_package(OpenGL REQUIRED)
 
 project(
     ${ENGINE_PROJECT}
@@ -12,7 +13,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-  )
+   "Debug/Backend/ImGuiBackendStrategy.h")
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)
@@ -21,6 +22,7 @@ add_subdirectory(Utils)
 add_subdirectory(View)
 add_subdirectory(Core)
 add_subdirectory(UI)
+add_subdirectory(ImGui)
 
 # PRIVATE because we don't want to propagate
 target_include_directories(
@@ -41,4 +43,5 @@ target_link_libraries(
     box2d
     yaml-cpp
     tgui
+    ${OPENGL_LIBRARIES}
 )

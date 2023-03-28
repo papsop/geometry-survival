@@ -34,6 +34,7 @@ namespace Engine
       void Activate();
       void Deactivate();
       bool IsActive() { return m_isActive; }
+      bool ShouldUpdate();
 
       virtual void OnCreate() {};
       virtual void OnDestroy() {};
@@ -72,7 +73,7 @@ namespace Engine
       virtual void VirtualOnActivated() {};
       virtual void VirtualOnDeactivated() {};
 
-    private:
+    protected:
         bool m_isActive = false;
     };
 
@@ -115,12 +116,25 @@ namespace Engine
       virtual void UIHidden() {};
 
       tgui::Group::Ptr m_group = nullptr;
-
-
       void ReceiveEvent(const event::E_GUIReset & eventData) override;
 
     private:
       tgui::Gui* m_gui = nullptr;
+    };
+    
+    // ImguiComponent
+    class IImGuiComponent : public IComponent
+    {
+    public:
+      IImGuiComponent(GameObject& obj);
+      ~IImGuiComponent() = default;
+
+      virtual void OnCreate() {};
+      virtual void OnDestroy() {};
+      
+      virtual void Update(float dt) {};
+    protected:
+      void InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative);
     };
 
 	template<typename T>

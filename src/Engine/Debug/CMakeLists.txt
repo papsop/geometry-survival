@@ -12,6 +12,8 @@ set(SOURCES
 	Backend/WindowBackendStrategy.cpp
 	Backend/UIBackendStrategy.h
 	Backend/UIBackendStrategy.cpp
+	Backend/ImGuiBackendStrategy.h
+	Backend/ImGuiBackendStrategy.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

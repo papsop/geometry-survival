@@ -174,11 +174,6 @@ namespace Game
 			{
 				Engine::EventManager::Get().DispatchEvent(Engine::event::E_OnConsoleKeyAction());
 			}
-      ImGui::SameLine();
-      if (ImGui::Button("Add skill"))
-      {
-        Engine::EventManager::Get().DispatchEvent(event::E_PlayerLeveledUp());
-      }
 		}
 		ImGui::End();
 	}

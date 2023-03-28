@@ -37,7 +37,7 @@ namespace Game
       for (int i = 0; i < m_skillsToPick.size(); i++)
       {
         ImGui::BeginGroup();
-        if (ImGui::Button(m_skillsToPick[i]->GetSkillName().c_str(), ImVec2(150.0f, 150.0f)))
+        if (ImGui::Button(m_skillsToPick[i]->GetSkillName(), ImVec2(150.0f, 150.0f)))
         {
           PickSkillNumber(i);
         }

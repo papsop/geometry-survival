@@ -10,18 +10,18 @@ namespace Game
   class ISkill
   {
   public:
-    ISkill(std::string skillName, std::string skillDescription)
+    ISkill(const char* skillName, const char* skillDescription)
       : m_skillName(skillName)
       , m_skillDescription(skillDescription) {};
     ~ISkill() = default;
 
     virtual void Learn(Engine::GameObject* entity) = 0;
 
-    std::string GetSkillName() { return m_skillName; };
-    std::string GetSkillDescription() { return m_skillDescription; }
+    const char* GetSkillName() { return m_skillName; };
+    const char* GetSkillDescription() { return m_skillDescription; }
 
   private:
-    std::string m_skillName = "emptySkillName";
-    std::string m_skillDescription = "emptySkillDescription";
+    const char* m_skillName = "emptySkillName";
+    const char* m_skillDescription = "emptySkillDescription";
   };
 }

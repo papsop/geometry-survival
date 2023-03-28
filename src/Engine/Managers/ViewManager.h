@@ -14,9 +14,18 @@
 
 namespace Engine
 {
+
+	struct ResolutionEntry
+	{
+		const char* Name;
+		math::Vec2 Value;
+		ResolutionEntry(const char* name, math::Vec2 val) : Name(name), Value(val) {}
+		ResolutionEntry() = default;
+	};
+
 	struct ViewManagerSettings
 	{
-		math::Vec2 Resolution;
+		ResolutionEntry ResolutionEntry;
 		bool Fullscreen;
 	};
 
@@ -29,16 +38,17 @@ namespace Engine
 
 		void RegisterComponent(IRenderableComponent* component);
 		void RegisterComponent(IUIComponent* component);
+		void RegisterComponent(IImGuiComponent* component);
 		void RegisterComponent(IDebuggable* component);
 
 		void UnregisterComponent(IRenderableComponent* component);
 		void UnregisterComponent(IUIComponent* component);
+		void UnregisterComponent(IImGuiComponent* component);
 		void UnregisterComponent(IDebuggable* component);
 
 		// Application's interface to ViewStrategy
 		void PollEvents();
 		sf::Vector2f GetMousePosition();
-
 
 		sf::Vector2f coordsToPixels(b2Vec2 coords);
 		b2Vec2       pixelsToCoords(sf::Vector2f pixels);
@@ -70,10 +80,12 @@ namespace Engine
 		
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
+		void DebugDraw(float dt);
 
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
 		std::multimap< view::Layer, IRenderableComponent*> m_renderableComponents;
 		std::vector< IUIComponent* > m_uiComponents;
+		std::vector< IImGuiComponent* > m_imguiComponents;
 		std::vector< IDebuggable* > m_debugs;
 
 		bool m_shouldDrawDebug = false;

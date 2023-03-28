@@ -9,6 +9,7 @@
 #include "../Managers/InputManager.h"
 #include "../Managers/UIManager.h"
 
+#include "../ImGui/imgui.h"
 namespace Engine
 {
 	ViewManager::ViewManager()
@@ -36,7 +37,8 @@ namespace Engine
 		IEventListener<event::E_OnShowDebugKeyAction>::UnregisterListener();
 	}
 
-  void ViewManager::ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData)
+
+	void ViewManager::ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData)
   {
     m_shouldDrawDebug = !m_shouldDrawDebug;
   }
@@ -50,7 +52,7 @@ namespace Engine
 	{
 		if (!m_viewStrategy) return;
 
-		m_viewStrategy->SetResolution(def.Resolution);
+		m_viewStrategy->SetResolution(def.ResolutionEntry.Value);
 		m_viewStrategy->SetFullscreen(def.Fullscreen);
 		m_isViewdirty = true; // reload view next update to prevent destroying window mid-mouseevent
 	}
@@ -58,7 +60,7 @@ namespace Engine
 	Engine::ViewManagerSettings ViewManager::GetSettings()
 	{
 		ViewManagerSettings settings;
-		// TODO
+		// TODO:
 		return settings;
 	}
 
@@ -116,8 +118,13 @@ namespace Engine
 
   void ViewManager::RegisterComponent(IUIComponent* component)
   {
-    m_uiComponents.emplace_back(component);
+    //m_uiComponents.emplace_back(component);
   }
+
+	void ViewManager::RegisterComponent(IImGuiComponent* component)
+	{
+		m_imguiComponents.emplace_back(component);
+	}
 
 	// ==================================================================
 
@@ -134,14 +141,34 @@ namespace Engine
 
   void ViewManager::UnregisterComponent(IUIComponent* component)
   {
-    m_uiComponents.erase(std::remove(m_uiComponents.begin(), m_uiComponents.end(), component), m_uiComponents.end());
+    //m_uiComponents.erase(std::remove(m_uiComponents.begin(), m_uiComponents.end(), component), m_uiComponents.end());
   }
+
+	void ViewManager::UnregisterComponent(IImGuiComponent* component)
+	{
+		m_imguiComponents.erase(std::remove(m_imguiComponents.begin(), m_imguiComponents.end(), component), m_imguiComponents.end());
+	}
 
 	void ViewManager::UnregisterComponent(IDebuggable* component)
 	{
 		m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
 	}
 	// ==================================================================
+	void ViewManager::DebugDraw(float dt)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x, work_size.y), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+
+		if (ImGui::Begin("ViewManager", NULL, window_flags))
+		{
+			ImGui::Text("Frame time: %.5f", dt);
+			ImGui::Text("FPS: %.1f\n", (1000.0f/dt));
+		}
+		ImGui::End();
+	}
 
 	void ViewManager::Update(float dt)
 	{
@@ -151,12 +178,14 @@ namespace Engine
 			m_isViewdirty = false;
 		}
 
+		m_viewStrategy->Update(dt);
+
 		m_viewStrategy->PreRender();
 
 		// UI
-    for (auto& c : m_uiComponents)
+    for (auto& c : m_imguiComponents)
     {
-			if (c->Owner.ShouldUpdate())
+			if (c->ShouldUpdate())
 			{
 				c->Update(dt);
 			}
@@ -166,7 +195,7 @@ namespace Engine
 		for (auto& r : m_renderableComponents)
 		{
 			auto component = r.second;
-			if (component->Owner.ShouldUpdate())
+			if (component->ShouldUpdate())
 			{
 				component->Update(dt);
 				m_viewStrategy->RenderRenderable(component->GetRenderable());
@@ -178,10 +207,12 @@ namespace Engine
 		{
 			for (auto& d : m_debugs)
 				d->Debug(m_viewStrategy.get());
+
+			DebugDraw(dt); // my own
 		}
 
 		// draw UI
-		UIManager::Get().DrawGui();
+		//UIManager::Get().DrawGui();
 
 		m_viewStrategy->PostRender();
 	}

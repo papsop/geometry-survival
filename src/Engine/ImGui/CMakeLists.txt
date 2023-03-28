@@ -8,8 +8,8 @@ set(SOURCES
 	imstb_truetype.h
 	
 	imgui.cpp
-	imgui_draw.cpp
 	imgui_tables.cpp
+	imgui_draw.cpp
 	imgui_widgets.cpp
 	imgui-SFML.cpp
 	imgui_demo.cpp

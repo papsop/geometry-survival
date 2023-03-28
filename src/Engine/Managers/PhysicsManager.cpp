@@ -110,14 +110,25 @@ namespace Engine
 	void PhysicsManager::Update(float dt)
 	{
 		for (auto& body : m_physicsBodies)
-			body->Update(dt);
+		{
+			if (body->ShouldUpdate())
+			{
+				body->Update(dt);
+			}
+		}
+			
 	}
 
 	void PhysicsManager::FixedUpdate(float dt)
 	{
 		m_b2World->Step(dt, 8, 3);
 		for (auto& body : m_physicsBodies)
-			body->FixedUpdate(dt);
+		{
+			if (body->ShouldUpdate())
+			{
+				body->FixedUpdate(dt);
+			}
+		}
 	}
 
 }

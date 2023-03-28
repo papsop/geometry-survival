@@ -3,6 +3,7 @@
 #include "../Application.h"
 #include "../Core/EventData.h"
 
+#include "../ImGui/imgui.h"
 // TODO: Entity cleanup and notifications about deletion
 
 namespace Engine
@@ -33,7 +34,7 @@ namespace Engine
     else
     {
       return nullptr;
-    }
+    } 
   }
 
 	std::vector<GameObject*> GameObjectManager::GetGameObjectsByTag(GameObjectTag tag)
@@ -72,6 +73,10 @@ namespace Engine
         return; // GameObject is already scheduled to be destroyed
 
       gameObject->m_shouldDestroy = true;
+      gameObject->OnDestroy();
+			event::E_GameObjectDeleted eventData(gameObject->ID);
+			EventManager::Get().DispatchEvent(eventData);
+
       m_gameObjectsToCleanup.push(gameObject);
     }
   }
@@ -83,7 +88,7 @@ namespace Engine
       gameObject.second->Destroy();
     }
 
-    CleanupGameObjects();
+    //CleanupGameObjects();
   }
 
   void GameObjectManager::CleanupGameObjects()
@@ -92,55 +97,53 @@ namespace Engine
     {
       auto* e = m_gameObjectsToCleanup.front();
 
-      
-      e->OnDestroy();
-      event::E_GameObjectDeleted eventData(e->ID);
-
       m_gameObjects.erase(e->ID);
       m_gameObjectsToCleanup.pop();
-
-      EventManager::Get().DispatchEvent(eventData);
     }
   }
 
-  void GameObjectManager::DebugDraw_ExpandGameObject(view::IViewStrategy* viewStrategy, GameObject* obj, unsigned& line, unsigned depth)
+  void GameObjectManager::DebugDraw_ExpandGameObject(GameObject* obj)
   {
-    DebugDraw_WriteGameObjectLine(viewStrategy, obj, line, depth);
-
     auto& children = obj->GetTransform()->GetChildren();
-    if (children.size() == 0)
-      return; // stop recursion
-
-    for (const auto& child : children)
+    if (children.size() > 0)
     {
-      DebugDraw_ExpandGameObject(viewStrategy, child, line, depth + 1);
+			if (ImGui::TreeNode(obj->DebugName))
+			{
+       
+				auto& children = obj->GetTransform()->GetChildren();
+				for (const auto& child : children)
+				{
+					DebugDraw_ExpandGameObject(child);
+				}
+				ImGui::TreePop();
+			}
+    }
+    else
+    {
+      ImGui::BulletText(obj->DebugName);
     }
   }
-
-  // Helper function to write into viewStrategy
-  void GameObjectManager::DebugDraw_WriteGameObjectLine(view::IViewStrategy* viewStrategy, GameObject* obj, unsigned& line, unsigned depth)
-  {
-    float topOffset = 50.0f;
-
-    math::Vec2 position = { 15.0f + 25.0f * depth, topOffset + 16.0f * line };
-
-    std::string text = std::to_string(obj->ID) + " - " + obj->DebugName;
-    sf::Color color = obj->IsActive() ? sf::Color::Green : sf::Color::Red;
-    viewStrategy->DebugRenderText(ITransform::PositionSpace::CameraSpace, text, position, false, 12.0f, color);
-    line++;
-  }
-
   void GameObjectManager::Debug(view::IViewStrategy* viewStrategy)
   {
-    unsigned line = 0;
-    for (const auto& [ID, gameObject] : m_gameObjects)
-    {
-      auto* gameObject_ptr = gameObject.get();
-      if (gameObject_ptr->GetTransform()->GetParent() == nullptr)
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+    ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.9f, work_size.y * 0.1f), ImGuiCond_Once, ImVec2(1.0f, 0.0f));
+		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+
+		if (ImGui::Begin("GameObjectManager", NULL, window_flags))
+		{
+      for (const auto& [ID, gameObject] : m_gameObjects)
       {
-        DebugDraw_ExpandGameObject(viewStrategy, gameObject_ptr, line, 0);
+				auto* gameObject_ptr = gameObject.get();
+        if (gameObject_ptr->GetTransform()->GetParent() == nullptr)
+        {
+          DebugDraw_ExpandGameObject(gameObject_ptr);
+        }
       }
-    }
+
+		}
+		ImGui::End();
   }
 
 };

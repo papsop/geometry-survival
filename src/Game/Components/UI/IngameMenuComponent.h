@@ -7,7 +7,7 @@
 
 namespace Game
 {
-  class IngameMenuComponent : public Engine::IUIComponent, public Engine::IEventListener<Engine::event::E_EscapeAction>
+  class IngameMenuComponent : public Engine::IImGuiComponent, public Engine::IEventListener<Engine::event::E_EscapeAction>
   {
   public:
     IngameMenuComponent(Engine::GameObject& obj);
@@ -20,18 +20,12 @@ namespace Game
     void BackToMenuButtonCallback();
     void QuitButtonCallback();
 
+    void Update(float dt) override;
+
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
-    void RegisterUIElements() override;
-    void UIShown() override;
-    void UIHidden() override;
 
-  private:
-    tgui::VerticalLayout::Ptr m_menuLayout;
-    
-    tgui::Button::Ptr m_newGameButton;
-    tgui::Button::Ptr m_settingsButton;
-    tgui::Button::Ptr m_backToMenuButton;
-    tgui::Button::Ptr m_quitButton;
+    void VirtualOnActivated() override;
+    void VirtualOnDeactivated() override;
   };
 }

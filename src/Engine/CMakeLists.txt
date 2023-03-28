@@ -1,6 +1,5 @@
 set(ENGINE_PROJECT Engine)
 set(ENGINE_PROJECT Engine PARENT_SCOPE)
-
 find_package(OpenGL REQUIRED)
 
 project(
@@ -14,7 +13,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
-  )
+   "Debug/Backend/ImGuiBackendStrategy.h")
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)
@@ -34,7 +33,6 @@ target_include_directories(
     ${TGUI_INCLUDE}
 )
 
-message("===============================" .. ${OPENGL_LIBRARY})
 # PUBLIC because we want to propagate SFML into Game as well without explicit linking there
 target_link_libraries(
 	${ENGINE_PROJECT}
@@ -45,5 +43,5 @@ target_link_libraries(
     box2d
     yaml-cpp
     tgui
-    ${OPENGL_LIBRARY}
+    ${OPENGL_LIBRARIES}
 )

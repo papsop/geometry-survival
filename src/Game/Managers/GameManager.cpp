@@ -8,6 +8,7 @@
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/InputManager.h>
+#include <Engine/ImGui/imgui.h>
 
 #include "../Core/EventData.h"
 #include "../Scenes/GamePlayScene.h"
@@ -31,6 +32,7 @@ namespace Game
 
   void GameManager::VirtualOnInit()
   {
+    DebuggableOnInit();
     srand((unsigned)time(NULL));
 
     m_app.GetConfigManager().RegisterCvar("spawner_radius", &m_spawnRadius, 50.0f);
@@ -40,6 +42,7 @@ namespace Game
 
   void GameManager::VirtualOnDestroy()
   {
+    DebuggableOnDestroy();
   }
 
   void GameManager::SetGameState(GameState state)
@@ -141,5 +144,33 @@ namespace Game
     data.push_back({ "spawner_cooldown",			    std::to_string(m_spawnCooldown) });
     data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
   }
+
+	void GameManager::Debug(Engine::view::IViewStrategy* viewStrategy)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(0.0f, work_size.y), ImGuiCond_Once, ImVec2(0.0f, 1.0f));
+		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
+    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+
+		if (ImGui::Begin("GameManager", NULL, window_flags))
+		{
+      if (m_currentGameState == GameState::Gameplay)
+      {
+				if (ImGui::Button("PAUSE"))
+				{
+          SetGameState(GameState::Paused);
+				}
+      }
+      else if (m_currentGameState == GameState::Paused)
+			{
+				if (ImGui::Button("UNPAUSE"))
+				{
+					SetGameState(GameState::Gameplay);
+				}
+			}
+		}
+		ImGui::End();
+	}
 
 }

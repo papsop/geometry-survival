@@ -7,7 +7,7 @@ namespace Game
 {
 
 	Skill_BulletDamage::Skill_BulletDamage()
-		: ISkill("+3 bullet damage", "")
+		: ISkill("Bullet damage", "+3 bullet damage")
 	{
 	}
 

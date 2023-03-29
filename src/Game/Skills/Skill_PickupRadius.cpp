@@ -7,7 +7,7 @@ namespace Game
 {
 
 	Skill_PickupRadius::Skill_PickupRadius()
-		: ISkill("+3 pickup radius", "")
+		: ISkill("Pickup radius", "+3 pickup radius")
 	{
 	}
 

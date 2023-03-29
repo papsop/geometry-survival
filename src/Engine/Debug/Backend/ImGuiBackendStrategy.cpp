@@ -14,7 +14,7 @@ namespace Engine
 		IEventListener<event::E_OnConsoleKeyAction>::RegisterListener();
 
 		m_maxLevel = static_cast<unsigned int>(LOGGER_LEVEL::DEBUG);
-		m_shouldShowConsole = true;
+		m_shouldShowConsole = false;
 	}
 
 	ImGuiBackendStrategy::~ImGuiBackendStrategy()

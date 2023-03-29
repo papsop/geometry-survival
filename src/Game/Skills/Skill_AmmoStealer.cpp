@@ -7,7 +7,7 @@ namespace Game
 {
 
   Skill_AmmoStealer::Skill_AmmoStealer()
-    : ISkill("+1 Ammo stealing", "Upon killing an enemy, you receive +1 ammo back")
+    : ISkill("Ammo stealer", "+1 ammo stealing")
   {
   }
 

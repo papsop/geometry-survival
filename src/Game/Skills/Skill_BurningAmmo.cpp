@@ -6,7 +6,7 @@
 namespace Game
 {
   Skill_BurningAmmo::Skill_BurningAmmo()
-    : ISkill("+2 burning damage", "")
+    : ISkill("Burning ammo", "+2 burning damage")
   {
   }
 

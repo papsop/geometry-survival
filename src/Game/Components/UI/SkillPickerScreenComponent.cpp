@@ -37,11 +37,12 @@ namespace Game
       for (int i = 0; i < m_skillsToPick.size(); i++)
       {
         ImGui::BeginGroup();
-        if (ImGui::Button(m_skillsToPick[i]->GetSkillName(), ImVec2(150.0f, 150.0f)))
+        ImGui::PushItemWidth(150.0f);
+        if (ImGui::Button(m_skillsToPick[i]->GetSkillName(), ImVec2(150.0f, 100.0f)))
         {
           PickSkillNumber(i);
         }
-        //ImGui::Text(m_skillsToPick[i]->GetSkillDescription().c_str());
+        ImGui::Text(m_skillsToPick[i]->GetSkillDescription());
         ImGui::EndGroup();
         ImGui::SameLine();
       }

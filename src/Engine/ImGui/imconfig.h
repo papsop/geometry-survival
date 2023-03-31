@@ -151,3 +151,8 @@ namespace ImGui
                          static_cast<std::uint8_t>(z * 255.f),                                     \
                          static_cast<std::uint8_t>(w * 255.f));                                    \
     }
+
+
+// for custom widgets
+#define IMGUI_INCLUDE_IMGUI_USER_H
+#define IMGUI_INCLUDE_IMGUI_USER_INL

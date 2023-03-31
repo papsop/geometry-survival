@@ -94,6 +94,23 @@ namespace Game
       }
 		}
 		ImGui::End();
+
+		//// timeline test
+
+  //  ImGui::SetNextWindowPos(ImVec2(0.0f, 0.0f), ImGuiCond_Always, ImVec2(0.f, 0.f));
+		//ImGui::SetNextWindowSize(ImVec2(500.0f, 200.0f));
+  //  ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+
+		//if (ImGui::Begin("timeline", NULL, window_flags))
+		//{
+		//	ImGui::BeginTimeline("timeline_test", 200.0f);
+
+		//	float times[2] = { 50.0f, 100.0f };
+		//	ImGui::TimelineEvent("event1", times);
+
+		//	ImGui::EndTimeline();
+		//}
+		//ImGui::End();
 	}
 
 	void MainMenuScreenComponent::VirtualOnActivated()

@@ -21,16 +21,26 @@ namespace Game
   void BulletComponent::OnCreate()
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
-
-		auto forward = Owner.GetTransform()->Forward();
-		forward *= 30.0f;
-		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
   }
 
   BulletComponent::~BulletComponent()
   {
     Engine::ComponentManager::Get().UnregisterComponent(this);
   }
+
+	void BulletComponent::VirtualOnActivated()
+	{
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
+
+		auto forward = Owner.GetTransform()->Forward();
+		forward *= 30.0f;
+		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
+	}
+
+	void BulletComponent::VirtualOnDeactivated()
+	{
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
 
   void BulletComponent::Update(float dt)
   {
@@ -63,6 +73,11 @@ namespace Game
     // =========
     m_hitsLeft--;
     if(m_hitsLeft<= 0) Owner.Destroy();
+	}
+
+	void BulletComponent::ReceiveEvent(const event::E_GameStateChanged & eventData)
+	{
+    SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 }

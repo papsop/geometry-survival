@@ -3,6 +3,10 @@
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/IDebuggable.h>
+#include <Engine/Core/Events.h>
+
+#include "../../Core/EventData.h"
+
 #include <memory>
 #include <vector>
 #include <array>
@@ -31,7 +35,8 @@ namespace Game
 		float BurningDamage = 0.0f;
 	};
 
-	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent
+	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent,
+		public Engine::IEventListener<event::E_GameStateChanged>
 	{
 	public:
 		using ptr_Buff = std::unique_ptr<Buff>;
@@ -39,17 +44,21 @@ namespace Game
 		RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef);
 		~RPGComponent();
 
-		void  VirtualOnActivated() override;
+		void OnCreate() override;
 
-		void  Update(float dt) override;
+		void Update(float dt) override;
 
 		float GetStat(RPGStats stat);
-		void  SetStatBase(RPGStats stat, float value);
+		void SetStatBase(RPGStats stat, float value);
 
-		void  AddBuff(ptr_Buff buff);
+		void AddBuff(ptr_Buff buff);
 
-		void  Debug(Engine::view::IViewStrategy* viewStrategy) override;
+		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
+	protected:
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
+		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 	private:
 		void ResetModifiers();
 		std::vector< ptr_Buff > m_buffs;

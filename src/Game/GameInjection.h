@@ -77,7 +77,6 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();

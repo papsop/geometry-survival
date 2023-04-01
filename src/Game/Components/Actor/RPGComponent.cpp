@@ -26,9 +26,19 @@ namespace Game
 		ResetModifiers();
 	}
 
-	void RPGComponent::VirtualOnActivated()
+	void RPGComponent::OnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
+	}
+
+	void RPGComponent::VirtualOnActivated()
+	{
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
+	}
+
+	void RPGComponent::VirtualOnDeactivated()
+	{
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
 	}
 
 	RPGComponent::~RPGComponent()
@@ -136,6 +146,11 @@ namespace Game
 		size_t statIndex = static_cast<size_t>(stat);
 		float resultValue = (m_statBase[statIndex] * m_percentageStatBonus[statIndex]) + m_additiveStatBonus[statIndex];
 		return (resultValue < 0.0f) ? 0.0f : resultValue;
+	}
+
+	void RPGComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 }

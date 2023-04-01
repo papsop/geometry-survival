@@ -8,19 +8,15 @@
 
 #include "../Core/EventData.h"
 
-
 #include "GameTimer.h"
 
 namespace Game
 {
+	// GameState is in EventData
+
 	class GameManager : public Engine::IManager, public Engine::IDebuggable, public Engine::IConfigurable
 	{
 	public:
-		enum class GameState
-		{
-			Gameplay,
-			Paused
-		};
 
 		GameManager(Engine::Application& app);
 		~GameManager() override = default;

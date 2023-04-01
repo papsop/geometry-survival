@@ -6,7 +6,6 @@
 #include <Engine/Core/EventData.h>
 
 #include "../../Core/EventData.h"
-#include "../../Core/StateMachines/UIStateMachine.h"
 
 #include "../Player/LevelComponent.h"
 #include "../Actor/WeaponComponent.h"

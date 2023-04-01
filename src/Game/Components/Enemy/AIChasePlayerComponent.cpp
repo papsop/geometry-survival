@@ -40,11 +40,13 @@ namespace Game
   void AIChasePlayerComponent::VirtualOnActivated()
   {
     Engine::IEventListener<event::E_PlayerTookDamage>::RegisterListener();
+    Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
   }
 
   void AIChasePlayerComponent::VirtualOnDeactivated()
   {
     Engine::IEventListener<event::E_PlayerTookDamage>::UnregisterListener();
+    Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
   }
 
   void AIChasePlayerComponent::Update(float dt)
@@ -65,7 +67,12 @@ namespace Game
     ApplyKnockbackFromPlayer();
   }
 
-  void AIChasePlayerComponent::ApplyKnockbackFromPlayer()
+	void AIChasePlayerComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+    SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
+
+	void AIChasePlayerComponent::ApplyKnockbackFromPlayer()
   {
     // apply knockback from player
     auto* playerGO = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();

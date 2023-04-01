@@ -31,6 +31,16 @@ namespace Game
     Engine::ComponentManager::Get().UnregisterComponent(this);
   }
 
+	void ActorComponent::VirtualOnActivated()
+	{
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
+	}
+
+	void ActorComponent::VirtualOnDeactivated()
+	{
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
+
   void ActorComponent::Move(Engine::math::Vec2 dir)
   {
     auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
@@ -114,6 +124,14 @@ namespace Game
                                 std::to_string( static_cast<int>(m_RPGComponent->GetStat(RPGStats::MAX_HEALTH)) );
 
 		viewStrategy->DebugRenderText(Engine::ITransform::PositionSpace::WorldSpace, healthString, pos, true, 12.0f, sf::Color::Yellow);
+	}	
+  
+  void ActorComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
+
+    if(!IsEnabled())
+      Move({ 0.0f, 0.0f }); // to stop the movement of the actor
 	}
 
 	void ActorComponent::Update(float dt)

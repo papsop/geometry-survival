@@ -185,7 +185,6 @@ namespace Engine
 
       // Update managers
       m_inputManager->Update();
-
       // Process GameObject messages
       m_gameObjectManager->Update(lastFrameMS);
       // Update custom managers that the game registered
@@ -194,6 +193,9 @@ namespace Engine
       {
           managerEntry.second->Update(lastFrameMS);
       }
+
+      // Update components
+      UpdateGameplay(lastFrameMS);
 
       // Rendering
       m_viewManager->Update(lastFrameMS);

@@ -20,7 +20,7 @@ namespace Game
 	void IngameMenuComponent::VirtualOnActivated()
 	{
 		Engine::ViewManager::Get().RegisterComponent(this);
-		Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+		GameManager::Get()->SetGameState(GameState::Paused);
 		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 	}
 
@@ -36,7 +36,7 @@ namespace Game
     if (parentController)
     {
       parentController->SetState(IngameUIControllerComponent::IngameUIState::HUD);
-      Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Gameplay);
+      GameManager::Get()->SetGameState(GameState::Gameplay);
     } 
   }
 

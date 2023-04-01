@@ -22,6 +22,16 @@ namespace Game
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 
+	void CombatTextComponent::VirtualOnActivated()
+	{
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
+	}
+
+	void CombatTextComponent::VirtualOnDeactivated()
+	{
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
+
 	void CombatTextComponent::Update(float dt)
 	{
 		m_durationLeft -= dt;
@@ -36,6 +46,9 @@ namespace Game
 		}
 	}
 
-
+	void CombatTextComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
 
 }

@@ -12,7 +12,9 @@
 
 namespace Game
 {
-	class AIChasePlayerComponent : public Engine::IComponent, public Engine::IEventListener<event::E_PlayerTookDamage>
+	class AIChasePlayerComponent : public Engine::IComponent,
+		public Engine::IEventListener<event::E_PlayerTookDamage>,
+		public Engine::IEventListener<event::E_GameStateChanged>
 	{
 	public:
 		AIChasePlayerComponent(Engine::GameObject& obj);
@@ -30,6 +32,7 @@ namespace Game
     void VirtualOnDeactivated() override;
 
 		void ReceiveEvent(const event::E_PlayerTookDamage& eventData) override;
+		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
 	private:
 		void ApplyKnockbackFromPlayer();

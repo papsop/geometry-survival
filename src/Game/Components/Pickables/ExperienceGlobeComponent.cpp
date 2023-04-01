@@ -23,6 +23,16 @@ namespace Game
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 
+	void ExperienceGlobeComponent::VirtualOnActivated()
+	{
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
+	}
+
+	void ExperienceGlobeComponent::VirtualOnDeactivated()
+	{
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
+
 	void ExperienceGlobeComponent::Update(float dt)
 	{
 		if (m_markedBy != nullptr)
@@ -59,6 +69,10 @@ namespace Game
 			}
 			Owner.Destroy();
 		}
-	}
+	}	
 
+	void ExperienceGlobeComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
 };

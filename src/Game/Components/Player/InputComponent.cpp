@@ -1,7 +1,5 @@
 #include "InputComponent.h"
 
-#include "../Actor/ActorComponent.h"
-
 #include <Engine/Application.h>
 #include <Engine/Managers/ViewManager.h>
 #include <Engine/Managers/ComponentManager.h>
@@ -18,6 +16,7 @@ namespace Game
   void InputComponent::OnCreate()
   {
       Engine::ComponentManager::Get().RegisterComponent(this);
+      m_actorComponent = Owner.GetComponent<ActorComponent>();
   }
 
   InputComponent::~InputComponent()
@@ -25,28 +24,41 @@ namespace Game
       Engine::ComponentManager::Get().UnregisterComponent(this);
   }
 
+	void InputComponent::VirtualOnActivated()
+	{
+		Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
+	}
+
+	void InputComponent::VirtualOnDeactivated()
+	{
+		Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
+
   void InputComponent::Update(float dt)
   {
-    auto actorComponent = Owner.GetComponent<ActorComponent>();
-    if (actorComponent == nullptr) return;
-
     // rotation
     auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
     float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
 
-    actorComponent->AddCommand<RotateCommand>(angle);
+    m_actorComponent->AddCommand<RotateCommand>(angle);
     // movement
     float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
     float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
 
-    actorComponent->AddCommand<MoveCommand>(horizontal, vertical);
+    m_actorComponent->AddCommand<MoveCommand>(horizontal, vertical);
         
     // shooting
     if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
-        actorComponent->AddCommand<FireCommand>();
+      m_actorComponent->AddCommand<FireCommand>();
 
 		// reloading
 		if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
-			actorComponent->AddCommand<ReloadCommand>();
+      m_actorComponent->AddCommand<ReloadCommand>();
   }
+
+	void InputComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+    SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
+
 };

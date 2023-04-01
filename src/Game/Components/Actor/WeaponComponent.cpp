@@ -38,17 +38,14 @@ namespace Game
   void WeaponComponent::VirtualOnActivated()
   {
     Engine::IEventListener<event::E_EnemyDied>::RegisterListener();
+    Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
   }
 
   void WeaponComponent::VirtualOnDeactivated()
   {
     Engine::IEventListener<event::E_EnemyDied>::UnregisterListener();
+    Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
   }
-
-	void WeaponComponent::OnDestroy()
-	{
-		Engine::IEventListener<event::E_EnemyDied>::UnregisterListener();
-	}
 
   void WeaponComponent::Update(float dt)
   {
@@ -125,5 +122,10 @@ namespace Game
       AddAmmo(m_rpgComponent->GetStat(RPGStats::AMMO_ON_KILL));
     }
   }
+
+	void WeaponComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+    SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
 
 }

@@ -15,16 +15,6 @@ namespace Game
 		m_firstLevelExperience = GameManager::Get()->GetFirstLevelExperience();
 	}
 
-	void LevelComponent::OnCreate()
-	{
-		Engine::ComponentManager::Get().RegisterComponent(this);
-	}
-
-	LevelComponent::~LevelComponent()
-	{
-		Engine::ComponentManager::Get().UnregisterComponent(this);
-	}
-
 	void LevelComponent::ApplyExperience(float amount)
 	{
 		m_totalExp += amount;
@@ -47,11 +37,6 @@ namespace Game
 	float LevelComponent::GetNextLevelExperience()
 	{
 		return m_firstLevelExperience * std::pow(2, m_currentLevel);
-	}
-
-	void LevelComponent::Update(float dt)
-	{
-		
 	}
 
 	void LevelComponent::Debug(Engine::view::IViewStrategy* viewStrategy)

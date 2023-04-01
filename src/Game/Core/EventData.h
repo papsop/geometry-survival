@@ -7,21 +7,22 @@ namespace Engine
 
 namespace Game
 {
+	enum class GameState
+	{
+		Gameplay,
+		Paused
+	};
+
 	namespace event
 	{
-		struct E_GamePaused {};
-		struct E_GameResumed {};
+		struct E_GameStateChanged
+		{
+			GameState NewState;
+		};
+
 		struct E_PlayerLeveledUp
 		{
 
-		};
-
-		
-
-		enum PauseState {UNKNOWN, PAUSED, RUNNING};
-		struct E_GamePausedChanged 
-		{
-			PauseState NewState;
 		};
 
 		struct E_PlayerObjectRegistrationChanged

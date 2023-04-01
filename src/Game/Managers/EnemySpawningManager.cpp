@@ -64,7 +64,7 @@ namespace Game
 
 	void EnemySpawningManager::Update(float dt)
 	{
-		if (m_app.GetGameManager<GameManager>()->GetCurrentGameState() != GameManager::GameState::Gameplay)
+		if (GameManager::Get()->GetCurrentGameState() != GameState::Gameplay)
 			return;
 
 		if (!m_spawnerObject || !m_gameTimer)

@@ -1,5 +1,4 @@
 #include "IngameHUDComponent.h"
-#include "../../Core/StateMachines/States/UI/GameHUDState.h"
 
 #include "Controllers/IngameUIControllerComponent.h"
 #include <Engine/Application.h>

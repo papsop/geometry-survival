@@ -1,5 +1,4 @@
 #include "GameOverMenuComponent.h"
-#include "../../Core/StateMachines/States/UI/GameHUDState.h"
 #include "../../Managers/GameManager.h"
 
 #include "Controllers/IngameUIControllerComponent.h"

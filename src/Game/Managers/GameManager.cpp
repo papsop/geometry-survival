@@ -49,33 +49,30 @@ namespace Game
   {
     if (state == m_currentGameState) return;
 
+
+
     switch (state)
     {
     case GameState::Gameplay:
       m_currentGameState = GameState::Gameplay;
-      Engine::PhysicsManager::Get().SetPhysicsEnabled(true);
-      Engine::EventManager::Get().DispatchEvent(event::E_GameResumed());
+			Engine::PhysicsManager::Get().SetPhysicsEnabled(true);
       break;
     case GameState::Paused:
       m_currentGameState = GameState::Paused;
       Engine::PhysicsManager::Get().SetPhysicsEnabled(false);
-      Engine::EventManager::Get().DispatchEvent(event::E_GamePaused());
       break;
     default:
       break;
     }
+
+		event::E_GameStateChanged event;
+		event.NewState = state;
+    Engine::EventManager::Get().DispatchEvent(event);
   }
 
   void GameManager::Update(float dt)
   {
-	  if (m_currentGameState == GameState::Gameplay)
-	  {
-		  m_app.UpdateGameplay(dt);
-	  }
-	  else if(m_currentGameState == GameState::Paused)
-	  {
-		  /* */
-	  }
+     /* */
   }
 
   void GameManager::SendPlayerRegistrationEvent(bool registered)

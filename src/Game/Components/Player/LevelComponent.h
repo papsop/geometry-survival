@@ -9,10 +9,7 @@ namespace Game
 	{
 	public:
 		LevelComponent(Engine::GameObject& obj);
-		~LevelComponent() override;
-
-		void OnCreate() override;
-		void Update(float dt) override;
+		~LevelComponent() override = default;
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 		void ApplyExperience(float amount);

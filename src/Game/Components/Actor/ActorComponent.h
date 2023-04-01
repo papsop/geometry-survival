@@ -6,6 +6,9 @@
 #include <queue>
 #include <memory>
 
+#include <Engine/Core/Events.h>
+
+#include "../../Core/EventData.h"
 namespace Game
 {
 
@@ -16,7 +19,8 @@ namespace Game
     DOT, // e.g. burning, should apply a knockback
   };
 
-  class ActorComponent : public Engine::IComponent, public Engine::IDebuggableComponent
+	class ActorComponent : public Engine::IComponent, public Engine::IDebuggableComponent,
+		public Engine::IEventListener<event::E_GameStateChanged>
   {
   public:
     ActorComponent(Engine::GameObject& obj);
@@ -42,6 +46,11 @@ namespace Game
 
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
+	protected:
+		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
+
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
   private:
     RPGComponent* m_RPGComponent;
     std::queue<std::unique_ptr<ICommand>> m_commandsQueue;

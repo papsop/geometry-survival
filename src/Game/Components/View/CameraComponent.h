@@ -7,13 +7,14 @@
 #include "../../Core/EventData.h"
 namespace Game
 {
-  class CameraComponent : public Engine::IComponent, public Engine::IDebuggableComponent, public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+  class CameraComponent : public Engine::IComponent, public Engine::IDebuggableComponent,
+		public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>,
+		public Engine::IEventListener<event::E_GameStateChanged>
   {
   public:
     CameraComponent(Engine::GameObject& obj, Engine::GameObject* target);
     ~CameraComponent() override;
     void OnCreate() override;
-    void OnDestroy() override;
     void Update(float dt) override;
 
     void SetTarget(Engine::GameObject* newTarget);
@@ -22,6 +23,7 @@ namespace Game
 
   protected:
     void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
+    void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
     void VirtualOnActivated() override;
     void VirtualOnDeactivated() override;

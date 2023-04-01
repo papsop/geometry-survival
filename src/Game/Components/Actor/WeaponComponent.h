@@ -8,7 +8,9 @@
 
 namespace Game
 {
-    class WeaponComponent : public Engine::IComponent, public Engine::IEventListener<event::E_EnemyDied>
+    class WeaponComponent : public Engine::IComponent, 
+			public Engine::IEventListener<event::E_EnemyDied>,
+			public Engine::IEventListener<event::E_GameStateChanged>
     {
     public:
       WeaponComponent(Engine::GameObject& obj);
@@ -29,11 +31,9 @@ namespace Game
       unsigned int GetMaxAmmo();
       unsigned int GetCurrentAmmo();
 
-
-      void OnDestroy() override;
-
     protected:
-      void ReceiveEvent(const event::E_EnemyDied& eventData) override;
+			void ReceiveEvent(const event::E_EnemyDied& eventData) override;
+			void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
       void VirtualOnActivated() override;
       void VirtualOnDeactivated() override;

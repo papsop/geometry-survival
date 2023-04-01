@@ -30,7 +30,7 @@ namespace Engine
 	{
 		if (!m_isActive)
 		{
-			m_isActive = true;
+			m_isActive = m_isEnabled = true;
 			VirtualOnActivated();
 		}
 	}
@@ -39,14 +39,14 @@ namespace Engine
 	{
 		if (m_isActive)
 		{
-			m_isActive = false;
+			m_isActive = m_isEnabled = false;
 			VirtualOnDeactivated();
 		}
 	}
 
 	bool IComponent::ShouldUpdate()
 	{
-    return Owner.ShouldUpdate() && IsActive();
+    return Owner.ShouldUpdate() && IsActive() && IsEnabled();
 	}
 
   // ImGui

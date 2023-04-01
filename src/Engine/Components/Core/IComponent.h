@@ -34,6 +34,8 @@ namespace Engine
       void Activate();
       void Deactivate();
       bool IsActive() { return m_isActive; }
+      bool IsEnabled() { return m_isEnabled; }
+      void SetEnabled(bool val) { m_isEnabled = val; }
       bool ShouldUpdate();
 
       virtual void OnCreate() {};
@@ -75,7 +77,8 @@ namespace Engine
 
     protected:
         bool m_isActive = false;
-        bool m_isEnabled = false;
+        bool m_isEnabled = false;   // controls only Updating
+        // TODO: add OnEnabled callback, but isn't needed right now
     };
 
     // Views

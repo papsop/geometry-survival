@@ -19,16 +19,13 @@ namespace Game
   void CameraComponent::VirtualOnActivated()
   {
     IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+		IEventListener<event::E_GameStateChanged>::RegisterListener();
   }
 
   void CameraComponent::VirtualOnDeactivated()
   {
     IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
-  }
-
-  void CameraComponent::OnDestroy()
-  {
-    IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+		IEventListener<event::E_GameStateChanged>::UnregisterListener();
   }
 
 	CameraComponent::~CameraComponent()
@@ -67,5 +64,10 @@ namespace Game
 			m_target = eventData.PlayerObject;
 		}
   }
+
+	void CameraComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
 
 };

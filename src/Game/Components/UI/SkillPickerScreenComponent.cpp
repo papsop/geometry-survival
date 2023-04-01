@@ -53,14 +53,14 @@ namespace Game
 	void SkillPickerScreenComponent::VirtualOnActivated()
 	{
     Engine::ViewManager::Get().RegisterComponent(this);
-    Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Paused);
+    GameManager::Get()->SetGameState(GameState::Paused);
 		m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
 	}
 
 	void SkillPickerScreenComponent::VirtualOnDeactivated()
 	{
 		Engine::ViewManager::Get().UnregisterComponent(this);
-    Engine::Application::Instance().GetGameManager<GameManager>()->SetGameState(GameManager::GameState::Gameplay);
+    GameManager::Get()->SetGameState(GameState::Gameplay);
 	}
 
 	void SkillPickerScreenComponent::ReturnToGame()

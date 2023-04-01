@@ -37,12 +37,12 @@ namespace Engine
 		static ViewManager& Get();
 
 		void RegisterComponent(IRenderableComponent* component);
-		void RegisterComponent(IUIComponent* component);
+		//void RegisterComponent(IUIComponent* component);
 		void RegisterComponent(IImGuiComponent* component);
 		void RegisterComponent(IDebuggable* component);
 
 		void UnregisterComponent(IRenderableComponent* component);
-		void UnregisterComponent(IUIComponent* component);
+		//void UnregisterComponent(IUIComponent* component);
 		void UnregisterComponent(IImGuiComponent* component);
 		void UnregisterComponent(IDebuggable* component);
 
@@ -84,7 +84,7 @@ namespace Engine
 
 		std::unique_ptr<view::IViewStrategy> m_viewStrategy;
 		std::multimap< view::Layer, IRenderableComponent*> m_renderableComponents;
-		std::vector< IUIComponent* > m_uiComponents;
+		//std::vector< IUIComponent* > m_uiComponents;
 		std::vector< IImGuiComponent* > m_imguiComponents;
 		std::vector< IDebuggable* > m_debugs;
 

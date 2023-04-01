@@ -75,6 +75,7 @@ namespace Engine
 
     protected:
         bool m_isActive = false;
+        bool m_isEnabled = false;
     };
 
     // Views
@@ -97,17 +98,17 @@ namespace Engine
     };
 
     // UI
-
+    // SHOULDN'T BE USED
     class IUIComponent : public IComponent, public IEventListener<event::E_GUIReset>
     {
     public:
-      IUIComponent(GameObject& obj);
+      IUIComponent(GameObject& obj) : IComponent(obj) {};
       ~IUIComponent() = default;
 
-      virtual void OnCreate() final;
-      virtual void OnDestroy() final;
-      virtual void VirtualOnActivated() final;
-      virtual void VirtualOnDeactivated() final;
+      virtual void OnCreate() final {};
+      virtual void OnDestroy() final {};
+      virtual void VirtualOnActivated() final {};
+      virtual void VirtualOnDeactivated() final {};
       virtual void Update(float dt) {};
 
     protected:
@@ -116,7 +117,7 @@ namespace Engine
       virtual void UIHidden() {};
 
       tgui::Group::Ptr m_group = nullptr;
-      void ReceiveEvent(const event::E_GUIReset & eventData) override;
+      void ReceiveEvent(const event::E_GUIReset& eventData) override {};
 
     private:
       tgui::Gui* m_gui = nullptr;

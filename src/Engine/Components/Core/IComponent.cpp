@@ -49,59 +49,6 @@ namespace Engine
     return Owner.ShouldUpdate() && IsActive();
 	}
 
-	// UI COMPONENT
-  IUIComponent::IUIComponent(GameObject& obj)
-    : IComponent(obj)
-  {
-
-  }
-
-  void IUIComponent::OnCreate()
-  {
-    m_gui = Engine::UIManager::Get().GetGui();
-    if (!m_gui) return;
-    
-    ViewManager::Get().RegisterComponent(this);
-    m_group = tgui::Group::create();
-    m_gui->add(m_group);
-    m_group->setVisible(false);
-
-    // For the derived class
-    RegisterUIElements();
-		IEventListener<event::E_GUIReset>::RegisterListener();
-  }
-
-  void IUIComponent::OnDestroy()
-  {
-    if (!m_gui) return;
-
-		ViewManager::Get().UnregisterComponent(this);
-		IEventListener<event::E_GUIReset>::UnregisterListener();
-    UIHidden();
-    m_gui->remove(m_group);
-  }
-
-  void IUIComponent::VirtualOnActivated()
-  {
-    m_group->setVisible(true);
-    UIShown();
-  }
-
-  void IUIComponent::VirtualOnDeactivated()
-  {
-    m_group->setVisible(false);
-    UIHidden();
-  }
-
-	void IUIComponent::ReceiveEvent(const event::E_GUIReset& eventData)
-	{
-    //bool isVisible = (m_group) ? m_group->isVisible() : false;
-    // meh
-    m_gui = Engine::UIManager::Get().GetGui();
-		m_gui->add(m_group);
-		//m_group->setVisible(isVisible);
-	}
-
   // ImGui
   IImGuiComponent::IImGuiComponent(GameObject& obj)
     : IComponent(obj)

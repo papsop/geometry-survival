@@ -8,6 +8,7 @@
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/InputManager.h>
+#include <Engine/Managers/PhysicsManager.h>
 #include <Engine/ImGui/imgui.h>
 
 #include "../Core/EventData.h"
@@ -18,7 +19,6 @@ namespace Game
 {
   GameManager::GameManager(Engine::Application& app)
     : m_app(app)
-    , m_currentGameState(GameState::Gameplay)
     , m_player(nullptr)
   {
   }
@@ -53,10 +53,12 @@ namespace Game
     {
     case GameState::Gameplay:
       m_currentGameState = GameState::Gameplay;
+      Engine::PhysicsManager::Get().SetPhysicsEnabled(true);
       Engine::EventManager::Get().DispatchEvent(event::E_GameResumed());
       break;
     case GameState::Paused:
       m_currentGameState = GameState::Paused;
+      Engine::PhysicsManager::Get().SetPhysicsEnabled(false);
       Engine::EventManager::Get().DispatchEvent(event::E_GamePaused());
       break;
     default:

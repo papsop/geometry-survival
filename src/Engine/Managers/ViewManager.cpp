@@ -116,10 +116,10 @@ namespace Engine
 		m_debugs.emplace_back(component);
 	}
 
-  void ViewManager::RegisterComponent(IUIComponent* component)
-  {
-    //m_uiComponents.emplace_back(component);
-  }
+//   void ViewManager::RegisterComponent(IUIComponent* component)
+//   {
+//     //m_uiComponents.emplace_back(component);
+//   }
 
 	void ViewManager::RegisterComponent(IImGuiComponent* component)
 	{
@@ -139,10 +139,10 @@ namespace Engine
 		}
 	}
 
-  void ViewManager::UnregisterComponent(IUIComponent* component)
-  {
-    //m_uiComponents.erase(std::remove(m_uiComponents.begin(), m_uiComponents.end(), component), m_uiComponents.end());
-  }
+//   void ViewManager::UnregisterComponent(IUIComponent* component)
+//   {
+//     //m_uiComponents.erase(std::remove(m_uiComponents.begin(), m_uiComponents.end(), component), m_uiComponents.end());
+//   }
 
 	void ViewManager::UnregisterComponent(IImGuiComponent* component)
 	{

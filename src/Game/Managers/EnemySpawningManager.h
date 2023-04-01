@@ -44,6 +44,8 @@ namespace Game
 		void VirtualOnDestroy() override;
 
 	private:
+		bool IsEntryInTime(const EnemySpawningEntry& entry);
+
 		Engine::Application& m_app;
 		Engine::GameObject* m_spawnerObject = nullptr;
 		GameTimer* m_gameTimer = nullptr;

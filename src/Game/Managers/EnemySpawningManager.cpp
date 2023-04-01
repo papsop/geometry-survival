@@ -17,7 +17,7 @@ namespace Game
 		};
 		entry.Cooldown = 2.0f;
 		entry.CurrentCooldown = 0.0f;
-		entry.TimeMin = 0.0f;
+		entry.TimeMin = 5.0f;
 		entry.TimeMax = -1.0f;
 
 		m_spawningEntries.push_back(entry);
@@ -32,6 +32,24 @@ namespace Game
 	void EnemySpawningManager::VirtualOnDestroy()
 	{
 		DebuggableOnDestroy();
+	}
+
+	bool EnemySpawningManager::IsEntryInTime(const EnemySpawningEntry& entry)
+	{
+		auto currentTime = m_gameTimer->GetTimerSeconds();
+		// Time checks
+		if (entry.TimeMin < entry.TimeMax)
+		{ // consider both sides
+			if (currentTime < entry.TimeMin || currentTime > entry.TimeMax)
+				return false; // skip
+		}
+		else
+		{ // only consider timeMin
+			if (currentTime < entry.TimeMin)
+				return false; // skip
+		}
+
+		return true;
 	}
 
 	void EnemySpawningManager::RegisterSpawnerObject(Engine::GameObject* spawner)
@@ -52,20 +70,12 @@ namespace Game
 		if (!m_spawnerObject || !m_gameTimer)
 			return;
 
-		auto currentTime = m_gameTimer->GetTimerSeconds();
+		
 		for (auto&& entry : m_spawningEntries)
 		{
-			// Time checks
-			if (entry.TimeMin < entry.TimeMax)
-			{ // consider both sides
-				if (currentTime < entry.TimeMin || currentTime > entry.TimeMax)
-					continue; // skip
-			}
-			else
-			{ // only consider timeMin
-				if (currentTime < entry.TimeMin)
-					continue; // skip
-			}
+			// Time
+			if (!IsEntryInTime(entry))
+				continue;
 
 			// Cooldown
 			entry.CurrentCooldown -= dt;
@@ -87,6 +97,9 @@ namespace Game
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 200.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+		ImU32 rowBgSpawning		 = ImGui::GetColorU32(ImVec4(0.3f, 0.7f, 0.3f, 0.65f));
+		ImU32 rowBgNotSpawning = ImGui::GetColorU32(ImVec4(0.7f, 0.3f, 0.3f, 0.65f));
+
 
 		if (ImGui::Begin("EnemySpawningManager", NULL, window_flags))
 		{
@@ -109,6 +122,7 @@ namespace Game
 					ImGui::Text("%.1f/%.1f", entry.CurrentCooldown, entry.Cooldown);
 					ImGui::TableSetColumnIndex(2);
 					ImGui::Text("<%.1f, %.1f>", entry.TimeMin, entry.TimeMax);
+					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, IsEntryInTime(entry) ? rowBgSpawning : rowBgNotSpawning);
 				}
 				ImGui::EndTable();
 			}

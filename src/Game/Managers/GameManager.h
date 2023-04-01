@@ -39,9 +39,10 @@ namespace Game
 
 		float GetSpawnRadius() { return m_spawnRadius; }
 		float GetSpawnCooldown() { return m_spawnCooldown; }
-		GameState GetCurrentGameState() { return m_currentGameState; }
+		
 		float GetFirstLevelExperience() { return m_firstLevelExperience; }
 
+		GameState GetCurrentGameState() { return m_currentGameState; }
 		void SetGameState(GameState state);
 
 		void RestartGamePlay();

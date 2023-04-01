@@ -109,6 +109,10 @@ namespace Engine
 
 	void PhysicsManager::Update(float dt)
 	{
+		if (!m_physicsEnabled)
+			return;
+
+
 		for (auto& body : m_physicsBodies)
 		{
 			if (body->ShouldUpdate())
@@ -121,6 +125,9 @@ namespace Engine
 
 	void PhysicsManager::FixedUpdate(float dt)
 	{
+		if (!m_physicsEnabled)
+			return;
+
 		m_b2World->Step(dt, 8, 3);
 		for (auto& body : m_physicsBodies)
 		{

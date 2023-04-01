@@ -40,8 +40,13 @@ namespace Engine
 		void ReceiveEvent(const event::E_ApplicationStopped& eventData) override;
 
 		float GetFixedUpdate() const { return m_fixedUpdate; }
+
+		void SetPhysicsEnabled(bool val) { m_physicsEnabled = val; }
+		bool GeyPhysicsEnabled() { return m_physicsEnabled; }
 	private:
 		PhysicsManager() = default;
+		
+		bool m_physicsEnabled = true;
 
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;

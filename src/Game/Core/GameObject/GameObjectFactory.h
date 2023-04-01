@@ -8,10 +8,11 @@ namespace Game
 	class GameObjectFactory
 	{
 	public:
-		static Engine::GameObject* CreateEnemy(const EnemyFactoryDef& def);
-		static Engine::GameObject* CreateExperienceGlobe(const ExperienceGlobeDef& def);
-		static Engine::GameObject* CreatePlayerObject(const PlayerObjectDef& def);
-		static Engine::GameObject* CreateBulletObject(const BulletFactoryDef& def);
-		static Engine::GameObject* CreateCombatTextObject(const CombatTextDef& def);
+		static Engine::GameObject* CreateEnemy(EnemyFactoryDef def);
+
+		static Engine::GameObject* CreateExperienceGlobe(ExperienceGlobeDef def);
+		static Engine::GameObject* CreatePlayerObject(PlayerObjectDef def);
+		static Engine::GameObject* CreateBulletObject(BulletFactoryDef def);
+		static Engine::GameObject* CreateCombatTextObject(CombatTextDef def);
 	};
 }

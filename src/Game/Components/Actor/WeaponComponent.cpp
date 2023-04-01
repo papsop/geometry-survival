@@ -84,7 +84,10 @@ namespace Game
     def.Damage = m_equippedWeapon->GetWeaponDamage();
     def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
     def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);
-    return GameObjectFactory::CreateBulletObject(def);
+
+    auto* bullet = GameObjectFactory::CreateBulletObject(def);
+    Owner.GetTransform()->AddChild(bullet);
+    return bullet;
   }
 
 	void WeaponComponent::ProcessMessage(const Engine::Message& message)

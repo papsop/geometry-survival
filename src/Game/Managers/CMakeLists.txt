@@ -3,6 +3,8 @@ set(MANAGERS_SOURCE
 	GameManager.cpp
 	SkillsManager.h
 	SkillsManager.cpp
+	EnemySpawningManager.h
+	EnemySpawningManager.cpp
 
 	GameTimer.h
 	GameTimer.cpp

@@ -51,6 +51,7 @@ namespace Game
 		void GetConfigurableData(ConfigurableData& data) override;
 
 		GameTimer& GetGameTimer() { return m_gameTimer; }
+		GameTimer* GetGameTimerPtr() { return &m_gameTimer; }
 
 		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 

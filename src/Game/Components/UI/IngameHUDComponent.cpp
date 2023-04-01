@@ -19,8 +19,6 @@ namespace Game
 	{
 		m_gameTimer.Update(dt);
 
-		//m_timerLabel->setText(tgui::String(m_gameTimer.GetTimerAsString()));
-
 		if (m_weaponComponent && m_rpgComponent && m_levelComponent)
 		{
 			InitializeOverlayWindow("LevelOverlay", { 0.0f, 0.0f }, {1.0f, 0.1f}, true);

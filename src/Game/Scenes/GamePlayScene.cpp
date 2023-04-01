@@ -17,7 +17,7 @@
 #include "../Components/Player/PlayerSpawnerComponent.h"
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Enemy/AIChasePlayerComponent.h"
-#include "../Components/Enemy/EasyEnemySpawnerComponent.h"
+#include "../Components/Enemy/EnemySpawnerComponent.h"
 #include "../Components/Actor/WeaponComponent.h"
 #include "../Components/Actor/Weapons/PistolWeapon.h"
 #include "../Components/Actor/BulletComponent.h"
@@ -79,7 +79,7 @@ namespace Game
 
     // ================== Enemy spawner ==================
     auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
-    enemySpawner->AddComponent<EasyEnemySpawnerComponent>();
+    enemySpawner->AddComponent<EnemySpawnerComponent>();
 
     // ================== Activate objects ==================
     camera->SetActive(true);

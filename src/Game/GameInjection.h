@@ -24,6 +24,7 @@
 #include "Core/GameObject/GameObjectFactory.h"
 #include "Managers/GameManager.h"
 #include "Managers/SkillsManager.h"
+#include "Managers/EnemySpawningManager.h"
 
 #include "Components/Player/InputComponent.h"
 #include "Components/Player/PlayerComponent.h"
@@ -32,7 +33,6 @@
 #include "Components/Actor/ActorComponent.h"
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Enemy/AIChasePlayerComponent.h"
-#include "Components/Enemy/EasyEnemySpawnerComponent.h"
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
@@ -77,7 +77,6 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<EasyEnemySpawnerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<LevelComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
@@ -86,6 +85,7 @@ namespace Game
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();
       Engine::Application::Instance().RegisterGameManager<SkillsManager>();
+      Engine::Application::Instance().RegisterGameManager<EnemySpawningManager>();
     
       // First scene after starting application
       //app.GetSceneManager().LoadSceneDestroyPrevious(SplashScreenScene());

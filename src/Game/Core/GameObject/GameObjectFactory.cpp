@@ -25,7 +25,7 @@
 namespace Game
 {
 
-	Engine::GameObject* GameObjectFactory::CreateEnemy(const EnemyFactoryDef& def)
+	Engine::GameObject* GameObjectFactory::CreateEnemy(EnemyFactoryDef def)
 	{
 		Engine::PhysicsBodyDef physBodyDef;
 		physBodyDef.BodyType = b2_dynamicBody;
@@ -62,7 +62,7 @@ namespace Game
 		return obj;
 	}
 
-	Engine::GameObject* GameObjectFactory::CreateExperienceGlobe(const ExperienceGlobeDef& def)
+	Engine::GameObject* GameObjectFactory::CreateExperienceGlobe(ExperienceGlobeDef def)
 	{
 		Engine::PhysicsBodyDef physBodyDef;
 		physBodyDef.BodyType = b2_dynamicBody;
@@ -92,7 +92,7 @@ namespace Game
 		return obj;
 	}
 
-	Engine::GameObject* GameObjectFactory::CreatePlayerObject(const PlayerObjectDef& def)
+	Engine::GameObject* GameObjectFactory::CreatePlayerObject(PlayerObjectDef def)
 	{
     Engine::ShapeViewDef shapeViewDef;
     shapeViewDef.Color = sf::Color::Green;
@@ -138,7 +138,7 @@ namespace Game
 		return player;
 	}
 
-	Engine::GameObject* GameObjectFactory::CreateBulletObject(const BulletFactoryDef& def)
+	Engine::GameObject* GameObjectFactory::CreateBulletObject(BulletFactoryDef def)
 	{
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;
@@ -178,7 +178,7 @@ namespace Game
 		return obj;
 	}
 
-	Engine::GameObject* GameObjectFactory::CreateCombatTextObject(const CombatTextDef& def)
+	Engine::GameObject* GameObjectFactory::CreateCombatTextObject(CombatTextDef def)
 	{
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;

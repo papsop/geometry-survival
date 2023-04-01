@@ -66,7 +66,6 @@ namespace Game
 
   void GameManager::Update(float dt)
   {
-    // TODO: gameManager states
 	  if (m_currentGameState == GameState::Gameplay)
 	  {
 		  m_app.UpdateGameplay(dt);
@@ -148,8 +147,7 @@ namespace Game
 	void GameManager::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(0.0f, work_size.y), ImGuiCond_Once, ImVec2(0.0f, 1.0f));
+		ImGui::SetNextWindowPos(ImVec2(0.0f, viewport->WorkSize.y), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
     ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 

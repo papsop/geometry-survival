@@ -37,8 +37,8 @@ set(ENEMY_SOURCE
 	Enemy/EnemyComponent.cpp
 	Enemy/AIChasePlayerComponent.h
 	Enemy/AIChasePlayerComponent.cpp
-	Enemy/EasyEnemySpawnerComponent.h
-	Enemy/EasyEnemySpawnerComponent.cpp
+	Enemy/EnemySpawnerComponent.h
+	Enemy/EnemySpawnerComponent.cpp
 	Enemy/ScatterFieldComponent.h
 	Enemy/ScatterFieldComponent.cpp
 )

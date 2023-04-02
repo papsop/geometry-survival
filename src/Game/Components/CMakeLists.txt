@@ -7,14 +7,6 @@ set(ACTOR_SOURCE
 	Actor/Commands.h
 	Actor/Commands.cpp
 
-	Actor/WeaponComponent.h
-	Actor/WeaponComponent.cpp
-
-	Actor/Weapons/IWeapon.h
-	Actor/Weapons/IWeapon.cpp
-	Actor/Weapons/PistolWeapon.h
-	Actor/Weapons/PistolWeapon.cpp
-
 	Actor/RPGComponent.h
 	Actor/RPGComponent.cpp
 )

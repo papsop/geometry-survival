@@ -127,12 +127,12 @@ namespace Game
     player->AddComponent<ActorComponent>();
     player->AddComponent<PickUpFieldComponent>();
     player->AddComponent<InputComponent>();
-    player->AddComponent<WeaponComponent>();
+    //player->AddComponent<WeaponComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
 
-    auto* weaponComp = player->GetComponent<WeaponComponent>();
-    weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
+    //auto* weaponComp = player->GetComponent<WeaponComponent>();
+    //weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
 
 		player->SetActive(true);
 		return player;
@@ -156,7 +156,7 @@ namespace Game
 
 
 		Engine::ShapeViewDef shapeViewDef;
-		shapeViewDef.Color = sf::Color::Blue;
+		shapeViewDef.Color = sf::Color::Magenta;
 		shapeViewDef.PointCount = 3;
 		shapeViewDef.Radius = 0.5f;
 		shapeViewDef.Layer = Engine::view::Layer::BULLET;

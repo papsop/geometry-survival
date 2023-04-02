@@ -72,7 +72,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<AIChasePlayerComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
+      //Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();

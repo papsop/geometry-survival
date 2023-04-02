@@ -17,22 +17,32 @@ namespace Game
 	void IngameHUDComponent::Update(float dt)
 	{
 		m_gameTimer.Update(dt);
-
-		if (m_weaponComponent && m_rpgComponent && m_levelComponent)
+		if (m_levelComponent)
 		{
-			InitializeOverlayWindow("LevelOverlay", { 0.0f, 0.0f }, {1.0f, 0.1f}, true);
+			InitializeOverlayWindow("LevelOverlay", { 0.0f, 0.0f }, { 1.0f, 0.1f }, true);
 			ImGui::ProgressBar(m_levelComponent->GetCurrentLevelProgress());
 			ImGui::End();
+		}
 
-			InitializeOverlayWindow("HUDOverlay", { 0.0f, 0.1f }, {0.2f, 0.2f}, true);
+		InitializeOverlayWindow("HUDOverlay", { 0.0f, 0.1f }, { 0.2f, 0.2f }, true);
+
+		if (m_levelComponent)
+		{
 			ImGui::SetWindowFontScale(2.0f);
 			ImGui::Text("Level: %d", m_levelComponent->GetCurrentLevel());
+		}
+		if (m_rpgComponent)
+		{
 			ImGui::Separator();
 			ImGui::Text("Health: %.0f/%.0f", m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH), m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
-			ImGui::Separator();
-			ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetCurrentAmmo(), m_weaponComponent->GetMaxAmmo());
-			ImGui::End();
 		}
+// 		if (m_weaponComponent)
+// 		{
+// 			ImGui::Separator();
+// 			ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetCurrentAmmo(), m_weaponComponent->GetMaxAmmo());
+// 		}
+
+		ImGui::End();
 
 	}
 

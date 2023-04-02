@@ -8,7 +8,6 @@
 #include "../../Core/EventData.h"
 
 #include "../Player/LevelComponent.h"
-#include "../Actor/WeaponComponent.h"
 #include "../Actor/RPGComponent.h"
 
 #include "../../Managers/GameManager.h"
@@ -33,7 +32,6 @@ namespace Game
     void ReceiveEvent(const event::E_PlayerLeveledUp& eventData) override;
     void ReceiveEvent(const event::E_PlayerDied& eventData) override;
 
-
     void VirtualOnActivated() override;
     void VirtualOnDeactivated() override;
 
@@ -41,7 +39,7 @@ namespace Game
     void ResetPlayerComponents(Engine::GameObject* player);
     // Player components
     LevelComponent* m_levelComponent = nullptr;
-    WeaponComponent* m_weaponComponent = nullptr;
+    //WeaponComponent* m_weaponComponent = nullptr;
     RPGComponent* m_rpgComponent = nullptr;
 
     // Timer

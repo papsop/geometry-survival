@@ -42,8 +42,6 @@ namespace Game
     void WeaponFire();
     void WeaponReload();
 
-    void ProcessMessage(const Engine::Message& message) override;
-
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
 
 	protected:

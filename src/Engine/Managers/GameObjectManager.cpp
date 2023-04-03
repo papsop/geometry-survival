@@ -133,6 +133,8 @@ namespace Engine
 
 		if (ImGui::Begin("GameObjectManager", NULL, window_flags))
 		{
+      ImGui::Text("Number of GameObjects: %d", m_gameObjects.size());
+      ImGui::Separator();
       for (const auto& [ID, gameObject] : m_gameObjects)
       {
 				auto* gameObject_ptr = gameObject.get();

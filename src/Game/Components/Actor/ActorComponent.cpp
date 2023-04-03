@@ -9,6 +9,7 @@
 
 #include "../../Managers/GameManager.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
+#include "WeaponComponent.h"
 
 namespace Game
 {
@@ -99,16 +100,16 @@ namespace Game
 
 	void ActorComponent::WeaponFire()
   {
-    Owner.SendMessageTo(&Owner, Engine::MessageType::Weapon_Fire);
+    auto* weaponComponent = Owner.GetComponent<WeaponComponent>();
+    if (weaponComponent)
+      weaponComponent->Fire();
   }
 
 	void ActorComponent::WeaponReload()
 	{
-    Owner.SendMessageTo(&Owner, Engine::MessageType::Weapon_Reload);
-	}
-
-	void ActorComponent::ProcessMessage(const Engine::Message& message)
-	{
+		auto* weaponComponent = Owner.GetComponent<WeaponComponent>();
+    if(weaponComponent)
+      weaponComponent->Reload();
 	}
 
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)

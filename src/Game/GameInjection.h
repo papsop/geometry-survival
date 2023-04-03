@@ -34,7 +34,6 @@
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Enemy/AIChasePlayerComponent.h"
 #include "Components/Actor/WeaponComponent.h"
-#include "Components/Actor/Weapons/PistolWeapon.h"
 #include "Components/Actor/BulletComponent.h"
 #include "Components/Actor/RPGComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
@@ -72,7 +71,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<AIChasePlayerComponent>();
-      //Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();

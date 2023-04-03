@@ -19,7 +19,6 @@
 #include "../Components/Enemy/AIChasePlayerComponent.h"
 #include "../Components/Enemy/EnemySpawnerComponent.h"
 #include "../Components/Actor/WeaponComponent.h"
-#include "../Components/Actor/Weapons/PistolWeapon.h"
 #include "../Components/Actor/BulletComponent.h"
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Pickables/ExperienceGlobeComponent.h"

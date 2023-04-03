@@ -14,7 +14,7 @@
 #include "../../Components/Player/PickUpFieldComponent.h"
 #include "../../Components/Player/PlayerComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
-#include "../../Components/Actor/Weapons/PistolWeapon.h"
+#include "../../Components/Actor/Weapons.h"
 #include "../../Components/Enemy/EnemyComponent.h"
 #include "../../Components/Enemy/ScatterFieldComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
@@ -127,12 +127,12 @@ namespace Game
     player->AddComponent<ActorComponent>();
     player->AddComponent<PickUpFieldComponent>();
     player->AddComponent<InputComponent>();
-    //player->AddComponent<WeaponComponent>();
+    player->AddComponent<WeaponComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
 
-    //auto* weaponComp = player->GetComponent<WeaponComponent>();
-    //weaponComp->EquipWeapon(std::make_unique<PistolWeapon>(*weaponComp));
+    auto* weaponComp = player->GetComponent<WeaponComponent>();
+    weaponComp->EquipWeapon(std::make_unique<PistolWeapon>());
 
 		player->SetActive(true);
 		return player;

@@ -12,7 +12,6 @@
 
 namespace Game
 {
-
 	class WeaponComponent : public Engine::IComponent
 	{
 	public:
@@ -23,12 +22,21 @@ namespace Game
 		void Update(float dt) override;
 
 		void Fire();
-		void Reload();
+		void FinishReload();
+		void InitiateTimedReload();
 
+		bool IsOnCooldown() const;
+		bool HasAmmo() const;
+		bool IsReloading() const;
+		bool IsFireable() const;
+
+		float GetReloadTimer() const;
+		float GetReloadCompletion() const;
 		unsigned int GetAmmo() const;
 		unsigned int GetMaxAmmo() const;
 
 		void EquipWeapon(std::unique_ptr<WeaponData> weapon);
+
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
@@ -36,6 +44,10 @@ namespace Game
 	private:
 		RPGComponent* m_rpgComponent;
 		std::unique_ptr<WeaponData> m_weapon;
+
+		float m_reloadTimer = 0.0f;
+		unsigned int m_ammo = 0;
+		float m_cooldown = 0.0f;
 	};
 
 }

@@ -10,12 +10,14 @@ namespace Game
 		unsigned int GetMaxAmmo() const { return MaxAmmo; }
 		float GetFireRate() const { return FireRate; }
 		float GetBulletDamage() const { return BulletDamage; }
+		float GetReloadTime() const { return ReloadTime; }
 		unsigned int GetNumberOfBullets() const { return NumberOfBullets; }
 
 	protected:
 		unsigned int MaxAmmo;
 		float FireRate;
 		float BulletDamage;
+		float ReloadTime;
 		unsigned int NumberOfBullets;
 	};
 
@@ -23,9 +25,10 @@ namespace Game
 	{
 		PistolWeapon()
 		{
-			MaxAmmo = 12;
-			FireRate = 0.5f;
+			MaxAmmo = 100;
+			FireRate = 0.01f;
 			BulletDamage = 10.0f;
+			ReloadTime = 2.0f;
 			NumberOfBullets = 1;
 		}
 	};

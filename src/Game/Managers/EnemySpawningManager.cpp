@@ -7,20 +7,39 @@ namespace Game
 	EnemySpawningManager::EnemySpawningManager(Engine::Application& app)
 		: m_app(app)
 	{
-		EnemySpawningEntry entry;
-		entry.DebugName = "EasyEnemy";
-		entry.SpawnFunction = [&]() { 
-			EnemyFactoryDef def;
-			def.MovementSpeed = 5.0f;
-			def.Position = m_spawnerObject->GetTransform()->GetPosition();
-			return GameObjectFactory::CreateEnemy(def); 
-		};
-		entry.Cooldown = 2.0f;
-		entry.CurrentCooldown = 0.0f;
-		entry.TimeMin = 5.0f;
-		entry.TimeMax = -1.0f;
+		{
+			EnemySpawningEntry entry;
+			entry.DebugName = "EasyEnemy";
+			entry.SpawnFunction = [&]() {
+				EnemyFactoryDef def;
+				def.MovementSpeed = 5.0f;
+				def.Position = m_spawnerObject->GetTransform()->GetPosition();
+				return GameObjectFactory::CreateEnemy(def);
+			};
+			entry.Cooldown = 2.0f;
+			entry.CurrentCooldown = 0.0f;
+			entry.TimeMin = 5.0f;
+			entry.TimeMax = 25.0f;
 
-		m_spawningEntries.push_back(entry);
+			m_spawningEntries.push_back(entry);
+		}
+
+    {
+      EnemySpawningEntry entry;
+      entry.DebugName = "EasyEnemy2";
+      entry.SpawnFunction = [&]() {
+        EnemyFactoryDef def;
+        def.MovementSpeed = 5.0f;
+        def.Position = m_spawnerObject->GetTransform()->GetPosition();
+        return GameObjectFactory::CreateEnemy(def);
+      };
+      entry.Cooldown = 1.0f;
+      entry.CurrentCooldown = 0.0f;
+      entry.TimeMin = 20.0f;
+      entry.TimeMax = 100.0f;
+
+      m_spawningEntries.push_back(entry);
+    }
 	}
 
 	void EnemySpawningManager::VirtualOnInit()
@@ -94,7 +113,7 @@ namespace Game
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(0.0f, 200.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
+		ImGui::SetNextWindowPos(ImVec2(0.0f, 400.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 		ImU32 rowBgSpawning		 = ImGui::GetColorU32(ImVec4(0.3f, 0.7f, 0.3f, 0.65f));

@@ -36,11 +36,21 @@ namespace Game
 			ImGui::Separator();
 			ImGui::Text("Health: %.0f/%.0f", m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH), m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
 		}
-// 		if (m_weaponComponent)
-// 		{
-// 			ImGui::Separator();
-// 			ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetCurrentAmmo(), m_weaponComponent->GetMaxAmmo());
-// 		}
+		if (m_weaponComponent)
+		{
+			ImGui::Separator();
+
+			if (m_weaponComponent->IsReloading())
+			{
+				ImGui::Text("Ammo: RELOADING");
+				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion());
+			}
+			else
+			{
+				ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetAmmo(), m_weaponComponent->GetMaxAmmo());
+			}
+			
+		}
 
 		ImGui::End();
 

@@ -109,7 +109,7 @@ namespace Game
 	{
 		auto* weaponComponent = Owner.GetComponent<WeaponComponent>();
     if(weaponComponent)
-      weaponComponent->Reload();
+      weaponComponent->InitiateTimedReload();
 	}
 
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)

@@ -16,7 +16,6 @@
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/Weapons.h"
 #include "../../Components/Enemy/EnemyComponent.h"
-#include "../../Components/Enemy/ScatterFieldComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/BulletComponent.h"
 #include "../../Components/View/CombatTextComponent.h"

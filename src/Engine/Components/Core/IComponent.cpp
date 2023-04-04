@@ -73,7 +73,8 @@ namespace Engine
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoTitleBar |
 			ImGuiWindowFlags_NoSavedSettings |
 			ImGuiWindowFlags_NoDecoration |
-			ImGuiWindowFlags_NoBackground;
+			ImGuiWindowFlags_NoBackground | 
+			ImGuiWindowFlags_NoDocking;
 		ImGui::Begin(name, NULL, window_flags);
 
 	}

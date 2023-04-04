@@ -18,11 +18,18 @@ namespace Game
 	void WeaponComponent::VirtualOnActivated()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
+		Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
 	}
 
 	void WeaponComponent::VirtualOnDeactivated()
 	{
 		Engine::ComponentManager::Get().UnregisterComponent(this);
+		Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
+	}
+
+	void WeaponComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 	void WeaponComponent::EquipWeapon(std::unique_ptr<WeaponData> weapon)

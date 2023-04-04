@@ -12,7 +12,8 @@
 
 namespace Game
 {
-	class WeaponComponent : public Engine::IComponent
+	class WeaponComponent : public Engine::IComponent,
+		public Engine::IEventListener<event::E_GameStateChanged>
 	{
 	public:
 		WeaponComponent(Engine::GameObject& obj);
@@ -40,6 +41,7 @@ namespace Game
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
+		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
 	private:
 		RPGComponent* m_rpgComponent;

@@ -45,7 +45,7 @@ namespace view{
       while (m_window->pollEvent(event))
       {
         if(m_window)
-          ImGui::SFML::ProcessEvent(*m_window, event);
+          ImGui::SFML::ProcessEvent(event);
         Engine::EventManager::Get().DispatchEvent(event::E_SFMLEvent(event));
       }
     }
@@ -64,7 +64,8 @@ namespace view{
       m_window->setJoystickThreshold(10);
       UIManager::Get().SetSFMLWindow(*m_window);
       ImGui::SFML::Init(*m_window);
-		}
+      ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+    }
 
 		void WindowViewStrategy::Update(float dt)
 		{

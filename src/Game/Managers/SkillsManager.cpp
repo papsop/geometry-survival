@@ -88,12 +88,12 @@ namespace Game
       ImGui::SameLine();
       auto* player = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
 
-      ImGui::BeginDisabled(!player); // button disabled if there isn't a player registered yet
-      if (ImGui::Button("Learn"))
+      //ImGui::BeginDisabled(!player); // button disabled if there isn't a player registered yet
+      if (player && ImGui::Button("Learn"))
       {
 				m_availableSkills[m_selectedSkill]->Learn(player);
       }
-      ImGui::EndDisabled();
+      //ImGui::EndDisabled();
 		}
 		ImGui::End();
 	}

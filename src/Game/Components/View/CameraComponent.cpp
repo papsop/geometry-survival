@@ -33,7 +33,7 @@ namespace Game
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 
-	void CameraComponent::Update(float dt)
+	void CameraComponent::FixedUpdate(float dt)
 	{
     if (m_target)
     {

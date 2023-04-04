@@ -330,7 +330,7 @@ namespace view{
 
 		// ==================================================================================
 
-    void WindowViewStrategy::SetView(const CameraData& cameraData)
+    void WindowViewStrategy::SetView(CameraData cameraData)
     {
       sf::View view;
       view.setCenter(ViewManager::Get().coordsToPixels(cameraData.Center));

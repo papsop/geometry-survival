@@ -23,11 +23,10 @@ namespace view{
       void DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor) override;
       void DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, bool shouldCenter, float size, sf::Color color) override;
 
-      void SetView(const CameraData& cameraData) override;
+      void SetView(CameraData cameraData) override;
       sf::Vector2f GetMousePosition() override;
 
       math::Vec2 GetResolution() override;
-
 
       void GetConfigurableData(ConfigurableData& data) override;
 

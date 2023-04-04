@@ -15,7 +15,7 @@ namespace Game
     CameraComponent(Engine::GameObject& obj, Engine::GameObject* target);
     ~CameraComponent() override;
     void OnCreate() override;
-    void Update(float dt) override;
+    void FixedUpdate(float dt) override;
 
     void SetTarget(Engine::GameObject* newTarget);
 

@@ -18,7 +18,7 @@ namespace Game
 			};
 			entry.Cooldown = 2.0f;
 			entry.CurrentCooldown = 0.0f;
-			entry.TimeMin = 5.0f;
+			entry.TimeMin = 0.0f;
 			entry.TimeMax = 25.0f;
 
 			m_spawningEntries.push_back(entry);

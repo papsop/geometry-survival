@@ -1,5 +1,4 @@
 #include "EnemyComponent.h"
-#include "ScatterFieldComponent.h"
 
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/GameObjectManager.h>

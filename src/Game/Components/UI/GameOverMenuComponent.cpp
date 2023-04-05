@@ -3,57 +3,29 @@
 
 #include "Controllers/IngameUIControllerComponent.h"
 #include <Engine/Application.h>
+#include <Engine/ImGui/imgui.h>
+#include <Engine/Managers/ViewManager.h>
+
 namespace Game
 {
 
 	GameOverMenuComponent::GameOverMenuComponent(Engine::GameObject& obj)
-		: IUIComponent(obj)
+		: IImGuiComponent(obj)
 	{
-	}
-
-
-	void GameOverMenuComponent::RegisterUIElements()
-	{
-		// Layout
-		m_menuLayout = tgui::VerticalLayout::create();
-		m_menuLayout->setSize("30%", "45d%");
-		m_menuLayout->setOrigin(0.5f, 0.0f);
-		m_menuLayout->setPosition("50%", "20%");
-
-		m_menuLabel = tgui::Label::create("GameOver");
-		m_menuLabel->setHorizontalAlignment(tgui::Label::HorizontalAlignment::Center);
-		m_menuLabel->setTextSize(48);
-		
-		// New game button
-		m_newGameButton = tgui::Button::create("New Game");
-
-		// Back to menu button
-		m_backToMenuButton = tgui::Button::create("Back to menu");
-
-		// callbacks
-		m_newGameButton->onClick(&GameOverMenuComponent::NewGameButtonCallback, this);
-		m_backToMenuButton->onClick(&GameOverMenuComponent::BackToMenuButtonCallback, this);
-
-		// add to gui
-		m_menuLayout->add(m_menuLabel);
-		m_menuLayout->add(m_newGameButton);
-		m_menuLayout->add(m_backToMenuButton);
-
-		m_group->add(m_menuLayout);
 
 	}
 
-
-	void GameOverMenuComponent::UIShown()
+	void GameOverMenuComponent::VirtualOnActivated()
 	{
-		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+		Engine::ViewManager::Get().RegisterComponent(this);
+		Engine::IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 	}
 
-	void GameOverMenuComponent::UIHidden()
+	void GameOverMenuComponent::VirtualOnDeactivated()
 	{
-		IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
+		Engine::ViewManager::Get().UnregisterComponent(this);
+		Engine::IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
 	}
-
 
 	void GameOverMenuComponent::HandleSwitchToMainMenu()
 	{
@@ -68,6 +40,31 @@ namespace Game
 	void GameOverMenuComponent::BackToMenuButtonCallback()
 	{
 		HandleSwitchToMainMenu();
+	}
+
+	void GameOverMenuComponent::Update(float dt)
+	{
+		// Center window
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.5f, work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
+			ImGuiWindowFlags_NoDocking;
+
+		if (ImGui::Begin("Main menu", NULL, window_flags))
+		{
+			ImGui::Text("GameOver\n");
+			if (ImGui::Button("New game", ImVec2(300.0f, 100.f)))
+			{
+				NewGameButtonCallback();
+			}
+			if (ImGui::Button("Back to menu", ImVec2(300.0f, 100.f)))
+			{
+				BackToMenuButtonCallback();
+			}
+		}
+		ImGui::End();
 	}
 
 	void GameOverMenuComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)

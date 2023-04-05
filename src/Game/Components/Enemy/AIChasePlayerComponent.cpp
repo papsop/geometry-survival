@@ -24,7 +24,7 @@ namespace Game
 		Engine::ComponentManager::Get().RegisterComponent(this);
 
 		auto* actorComponent = Owner.GetComponent<ActorComponent>();
-		m_stateMachine.AddState<Actor_ChasePlayer>(actorComponent);
+		//m_stateMachine.AddState<Actor_ChasePlayer>(actorComponent);
 	}
 
   void AIChasePlayerComponent::OnDestroy()
@@ -51,7 +51,7 @@ namespace Game
 
   void AIChasePlayerComponent::Update(float dt)
 	{
-		m_stateMachine.Update(dt);
+		//m_stateMachine.Update(dt);
 	}
 
   void AIChasePlayerComponent::ProcessMessage(const Engine::Message& message)
@@ -81,7 +81,7 @@ namespace Game
     actorComponent->AddCommand<KnockBackCommand>(knockBackDirection.x, knockBackDirection.y);
 
     // go to stun
-    m_stateMachine.AddState<Actor_Stunned>(actorComponent, 1.0f);
+    //m_stateMachine.AddState<Actor_Stunned>(actorComponent, 1.0f);
   }
 
 }

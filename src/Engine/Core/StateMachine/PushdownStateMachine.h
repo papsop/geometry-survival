@@ -5,31 +5,34 @@
 
 namespace Engine
 {
+
+	class GameObject;
+
+	template<typename _State>
 	class PushdownStateMachine
 	{
 	public:
-		using PushdownState = IState<PushdownStateMachine>;
-
-		PushdownStateMachine();
+		PushdownStateMachine(GameObject& owner) : m_ownerGameObject(owner) {};
 		~PushdownStateMachine() = default;
 
 		void Update(float dt);
 		void PopState();
 		void Clear();
 
-		template<typename T,
-				typename ... Args,
-			typename = enable_if_base_of_state<PushdownStateMachine, T>
+		template<
+			typename T,
+			typename ... Args
 		>
 		void AddState(Args&& ... args);
 
 		bool IsEmpty();
-		PushdownState* GetActiveState();
+		_State* GetActiveState();
 
 		void ProcessMessage(const Engine::Message& message);
 	private:
-		std::stack< std::unique_ptr<PushdownState> > m_states;
-		PushdownState* m_activeState;
+		std::stack< std::unique_ptr<_State> > m_states = {};
+		_State* m_activeState = nullptr;
+		GameObject& m_ownerGameObject;
 	};
 };
 

@@ -9,12 +9,18 @@
 #include "../../Core/EventData.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
 
+#include "States/TestEnemyState.h"
 namespace Game
 {
   EnemyComponent::EnemyComponent(Engine::GameObject& obj)
     : IComponent(obj)
+    , m_stateMachine(Owner)
   {
     SetRequiredComponents<RPGComponent>();
+
+    m_stateMachine.AddState<TestEnemyState>();
+
+    m_stateMachine.Update(0.0f);
   }
 
   void EnemyComponent::OnDestroy()

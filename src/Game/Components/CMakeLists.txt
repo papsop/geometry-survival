@@ -36,6 +36,8 @@ set(ENEMY_SOURCE
 	Enemy/EnemySpawnerComponent.cpp
 	Enemy/ScatterFieldComponent.h
 	Enemy/ScatterFieldComponent.cpp
+
+	Enemy/States/TestEnemyState.h
 )
 
 set(STATES_SOURCE

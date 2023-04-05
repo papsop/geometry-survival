@@ -6,7 +6,6 @@
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Debug/Backend/UIBackendStrategy.h>
 #include <Engine/Debug/Backend/ImGuiBackendStrategy.h>
-#include <Engine/Core/StateMachine/BasicSceneState.h>
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
 #include <Engine/Managers/SceneManager.h>

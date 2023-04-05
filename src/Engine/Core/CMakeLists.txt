@@ -16,11 +16,8 @@ set(SOURCES
 
 
 	StateMachine/IState.h
-	StateMachine/BasicSceneState.h
-	StateMachine/BasicSceneState.cpp
 	StateMachine/PushdownStateMachine.h
 	StateMachine/PushdownStateMachine.inl
-	StateMachine/PushdownStateMachine.cpp
 
 	Serializing/SceneSerializer.h
 	Serializing/SceneSerializer.cpp

@@ -4,10 +4,19 @@
 
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Core/Events.h>
+#include <Engine/Core/StateMachine/PushdownStateMachine.h>
 #include "../../Core/EventData.h"
 
 namespace Game
 {
+
+  enum class EnemyAIStates
+  {
+    CHASING,
+    STUNNED,
+    TEST,
+  };
+
   class EnemyComponent : public Engine::IComponent
   {
   public:
@@ -18,5 +27,6 @@ namespace Game
 
   private:
     Engine::GameObject* m_target = nullptr;
+    Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
   };
 }

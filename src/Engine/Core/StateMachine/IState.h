@@ -5,28 +5,37 @@
 namespace Engine
 {
     class Scene;
+    template<typename _State>
     class PushdownStateMachine;
+    class GameObject;
 
     template<
-        typename T, 
-        typename = std::enable_if_t< std::is_same_v<PushdownStateMachine, T>>
-        >
+      typename T,
+      typename = std::enable_if_t< std::is_enum_v<T> >
+    >
     class IState
     {
     public:
-        IState(T& parentStateMachine) 
-            : m_parentStateMachine(parentStateMachine) {};
+      using StateMachine = PushdownStateMachine < IState<T> >;
 
-        virtual ~IState() = default;
+      IState(GameObject& go, StateMachine& sm, T st)
+        : m_parentGameObject(go)
+        , m_parentStateMachine(sm)
+        , m_stateValue(st) {};
 
-        virtual void OnTransitionIn() {}
-        virtual void OnTransitionOut() {}; 
+      virtual ~IState() = default;
 
-        virtual void Update(float dt) = 0;
-        virtual void ProcessMessage(const Message& message) { };
+      virtual void OnTransitionIn() {}
+      virtual void OnTransitionOut() {};
 
+      virtual void Update(float dt) = 0;
+      virtual void ProcessMessage(const Message & message) { };
+
+      T GetStateValue() { return m_stateValue; }
     protected:
-        T& m_parentStateMachine;
+      T m_stateValue; // always enum that identifies this state
+      GameObject& m_parentGameObject;
+      StateMachine& m_parentStateMachine;
     };
 
 	template<typename _StateMachine, typename T>

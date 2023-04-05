@@ -38,7 +38,6 @@ namespace Game
 		void ApplyKnockbackFromPlayer();
 
 		Engine::GameObject* m_target;
-		Engine::PushdownStateMachine m_stateMachine;
 
 		EnemyComponent* m_enemyComponent;
 	};

@@ -49,8 +49,6 @@ namespace Game
   {
     if (state == m_currentGameState) return;
 
-
-
     switch (state)
     {
     case GameState::Gameplay:

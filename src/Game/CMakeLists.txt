@@ -11,7 +11,7 @@ add_executable(
   ${PROJECT_NAME}
   Game.cpp
 	GameInjection.h
-)
+ "Components/Enemy/States/ChaseTargetState.h" "Components/Enemy/States/ChaseTargetState.cpp")
 
 add_subdirectory(Managers)
 add_subdirectory(Components)

@@ -54,7 +54,7 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
-		obj->AddComponent<AIChasePlayerComponent>();
+		//obj->AddComponent<AIChasePlayerComponent>();
 		//obj->AddComponent<ScatterFieldComponent>();
 
 		obj->SetActive(true);

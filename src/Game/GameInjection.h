@@ -69,12 +69,12 @@ namespace Game
       //  - components without update are still usable, just won't get updated
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<AIChasePlayerComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<EnemyComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();

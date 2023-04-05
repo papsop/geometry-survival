@@ -4,22 +4,19 @@
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Core/Events.h>
 
+#include "../../Managers/GameManager.h"
 #include "../Actor/RPGComponent.h"
 #include "../../Core/EventData.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
 
-#include "States/TestEnemyState.h"
+#include "States/ChaseTargetState.h"
 namespace Game
 {
   EnemyComponent::EnemyComponent(Engine::GameObject& obj)
     : IComponent(obj)
     , m_stateMachine(Owner)
   {
-    SetRequiredComponents<RPGComponent>();
-
-    m_stateMachine.AddState<TestEnemyState>();
-
-    m_stateMachine.Update(0.0f);
+    SetRequiredComponents<RPGComponent, ActorComponent>();
   }
 
   void EnemyComponent::OnDestroy()
@@ -52,5 +49,30 @@ namespace Game
       Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
     }
   }
+
+	void EnemyComponent::Update(float dt)
+	{
+    m_stateMachine.Update(dt);
+	}
+
+	void EnemyComponent::VirtualOnActivated()
+	{
+		m_target = GameManager::Get()->GetPlayerGameObject();
+		Engine::ComponentManager::Get().RegisterComponent(this);
+		Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+		m_stateMachine.AddState<ChaseTargetState>();
+	}
+
+	void EnemyComponent::VirtualOnDeactivated()
+	{
+		Engine::ComponentManager::Get().UnregisterComponent(this);
+		Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+		m_stateMachine.Clear();
+	}
+
+	void EnemyComponent::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData)
+	{
+		m_target = eventData.PlayerObject;
+	}
 
 }

@@ -3,8 +3,10 @@
 #include <Engine/Core/GameObject/GameObject.h>
 
 #include <Engine/Managers/EventManager.h>
+#include <Engine/Managers/ComponentManager.h>
 #include <Engine/Core/Events.h>
 #include <Engine/Core/StateMachine/PushdownStateMachine.h>
+
 #include "../../Core/EventData.h"
 
 namespace Game
@@ -17,16 +19,29 @@ namespace Game
     TEST,
   };
 
-  class EnemyComponent : public Engine::IComponent
+  class EnemyComponent : public Engine::IComponent,
+    public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
   {
   public:
     EnemyComponent(Engine::GameObject& obj);
     ~EnemyComponent() override = default;
 
     void OnDestroy() override;
+    Engine::GameObject* GetTarget() const { return m_target; }
+
+
+    void Update(float dt) override;
+
+	protected:
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
+
+    void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
 
   private:
     Engine::GameObject* m_target = nullptr;
     Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
+
+
   };
 }

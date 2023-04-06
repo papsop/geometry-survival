@@ -3,12 +3,13 @@
 #include <Engine/Application.h>
 #include <Engine/Debug/IDebuggable.h>
 #include <Engine/ImGui/imgui.h>
+#include <Engine/Core/Events.h>
 
 #include "../Skills/ISkill.h"
 #include "GameTimer.h"
 
 #include "../Components/Enemy/EnemySpawnerComponent.h"
-
+#include "../Core/EventData.h"
 #include <vector>
 #include <memory>
 #include <functional>
@@ -26,7 +27,8 @@ namespace Game
 		const char* DebugName;
 	};
 
-	class EnemySpawningManager : public Engine::IManager, public Engine::IDebuggable
+	class EnemySpawningManager : public Engine::IManager, public Engine::IDebuggable,
+		public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
 	{
 	public:
 		EnemySpawningManager(Engine::Application& app);
@@ -42,12 +44,15 @@ namespace Game
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
+		void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
 
 	private:
 		bool IsEntryInTime(const EnemySpawningEntry& entry);
+		void SpawnEntry(EnemySpawningEntry& entry);
 
 		Engine::Application& m_app;
 		Engine::GameObject* m_spawnerObject = nullptr;
+		Engine::GameObject* m_player = nullptr;
 		GameTimer* m_gameTimer = nullptr;
 
 		std::vector<EnemySpawningEntry> m_spawningEntries;

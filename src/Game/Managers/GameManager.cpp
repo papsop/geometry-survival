@@ -98,22 +98,6 @@ namespace Game
     return m_player;
   }
 
-  Engine::math::Vec2 GameManager::GetRandomEnemySpawnPoint()
-  {
-    DD_ASSERT(m_player != nullptr, "Cant get enemy spawn without player entity");
-    auto playerPos = m_player->GetTransform()->GetAbsoluteTransform().Position;
-    Engine::math::Vec2 result;
-
-    float randomAngle = Engine::math::DEG_TO_RAD(rand() % 360);
-
-    result.x = cosf(randomAngle) * m_spawnRadius;
-    result.y = sinf(randomAngle) * m_spawnRadius;
-
-    result += playerPos;
-
-    return result;
-  }
-
   // Global UI Callbacks
 
   void GameManager::RestartGamePlay()

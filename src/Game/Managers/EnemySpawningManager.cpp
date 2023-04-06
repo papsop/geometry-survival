@@ -18,7 +18,7 @@ namespace Game
 			};
 			entry.Cooldown = 2.0f;
 			entry.CurrentCooldown = 0.0f;
-			entry.TimeMin = 0.0f;
+			entry.TimeMin = 2.f;
 			entry.TimeMax = 25.0f;
 
 			m_spawningEntries.push_back(entry);
@@ -33,9 +33,9 @@ namespace Game
         def.Position = m_spawnerObject->GetTransform()->GetPosition();
         return GameObjectFactory::CreateEnemy(def);
       };
-      entry.Cooldown = 1.0f;
+      entry.Cooldown = 0.4f;
       entry.CurrentCooldown = 0.0f;
-      entry.TimeMin = 20.0f;
+      entry.TimeMin = 5.0f;
       entry.TimeMax = 100.0f;
 
       m_spawningEntries.push_back(entry);
@@ -45,15 +45,28 @@ namespace Game
 	void EnemySpawningManager::VirtualOnInit()
 	{
 		m_gameTimer = m_app.GetGameManager<GameManager>()->GetGameTimerPtr();
+		m_player = m_app.GetGameManager<GameManager>()->GetPlayerGameObject();
+		IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
 		DebuggableOnInit();
 	}
 
 	void EnemySpawningManager::VirtualOnDestroy()
 	{
+		IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
 		DebuggableOnDestroy();
 	}
 
-	bool EnemySpawningManager::IsEntryInTime(const EnemySpawningEntry& entry)
+  void EnemySpawningManager::RegisterSpawnerObject(Engine::GameObject* spawner)
+  {
+    m_spawnerObject = spawner;
+  }
+
+  void EnemySpawningManager::UnregisterSpawnerObject()
+  {
+    m_spawnerObject = nullptr;
+  }
+
+  bool EnemySpawningManager::IsEntryInTime(const EnemySpawningEntry& entry)
 	{
 		auto currentTime = m_gameTimer->GetTimerSeconds();
 		// Time checks
@@ -71,22 +84,32 @@ namespace Game
 		return true;
 	}
 
-	void EnemySpawningManager::RegisterSpawnerObject(Engine::GameObject* spawner)
-	{
-		m_spawnerObject = spawner;
-	}
+  void EnemySpawningManager::SpawnEntry(EnemySpawningEntry& entry)
+  {
+    auto* enemy = entry.SpawnFunction();
+    m_spawnerObject->GetTransform()->AddChild(enemy);
+    entry.CurrentCooldown = entry.Cooldown;
 
-	void EnemySpawningManager::UnregisterSpawnerObject()
-	{
-		m_spawnerObject = nullptr;
-	}
+    // Position the enemy
+    auto playerPos = m_player->GetTransform()->GetAbsoluteTransform().Position;
+    Engine::math::Vec2 result;
+
+    float randomAngle = Engine::math::DEG_TO_RAD(rand() % 360);
+
+    result.x = cosf(randomAngle) * 50.0f;
+    result.y = sinf(randomAngle) * 50.0f;
+
+    result += playerPos;
+
+    enemy->GetTransform()->SetPosition(result);
+  }
 
 	void EnemySpawningManager::Update(float dt)
 	{
 		if (GameManager::Get()->GetCurrentGameState() != GameState::Gameplay)
 			return;
 
-		if (!m_spawnerObject || !m_gameTimer)
+		if (!m_spawnerObject || !m_gameTimer || !m_player)
 			return;
 
 		
@@ -102,12 +125,15 @@ namespace Game
 				continue; 
 
 			// Spawning
-			auto* enemy = entry.SpawnFunction();
-			m_spawnerObject->GetTransform()->AddChild(enemy);
-			entry.CurrentCooldown = entry.Cooldown;
+			SpawnEntry(entry);
 		}
 
 	}
+
+  void EnemySpawningManager::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData)
+  {
+    m_player = eventData.PlayerObject;
+  }
 
 	void EnemySpawningManager::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{

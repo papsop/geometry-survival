@@ -23,6 +23,8 @@ set(SOURCES
 	Serializing/SceneSerializer.cpp
 
 	Messaging/MessageTypes.h
+
+	Signal.h
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

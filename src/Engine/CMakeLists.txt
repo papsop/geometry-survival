@@ -13,7 +13,7 @@ add_library(
     Application.h
     Application.inl
     Application.cpp
- "Core/Signals/Signal.h" "Core/Signals.h")
+)
 
 add_subdirectory(Managers)
 add_subdirectory(Debug)

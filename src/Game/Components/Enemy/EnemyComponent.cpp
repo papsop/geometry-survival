@@ -19,40 +19,48 @@ namespace Game
     SetRequiredComponents<RPGComponent, ActorComponent>();
   }
 
-  void EnemyComponent::OnDestroy()
-  {
-    // check if destroyed because of HP
-    if (Owner.GetComponent<RPGComponent>()->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
-    {
-      // experience orb
-      ExperienceGlobeDef experienceGlobeDef;
-      experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
+	void EnemyComponent::OnCreate()
+	{
+		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnDeath);
+	}
 
-      auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
-
-      // scatter
-
-			BulletFactoryDef def;
-			def.Position = Owner.GetTransform()->GetPosition();
-			def.Damage = 2;
-			def.BulletHits = 1;
-
-      auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
-
-			for (auto& enemy : enemies)
-			{
-				def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());
-			  GameObjectFactory::CreateBulletObject(def);
-			}
-      // event
-      event::E_EnemyDied eventData;
-      Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
-    }
+	void EnemyComponent::OnDestroy()
+	{
+		Owner.GetComponent<ActorComponent>()->OnZeroHealth.RemoveListener(this);
   }
 
 	void EnemyComponent::Update(float dt)
 	{
     m_stateMachine.Update(dt);
+	}
+
+	void EnemyComponent::OnDeath()
+	{
+		// experience orb
+		ExperienceGlobeDef experienceGlobeDef;
+		experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
+
+		auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
+
+		// scatter
+
+		BulletFactoryDef def;
+		def.Position = Owner.GetTransform()->GetPosition();
+		def.Damage = 2;
+		def.BulletHits = 1;
+
+		auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
+
+		for (auto& enemy : enemies)
+		{
+			def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());
+			GameObjectFactory::CreateBulletObject(def);
+		}
+		// event
+		event::E_EnemyDied eventData;
+		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
+
+		Owner.Destroy();
 	}
 
 	void EnemyComponent::VirtualOnActivated()

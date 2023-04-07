@@ -7,6 +7,7 @@
 #include <memory>
 
 #include <Engine/Core/Events.h>
+#include <Engine/Core/Signal.h>
 
 #include "../../Core/EventData.h"
 namespace Game
@@ -43,7 +44,8 @@ namespace Game
     void WeaponReload();
 
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
-
+    
+    Engine::Signal OnZeroHealth;
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 

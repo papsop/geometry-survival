@@ -18,6 +18,26 @@ namespace Game
     m_rpgComponent = Owner.GetComponent<RPGComponent>();
   }
 
+	void PlayerComponent::OnCreate()
+	{
+    m_actorComponent->OnZeroHealth.AddListener(this, &PlayerComponent::OnDeath);
+	}
+
+	void PlayerComponent::OnDestroy()
+	{
+    m_actorComponent->OnZeroHealth.RemoveListener(this);
+	}
+
+	void PlayerComponent::VirtualOnActivated()
+	{
+		Engine::Application::Instance().GetGameManager<GameManager>()->RegisterPlayerGameObject(&Owner);
+	}
+
+	void PlayerComponent::VirtualOnDeactivated()
+	{
+		Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
+	}
+
   void PlayerComponent::OnCollisionStart(Engine::CollisionData& collision)
   {
     if (collision.Other->Tag != Engine::GameObjectTag::ENEMY)
@@ -35,26 +55,11 @@ namespace Game
     }
   }
 
-  void PlayerComponent::OnDestroy()
-  {
-    Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
-
-    
-    // Player died because of HP
-    if (m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0)
-    {
-      Engine::EventManager::Get().DispatchEvent(event::E_PlayerDied());
-    }
-  }
-
-  void PlayerComponent::VirtualOnActivated()
-  {
-    Engine::Application::Instance().GetGameManager<GameManager>()->RegisterPlayerGameObject(&Owner);
-  }
-
-  void PlayerComponent::VirtualOnDeactivated()
-  {
-    Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
-  }
+	void PlayerComponent::OnDeath()
+	{
+		Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();
+    Engine::EventManager::Get().DispatchEvent(event::E_PlayerDied());
+    Owner.Destroy();
+	}
 
 }

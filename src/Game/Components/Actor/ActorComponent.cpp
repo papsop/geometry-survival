@@ -95,6 +95,11 @@ namespace Game
     {
       Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage_NoKnockback);
     }
+
+    if (m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
+    {
+      OnZeroHealth.Invoke();
+		}
       
 	}
 

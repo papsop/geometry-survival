@@ -12,12 +12,14 @@ namespace Game
 		PlayerComponent(Engine::GameObject& obj);
 		~PlayerComponent() override = default;
 
+		void OnCreate() override;
 		void OnDestroy() override;
 
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 
 		void ProcessMessage(const Engine::Message& message) override;
 
+		void OnDeath();
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;

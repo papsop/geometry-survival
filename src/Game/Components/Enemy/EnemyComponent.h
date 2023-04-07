@@ -26,11 +26,13 @@ namespace Game
     EnemyComponent(Engine::GameObject& obj);
     ~EnemyComponent() override = default;
 
+    void OnCreate() override;
     void OnDestroy() override;
     Engine::GameObject* GetTarget() const { return m_target; }
 
 
     void Update(float dt) override;
+    void OnDeath();
 
 	protected:
 		void VirtualOnActivated() override;

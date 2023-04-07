@@ -75,11 +75,6 @@ namespace Game
 				it++;
 			}
 		}
-
-		if (GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
-		{
-			Owner.Destroy();
-		}
 	}
 
 	void RPGComponent::SetStatBase(RPGStats stat, float value)

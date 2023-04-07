@@ -35,7 +35,10 @@ set(ENEMY_SOURCE
 	Enemy/EnemySpawnerComponent.h
 	Enemy/EnemySpawnerComponent.cpp
 
-	Enemy/States/TestEnemyState.h
+	Enemy/States/ChaseTargetState.h
+	Enemy/States/ChaseTargetState.cpp
+	Enemy/States/EnemyStunnedState.h
+	Enemy/States/EnemyStunnedState.cpp
 )
 
 set(STATES_SOURCE

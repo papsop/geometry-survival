@@ -14,6 +14,8 @@ namespace Game
 		AMMO_HITS, // number of bullet pierces
 		PICKUP_FIELD_SIZE,
 		BURNING_DAMAGE, // damage per tick, applies to bullets
+		FROZEN,
+		SCATTER_TARGETS,
 
 		COUNT // always last
 	};

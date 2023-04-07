@@ -108,7 +108,7 @@ namespace Game
 		BulletFactoryDef def;
 		def.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
 		def.Rotation = Owner.GetTransform()->GetRotation();
-		def.Damage = m_weapon->GetBulletDamage();
+		def.Damage = m_weapon->GetBulletDamage() + m_rpgComponent->GetStat(RPGStats::WEAPON_DAMAGE);
 		def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
 		def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);
 

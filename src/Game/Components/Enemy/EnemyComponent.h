@@ -34,7 +34,10 @@ namespace Game
     void Update(float dt) override;
     void OnDeath();
 
-	protected:
+
+    void OnCollisionStart(Engine::CollisionData& collision) override;
+
+  protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
 

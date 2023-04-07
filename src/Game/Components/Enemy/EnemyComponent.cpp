@@ -2,6 +2,7 @@
 
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/GameObjectManager.h>
+#include <Engine/Managers/PhysicsManager.h>
 #include <Engine/Core/Events.h>
 
 #include "../../Managers/GameManager.h"
@@ -10,6 +11,8 @@
 #include "../../Core/GameObject/GameObjectFactory.h"
 
 #include "States/ChaseTargetState.h"
+#include "States/EnemyStunnedState.h"
+
 namespace Game
 {
   EnemyComponent::EnemyComponent(Engine::GameObject& obj)
@@ -61,6 +64,12 @@ namespace Game
 		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
 
 		Owner.Destroy();
+	}
+
+	void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)
+	{
+		if(collision.Other->Tag == Engine::GameObjectTag::PLAYER_BULLET)
+			m_stateMachine.AddState<EnemyStunnedState>(1.0f);
 	}
 
 	void EnemyComponent::VirtualOnActivated()

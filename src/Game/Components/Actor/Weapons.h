@@ -24,8 +24,8 @@ namespace Game
 	{
 		PistolWeapon()
 		{
-			MaxAmmo = 100;
-			FireRate = 0.5f;
+			MaxAmmo = 15;
+			FireRate = 0.3f;
 			BulletDamage = 5.0f;
 			ReloadTime = 2.0f;
 		}

@@ -33,6 +33,8 @@ namespace Game
 		float PickUpFieldSize = 10.0f;
 		// burning damage, applies to bullets
 		float BurningDamage = 0.0f;
+	
+		float Scatters = 0.0f;
 	};
 
 	class RPGComponent : public Engine::IComponent, public Engine::IDebuggableComponent,

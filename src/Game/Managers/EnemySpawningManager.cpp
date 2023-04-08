@@ -16,9 +16,9 @@ namespace Game
 				def.Position = m_spawnerObject->GetTransform()->GetPosition();
 				return GameObjectFactory::CreateEnemy(def);
 			};
-			entry.Cooldown = 2.0f;
+			entry.Cooldown = 1.0f;
 			entry.CurrentCooldown = 0.0f;
-			entry.TimeMin = 2.f;
+			entry.TimeMin = 1.f;
 			entry.TimeMax = 25.0f;
 
 			m_spawningEntries.push_back(entry);
@@ -33,9 +33,9 @@ namespace Game
         def.Position = m_spawnerObject->GetTransform()->GetPosition();
         return GameObjectFactory::CreateEnemy(def);
       };
-      entry.Cooldown = 0.4f;
+      entry.Cooldown = 0.5f;
       entry.CurrentCooldown = 0.0f;
-      entry.TimeMin = 5.0f;
+      entry.TimeMin = 10.0f;
       entry.TimeMax = 100.0f;
 
       m_spawningEntries.push_back(entry);
@@ -91,16 +91,16 @@ namespace Game
     entry.CurrentCooldown = entry.Cooldown;
 
     // Position the enemy
-    auto playerPos = m_player->GetTransform()->GetAbsoluteTransform().Position;
+    auto playerPos = m_player->GetTransform()->GetPosition();
     Engine::math::Vec2 result;
 
     float randomAngle = Engine::math::DEG_TO_RAD(rand() % 360);
 
-    result.x = cosf(randomAngle) * 50.0f;
-    result.y = sinf(randomAngle) * 50.0f;
+    result.x = cosf(randomAngle) * 100.0f;
+    result.y = sinf(randomAngle) * 100.0f;
 
     result += playerPos;
-
+		LOG_WARN("Spawning enemy on [%.1f,%.1f]", result.x, result.y);
     enemy->GetTransform()->SetPosition(result);
   }
 

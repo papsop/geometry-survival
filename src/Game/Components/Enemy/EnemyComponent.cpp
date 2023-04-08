@@ -1,5 +1,7 @@
 #include "EnemyComponent.h"
 
+#include <algorithm>
+
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/PhysicsManager.h>
@@ -35,8 +37,8 @@ namespace Game
 	void EnemyComponent::Update(float dt)
 	{
     m_stateMachine.Update(dt);
-		
-		if (m_target && m_isTouchingTarget)
+
+		if (m_target && m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
 			m_target->GetComponent<ActorComponent>()->ApplyDamage(5 * dt, Actor_DamageSource::Collision);
 	}
 
@@ -46,23 +48,30 @@ namespace Game
 		ExperienceGlobeDef experienceGlobeDef;
 		experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
 
-		auto* expOrb = GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
+		GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
 
 		// scatter
-
-		BulletFactoryDef def;
-		def.Position = Owner.GetTransform()->GetPosition();
-		def.Damage = 2;
-		def.BulletHits = 1;
-
-		auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
-
-		for (auto& enemy : enemies)
+		if (m_target)
 		{
-			def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemy->GetTransform()->GetPosition());
-			GameObjectFactory::CreateBulletObject(def);
+			float scatters = m_target->GetComponent<RPGComponent>()->GetStat(RPGStats::SCATTERS);
+			if (scatters > 0.0f)
+			{
+				BulletFactoryDef def;
+				def.Position = Owner.GetTransform()->GetPosition();
+				def.Damage = 2;
+				def.BulletHits = 1;
+
+				auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
+
+				for (int i = 0; i < std::min(static_cast<size_t>(scatters), enemies.size()); i++)
+				{
+					def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemies[i]->GetTransform()->GetPosition());
+					GameObjectFactory::CreateBulletObject(def);
+				}
+			}
 		}
-		// event
+
+		// event about death
 		event::E_EnemyDied eventData;
 		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
 

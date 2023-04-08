@@ -5,6 +5,7 @@
 #include "../Skills/Skill_BulletDamage.h"
 #include "../Skills/Skill_PickupRadius.h"
 #include "../Skills/Skill_BurningAmmo.h"
+#include "../Skills/Skill_Scatter.h"
 #include "GameManager.h"
 
 #include <cstdlib>
@@ -39,7 +40,9 @@ namespace Game
     m_availableSkills.push_back(std::make_unique<Skill_AmmoStealer>());
     m_availableSkills.push_back(std::make_unique<Skill_BulletDamage>());
     m_availableSkills.push_back(std::make_unique<Skill_PickupRadius>());
-    m_availableSkills.push_back(std::make_unique<Skill_BurningAmmo>());
+		m_availableSkills.push_back(std::make_unique<Skill_BurningAmmo>());
+		m_availableSkills.push_back(std::make_unique<Skill_Scatter>());
+
   }
 
   std::vector< ISkill* > SkillsManager::GetNRandomSkills(int N)

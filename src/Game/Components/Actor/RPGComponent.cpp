@@ -20,6 +20,7 @@ namespace Game
 		SetStatBase(RPGStats::AMMO_HITS, rpgActorDef.AmmoHits);
 		SetStatBase(RPGStats::PICKUP_FIELD_SIZE, rpgActorDef.PickUpFieldSize);
 		SetStatBase(RPGStats::BURNING_DAMAGE, rpgActorDef.BurningDamage);
+		SetStatBase(RPGStats::SCATTERS, rpgActorDef.Scatters);
 
 		SetStatBase(RPGStats::AMMO_ON_KILL, 0);
 

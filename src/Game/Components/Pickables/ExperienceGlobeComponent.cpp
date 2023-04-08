@@ -35,21 +35,21 @@ namespace Game
 
 	void ExperienceGlobeComponent::Update(float dt)
 	{
-		if (m_markedBy != nullptr)
-		{
-			auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
-			auto mass = physBody->GetMass();
+		if (m_markedBy == nullptr)
+			return;
 
-			auto actualVelocity = physBody->GetLinearVelocity();
-			auto dir = Engine::math::V2fNormalize(m_markedBy->GetTransform()->GetPosition() - Owner.GetTransform()->GetPosition());
+		auto* physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+		float mass = physBody->GetMass();
 
-			dir *= 40.0f;
-			auto desiredVelocity = dir;
+		auto actualVelocity = physBody->GetLinearVelocity();
+		auto dir = Engine::math::V2fNormalize(m_markedBy->GetTransform()->GetPosition() - Owner.GetTransform()->GetPosition());
 
-			auto impulse = (desiredVelocity - actualVelocity);
-			impulse *= mass;
-			physBody->ApplyImpulseToCenter(impulse);
-		}
+		dir *= 40.0f;
+		auto desiredVelocity = dir;
+
+		auto impulse = (desiredVelocity - actualVelocity);
+		impulse *= mass;
+		physBody->ApplyImpulseToCenter(impulse);
 	}
 
 	void ExperienceGlobeComponent::OnCollisionStart(Engine::CollisionData& collision)

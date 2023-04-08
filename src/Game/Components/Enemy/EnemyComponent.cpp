@@ -35,6 +35,9 @@ namespace Game
 	void EnemyComponent::Update(float dt)
 	{
     m_stateMachine.Update(dt);
+		
+		if (m_target && m_isTouchingTarget)
+			m_target->GetComponent<ActorComponent>()->ApplyDamage(5 * dt, Actor_DamageSource::Collision);
 	}
 
 	void EnemyComponent::OnDeath()
@@ -70,6 +73,16 @@ namespace Game
 	{
 		if(collision.Other->Tag == Engine::GameObjectTag::PLAYER_BULLET)
 			m_stateMachine.AddState<EnemyStunnedState>(1.0f);
+
+		if (collision.Other->Tag == Engine::GameObjectTag::PLAYER)
+			m_isTouchingTarget = true;
+	}
+
+	void EnemyComponent::OnCollisionEnd(Engine::CollisionData& collision)
+	{
+		// !collision.Other is for case when player is already dead, but we still have to receive onCollisionEnd
+		if (!collision.Other || collision.Other->Tag == Engine::GameObjectTag::PLAYER)
+			m_isTouchingTarget = false;
 	}
 
 	void EnemyComponent::VirtualOnActivated()

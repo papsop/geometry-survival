@@ -82,10 +82,13 @@ namespace Game
     auto currentHP = m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH);
     m_RPGComponent->SetStatBase(RPGStats::CURRENT_HEALTH, currentHP - amount);
 
-    CombatTextDef combatTextDef;
-    combatTextDef.Damage = amount;
-    combatTextDef.Position = Owner.GetTransform()->GetPosition();
-    GameObjectFactory::CreateCombatTextObject(combatTextDef);
+    if (amount > 1.0f)
+    {
+			CombatTextDef combatTextDef;
+			combatTextDef.Damage = amount;
+			combatTextDef.Position = Owner.GetTransform()->GetPosition();
+			GameObjectFactory::CreateCombatTextObject(combatTextDef);
+    }
 
     if (source == Actor_DamageSource::Bullet)
     {

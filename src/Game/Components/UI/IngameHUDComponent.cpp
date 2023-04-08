@@ -49,11 +49,6 @@ namespace Game
 			ImGui::SetWindowFontScale(2.0f);
 			ImGui::Text("Level: %d", m_levelComponent->GetCurrentLevel());
 		}
-		if (m_rpgComponent)
-		{
-			ImGui::Separator();
-			ImGui::Text("Health: %.0f/%.0f", m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH), m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
-		}
 		if (m_weaponComponent)
 		{
 			ImGui::Separator();
@@ -69,9 +64,14 @@ namespace Game
 			}
 			
 		}
-
 		ImGui::End();
 
+		if (m_rpgComponent)
+		{
+			InitializeOverlayWindow("PlayerHealthBar", { 0.5f, 0.55f }, { 0.05f, 0.05f }, true, {0.5f, 0.5f});
+			ImGui::ProgressBar(m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH)/ m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
+			ImGui::End();
+		}
 	}
 
 	void IngameHUDComponent::ResetPlayerComponents(Engine::GameObject* player)

@@ -138,7 +138,7 @@ namespace Engine
       
       virtual void Update(float dt) {};
     protected:
-      void InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative);
+      void InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative, math::Vec2 pivot = {0.0f,0.0f});
 
     };
 

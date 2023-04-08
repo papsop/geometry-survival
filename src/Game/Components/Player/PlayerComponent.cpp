@@ -40,10 +40,7 @@ namespace Game
 
   void PlayerComponent::OnCollisionStart(Engine::CollisionData& collision)
   {
-    if (collision.Other->Tag != Engine::GameObjectTag::ENEMY)
-      return;
 
-    m_actorComponent->ApplyDamage(1, Actor_DamageSource::Collision);
   }
 
   void PlayerComponent::ProcessMessage(const Engine::Message& message)

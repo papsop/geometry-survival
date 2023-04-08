@@ -32,6 +32,4 @@ namespace Game
 		if (m_duration <= 0.0f)
 			m_parentStateMachine.PopState();
 	}
-
-
 }

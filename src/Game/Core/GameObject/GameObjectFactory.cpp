@@ -119,7 +119,7 @@ namespace Game
     player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
     RPGActorDef rpgActorDef;
-    rpgActorDef.MaxHealth = 5;
+    rpgActorDef.MaxHealth = 100;
     rpgActorDef.AttackSpeed = 100.0f;
     rpgActorDef.MovementSpeed = 20.0f;
     player->AddComponent<RPGComponent>(rpgActorDef);

@@ -35,7 +35,8 @@ namespace Game
     void OnDeath();
 
 
-    void OnCollisionStart(Engine::CollisionData& collision) override;
+		void OnCollisionStart(Engine::CollisionData& collision) override;
+		void OnCollisionEnd(Engine::CollisionData& collision) override;
 
   protected:
 		void VirtualOnActivated() override;
@@ -47,6 +48,7 @@ namespace Game
     Engine::GameObject* m_target = nullptr;
     Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
 
+    bool m_isTouchingTarget = false;
 
   };
 }

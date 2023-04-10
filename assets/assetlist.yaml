@@ -1,0 +1,4 @@
+---
+textures:
+  player: "sprites/player.png"
+  enemy1: "sprites/enemy1.png"

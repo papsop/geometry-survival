@@ -17,11 +17,13 @@ namespace Engine
   class ComponentManager;
   class ConfigManager;
   class UIManager;
+  class ResourceManager;
+
   class Application : public IEventListener<event::E_SFMLEvent>
   {
   public:
       Application();
-      ~Application() = default;
+      ~Application();
       static Application& Instance()
       {
           DD_ASSERT(m_instance != nullptr, "Application not created");
@@ -37,6 +39,7 @@ namespace Engine
       ComponentManager& GetComponentManager();
       ConfigManager& GetConfigManager();
       UIManager& GetUIManager();
+      ResourceManager& GetResourceManager();
 
       // Game managers
       template<typename T,
@@ -72,7 +75,8 @@ namespace Engine
       std::unique_ptr<ViewManager> m_viewManager;
       std::unique_ptr<ComponentManager> m_componentManager;
       std::unique_ptr<ConfigManager> m_configManager;
-      std::unique_ptr<UIManager> m_uiManager;
+			std::unique_ptr<UIManager> m_uiManager;
+			std::unique_ptr<ResourceManager> m_resourceManager;
 
       std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
 

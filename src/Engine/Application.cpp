@@ -17,6 +17,7 @@
 #include "Managers/PhysicsManager.h"
 #include "Managers/UIManager.h"
 #include "Managers/GameObjectManager.h"
+#include "Managers/ResourceManager.h"
 
 #include <iostream>
 #include <type_traits>
@@ -39,47 +40,52 @@ namespace Engine
   // Get singletons
   // ===========================================================
 
-  Engine::InputManager& Application::GetInputManager()
+  InputManager& Application::GetInputManager()
   {
     GET_MANAGER_HELPER("SubsystemManager", *m_inputManager);
   }
 
-  Engine::GameObjectManager& Application::GetGameObjectManager()
+  GameObjectManager& Application::GetGameObjectManager()
   {
     GET_MANAGER_HELPER("GameObjectManager", *m_gameObjectManager);
   }
 
-  Engine::SceneManager& Application::GetSceneManager()
+  SceneManager& Application::GetSceneManager()
   {
     GET_MANAGER_HELPER("SceneManager", *m_sceneManager);
   }
 
-  Engine::PhysicsManager& Application::GetPhysicsManager()
+  PhysicsManager& Application::GetPhysicsManager()
   {
     GET_MANAGER_HELPER("PhysicsManager", *m_physicsManager);
   }
 
-  Engine::ViewManager& Application::GetViewManager()
+  ViewManager& Application::GetViewManager()
   {
     GET_MANAGER_HELPER("ViewManager", *m_viewManager);
   }
 
-  Engine::ComponentManager& Application::GetComponentManager()
+  ComponentManager& Application::GetComponentManager()
   {
     GET_MANAGER_HELPER("ComponentManager", *m_componentManager);
   }
 
-  Engine::ConfigManager& Application::GetConfigManager()
+  ConfigManager& Application::GetConfigManager()
   {
     GET_MANAGER_HELPER("ConfigManager", *m_configManager);
   }
 
-  Engine::UIManager& Application::GetUIManager()
-  {
-    GET_MANAGER_HELPER("UIManager", *m_uiManager);
+	UIManager& Application::GetUIManager()
+	{
+		GET_MANAGER_HELPER("UIManager", *m_uiManager);
   }
 
-  // ===========================================================
+	ResourceManager& Application::GetResourceManager()
+	{
+		GET_MANAGER_HELPER("ResourceManager", *m_resourceManager);
+	}
+
+	// ===========================================================
   // Application stuff
   // ===========================================================
   Application* Application::m_instance = nullptr;
@@ -90,7 +96,14 @@ namespace Engine
     m_instance = this;
   }
 
-  void Application::CreateManagers()
+	Application::~Application()
+	{
+   /* empty and must be here, the unique_ptr's destructor is unknown if THIS destructor is in the header file
+   * - https://stackoverflow.com/a/34073093/1953344
+   */
+	}
+
+	void Application::CreateManagers()
   {
     CREATE_MANAGER(InputManager, m_inputManager);
     CREATE_MANAGER(GameObjectManager, m_gameObjectManager);
@@ -99,7 +112,8 @@ namespace Engine
     CREATE_MANAGER(ViewManager, m_viewManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
-    CREATE_MANAGER(UIManager, m_uiManager);
+		CREATE_MANAGER(UIManager, m_uiManager);
+		CREATE_MANAGER(ResourceManager, m_resourceManager);
   }
 
   void Application::ReceiveEvent(const event::E_SFMLEvent& eventData)
@@ -152,8 +166,9 @@ namespace Engine
     CreateManagers();
     LOG_INFO("Initializing managers");
     m_configManager->OnInit();
-    m_configManager->LoadCvarsFromFile();
-    m_uiManager->OnInit();
+		m_configManager->LoadCvarsFromFile();
+		m_resourceManager->OnInit();
+		m_uiManager->OnInit();
     m_viewManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
@@ -188,7 +203,6 @@ namespace Engine
       // Process GameObject messages
       m_gameObjectManager->Update(lastFrameMS);
       // Update custom managers that the game registered
-      // These managers actually update Components etc. as they see fit
       for (auto&& managerEntry : m_managers)
       {
           managerEntry.second->Update(lastFrameMS);
@@ -214,6 +228,7 @@ namespace Engine
     m_physicsManager->OnDestroy();
     m_viewManager->OnDestroy();
     m_uiManager->OnDestroy();
+		m_resourceManager->OnDestroy();
     m_configManager->OnDestroy();
     LOG_INFO("Destroying complete");
   }

@@ -185,6 +185,23 @@ namespace Engine
     // Let the game initialize scene/gameobjects/etc.
     injection.BeforeGameLoop(*this);
 
+
+
+		auto handle1 = m_resourceManager->LoadResource<TextureResource>("test1");
+		std::cout << handle1.ID << std::endl;
+
+		auto handle2 = m_resourceManager->LoadResource<TextureResource>("test2");
+		std::cout << handle2.ID << std::endl;
+
+		auto handle3 = m_resourceManager->LoadResource<TextureResource>("test3");
+		std::cout << handle3.ID << std::endl;
+
+		auto handle4 = m_resourceManager->LoadResource<TextureResource>("test1");
+		std::cout << handle4.ID << std::endl;
+
+		auto texture = m_resourceManager->GetResource<TextureResource>(handle4);
+		std::cout << texture->FilePath << std::endl;
+
     // Start updating
     sf::Clock clock;
 

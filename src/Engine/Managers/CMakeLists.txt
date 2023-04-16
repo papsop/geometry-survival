@@ -23,9 +23,11 @@ set(SOURCES
 	UIManager.h
 	UIManager.cpp
 	ResourceManager.h
+	ResourceManager.inl
 	ResourceManager.cpp
 
 	Config/IConfigurable.h
+	ResourceTypes.h
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

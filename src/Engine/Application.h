@@ -17,7 +17,8 @@ namespace Engine
   class ComponentManager;
   class ConfigManager;
   class UIManager;
-  class ResourceManager;
+	class ResourceManager;
+	class RenderManager;
 
   class Application : public IEventListener<event::E_SFMLEvent>
   {
@@ -39,7 +40,8 @@ namespace Engine
       ComponentManager& GetComponentManager();
       ConfigManager& GetConfigManager();
       UIManager& GetUIManager();
-      ResourceManager& GetResourceManager();
+			ResourceManager& GetResourceManager();
+			RenderManager& GetRenderManager();
 
       // Game managers
       template<typename T,
@@ -77,6 +79,7 @@ namespace Engine
       std::unique_ptr<ConfigManager> m_configManager;
 			std::unique_ptr<UIManager> m_uiManager;
 			std::unique_ptr<ResourceManager> m_resourceManager;
+			std::unique_ptr<RenderManager> m_renderManager;
 
       std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
 

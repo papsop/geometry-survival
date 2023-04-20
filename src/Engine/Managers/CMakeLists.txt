@@ -25,6 +25,8 @@ set(SOURCES
 	ResourceManager.h
 	ResourceManager.inl
 	ResourceManager.cpp
+	RenderManager.h
+	RenderManager.cpp
 
 	Config/IConfigurable.h
 	ResourceTypes.h

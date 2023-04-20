@@ -18,6 +18,7 @@
 #include "Managers/UIManager.h"
 #include "Managers/GameObjectManager.h"
 #include "Managers/ResourceManager.h"
+#include "Managers/RenderManager.h"
 
 #include <iostream>
 #include <type_traits>
@@ -85,6 +86,11 @@ namespace Engine
 		GET_MANAGER_HELPER("ResourceManager", *m_resourceManager);
 	}
 
+	RenderManager& Application::GetRenderManager()
+	{
+		GET_MANAGER_HELPER("RenderManager", *m_renderManager);
+	}
+
 	// ===========================================================
   // Application stuff
   // ===========================================================
@@ -114,6 +120,7 @@ namespace Engine
     CREATE_MANAGER(ConfigManager, m_configManager);
 		CREATE_MANAGER(UIManager, m_uiManager);
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
+		CREATE_MANAGER(RenderManager, m_renderManager);
   }
 
   void Application::ReceiveEvent(const event::E_SFMLEvent& eventData)
@@ -169,7 +176,8 @@ namespace Engine
 		m_configManager->LoadCvarsFromFile();
 		m_resourceManager->OnInit();
 		m_uiManager->OnInit();
-    m_viewManager->OnInit();
+		m_viewManager->OnInit();
+		m_renderManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
 	  m_sceneManager->OnInit();
@@ -243,7 +251,8 @@ namespace Engine
     m_sceneManager->OnDestroy();
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
-    m_viewManager->OnDestroy();
+		m_renderManager->OnDestroy();
+		m_viewManager->OnDestroy();
     m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_configManager->OnDestroy();

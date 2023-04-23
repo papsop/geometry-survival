@@ -3,6 +3,7 @@
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Components/View.h>
+#include <Engine/Components/Drawables/ShapeDrawableComponent.h>
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
@@ -51,6 +52,7 @@ namespace Game
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		obj->AddComponent<Engine::ShapeDrawableComponent>(Engine::view::Layer::ENEMY);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
@@ -116,7 +118,8 @@ namespace Game
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
     player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-    player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		player->AddComponent<Engine::ShapeDrawableComponent>(Engine::view::Layer::PLAYER);
 
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;

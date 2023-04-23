@@ -1,5 +1,6 @@
 #include "CameraComponent.h"
 #include <Engine/Managers/ComponentManager.h>
+#include <Engine/Managers/RenderManager.h>
 
 namespace Game
 {
@@ -42,6 +43,7 @@ namespace Game
 
 		m_cameraData.Center = Owner.GetTransform()->GetPosition();
 		Engine::ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);
+		Engine::RenderManager::Get().SetView(m_cameraData);
 	}
 
 	void CameraComponent::SetTarget(Engine::GameObject* newTarget)
@@ -55,14 +57,7 @@ namespace Game
 
   void CameraComponent::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData)
   {
-		if (!eventData.Registered)
-		{
-			m_target = nullptr;
-		}
-		else
-		{
-			m_target = eventData.PlayerObject;
-		}
+		m_target = eventData.PlayerObject;
   }
 
 	void CameraComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)

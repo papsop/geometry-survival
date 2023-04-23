@@ -3,29 +3,15 @@
 #include "../../Core/GameObject/GameObject.h"
 #include "../../Application.h"
 #include "../../Managers/ViewManager.h"
+#include "../../Managers/RenderManager.h"
 #include "../../Managers/UIManager.h"
 
 #include "../../ImGui/imgui.h"
 namespace Engine
 {
-   // view
-  IRenderableComponent::IRenderableComponent(GameObject& obj, view::Layer layer)
-    : IComponent(obj)
-    , m_layer(layer)
-  {
-	};	
-	
-	void IRenderableComponent::OnCreate()
-	{
-		ViewManager::Get().RegisterComponent(this);
-	}
-
-	IRenderableComponent::~IRenderableComponent()
-	{
-		ViewManager::Get().UnregisterComponent(this);
-	}
-
-
+	// =========================================================
+	// GENERIC COMPONENT
+	// =========================================================
 	void IComponent::Activate()
 	{
 		if (!m_isActive)
@@ -44,12 +30,35 @@ namespace Engine
 		}
 	}
 
+
+
+	// =========================================================
+	// DRAWABLE COMPONENT
+	// =========================================================
+	IDrawableComponent::IDrawableComponent(GameObject& obj, view::Layer layer)
+		: IComponent(obj)
+		, m_layer(layer)
+	{
+
+	}
+	void IDrawableComponent::OnCreate()
+	{
+		RenderManager::Get().RegisterComponent(this);
+	}
+
+	IDrawableComponent::~IDrawableComponent()
+	{
+		RenderManager::Get().UnregisterComponent(this);
+	}
+
 	bool IComponent::ShouldUpdate()
 	{
     return Owner.ShouldUpdate() && IsActive() && IsEnabled();
 	}
 
-  // ImGui
+	// =========================================================
+	// ImGui COMPONENT
+	// =========================================================
   IImGuiComponent::IImGuiComponent(GameObject& obj)
     : IComponent(obj)
 	{

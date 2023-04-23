@@ -13,7 +13,7 @@
 #include <iostream>
 #include <stdint.h>
 #include <type_traits>
-#include <type_traits>
+#include <vector>
 
 #include <TGUI/TGUI.hpp>
 #include <TGUI/Backend/SFML-Graphics.hpp>
@@ -80,16 +80,17 @@ namespace Engine
         bool m_isEnabled = false;   // controls only Updating
         // TODO: add OnEnabled callback, but isn't needed right now
     };
-
+    // ==============================================================================================================
     // Views
+    // SHOULDN'T BE USED
     class IRenderableComponent : public IComponent
     {
     public:
-      IRenderableComponent(GameObject& obj, view::Layer layer);
+      IRenderableComponent(GameObject& obj, view::Layer layer) : IComponent(obj) { };
 
-      ~IRenderableComponent();
-
-      void OnCreate() override;
+      ~IRenderableComponent() = default;
+      
+      void OnCreate() override {};
 
       virtual view::Renderable GetRenderable() = 0;
       virtual view::Renderable& GetMutableRenderable() = 0;
@@ -97,9 +98,28 @@ namespace Engine
       view::Layer GetLayer() const { return m_layer; };
     protected:
       // maybe changeable? not right now tho
-      const view::Layer m_layer;
+      view::Layer m_layer;
     };
+		// =========================================================
+		// DRAWABLE COMPONENT
+		// =========================================================
+    class IDrawableComponent : public IComponent
+    {
+    public:
+      using TDrawablesMap = std::multimap<view::Layer, std::pair<ITransform::AbsoluteTransform, sf::Drawable*>>;
 
+      IDrawableComponent(GameObject& obj, view::Layer layer);
+      ~IDrawableComponent();
+
+      void OnCreate() override final;
+
+      virtual void GetDrawables(TDrawablesMap& drawables) {};
+
+      view::Layer GetLayer() const { return m_layer; };
+    protected:
+      view::Layer m_layer;
+    };
+    // ==============================================================================================================
     // UI
     // SHOULDN'T BE USED
     class IUIComponent : public IComponent, public IEventListener<event::E_GUIReset>
@@ -125,8 +145,9 @@ namespace Engine
     private:
       tgui::Gui* m_gui = nullptr;
     };
-    
-    // ImguiComponent
+		// =========================================================
+		// ImGui COMPONENT
+		// =========================================================
     class IImGuiComponent : public IComponent
     {
     public:

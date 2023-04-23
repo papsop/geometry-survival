@@ -193,8 +193,6 @@ namespace Engine
     // Let the game initialize scene/gameobjects/etc.
     injection.BeforeGameLoop(*this);
 
-
-
 		auto handle1 = m_resourceManager->LoadResource<TextureResource>("test1");
 		std::cout << handle1.ID << std::endl;
 
@@ -216,7 +214,7 @@ namespace Engine
     while (m_applicationIsRunning)
     {
       sf::Time elapsed = clock.restart();
-      float lastFrameMS = elapsed.asSeconds();
+      float elapsedSeconds = elapsed.asSeconds();
 
       m_viewManager->PollEvents();
 	    // debug exit
@@ -226,18 +224,20 @@ namespace Engine
       // Update managers
       m_inputManager->Update();
       // Process GameObject messages
-      m_gameObjectManager->Update(lastFrameMS);
+      m_gameObjectManager->Update(elapsedSeconds);
       // Update custom managers that the game registered
       for (auto&& managerEntry : m_managers)
       {
-          managerEntry.second->Update(lastFrameMS);
+          managerEntry.second->Update(elapsedSeconds);
       }
 
       // Update components
-      UpdateGameplay(lastFrameMS);
+      UpdateGameplay(elapsedSeconds);
 
       // Rendering
-      m_viewManager->Update(lastFrameMS);
+      m_viewManager->Update(elapsedSeconds);
+      m_renderManager->Update(elapsedSeconds);
+      m_renderManager->Render(elapsedSeconds);
       // reset input for this frame
       m_inputManager->PostUpdate();
       m_gameObjectManager->CleanupGameObjects();

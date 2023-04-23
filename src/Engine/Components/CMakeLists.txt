@@ -34,6 +34,11 @@ set(SOURCES
 	View/TextViewComponent.h
 	View/TextViewComponent.cpp
 
+	Drawables/ShapeDrawableComponent.h
+	Drawables/ShapeDrawableComponent.cpp
+	Drawables/SpriteDrawableComponent.h
+	Drawables/SpriteDrawableComponent.cpp
+
 	UI/LayoutElementComponent.h
 	UI/LayoutElementComponent.cpp
 	UI/HorizontalLayoutComponent.h

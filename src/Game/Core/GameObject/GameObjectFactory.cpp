@@ -33,14 +33,14 @@ namespace Game
 		physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
 		physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
 
-		Engine::ShapeViewDef shapeViewDef;
-		shapeViewDef.Color = sf::Color::Yellow;
-		shapeViewDef.PointCount = 5;
-		shapeViewDef.Radius = 2.f;
-		shapeViewDef.Layer = Engine::view::Layer::ENEMY;
+		Engine::ShapeDrawableDef shapeDef;
+		shapeDef.Color = sf::Color::Yellow;
+		shapeDef.PointCount = 5;
+		shapeDef.Radius = 2.f;
+		shapeDef.Layer = Engine::view::Layer::ENEMY;
 
 		Engine::CircleFixtureDef circleFixtureDef;
-		circleFixtureDef.Radius = shapeViewDef.Radius;
+		circleFixtureDef.Radius = shapeDef.Radius;
 
 		RPGActorDef rpgActorDef;
 		rpgActorDef.MaxHealth = 10;
@@ -51,9 +51,8 @@ namespace Game
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		obj->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		obj->AddComponent<Engine::ShapeDrawableComponent>(Engine::view::Layer::ENEMY);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
@@ -96,10 +95,11 @@ namespace Game
 
 	Engine::GameObject* GameObjectFactory::CreatePlayerObject(PlayerObjectDef def)
 	{
-    Engine::ShapeViewDef shapeViewDef;
-    shapeViewDef.Color = sf::Color::Green;
-    shapeViewDef.PointCount = 3;
-    shapeViewDef.Radius = 2;
+    Engine::ShapeDrawableDef shapeDef;
+		shapeDef.Color = sf::Color::Green;
+		shapeDef.PointCount = 3;
+		shapeDef.Radius = 2.f;
+		shapeDef.Layer = Engine::view::Layer::PLAYER;
 
     Engine::PhysicsBodyDef physBodyDef;
     physBodyDef.BodyType = b2_dynamicBody;
@@ -110,7 +110,7 @@ namespace Game
 
     Engine::CircleFixtureDef circleFixtureDef;
     circleFixtureDef.Radius = 2.0f;
-    shapeViewDef.Layer = Engine::view::Layer::PLAYER;
+		
 
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
@@ -118,9 +118,8 @@ namespace Game
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-    player->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+    player->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		player->AddComponent<Engine::ShapeDrawableComponent>(Engine::view::Layer::PLAYER);
 
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;
@@ -188,15 +187,14 @@ namespace Game
 
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("CombatText", Engine::GameObjectTag::UNTAGGED, transformDef);
 
-		Engine::TextViewDef textDef;
+		Engine::TextDrawableDef textDef;
 		textDef.Color = sf::Color::Red;
-		textDef.FontSize = 16;
-		textDef.Text = std::to_string(def.Damage);
+		textDef.CharacterSize = 16;
+		textDef.Value = std::to_string(def.Damage);
 		textDef.Layer = Engine::view::Layer::UI;
 
-		obj->AddComponent<Engine::TextViewComponent>(textDef);
+		obj->AddComponent<Engine::TextDrawableComponent>(textDef);
 		obj->AddComponent<CombatTextComponent>(.500f);
-		obj->AddComponent<Engine::TextDrawableComponent>(Engine::view::Layer::UI);
 		
 		obj->SetActive(true);
 		return obj;

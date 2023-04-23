@@ -13,6 +13,12 @@ namespace Engine
 	{
 		IEventListener<event::E_OnShowDebugKeyAction>::RegisterListener();
 		ReloadView();
+
+		// todo resource manager?
+		if (!m_font.loadFromFile("assets/arial.ttf"))
+		{
+			LOG_ERROR("Unable to load console font");
+		}
 	}
 
 	void RenderManager::VirtualOnDestroy()

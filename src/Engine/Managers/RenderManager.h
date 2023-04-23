@@ -35,6 +35,8 @@ namespace Engine
 		inline float Box2DRotationToSFML(float angle) { return 360.0f - math::RAD_TO_DEG(angle); }
 
 		void SetView(CameraData cameraData);
+
+		const sf::Font& GetFont() const { return m_font; }
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
@@ -46,6 +48,7 @@ namespace Engine
 		float m_pixelsPerMeter = 10;
 		std::unique_ptr<sf::RenderWindow> m_window;
 		std::vector<IDrawableComponent*> m_drawableComponents;
+		sf::Font m_font;
 
 		RenderManager() = default;
 

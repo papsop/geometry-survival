@@ -4,6 +4,7 @@
 #include <Engine/Components/Physics.h>
 #include <Engine/Components/View.h>
 #include <Engine/Components/Drawables/ShapeDrawableComponent.h>
+#include <Engine/Components/Drawables/TextDrawableComponent.h>
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
@@ -195,6 +196,7 @@ namespace Game
 
 		obj->AddComponent<Engine::TextViewComponent>(textDef);
 		obj->AddComponent<CombatTextComponent>(.500f);
+		obj->AddComponent<Engine::TextDrawableComponent>(Engine::view::Layer::UI);
 		
 		obj->SetActive(true);
 		return obj;

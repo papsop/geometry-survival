@@ -5,6 +5,7 @@
 #include "../Core/EventData.h"
 
 #include "../Debug/IDebuggable.h"
+#include "../Debug/VisualDebugContext.h"
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <vector>
@@ -25,9 +26,13 @@ namespace Engine
 		void Update(float dt) override;
 		void Render(float dt);
 
+		// Component registration
 		void RegisterComponent(IDrawableComponent* component);
+		void RegisterComponent(IDebuggable* component);
 		void UnregisterComponent(IDrawableComponent* component);
+		void UnregisterComponent(IDebuggable* component);
 
+		// Helper functions
 		inline float coordToPixel(float coord) { return coord * m_pixelsPerMeter; };
 		inline float pixelToCoord(float pixel) { return pixel / m_pixelsPerMeter; };
 		inline sf::Vector2f coordsToPixels(b2Vec2 coords) { return { coords.x * m_pixelsPerMeter, -coords.y * m_pixelsPerMeter }; };
@@ -47,12 +52,13 @@ namespace Engine
 		bool m_shouldUpdateDebugs = false;
 		float m_pixelsPerMeter = 10;
 		std::unique_ptr<sf::RenderWindow> m_window;
-		std::vector<IDrawableComponent*> m_drawableComponents;
+    std::vector<IDrawableComponent*> m_drawableComponents;
+    std::vector<IDebuggable*> m_debuggableComponents;
 		sf::Font m_font;
+		VisualDebugContext m_debugContext;
 
-		RenderManager() = default;
-
-		void ReloadView();
+		RenderManager();
+		void ReloadWindow();
 		void ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable);
 	};
 }

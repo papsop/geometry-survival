@@ -4,6 +4,8 @@ set(SOURCES
 	Logger.h
 	Logger.cpp
 	LoggerLevel.h
+	VisualDebugContext.h
+	VisualDebugContext.cpp
 	
 	Backend/IBackendStrategy.h
 	Backend/ConsoleBackendStrategy.h

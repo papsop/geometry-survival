@@ -4,6 +4,12 @@
 namespace Engine
 {
 
+	RenderManager::RenderManager()
+		: m_debugContext(*this)
+	{
+
+	}
+
 	RenderManager& RenderManager::Get()
 	{
 		return Application::Instance().GetRenderManager();
@@ -12,7 +18,7 @@ namespace Engine
 	void RenderManager::VirtualOnInit()
 	{
 		IEventListener<event::E_OnShowDebugKeyAction>::RegisterListener();
-		ReloadView();
+		ReloadWindow();
 
 		// todo resource manager?
 		if (!m_font.loadFromFile("assets/arial.ttf"))
@@ -31,12 +37,22 @@ namespace Engine
 		m_drawableComponents.push_back(component);
 	}
 
-	void RenderManager::UnregisterComponent(IDrawableComponent* component)
+  void RenderManager::RegisterComponent(IDebuggable* component)
+  {
+		m_debuggableComponents.push_back(component);
+  }
+
+  void RenderManager::UnregisterComponent(IDrawableComponent* component)
 	{
 		m_drawableComponents.erase(std::remove(m_drawableComponents.begin(), m_drawableComponents.end(), component), m_drawableComponents.end());
 	}
 
-	void RenderManager::SetView(CameraData cameraData)
+  void RenderManager::UnregisterComponent(IDebuggable* component)
+  {
+		m_debuggableComponents.erase(std::remove(m_debuggableComponents.begin(), m_debuggableComponents.end(), component), m_debuggableComponents.end());
+  }
+
+  void RenderManager::SetView(CameraData cameraData)
 	{
 		sf::View view;
 		view.setCenter(coordsToPixels(cameraData.Center));
@@ -50,7 +66,7 @@ namespace Engine
 		m_shouldUpdateDebugs = !m_shouldUpdateDebugs;
 	}
 
-	void RenderManager::ReloadView()
+	void RenderManager::ReloadWindow()
 	{
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
@@ -59,6 +75,7 @@ namespace Engine
 
 		m_window = std::make_unique<sf::RenderWindow>(videoMode, "test", style, settings);
 		m_window->setJoystickThreshold(10);
+		m_debugContext.SetRenderWindow(m_window.get());
 	}
 
 	void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
@@ -74,7 +91,13 @@ namespace Engine
 
 	void RenderManager::Update(float dt)
 	{
-		
+		for (auto& c : m_drawableComponents)
+		{
+			if (c->ShouldUpdate())
+			{
+				c->Update(dt);
+			}
+		}
 	}
 
 	void RenderManager::Render(float dt)
@@ -98,6 +121,13 @@ namespace Engine
 			m_window->draw(*data.second);
 		}
 		
+		// debuggable
+
+    for (auto& c : m_debuggableComponents)
+    {
+      c->Debug(m_debugContext);
+    }
+
 
 		m_window->display();
 	}

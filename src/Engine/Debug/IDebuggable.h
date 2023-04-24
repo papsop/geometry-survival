@@ -1,15 +1,17 @@
 #pragma once
 #include "../View/IViewStrategy.h"
+#include "VisualDebugContext.h"
 
 namespace Engine
 {
-    class IDebuggable
-    {
-    public:
-      IDebuggable() = default;
-      virtual ~IDebuggable() = default;
+  class IDebuggable
+  {
+  public:
+    IDebuggable() = default;
+    virtual ~IDebuggable() = default;
 
-      virtual void Debug(view::IViewStrategy * viewStrategy) = 0;
+      virtual void Debug(view::IViewStrategy* viewStrategy) {};
+      virtual void Debug(VisualDebugContext& debugContext) {};
 
     protected:
       void DebuggableOnInit();

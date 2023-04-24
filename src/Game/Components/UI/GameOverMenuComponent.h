@@ -27,11 +27,5 @@ namespace Game
 
 	private:
 		void HandleSwitchToMainMenu();
-
-		tgui::VerticalLayout::Ptr m_menuLayout;
-
-		tgui::Label::Ptr m_menuLabel;
-		tgui::Button::Ptr m_newGameButton;
-		tgui::Button::Ptr m_backToMenuButton;
 	};
 }

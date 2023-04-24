@@ -62,7 +62,6 @@ namespace view{
 
 			m_window = std::make_unique<sf::RenderWindow>(videoMode, m_windowName, style, settings);
       m_window->setJoystickThreshold(10);
-      UIManager::Get().SetSFMLWindow(*m_window);
       ImGui::SFML::Init(*m_window);
       ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
     }

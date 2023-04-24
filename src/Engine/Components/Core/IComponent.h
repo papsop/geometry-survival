@@ -15,8 +15,6 @@
 #include <type_traits>
 #include <vector>
 
-#include <TGUI/TGUI.hpp>
-#include <TGUI/Backend/SFML-Graphics.hpp>
 namespace Engine
 {
 
@@ -139,11 +137,9 @@ namespace Engine
       virtual void UIShown() {};
       virtual void UIHidden() {};
 
-      tgui::Group::Ptr m_group = nullptr;
       void ReceiveEvent(const event::E_GUIReset& eventData) override {};
 
     private:
-      tgui::Gui* m_gui = nullptr;
     };
 		// =========================================================
 		// ImGui COMPONENT

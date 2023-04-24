@@ -9,7 +9,6 @@
 #include "../../Managers/SkillsManager.h"
 
 #include "Controllers/IngameUIControllerComponent.h"
-#include <TGUI/String.hpp>
 #include <Engine/ImGui/imgui.h>
 
 namespace Game

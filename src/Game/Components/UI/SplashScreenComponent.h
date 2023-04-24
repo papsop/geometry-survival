@@ -17,7 +17,7 @@ namespace Game
 
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
-    void RegisterUIElements() override;
+    void RegisterUIElements() override {};
 
     void UIShown() override;
     void UIHidden() override;
@@ -25,7 +25,5 @@ namespace Game
   private:
     void HandleSwitchToMainMenu();
     float m_splashTimer = 3.0f;
-
-    tgui::Label::Ptr m_splashLabel;
   };
 }

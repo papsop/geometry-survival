@@ -12,8 +12,6 @@ set(SOURCES
 	Backend/ConsoleBackendStrategy.cpp
 	Backend/WindowBackendStrategy.h
 	Backend/WindowBackendStrategy.cpp
-	Backend/UIBackendStrategy.h
-	Backend/UIBackendStrategy.cpp
 	Backend/ImGuiBackendStrategy.h
 	Backend/ImGuiBackendStrategy.cpp
 )

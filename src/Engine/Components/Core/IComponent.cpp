@@ -64,6 +64,16 @@ namespace Engine
 	{
 	}
 
+	void IImGuiComponent::OnCreate()
+	{
+		RenderManager::Get().RegisterComponent(this);
+	}
+
+	void IImGuiComponent::OnDestroy()
+	{
+		RenderManager::Get().UnregisterComponent(this);
+	}
+
 	void IImGuiComponent::InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative, math::Vec2 pivot)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();

@@ -7,14 +7,14 @@ namespace Engine
 {
 	void IDebuggable::DebuggableOnInit()
 	{
-		ViewManager::Get().RegisterComponent(this);
-		//RenderManager::Get().RegisterComponent(this);
+		//ViewManager::Get().RegisterComponent(this);
+		RenderManager::Get().RegisterComponent(this);
 	}
 
 	void IDebuggable::DebuggableOnDestroy()
 	{
-    ViewManager::Get().UnregisterComponent(this);
-    //RenderManager::Get().UnregisterComponent(this);
+    //ViewManager::Get().UnregisterComponent(this);
+    RenderManager::Get().UnregisterComponent(this);
 	}
 
 };

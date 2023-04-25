@@ -150,8 +150,8 @@ namespace Engine
       IImGuiComponent(GameObject& obj);
       ~IImGuiComponent() = default;
 
-      virtual void OnCreate() {};
-      virtual void OnDestroy() {};
+      virtual void OnCreate() final;
+      virtual void OnDestroy() final;
       
       virtual void Update(float dt) {};
     protected:

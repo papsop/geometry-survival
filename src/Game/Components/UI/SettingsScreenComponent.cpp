@@ -19,13 +19,11 @@ namespace Game
 
   void SettingsScreenComponent::VirtualOnActivated()
   {
-    Engine::ViewManager::Get().RegisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
   }
 
   void SettingsScreenComponent::VirtualOnDeactivated()
   {
-    Engine::ViewManager::Get().UnregisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
   }
 

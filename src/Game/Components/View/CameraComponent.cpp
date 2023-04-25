@@ -42,7 +42,7 @@ namespace Game
 		}
 
 		m_cameraData.Center = Owner.GetTransform()->GetPosition();
-		Engine::ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);
+		//Engine::ViewManager::Get().GetViewStrategy()->SetView(m_cameraData);
 		Engine::RenderManager::Get().SetView(m_cameraData);
 	}
 

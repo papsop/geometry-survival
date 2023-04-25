@@ -115,7 +115,7 @@ namespace Engine
     CREATE_MANAGER(GameObjectManager, m_gameObjectManager);
     CREATE_MANAGER(SceneManager, m_sceneManager);
     CREATE_MANAGER(PhysicsManager, m_physicsManager);
-    CREATE_MANAGER(ViewManager, m_viewManager);
+    //CREATE_MANAGER(ViewManager, m_viewManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
 		CREATE_MANAGER(UIManager, m_uiManager);
@@ -176,8 +176,8 @@ namespace Engine
 		m_configManager->LoadCvarsFromFile();
 		m_resourceManager->OnInit();
 		m_uiManager->OnInit();
-		m_viewManager->OnInit();
-		m_renderManager->OnInit();
+    m_renderManager->OnInit();
+		//m_viewManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
 	  m_sceneManager->OnInit();
@@ -189,7 +189,7 @@ namespace Engine
     //injection.RegisterGameComponents(*this);
 
     // Create and set ViewStrategy
-	  m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));
+	  //m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));
     // Let the game initialize scene/gameobjects/etc.
     injection.BeforeGameLoop(*this);
 
@@ -216,7 +216,7 @@ namespace Engine
       sf::Time elapsed = clock.restart();
       float elapsedSeconds = elapsed.asSeconds();
 
-      m_viewManager->PollEvents();
+      m_renderManager->PollEvents();
 	    // debug exit
 	    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager->StoreModifiedCvars();
@@ -235,9 +235,8 @@ namespace Engine
       UpdateGameplay(elapsedSeconds);
 
       // Rendering
-      m_viewManager->Update(elapsedSeconds);
+      //m_viewManager->Update(elapsedSeconds);
       m_renderManager->Update(elapsedSeconds);
-      m_renderManager->Render(elapsedSeconds);
       // reset input for this frame
       m_inputManager->PostUpdate();
       m_gameObjectManager->CleanupGameObjects();
@@ -251,8 +250,8 @@ namespace Engine
     m_sceneManager->OnDestroy();
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
-		m_renderManager->OnDestroy();
-		m_viewManager->OnDestroy();
+		//m_viewManager->OnDestroy();
+    m_renderManager->OnDestroy();
     m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_configManager->OnDestroy();

@@ -18,15 +18,5 @@ namespace Game
     void QuitButtonCallback();
 
     void Update(float dt) override;
-
-  protected:
-
-    void VirtualOnActivated() override;
-    void VirtualOnDeactivated() override;
-
-    //void RegisterUIElements() override;
-
-  private:
-
   };
 }

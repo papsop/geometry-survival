@@ -14,13 +14,13 @@ namespace Engine
 
 		void OnInit()
 		{
-			VirtualOnInit(); // calls virtual function
+			VirtualOnInit();
 			m_initialized = true;
 
 		};
 		void OnDestroy()
 		{
-			VirtualOnDestroy(); // calls virtual function
+			VirtualOnDestroy();
 			m_initialized = false;
 		};
 

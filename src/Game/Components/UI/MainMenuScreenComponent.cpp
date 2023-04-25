@@ -77,15 +77,4 @@ namespace Game
 		//}
 		//ImGui::End();
 	}
-
-	void MainMenuScreenComponent::VirtualOnActivated()
-	{
-		Engine::ViewManager::Get().RegisterComponent(this);
-	}
-
-	void MainMenuScreenComponent::VirtualOnDeactivated()
-	{
-		Engine::ViewManager::Get().UnregisterComponent(this);
-	}
-
 }

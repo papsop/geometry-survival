@@ -26,12 +26,17 @@ namespace Engine
 		void Update(float dt) override;
 		void Render(float dt);
 
+		void PollEvents();
+		sf::Vector2f GetMousePosition();
+
 		// Component registration
 		void RegisterComponent(IDrawableComponent* component);
 		void RegisterComponent(IDebuggable* component);
+		void RegisterComponent(IImGuiComponent* component);
 		void UnregisterComponent(IDrawableComponent* component);
+		void UnregisterComponent(IImGuiComponent* component);
 		void UnregisterComponent(IDebuggable* component);
-
+		
 		// Helper functions
 		inline float coordToPixel(float coord) { return coord * m_pixelsPerMeter; };
 		inline float pixelToCoord(float pixel) { return pixel / m_pixelsPerMeter; };
@@ -52,7 +57,8 @@ namespace Engine
 		bool m_shouldUpdateDebugs = false;
 		float m_pixelsPerMeter = 10;
 		std::unique_ptr<sf::RenderWindow> m_window;
-    std::vector<IDrawableComponent*> m_drawableComponents;
+		std::vector<IDrawableComponent*> m_drawableComponents;
+		std::vector<IImGuiComponent*> m_imGuiComponents;
     std::vector<IDebuggable*> m_debuggableComponents;
 		sf::Font m_font;
 		VisualDebugContext m_debugContext;

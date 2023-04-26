@@ -97,7 +97,17 @@ namespace Engine
 		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	}
 
-	void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
+  void RenderManager::DestroyWindow()
+  {
+		if (!m_window)
+			return;
+
+		ImGui::SFML::Shutdown();
+		m_window = nullptr;
+		Engine::EventManager::Get().DispatchEvent(event::E_WindowClosed());
+  }
+
+  void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
 	{
 		auto* transformableObject = dynamic_cast<sf::Transformable*>(drawable);
 		if (!transformableObject)

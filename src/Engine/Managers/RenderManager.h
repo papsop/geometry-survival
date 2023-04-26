@@ -47,6 +47,9 @@ namespace Engine
 		void SetView(CameraData cameraData);
 
 		const sf::Font& GetFont() const { return m_font; }
+
+    void ReloadWindow();
+    void DestroyWindow();
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
@@ -64,7 +67,6 @@ namespace Engine
 		VisualDebugContext m_debugContext;
 
 		RenderManager();
-		void ReloadWindow();
 		void ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable);
 	};
 }

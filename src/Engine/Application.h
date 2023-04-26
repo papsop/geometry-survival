@@ -2,6 +2,7 @@
 #include <SFML/Graphics.hpp>
 #include <memory>
 #include <map>
+#include <functional>
 
 #include "Core/ApplicationInjection.h"
 #include "Core/Events.h"
@@ -61,6 +62,8 @@ namespace Engine
       void Stop();
 
       void UpdateGameplay(float dt);
+
+      void AddEndOfFrameDeferredAction(std::function<void()> func);
   protected:
       void ReceiveEvent(const event::E_SFMLEvent& eventData) override;
   private:
@@ -69,6 +72,7 @@ namespace Engine
       bool m_applicationIsRunning = true;
        
       void CreateManagers();
+      void EndOfFrame();
 
       std::unique_ptr<InputManager> m_inputManager;
       std::unique_ptr<GameObjectManager> m_gameObjectManager;
@@ -82,6 +86,7 @@ namespace Engine
 			std::unique_ptr<RenderManager> m_renderManager;
 
       std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
+      std::vector< std::function<void()> > m_endOfFrameDeferredActions;
 
       float m_timeAccumulator = 0.0f;
   };

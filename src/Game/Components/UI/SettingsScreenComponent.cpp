@@ -38,7 +38,8 @@ namespace Game
     Engine::ViewManagerSettings settings;
     settings.Fullscreen = m_fullscreenVal;
 		settings.ResolutionEntry = m_resolutions[m_selectedResolution];
-    Engine::ViewManager::Get().SetSettings(settings);
+		// TODO: renderManager
+    //Engine::ViewManager::Get().SetSettings(settings);
 	}
 
 	void SettingsScreenComponent::Update(float dt)

@@ -123,6 +123,20 @@ namespace Engine
 		CREATE_MANAGER(RenderManager, m_renderManager);
   }
 
+  void Application::EndOfFrame()
+  {
+    // Reset inputs
+    m_inputManager->PostUpdate();
+    //
+    m_gameObjectManager->CleanupGameObjects();
+    // 
+    auto it = m_endOfFrameDeferredActions.begin();
+    while (it != m_endOfFrameDeferredActions.end()) {
+      (*it)(); // call stored lambda
+      it = m_endOfFrameDeferredActions.erase(it);
+    }
+  }
+
   void Application::ReceiveEvent(const event::E_SFMLEvent& eventData)
   {
     if (eventData.Type == sf::Event::Closed)
@@ -165,6 +179,11 @@ namespace Engine
     }
 
 	}
+
+  void Application::AddEndOfFrameDeferredAction(std::function<void()> func)
+  {
+    m_endOfFrameDeferredActions.push_back(func);
+  }
 
   void Application::Run(ApplicationInjection& injection)
   {
@@ -237,11 +256,11 @@ namespace Engine
       // Rendering
       //m_viewManager->Update(elapsedSeconds);
       m_renderManager->Update(elapsedSeconds);
-      // reset input for this frame
-      m_inputManager->PostUpdate();
-      m_gameObjectManager->CleanupGameObjects();
+
+      EndOfFrame();
     }
 
+    m_renderManager->DestroyWindow();
     //m_configManager.StoreModifiedCvars();
     LOG_INFO("Destroying managers");
     DestroyRegisteredManagers();

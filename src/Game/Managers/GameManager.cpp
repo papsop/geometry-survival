@@ -102,13 +102,13 @@ namespace Game
 
   void GameManager::RestartGamePlay()
   {
-    Engine::SceneManager::Get().LoadSceneDestroyPrevious(GamePlayScene());
+    Engine::SceneManager::Get().LoadSceneDestroyPreviousDeferred<GamePlayScene>();
     m_currentGameState = GameState::Gameplay;
   }
 
   void GameManager::GoMainMenu()
   {
-    Engine::SceneManager::Get().LoadSceneDestroyPrevious(MainMenuScene());
+    Engine::SceneManager::Get().LoadSceneDestroyPreviousDeferred<MainMenuScene>();
   }
 
   void GameManager::QuitGame()

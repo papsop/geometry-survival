@@ -5,6 +5,7 @@
 #include <Engine/Components/View.h>
 #include <Engine/Components/Drawables/ShapeDrawableComponent.h>
 #include <Engine/Components/Drawables/TextDrawableComponent.h>
+#include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
@@ -118,7 +119,8 @@ namespace Game
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-    player->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
+    //player->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
+		player->AddComponent<Engine::SpriteDrawableComponent>(Engine::view::Layer::PLAYER);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
     RPGActorDef rpgActorDef;
@@ -167,7 +169,8 @@ namespace Game
 		circleFixtureDef.Radius = 0.5f;
 		circleFixtureDef.IsSensor = true;
 
-		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		//obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		obj->AddComponent<Engine::SpriteDrawableComponent>(Engine::view::Layer::BULLET);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
 		BulletDef bulletDef;

@@ -116,11 +116,15 @@ namespace Game
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
 
+		Engine::SpriteDrawableDef spriteDef;
+		spriteDef.Layer = Engine::view::Layer::PLAYER;
+		spriteDef.TexturePath = "assets/sprites/player.png";
+
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
     //player->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
-		player->AddComponent<Engine::SpriteDrawableComponent>(Engine::view::Layer::PLAYER);
+		player->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
     RPGActorDef rpgActorDef;
@@ -169,8 +173,11 @@ namespace Game
 		circleFixtureDef.Radius = 0.5f;
 		circleFixtureDef.IsSensor = true;
 
+		Engine::SpriteDrawableDef spriteDef;
+		spriteDef.Layer = Engine::view::Layer::BULLET;
+		spriteDef.TexturePath = "assets/sprites/bullet.png";
 		//obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
-		obj->AddComponent<Engine::SpriteDrawableComponent>(Engine::view::Layer::BULLET);
+		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
 		BulletDef bulletDef;

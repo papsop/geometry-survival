@@ -4,10 +4,16 @@
 #include <SFML/Graphics.hpp>
 namespace Engine
 {
+	struct SpriteDrawableDef
+	{
+		const char* TexturePath;
+		view::Layer Layer;
+	};
+
 	class SpriteDrawableComponent : public IDrawableComponent
 	{
 	public:
-		SpriteDrawableComponent(GameObject& obj, view::Layer layer);
+		SpriteDrawableComponent(GameObject& obj, SpriteDrawableDef def);
 		~SpriteDrawableComponent() override = default;
 
 		void Update(float dt) override;

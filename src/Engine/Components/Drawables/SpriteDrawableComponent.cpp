@@ -3,16 +3,16 @@
 namespace Engine
 {
 
-	SpriteDrawableComponent::SpriteDrawableComponent(GameObject& obj, view::Layer layer)
-		: IDrawableComponent(obj, layer)
+	SpriteDrawableComponent::SpriteDrawableComponent(GameObject& obj, SpriteDrawableDef def)
+		: IDrawableComponent(obj, def.Layer)
 		, m_sprite()
 		, m_texture()
 	{
-		m_texture.loadFromFile("assets/sprites/player.png");
+		m_texture.loadFromFile(def.TexturePath);
 
 		m_sprite.setTexture(m_texture);
 		m_sprite.setColor(sf::Color(255, 255, 255, 255));
-		m_sprite.setScale(0.5f, 0.5f);
+		m_sprite.setScale(1.0f, 1.0f);
 		auto localBounds = m_sprite.getLocalBounds();
 		m_sprite.setOrigin(localBounds.width/2, localBounds.height/2);
 	}

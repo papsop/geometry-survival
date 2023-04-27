@@ -120,6 +120,22 @@ namespace Engine
 		transformableObject->setScale({ transform.Scale.x * transformableScale.x, transform.Scale.y * transformableScale.y});
 	}
 
+	void RenderManager::RenderDebugDraw(float dt)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(work_size.x, work_size.y), ImGuiCond_Always, ImVec2(1.0f, 1.0f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoMove | ImGuiWindowFlags_NoSavedSettings;
+
+		if (ImGui::Begin("ViewManager", NULL, window_flags))
+		{
+			ImGui::Text("Frame time: %.5f", dt);
+			ImGui::Text("FPS: %.1f\n", (1000.0f / dt));
+		}
+		ImGui::End();
+	}
+
 	void RenderManager::Update(float dt)
 	{
 		if (m_window)
@@ -175,6 +191,7 @@ namespace Engine
 			{
 				c->Debug(m_debugContext);
 			}
+			RenderDebugDraw(dt);
 		}
 
 		ImGui::SFML::Render(*m_window);

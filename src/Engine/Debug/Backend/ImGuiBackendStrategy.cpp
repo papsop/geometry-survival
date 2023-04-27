@@ -34,7 +34,7 @@ namespace Engine
 		m_entries.emplace_back(entry);
 	}
 
-	void ImGuiBackendStrategy::Debug(view::IViewStrategy* viewStrategy)
+	void ImGuiBackendStrategy::Debug(VisualDebugContext& debugContext)
 	{
 		ImGui::SetNextWindowSize(ImVec2(520, 600), ImGuiCond_FirstUseEver);
 		if (m_shouldShowConsole && ImGui::Begin("Logger", &m_shouldShowConsole))
@@ -65,7 +65,7 @@ namespace Engine
 			ImGui::EndChild();
 			ImGui::End();
 		}
-		
+
 	}
 
 	void ImGuiBackendStrategy::Clear()

@@ -70,5 +70,6 @@ namespace Engine
 
 		RenderManager();
 		void ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable);
+		void RenderDebugDraw(float dt);
 	};
 }

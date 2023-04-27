@@ -26,7 +26,7 @@ namespace Engine
       void DestroyAllGameObjects();
       void CleanupGameObjects();
 
-      void Debug(view::IViewStrategy * viewStrategy) override;
+      void Debug(VisualDebugContext& debugContext) override;
 
     protected:
       void VirtualOnInit() override;

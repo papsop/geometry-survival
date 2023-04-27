@@ -40,8 +40,10 @@ namespace Engine
 		// Helper functions
 		inline float coordToPixel(float coord) { return coord * m_pixelsPerMeter; };
 		inline float pixelToCoord(float pixel) { return pixel / m_pixelsPerMeter; };
-		inline sf::Vector2f coordsToPixels(b2Vec2 coords) { return { coords.x * m_pixelsPerMeter, -coords.y * m_pixelsPerMeter }; };
-		inline b2Vec2 pixelsToCoords(sf::Vector2f pixels) { return { pixels.x / m_pixelsPerMeter, -pixels.y / m_pixelsPerMeter }; };
+		inline sf::Vector2f coordsPosToPixelsPos(b2Vec2 coords) { return { coords.x * m_pixelsPerMeter, -coords.y * m_pixelsPerMeter }; };
+		inline b2Vec2 pixelsPosToCoordsPos(sf::Vector2f pixels) { return { pixels.x / m_pixelsPerMeter, -pixels.y / m_pixelsPerMeter }; };
+    inline sf::Vector2f coordsToPixels(b2Vec2 coords) { return { coords.x * m_pixelsPerMeter, coords.y * m_pixelsPerMeter }; };
+    inline b2Vec2 pixelsToCoords(sf::Vector2f pixels) { return { pixels.x / m_pixelsPerMeter, pixels.y / m_pixelsPerMeter }; };
 		inline float Box2DRotationToSFML(float angle) { return 360.0f - math::RAD_TO_DEG(angle); }
 
 		void SetView(CameraData cameraData);
@@ -58,7 +60,7 @@ namespace Engine
 
 	private:
 		bool m_shouldUpdateDebugs = false;
-		float m_pixelsPerMeter = 10;
+		float m_pixelsPerMeter = 10.f;
 		std::unique_ptr<sf::RenderWindow> m_window;
 		std::vector<IDrawableComponent*> m_drawableComponents;
 		std::vector<IImGuiComponent*> m_imGuiComponents;

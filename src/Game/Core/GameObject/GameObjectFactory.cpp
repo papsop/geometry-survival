@@ -119,6 +119,7 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::PLAYER;
 		spriteDef.TexturePath = "assets/sprites/player.png";
+		spriteDef.Size = { 4.0f, 4.0f };
 
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });

@@ -69,7 +69,7 @@ namespace Engine
 	void RenderManager::SetView(CameraData cameraData)
 	{
 		sf::View view;
-		view.setCenter(coordsToPixels(cameraData.Center));
+		view.setCenter(coordsPosToPixelsPos(cameraData.Center));
 		view.setSize(1280, 720);
 		view.setViewport({ .0f, .0f, 1.f, 1.f });
 		m_window->setView(view);
@@ -113,9 +113,11 @@ namespace Engine
 		if (!transformableObject)
 			return;
 
-		transformableObject->setPosition(coordsToPixels(transform.Position));
+		transformableObject->setPosition(coordsPosToPixelsPos(transform.Position));
 		transformableObject->setRotation(Box2DRotationToSFML(transform.Rotation));
-		transformableObject->setScale({ 1.0f, 1.0f });
+		// not quite sure right now
+		auto transformableScale = transformableObject->getScale();
+		transformableObject->setScale({ transform.Scale.x * transformableScale.x, transform.Scale.y * transformableScale.y});
 	}
 
 	void RenderManager::Update(float dt)
@@ -167,11 +169,13 @@ namespace Engine
 		}
 		
 		// debuggable
-
-    for (auto& c : m_debuggableComponents)
-    {
-      c->Debug(m_debugContext);
-    }
+		if (m_shouldUpdateDebugs)
+		{
+      for (auto& c : m_debuggableComponents)
+      {
+        c->Debug(m_debugContext);
+      }
+		}
 
 		ImGui::SFML::Render(*m_window);
 		m_window->display();

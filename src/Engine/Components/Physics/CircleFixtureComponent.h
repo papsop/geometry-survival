@@ -22,7 +22,7 @@ namespace Engine
 		void OnCreate() override;
 		void Update(float dt) override {};
 
-		void Debug(view::IViewStrategy* viewStrategy) override;
+		void Debug(VisualDebugContext& debugContext) override;
 
 	private:
 		float m_radius;

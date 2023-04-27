@@ -1,4 +1,5 @@
 #include "VisualDebugContext.h"
+#include "../Managers/RenderManager.h"
 
 namespace Engine
 {
@@ -22,7 +23,16 @@ namespace Engine
     if (!m_window)
       return;
 
+    auto sfmlPosition = m_renderManager.coordsPosToPixelsPos(center);
+    auto sfmlRadius = m_renderManager.coordToPixel(radius);
 
+    sf::CircleShape circle(sfmlRadius);
+    circle.setOutlineColor(color);
+    circle.setOutlineThickness(2.0f);
+    circle.setFillColor(sf::Color(0, 0, 0, 0));
+    circle.setOrigin({ sfmlRadius, sfmlRadius });
+    circle.setPosition(sfmlPosition);
+    m_window->draw(circle);
   }
 
   void VisualDebugContext::DebugRenderRectangle(ITransform::PositionSpace space, math::Vec2 center, math::Vec2 size, float angle, sf::Color color, sf::Color fillColor)

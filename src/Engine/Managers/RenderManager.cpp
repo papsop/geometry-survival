@@ -41,10 +41,10 @@ namespace Engine
 		m_drawableComponents.push_back(component);
 	}
 
-  void RenderManager::RegisterComponent(IDebuggable* component)
-  {
+	void RenderManager::RegisterComponent(IDebuggable* component)
+	{
 		m_debuggableComponents.push_back(component);
-  }
+	}
 
 	void RenderManager::RegisterComponent(IImGuiComponent* component)
 	{
@@ -56,10 +56,10 @@ namespace Engine
 		m_drawableComponents.erase(std::remove(m_drawableComponents.begin(), m_drawableComponents.end(), component), m_drawableComponents.end());
 	}
 
-  void RenderManager::UnregisterComponent(IDebuggable* component)
-  {
+	void RenderManager::UnregisterComponent(IDebuggable* component)
+	{
 		m_debuggableComponents.erase(std::remove(m_debuggableComponents.begin(), m_debuggableComponents.end(), component), m_debuggableComponents.end());
-  }
+	}
 
 	void RenderManager::UnregisterComponent(IImGuiComponent* component)
 	{
@@ -69,7 +69,7 @@ namespace Engine
 	void RenderManager::SetView(CameraData cameraData)
 	{
 		sf::View view;
-		view.setCenter(coordsToPixels(cameraData.Center));
+		view.setCenter(coordsPosToPixelsPos(cameraData.Center));
 		view.setSize(1280, 720);
 		view.setViewport({ .0f, .0f, 1.f, 1.f });
 		m_window->setView(view);
@@ -97,25 +97,27 @@ namespace Engine
 		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
 	}
 
-  void RenderManager::DestroyWindow()
-  {
+	void RenderManager::DestroyWindow()
+	{
 		if (!m_window)
 			return;
 
 		ImGui::SFML::Shutdown();
 		m_window = nullptr;
 		Engine::EventManager::Get().DispatchEvent(event::E_WindowClosed());
-  }
+	}
 
-  void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
+	void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
 	{
 		auto* transformableObject = dynamic_cast<sf::Transformable*>(drawable);
 		if (!transformableObject)
 			return;
 
-		transformableObject->setPosition(coordsToPixels(transform.Position));
+		transformableObject->setPosition(coordsPosToPixelsPos(transform.Position));
 		transformableObject->setRotation(Box2DRotationToSFML(transform.Rotation));
-		transformableObject->setScale({ 1.0f, 1.0f });
+		// not quite sure right now
+		auto transformableScale = transformableObject->getScale();
+		transformableObject->setScale({ transform.Scale.x * transformableScale.x, transform.Scale.y * transformableScale.y});
 	}
 
 	void RenderManager::Update(float dt)
@@ -167,11 +169,13 @@ namespace Engine
 		}
 		
 		// debuggable
-
-    for (auto& c : m_debuggableComponents)
-    {
-      c->Debug(m_debugContext);
-    }
+		if (m_shouldUpdateDebugs)
+		{
+			for (auto& c : m_debuggableComponents)
+			{
+				c->Debug(m_debugContext);
+			}
+		}
 
 		ImGui::SFML::Render(*m_window);
 		m_window->display();

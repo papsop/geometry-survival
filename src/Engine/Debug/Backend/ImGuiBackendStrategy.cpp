@@ -52,10 +52,33 @@ namespace Engine
 			{
 				for (int i = 0; i < m_entries.size(); i++)
 				{
-					if (static_cast<int>(m_entries[i].Level) < m_maxLevel)
+					auto level = static_cast<int>(m_entries[i].Level);
+					if (level < m_maxLevel)
 						continue;
 
+					ImVec4 textColor;
+					switch (level)
+					{
+					case 0:
+						textColor = {.3f, .3f, .3f, 1.f};
+						break;
+					case 1:
+						textColor = { .0f, .0f, 1.f, 1.f };
+						break;
+					case 2:
+						textColor = { 1.f, 1.f, .0f, 1.f };
+						break;
+					case 3:
+						textColor = { 1.f, .0f, .0f, 1.f };
+						break;
+					default:
+						textColor = { 1.f, 1.f, 1.f, 1.f };
+						break;
+					}
+
+					ImGui::PushStyleColor(ImGuiCol_Text, textColor);
 					ImGui::TextUnformatted(m_entries[i].Value.c_str());
+					ImGui::PopStyleColor();
 				}
 			}
 

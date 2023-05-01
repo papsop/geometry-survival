@@ -1,12 +1,12 @@
 #pragma once
 #include <SFML/Graphics.hpp>
-
+#include <string>
 namespace Engine
 {
 	struct TextureResource
 	{
 		sf::Texture Texture;
-		const char* FilePath;
+		std::string FilePath;
 		//more metadata later?
 	};
 	

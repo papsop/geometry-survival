@@ -9,10 +9,8 @@ namespace Engine
 		, m_texture()
 	{
 		m_texture.loadFromFile(def.TexturePath);
-
 		m_sprite.setTexture(m_texture);
-		m_sprite.setColor(sf::Color(255, 255, 255, 255));
-
+	
 		auto localBounds = m_sprite.getLocalBounds();
 		m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);
 		// Sprite doesn't support setting size by pixels, so use scaling instead

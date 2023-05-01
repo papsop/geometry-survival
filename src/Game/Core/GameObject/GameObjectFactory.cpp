@@ -34,31 +34,28 @@ namespace Game
 		physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
 		physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
 
-		Engine::ShapeDrawableDef shapeDef;
-		shapeDef.Color = sf::Color::Yellow;
-		shapeDef.PointCount = 5;
-		shapeDef.Radius = 2.f;
-		shapeDef.Layer = Engine::view::Layer::ENEMY;
-
 		Engine::CircleFixtureDef circleFixtureDef;
-		circleFixtureDef.Radius = shapeDef.Radius;
+		circleFixtureDef.Radius = 2.0f;
 
 		RPGActorDef rpgActorDef;
 		rpgActorDef.MaxHealth = 10;
 		rpgActorDef.MovementSpeed = 10.0f;
+
+		Engine::SpriteDrawableDef spriteDef;
+		spriteDef.Layer = Engine::view::Layer::ENEMY;
+		spriteDef.TexturePath = "assets/sprites/enemy.png";
+		spriteDef.Size = { 4.0f, 4.0f };
 
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-		obj->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
+		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>();
-		//obj->AddComponent<AIChasePlayerComponent>();
-		//obj->AddComponent<ScatterFieldComponent>();
 
 		obj->SetActive(true);
 		return obj;
@@ -84,9 +81,14 @@ namespace Game
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;
 
+		Engine::SpriteDrawableDef spriteDef;
+		spriteDef.Layer = Engine::view::Layer::EXPERIENCE_GLOBE;
+		spriteDef.TexturePath = "assets/sprites/exp.png";
+		spriteDef.Size = { 2.0f, 2.0f };
+
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-		obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<ExperienceGlobeComponent>();
 
@@ -96,12 +98,6 @@ namespace Game
 
 	Engine::GameObject* GameObjectFactory::CreatePlayerObject(PlayerObjectDef def)
 	{
-    Engine::ShapeDrawableDef shapeDef;
-		shapeDef.Color = sf::Color::Green;
-		shapeDef.PointCount = 3;
-		shapeDef.Radius = 2.f;
-		shapeDef.Layer = Engine::view::Layer::PLAYER;
-
     Engine::PhysicsBodyDef physBodyDef;
     physBodyDef.BodyType = b2_dynamicBody;
     physBodyDef.CategoryBits = 0x1;
@@ -112,7 +108,6 @@ namespace Game
     Engine::CircleFixtureDef circleFixtureDef;
     circleFixtureDef.Radius = 2.0f;
 		
-
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
 
@@ -124,7 +119,6 @@ namespace Game
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
-    //player->AddComponent<Engine::ShapeDrawableComponent>(shapeDef);
 		player->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 
@@ -163,13 +157,6 @@ namespace Game
 
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 
-
-		Engine::ShapeViewDef shapeViewDef;
-		shapeViewDef.Color = sf::Color::Magenta;
-		shapeViewDef.PointCount = 3;
-		shapeViewDef.Radius = 0.5f;
-		shapeViewDef.Layer = Engine::view::Layer::BULLET;
-
 		Engine::CircleFixtureDef circleFixtureDef;
 		circleFixtureDef.Radius = 0.5f;
 		circleFixtureDef.IsSensor = true;
@@ -177,7 +164,8 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::BULLET;
 		spriteDef.TexturePath = "assets/sprites/bullet.png";
-		//obj->AddComponent<Engine::ShapeViewComponent>(shapeViewDef);
+		spriteDef.Size = { 2.0f, 2.0f };
+
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 

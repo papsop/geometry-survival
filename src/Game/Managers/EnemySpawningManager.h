@@ -39,7 +39,7 @@ namespace Game
 
 		void Update(float dt) override;
 
-		void Debug(Engine::view::IViewStrategy* viewStrategy) override;
+		void Debug(Engine::VisualDebugContext& debugContext) override;
 
 	protected:
 		void VirtualOnInit() override;

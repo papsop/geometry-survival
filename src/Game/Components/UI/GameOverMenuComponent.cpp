@@ -17,13 +17,11 @@ namespace Game
 
 	void GameOverMenuComponent::VirtualOnActivated()
 	{
-		Engine::ViewManager::Get().RegisterComponent(this);
 		Engine::IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 	}
 
 	void GameOverMenuComponent::VirtualOnDeactivated()
 	{
-		Engine::ViewManager::Get().UnregisterComponent(this);
 		Engine::IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
 	}
 

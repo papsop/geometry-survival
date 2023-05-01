@@ -19,14 +19,12 @@ namespace Game
   }
 	void IngameMenuComponent::VirtualOnActivated()
 	{
-		Engine::ViewManager::Get().RegisterComponent(this);
 		GameManager::Get()->SetGameState(GameState::Paused);
 		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 	}
 
 	void IngameMenuComponent::VirtualOnDeactivated()
 	{
-		Engine::ViewManager::Get().UnregisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
 	}
 

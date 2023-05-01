@@ -1,7 +1,9 @@
 #include "CircleFixtureComponent.h"
 #include "PhysicsBodyComponent.h"
+#include "../../Debug/VisualDebugContext.h"
 
 #include <box2d/b2_circle_shape.h>
+
 namespace Engine
 {
 
@@ -37,10 +39,10 @@ namespace Engine
 		// body destroys all the fixtures when it's deleted
 	}
 
-	void CircleFixtureComponent::Debug(view::IViewStrategy* viewStrategy)
-	{
-		//viewStrategy->DebugRenderCircle(Owner.GetTransform().Position, m_radius, sf::Color::Red);
-	}
+  void CircleFixtureComponent::Debug(VisualDebugContext& debugContext)
+  {
+		debugContext.DebugRenderCircle(ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), m_radius, sf::Color::Red);
+  }
 
 };
 

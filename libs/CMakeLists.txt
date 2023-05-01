@@ -10,10 +10,6 @@ set(YAML_VER
 	yaml
 )
 
-set(TGUI_VER
-	TGUI
-)
-
 set(SFML_INCLUDE
 	"${CMAKE_SOURCE_DIR}/libs/${SFML_VER}/include"
 	PARENT_SCOPE
@@ -29,15 +25,9 @@ set(YAML_INCLUDE
 	PARENT_SCOPE
 )
 
-set(TGUI_INCLUDE
-	"${CMAKE_SOURCE_DIR}/libs/${TGUI_VER}/include"
-	PARENT_SCOPE
-)
-
 set (CMAKE_LIBRARY_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 set (CMAKE_RUNTIME_OUTPUT_DIRECTORY ${CMAKE_BINARY_DIR})
 
 add_subdirectory(${SFML_VER})
 add_subdirectory(${BOX2D_VER})
 add_subdirectory(${YAML_VER})
-add_subdirectory(${TGUI_VER})

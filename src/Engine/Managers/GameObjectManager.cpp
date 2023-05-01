@@ -123,29 +123,30 @@ namespace Engine
       ImGui::BulletText(obj->DebugName);
     }
   }
-  void GameObjectManager::Debug(view::IViewStrategy* viewStrategy)
-  {
+
+	void GameObjectManager::Debug(VisualDebugContext& debugContext)
+	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
-    ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.9f, work_size.y * 0.1f), ImGuiCond_Once, ImVec2(1.0f, 0.0f));
+		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.9f, work_size.y * 0.1f), ImGuiCond_Once, ImVec2(1.0f, 0.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 
 		if (ImGui::Begin("GameObjectManager", NULL, window_flags))
 		{
-      ImGui::Text("Number of GameObjects: %d", m_gameObjects.size());
-      ImGui::Separator();
-      for (const auto& [ID, gameObject] : m_gameObjects)
-      {
+			ImGui::Text("Number of GameObjects: %d", m_gameObjects.size());
+			ImGui::Separator();
+			for (const auto& [ID, gameObject] : m_gameObjects)
+			{
 				auto* gameObject_ptr = gameObject.get();
-        if (gameObject_ptr->GetTransform()->GetParent() == nullptr)
-        {
-          DebugDraw_ExpandGameObject(gameObject_ptr);
-        }
-      }
+				if (gameObject_ptr->GetTransform()->GetParent() == nullptr)
+				{
+					DebugDraw_ExpandGameObject(gameObject_ptr);
+				}
+			}
 
 		}
 		ImGui::End();
-  }
+	}
 
 };

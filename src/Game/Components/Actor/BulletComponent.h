@@ -5,6 +5,8 @@
 #include <Engine/Core/Events.h>
 
 #include "../../Core/EventData.h"
+
+#include <set>
 namespace Game
 {
   struct BulletDef {

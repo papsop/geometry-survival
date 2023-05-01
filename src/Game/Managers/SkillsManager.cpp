@@ -63,11 +63,11 @@ namespace Game
     return result;
   }
 
-	void SkillsManager::Debug(Engine::view::IViewStrategy* viewStrategy)
+	void SkillsManager::Debug(Engine::VisualDebugContext& debugContext)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(0.0f, work_size.y-70.0f), ImGuiCond_Once, ImVec2(0.0f, 1.0f));
+		ImGui::SetNextWindowPos(ImVec2(0.0f, work_size.y - 70.0f), ImGuiCond_Once, ImVec2(0.0f, 1.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 
@@ -88,15 +88,15 @@ namespace Game
 				}
 				ImGui::EndCombo();
 			}
-      ImGui::SameLine();
-      auto* player = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
+			ImGui::SameLine();
+			auto* player = Engine::Application::Instance().GetGameManager<GameManager>()->GetPlayerGameObject();
 
-      //ImGui::BeginDisabled(!player); // button disabled if there isn't a player registered yet
-      if (player && ImGui::Button("Learn"))
-      {
+			//ImGui::BeginDisabled(!player); // button disabled if there isn't a player registered yet
+			if (player && ImGui::Button("Learn"))
+			{
 				m_availableSkills[m_selectedSkill]->Learn(player);
-      }
-      //ImGui::EndDisabled();
+			}
+			//ImGui::EndDisabled();
 		}
 		ImGui::End();
 	}

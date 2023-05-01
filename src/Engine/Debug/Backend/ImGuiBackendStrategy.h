@@ -22,8 +22,10 @@ namespace Engine
 		~ImGuiBackendStrategy() override;
 
 		void WriteText(LOGGER_LEVEL level, const char* source, const char* text) override;
-		void Debug(view::IViewStrategy* viewStrategy) override;
 		void Clear();
+
+		void Debug(Engine::VisualDebugContext& debugContext) override;
+
 	protected:
 		void ReceiveEvent(const event::E_WindowClosed& eventData) override;
 		void ReceiveEvent(const event::E_OnConsoleKeyAction& eventData) override;

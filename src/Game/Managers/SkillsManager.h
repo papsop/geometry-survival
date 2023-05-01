@@ -6,6 +6,7 @@
 
 #include "../Skills/ISkill.h"
 
+
 #include <vector>
 #include <memory>
 namespace Game
@@ -18,8 +19,7 @@ namespace Game
 
     std::vector< ISkill* > GetNRandomSkills(int N);
 
-
-    void Debug(Engine::view::IViewStrategy* viewStrategy) override;
+    void Debug(Engine::VisualDebugContext& debugContext) override;
 
   protected:
 		void VirtualOnInit() override;

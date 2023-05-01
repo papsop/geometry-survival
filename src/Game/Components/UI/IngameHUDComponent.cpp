@@ -16,7 +16,6 @@ namespace Game
 
 	void IngameHUDComponent::VirtualOnActivated()
 	{
-		Engine::ViewManager::Get().RegisterComponent(this);
 		IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
 		IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
 		IEventListener<event::E_PlayerLeveledUp>::RegisterListener();
@@ -25,7 +24,6 @@ namespace Game
 
 	void IngameHUDComponent::VirtualOnDeactivated()
 	{
-		Engine::ViewManager::Get().UnregisterComponent(this);
 		IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
 		IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
 		IEventListener<event::E_PlayerLeveledUp>::UnregisterListener();

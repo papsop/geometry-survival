@@ -126,6 +126,11 @@ namespace Engine
 		m_imguiComponents.emplace_back(component);
 	}
 
+	void ViewManager::RegisterComponent(IDrawableComponent* component)
+	{
+		m_drawableComponents.emplace_back(component);
+	}
+
 	// ==================================================================
 
 	void ViewManager::UnregisterComponent(IRenderableComponent* component)
@@ -153,6 +158,12 @@ namespace Engine
 	{
 		m_debugs.erase(std::remove(m_debugs.begin(), m_debugs.end(), component), m_debugs.end());
 	}
+
+	void ViewManager::UnregisterComponent(IDrawableComponent* component)
+	{
+		m_drawableComponents.erase(std::remove(m_drawableComponents.begin(), m_drawableComponents.end(), component), m_drawableComponents.end());
+	}
+
 	// ==================================================================
 	void ViewManager::DebugDraw(float dt)
 	{

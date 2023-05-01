@@ -24,7 +24,6 @@ target_include_directories(
   PRIVATE
   ${CMAKE_SOURCE_DIR}/src
   ${SFML_INCLUDE}
-  ${TGUI_INCLUDE}
 )
 
 target_link_libraries(

@@ -10,7 +10,6 @@ set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}")
-set(TGUI_BACKEND "SFML_GRAPHICS")
 
 option(BUILD_SHARED_LIBS "Build using shared libraries" ON)
 
@@ -52,6 +51,3 @@ set_target_properties(yaml-cpp PROPERTIES FOLDER "Libraries/YAML")
 set_target_properties(yaml-cpp-read PROPERTIES FOLDER "Libraries/YAML")
 set_target_properties(yaml-cpp-parse PROPERTIES FOLDER "Libraries/YAML")
 set_target_properties(yaml-cpp-sandbox PROPERTIES FOLDER "Libraries/YAML")
-
-set_target_properties(tgui PROPERTIES FOLDER "Libraries/TGUI")
-set_target_properties(gui-builder PROPERTIES FOLDER "Libraries/TGUI")

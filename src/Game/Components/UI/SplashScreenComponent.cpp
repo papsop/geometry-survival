@@ -16,16 +16,6 @@ namespace Game
 
   }
 
-  void SplashScreenComponent::RegisterUIElements()
-  {
-    m_splashLabel = tgui::Label::create("Geometry survival");
-    m_splashLabel->setOrigin(0.5f, 0.5f);
-    m_splashLabel->setPosition("50%", "50%");
-    m_splashLabel->setTextSize(48);
-
-    m_group->add(m_splashLabel);
-  }
-
   void SplashScreenComponent::UIShown()
   {
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();

@@ -17,13 +17,13 @@ namespace Game
 		m_shapeViewComponent = m_parentGameObject.GetComponent<Engine::ShapeViewComponent>();
 		m_parentGameObject.GetComponent<ActorComponent>()->AddCommand<MoveCommand>(0.0f,0.0f);
 		
-		m_previousColor = m_shapeViewComponent->GetRenderable().shape.Color;
-		m_shapeViewComponent->GetMutableRenderable().shape.Color = sf::Color::White;
+		//m_previousColor = m_shapeViewComponent->GetRenderable().shape.Color;
+		//m_shapeViewComponent->GetMutableRenderable().shape.Color = sf::Color::White;
 	}
 
 	void EnemyStunnedState::OnTransitionOut()
 	{
-		m_shapeViewComponent->GetMutableRenderable().shape.Color = m_previousColor;
+		//m_shapeViewComponent->GetMutableRenderable().shape.Color = m_previousColor;
 	}
 
 	void EnemyStunnedState::Update(float dt)

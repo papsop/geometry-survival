@@ -18,9 +18,24 @@ namespace Engine
 
         void LoadSceneDestroyPrevious(const IScene& scene);
 
+        template<
+          typename T,
+          typename = std::enable_if_t<std::is_base_of_v<IScene, T>>
+        >
+        void LoadSceneDestroyPreviousDeferred()
+        {
+          Engine::Application::Instance().AddEndOfFrameDeferredAction(
+            [=]()
+            {
+              Engine::SceneManager::Get().LoadSceneDestroyPrevious(T());
+            }
+          );
+        }
+
     private:
         SceneManager() = default;
 
     friend class Application;
     };
+
 }

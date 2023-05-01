@@ -107,6 +107,7 @@ namespace Engine {
 
       // Default is mouse, but when a player uses joystick, this should swap to Joystick and vice-versa
       CursorInput m_currentCursorInput;
+      RenderManager* m_renderManager;
 
     friend class RenderManager; // needs to communicate about MousePos
     friend class Application;   // only Application can create a manager

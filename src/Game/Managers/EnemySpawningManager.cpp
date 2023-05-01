@@ -135,14 +135,14 @@ namespace Game
     m_player = eventData.PlayerObject;
   }
 
-	void EnemySpawningManager::Debug(Engine::view::IViewStrategy* viewStrategy)
+	void EnemySpawningManager::Debug(Engine::VisualDebugContext& debugContext)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 400.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
 		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
-		ImU32 rowBgSpawning		 = ImGui::GetColorU32(ImVec4(0.3f, 0.7f, 0.3f, 0.65f));
+		ImU32 rowBgSpawning = ImGui::GetColorU32(ImVec4(0.3f, 0.7f, 0.3f, 0.65f));
 		ImU32 rowBgNotSpawning = ImGui::GetColorU32(ImVec4(0.7f, 0.3f, 0.3f, 0.65f));
 
 
@@ -158,7 +158,7 @@ namespace Game
 				ImGui::TableSetupColumn("Cooldown");
 				ImGui::TableSetupColumn("Spawning time");
 				ImGui::TableHeadersRow();
-				for(const auto& entry : m_spawningEntries)
+				for (const auto& entry : m_spawningEntries)
 				{
 					ImGui::TableNextRow();
 					ImGui::TableSetColumnIndex(0);
@@ -175,4 +175,5 @@ namespace Game
 		}
 		ImGui::End();
 	}
+
 }

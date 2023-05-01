@@ -18,6 +18,7 @@
 #include "Managers/UIManager.h"
 #include "Managers/GameObjectManager.h"
 #include "Managers/ResourceManager.h"
+#include "Managers/RenderManager.h"
 
 #include <iostream>
 #include <type_traits>
@@ -85,6 +86,11 @@ namespace Engine
 		GET_MANAGER_HELPER("ResourceManager", *m_resourceManager);
 	}
 
+	RenderManager& Application::GetRenderManager()
+	{
+		GET_MANAGER_HELPER("RenderManager", *m_renderManager);
+	}
+
 	// ===========================================================
   // Application stuff
   // ===========================================================
@@ -109,11 +115,26 @@ namespace Engine
     CREATE_MANAGER(GameObjectManager, m_gameObjectManager);
     CREATE_MANAGER(SceneManager, m_sceneManager);
     CREATE_MANAGER(PhysicsManager, m_physicsManager);
-    CREATE_MANAGER(ViewManager, m_viewManager);
+    //CREATE_MANAGER(ViewManager, m_viewManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
 		CREATE_MANAGER(UIManager, m_uiManager);
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
+		CREATE_MANAGER(RenderManager, m_renderManager);
+  }
+
+  void Application::EndOfFrame()
+  {
+    // Reset inputs
+    m_inputManager->PostUpdate();
+    //
+    m_gameObjectManager->CleanupGameObjects();
+    // 
+    auto it = m_endOfFrameDeferredActions.begin();
+    while (it != m_endOfFrameDeferredActions.end()) {
+      (*it)(); // call stored lambda
+      it = m_endOfFrameDeferredActions.erase(it);
+    }
   }
 
   void Application::ReceiveEvent(const event::E_SFMLEvent& eventData)
@@ -159,6 +180,11 @@ namespace Engine
 
 	}
 
+  void Application::AddEndOfFrameDeferredAction(std::function<void()> func)
+  {
+    m_endOfFrameDeferredActions.push_back(func);
+  }
+
   void Application::Run(ApplicationInjection& injection)
   {
     LOG_INFO("Starting Application");
@@ -169,7 +195,8 @@ namespace Engine
 		m_configManager->LoadCvarsFromFile();
 		m_resourceManager->OnInit();
 		m_uiManager->OnInit();
-    m_viewManager->OnInit();
+    m_renderManager->OnInit();
+		//m_viewManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
 	  m_sceneManager->OnInit();
@@ -181,11 +208,9 @@ namespace Engine
     //injection.RegisterGameComponents(*this);
 
     // Create and set ViewStrategy
-	  m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));
+	  //m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));
     // Let the game initialize scene/gameobjects/etc.
     injection.BeforeGameLoop(*this);
-
-
 
 		auto handle1 = m_resourceManager->LoadResource<TextureResource>("test1");
 		std::cout << handle1.ID << std::endl;
@@ -208,9 +233,9 @@ namespace Engine
     while (m_applicationIsRunning)
     {
       sf::Time elapsed = clock.restart();
-      float lastFrameMS = elapsed.asSeconds();
+      float elapsedSeconds = elapsed.asSeconds();
 
-      m_viewManager->PollEvents();
+      m_renderManager->PollEvents();
 	    // debug exit
 	    //if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) Stop();
       if (sf::Keyboard::isKeyPressed(sf::Keyboard::F8)) m_configManager->StoreModifiedCvars();
@@ -218,23 +243,24 @@ namespace Engine
       // Update managers
       m_inputManager->Update();
       // Process GameObject messages
-      m_gameObjectManager->Update(lastFrameMS);
+      m_gameObjectManager->Update(elapsedSeconds);
       // Update custom managers that the game registered
       for (auto&& managerEntry : m_managers)
       {
-          managerEntry.second->Update(lastFrameMS);
+          managerEntry.second->Update(elapsedSeconds);
       }
 
       // Update components
-      UpdateGameplay(lastFrameMS);
+      UpdateGameplay(elapsedSeconds);
 
       // Rendering
-      m_viewManager->Update(lastFrameMS);
-      // reset input for this frame
-      m_inputManager->PostUpdate();
-      m_gameObjectManager->CleanupGameObjects();
+      //m_viewManager->Update(elapsedSeconds);
+      m_renderManager->Update(elapsedSeconds);
+
+      EndOfFrame();
     }
 
+    m_renderManager->DestroyWindow();
     //m_configManager.StoreModifiedCvars();
     LOG_INFO("Destroying managers");
     DestroyRegisteredManagers();
@@ -243,7 +269,8 @@ namespace Engine
     m_sceneManager->OnDestroy();
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
-    m_viewManager->OnDestroy();
+		//m_viewManager->OnDestroy();
+    m_renderManager->OnDestroy();
     m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_configManager->OnDestroy();

@@ -19,13 +19,11 @@ namespace Game
 
   void SettingsScreenComponent::VirtualOnActivated()
   {
-    Engine::ViewManager::Get().RegisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
   }
 
   void SettingsScreenComponent::VirtualOnDeactivated()
   {
-    Engine::ViewManager::Get().UnregisterComponent(this);
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
   }
 
@@ -40,7 +38,8 @@ namespace Game
     Engine::ViewManagerSettings settings;
     settings.Fullscreen = m_fullscreenVal;
 		settings.ResolutionEntry = m_resolutions[m_selectedResolution];
-    Engine::ViewManager::Get().SetSettings(settings);
+		// TODO: renderManager
+    //Engine::ViewManager::Get().SetSettings(settings);
 	}
 
 	void SettingsScreenComponent::Update(float dt)

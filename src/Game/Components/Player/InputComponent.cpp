@@ -2,6 +2,7 @@
 
 #include <Engine/Application.h>
 #include <Engine/Managers/ViewManager.h>
+#include <Engine/Managers/RenderManager.h>
 #include <Engine/Managers/ComponentManager.h>
 
 namespace Game
@@ -37,7 +38,7 @@ namespace Game
   void InputComponent::Update(float dt)
   {
     // rotation
-    auto b2MousePos = Engine::ViewManager::Get().pixelsToCoords(m_inputManager.GetCursorPosition());
+    auto b2MousePos = Engine::RenderManager::Get().pixelsPosToCoordsPos(m_inputManager.GetCursorPosition());
     float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
 
     m_actorComponent->AddCommand<RotateCommand>(angle);

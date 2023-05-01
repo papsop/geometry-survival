@@ -9,7 +9,6 @@
 #include "../../Managers/SkillsManager.h"
 
 #include "Controllers/IngameUIControllerComponent.h"
-#include <TGUI/String.hpp>
 #include <Engine/ImGui/imgui.h>
 
 namespace Game
@@ -20,6 +19,17 @@ namespace Game
   {
 
   }
+
+	void SkillPickerScreenComponent::VirtualOnActivated()
+	{
+		GameManager::Get()->SetGameState(GameState::Paused);
+		m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
+	}
+
+	void SkillPickerScreenComponent::VirtualOnDeactivated()
+	{
+		GameManager::Get()->SetGameState(GameState::Gameplay);
+	}
 
   void SkillPickerScreenComponent::Update(float dt)
   {
@@ -49,19 +59,6 @@ namespace Game
     }
     ImGui::End();
   }
-
-	void SkillPickerScreenComponent::VirtualOnActivated()
-	{
-    Engine::ViewManager::Get().RegisterComponent(this);
-    GameManager::Get()->SetGameState(GameState::Paused);
-		m_skillsToPick = Engine::Application::Instance().GetGameManager<SkillsManager>()->GetNRandomSkills(3);
-	}
-
-	void SkillPickerScreenComponent::VirtualOnDeactivated()
-	{
-		Engine::ViewManager::Get().UnregisterComponent(this);
-    GameManager::Get()->SetGameState(GameState::Gameplay);
-	}
 
 	void SkillPickerScreenComponent::ReturnToGame()
   {

@@ -102,13 +102,13 @@ namespace Game
 
   void GameManager::RestartGamePlay()
   {
-    Engine::SceneManager::Get().LoadSceneDestroyPrevious(GamePlayScene());
+    Engine::SceneManager::Get().LoadSceneDestroyPreviousDeferred<GamePlayScene>();
     m_currentGameState = GameState::Gameplay;
   }
 
   void GameManager::GoMainMenu()
   {
-    Engine::SceneManager::Get().LoadSceneDestroyPrevious(MainMenuScene());
+    Engine::SceneManager::Get().LoadSceneDestroyPreviousDeferred<MainMenuScene>();
   }
 
   void GameManager::QuitGame()
@@ -125,23 +125,23 @@ namespace Game
     data.push_back({ "rpg_firstLevelExperience",	std::to_string(m_firstLevelExperience) });
   }
 
-	void GameManager::Debug(Engine::view::IViewStrategy* viewStrategy)
+	void GameManager::Debug(Engine::VisualDebugContext& debugContext)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImGui::SetNextWindowPos(ImVec2(0.0f, viewport->WorkSize.y), ImGuiCond_Always, ImVec2(0.0f, 1.0f));
 		ImGui::SetNextWindowBgAlpha(0.1f); // Transparent background
-    ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoMove | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings;
 
 		if (ImGui::Begin("GameManager", NULL, window_flags))
 		{
-      if (m_currentGameState == GameState::Gameplay)
-      {
+			if (m_currentGameState == GameState::Gameplay)
+			{
 				if (ImGui::Button("Pause"))
 				{
-          SetGameState(GameState::Paused);
+					SetGameState(GameState::Paused);
 				}
-      }
-      else if (m_currentGameState == GameState::Paused)
+			}
+			else if (m_currentGameState == GameState::Paused)
 			{
 				if (ImGui::Button("Unpause"))
 				{

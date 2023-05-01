@@ -30,18 +30,22 @@ namespace Engine
 	};
 
 	class CameraComponent;
+
 	class ViewManager : public IManager, public IEventListener<event::E_OnShowDebugKeyAction>
 	{
 	public:
+
 		~ViewManager() = default;
 		static ViewManager& Get();
 
 		void RegisterComponent(IRenderableComponent* component);
+		void RegisterComponent(IDrawableComponent* component);
 		//void RegisterComponent(IUIComponent* component);
 		void RegisterComponent(IImGuiComponent* component);
 		void RegisterComponent(IDebuggable* component);
 
 		void UnregisterComponent(IRenderableComponent* component);
+		void UnregisterComponent(IDrawableComponent* component);
 		//void UnregisterComponent(IUIComponent* component);
 		void UnregisterComponent(IImGuiComponent* component);
 		void UnregisterComponent(IDebuggable* component);
@@ -86,6 +90,7 @@ namespace Engine
 		std::multimap< view::Layer, IRenderableComponent*> m_renderableComponents;
 		//std::vector< IUIComponent* > m_uiComponents;
 		std::vector< IImGuiComponent* > m_imguiComponents;
+		std::vector< IDrawableComponent* > m_drawableComponents;
 		std::vector< IDebuggable* > m_debugs;
 
 		bool m_shouldDrawDebug = false;

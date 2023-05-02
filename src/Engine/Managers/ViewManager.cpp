@@ -48,22 +48,6 @@ namespace Engine
 		m_viewStrategy.reset(viewStrategy);
 	}
 
-	void ViewManager::SetSettings(const ViewManagerSettings& def)
-	{
-		if (!m_viewStrategy) return;
-
-		m_viewStrategy->SetResolution(def.ResolutionEntry.Value);
-		m_viewStrategy->SetFullscreen(def.Fullscreen);
-		m_isViewdirty = true; // reload view next update to prevent destroying window mid-mouseevent
-	}
-
-	Engine::ViewManagerSettings ViewManager::GetSettings()
-	{
-		ViewManagerSettings settings;
-		// TODO:
-		return settings;
-	}
-
 	void ViewManager::PollEvents()
 	{
 		m_viewStrategy->PollEvents();

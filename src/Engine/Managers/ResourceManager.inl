@@ -28,7 +28,7 @@ namespace Engine
 
 	// TODO: instead of returning nullptr, return a NULL OBJECT that has a dummy texture
 	template<typename T>
-	T const* ResourceContainer<T>::GetResource(ResourceHandle<T> handle)
+	const T* ResourceContainer<T>::GetResource(ResourceHandle<T> handle)
 	{
 		if (m_resources.find(handle.ID) != m_resources.end())
 			return &m_resources[handle.ID];
@@ -51,7 +51,7 @@ namespace Engine
 	}
 
 	template<typename T>
-	T const* ResourceManager::GetResource(ResourceHandle<T> handle)
+	const T* ResourceManager::GetResource(ResourceHandle<T> handle)
 	{
 		auto ID = IdGenerator<ResourceManager>::GetID<T>();
 

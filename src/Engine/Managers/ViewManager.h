@@ -14,21 +14,6 @@
 
 namespace Engine
 {
-
-	struct ResolutionEntry
-	{
-		const char* Name;
-		math::Vec2 Value;
-		ResolutionEntry(const char* name, math::Vec2 val) : Name(name), Value(val) {}
-		ResolutionEntry() = default;
-	};
-
-	struct ViewManagerSettings
-	{
-		ResolutionEntry ResolutionEntry;
-		bool Fullscreen;
-	};
-
 	class CameraComponent;
 
 	class ViewManager : public IManager, public IEventListener<event::E_OnShowDebugKeyAction>
@@ -70,9 +55,6 @@ namespace Engine
 		bool IsDebugDrawing() { return m_shouldDrawDebug; }
 
 		math::Vec2 GetResolution() { return m_viewStrategy->GetResolution(); };
-		
-		void SetSettings(const ViewManagerSettings& def);
-		ViewManagerSettings GetSettings();
 
   protected:
     void ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData) override;

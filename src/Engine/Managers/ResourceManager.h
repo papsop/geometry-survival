@@ -28,7 +28,7 @@ namespace Engine
 		~ResourceContainer() = default;
 
 		ResourceHandle<T> LoadResource(const char* name);
-		T const* GetResource(ResourceHandle<T> handle);
+		const T* GetResource(ResourceHandle<T> handle);
 		
 	private:
 		T LoadResourceImpl(const char* name); // only allow specialized functions
@@ -51,7 +51,7 @@ namespace Engine
 		ResourceHandle<T> LoadResource(const char* name);
 
 		template<typename T>
-		T const* GetResource(ResourceHandle<T> handle);
+		const T* GetResource(ResourceHandle<T> handle);
 
 	protected:
 		void VirtualOnInit() override;

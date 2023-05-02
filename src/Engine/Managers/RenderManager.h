@@ -3,9 +3,11 @@
 #include "../Components/Core/IComponent.h"
 #include "../Core/Events.h"
 #include "../Core/EventData.h"
+#include "../Core/Signal.h"
 
 #include "../Debug/IDebuggable.h"
 #include "../Debug/VisualDebugContext.h"
+
 
 #include <SFML/Graphics/Drawable.hpp>
 #include <vector>
@@ -13,6 +15,20 @@
 namespace Engine
 {
 	class Application;
+
+	struct ResolutionEntry
+	{
+		const char* Name;
+		math::Vec2 Value;
+		ResolutionEntry(const char* name, math::Vec2 val) : Name(name), Value(val) {}
+		ResolutionEntry() = default;
+	};
+
+	struct RenderManagerSettings
+	{
+		ResolutionEntry ResolutionEntry;
+		bool Fullscreen;
+	};
 
 	class RenderManager : public IManager, public IEventListener<event::E_OnShowDebugKeyAction>
 	{
@@ -48,10 +64,16 @@ namespace Engine
 
 		void SetView(CameraData cameraData);
 
+		RenderManagerSettings GetSettings() const { return m_currentSettings; }
+		void SetSettings(RenderManagerSettings settings);
+		Signal OnSettingsChanged;
+
 		const sf::Font& GetFont() const { return m_font; }
+		std::vector<ResolutionEntry> GetResolutionEntries() const { return m_resolutionEntries; }
 
     void ReloadWindow();
     void DestroyWindow();
+
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
@@ -67,6 +89,8 @@ namespace Engine
     std::vector<IDebuggable*> m_debuggableComponents;
 		sf::Font m_font;
 		VisualDebugContext m_debugContext;
+		std::vector<ResolutionEntry> m_resolutionEntries;
+		RenderManagerSettings m_currentSettings;
 
 		RenderManager();
 		void ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable);

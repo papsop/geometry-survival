@@ -1,8 +1,7 @@
 #pragma once
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
-#include <Engine/Managers/UIManager.h>
-#include <Engine/Managers/ViewManager.h>
+#include <Engine/Managers/RenderManager.h>
 #include <Engine/Core/Events.h>
 #include <Engine/Core/EventData.h>
 
@@ -20,6 +19,7 @@ namespace Game
     void SaveSettingsCallback();
 
     void Update(float dt) override;
+    void OnSettingsChanged();
 
   protected:
     void ReceiveEvent(const Engine::event::E_EscapeAction& eventData) override;
@@ -31,6 +31,7 @@ namespace Game
     bool m_fullscreenVal = false;
 
     std::vector<Engine::ResolutionEntry> m_resolutions;
+    Engine::ResolutionEntry m_currentResolutionEntry;
     unsigned int m_selectedResolution = 0;
   };
 }

@@ -10,7 +10,11 @@ namespace Engine
 	RenderManager::RenderManager()
 		: m_debugContext(*this)
 	{
+		m_resolutionEntries.push_back({"1280x720", {1280, 720} });
+		m_resolutionEntries.push_back({"1920x1024", {1920, 1024} });
 
+		m_currentSettings.Fullscreen = false;
+		m_currentSettings.ResolutionEntry = m_resolutionEntries[1];
 	}
 
 	RenderManager& RenderManager::Get()
@@ -75,6 +79,18 @@ namespace Engine
 		m_window->setView(view);
 	}
 
+	void RenderManager::SetSettings(RenderManagerSettings settings)
+	{
+		m_currentSettings = settings;
+		OnSettingsChanged.Invoke();
+
+		Application::Instance().AddEndOfFrameDeferredAction(
+			[&]() {
+				ReloadWindow();
+			}
+		);
+	}
+
 	void RenderManager::ReceiveEvent(const event::E_OnShowDebugKeyAction& eventData)
 	{
 		m_shouldUpdateDebugs = !m_shouldUpdateDebugs;
@@ -82,12 +98,15 @@ namespace Engine
 
 	void RenderManager::ReloadWindow()
 	{
-		ImGui::SFML::Shutdown(); // before we destroy the old window
+		if(m_window)
+			ImGui::SFML::Shutdown(); // before we destroy the old window
 
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
-		sf::VideoMode videoMode(1280, 720, 32);
+		sf::VideoMode videoMode(m_currentSettings.ResolutionEntry.Value.x, m_currentSettings.ResolutionEntry.Value.y, 32);
 		uint32 style = sf::Style::Titlebar | sf::Style::Close;
+		if(m_currentSettings.Fullscreen)
+			style = sf::Style::Fullscreen;
 
 		m_window = std::make_unique<sf::RenderWindow>(videoMode, "test", style, settings);
 		m_window->setJoystickThreshold(10);

@@ -1,6 +1,5 @@
 #include "SettingsScreenComponent.h"
 #include <Engine/Application.h>
-#include <Engine/Managers/ViewManager.h>
 #include <Engine/ImGui/imgui.h>
 #include "../../Managers/GameManager.h"
 
@@ -12,19 +11,20 @@ namespace Game
 	SettingsScreenComponent::SettingsScreenComponent(Engine::GameObject& obj)
 		: IImGuiComponent(obj)
 	{
-		m_resolutions.emplace_back(Engine::ResolutionEntry("1920x1080", { 1920, 1080 }));
-		m_resolutions.emplace_back(Engine::ResolutionEntry("1280x720",  { 1280, 720  }));
-		m_resolutions.emplace_back(Engine::ResolutionEntry("1024x576",  { 1024, 576  }));
+		m_resolutions = Engine::RenderManager::Get().GetResolutionEntries();
 	}
 
   void SettingsScreenComponent::VirtualOnActivated()
   {
     IEventListener<Engine::event::E_EscapeAction>::RegisterListener();
+		Engine::RenderManager::Get().OnSettingsChanged.AddListener(this, &SettingsScreenComponent::OnSettingsChanged);
+		OnSettingsChanged(); // Set initial values
   }
 
   void SettingsScreenComponent::VirtualOnDeactivated()
   {
     IEventListener<Engine::event::E_EscapeAction>::UnregisterListener();
+		Engine::RenderManager::Get().OnSettingsChanged.RemoveListener(this);
   }
 
   void SettingsScreenComponent::ReceiveEvent(const Engine::event::E_EscapeAction& eventData)
@@ -35,11 +35,26 @@ namespace Game
   // Callbacks
 	void SettingsScreenComponent::SaveSettingsCallback()
 	{
-    Engine::ViewManagerSettings settings;
+    Engine::RenderManagerSettings settings;
     settings.Fullscreen = m_fullscreenVal;
 		settings.ResolutionEntry = m_resolutions[m_selectedResolution];
-		// TODO: renderManager
-    //Engine::ViewManager::Get().SetSettings(settings);
+		Engine::RenderManager::Get().SetSettings(settings);
+	}
+
+	void SettingsScreenComponent::OnSettingsChanged()
+	{
+		auto settings = Engine::RenderManager::Get().GetSettings();
+		m_fullscreenVal = settings.Fullscreen;
+		m_currentResolutionEntry = settings.ResolutionEntry;
+		
+		for (int i=0;i<m_resolutions.size();i++)
+		{
+			if (m_resolutions[i].Name == m_currentResolutionEntry.Name)
+			{
+				m_selectedResolution = i;
+				break;
+			}
+		}
 	}
 
 	void SettingsScreenComponent::Update(float dt)
@@ -75,7 +90,9 @@ namespace Game
 			ImGui::Separator();
 			if (ImGui::Button("Save", ImVec2(200.0f, 100.f)))
 			{
+				ImGui::End();
 				SaveSettingsCallback();
+				return;
 			}
       ImGui::SameLine();
 			if (ImGui::Button("Back to menu", ImVec2(200.0f, 100.f)))

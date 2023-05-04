@@ -93,7 +93,6 @@ namespace Engine
 		RenderManagerSettings m_currentSettings;
 
 		RenderManager();
-		void ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable);
 		void RenderDebugDraw(float dt);
 	};
 }

@@ -126,19 +126,6 @@ namespace Engine
 		Engine::EventManager::Get().DispatchEvent(event::E_WindowClosed());
 	}
 
-	void RenderManager::ApplyTransformToDrawable(const ITransform::AbsoluteTransform transform, sf::Drawable* drawable)
-	{
-		auto* transformableObject = dynamic_cast<sf::Transformable*>(drawable);
-		if (!transformableObject)
-			return;
-
-		transformableObject->setPosition(coordsPosToPixelsPos(transform.Position));
-		transformableObject->setRotation(Box2DRotationToSFML(transform.Rotation));
-		// not quite sure right now
-		auto transformableScale = transformableObject->getScale();
-		transformableObject->setScale({ transform.Scale.x * transformableScale.x, transform.Scale.y * transformableScale.y});
-	}
-
 	void RenderManager::RenderDebugDraw(float dt)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -198,9 +185,7 @@ namespace Engine
 		// draw them
 		for (auto& [layer, data] : drawables)
 		{
-			ApplyTransformToDrawable(data.first, data.second);
-
-			m_window->draw(*data.second);
+			m_window->draw(*data);
 		}
 		
 		// debuggable

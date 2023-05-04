@@ -21,7 +21,7 @@ namespace Engine
 
 	void ShapeDrawableComponent::GetDrawables(TDrawablesMap& drawables)
 	{
-		drawables.insert({ GetLayer(), {Owner.GetTransform()->GetAbsoluteTransform(), &m_circleShape}});
+		drawables.insert({ GetLayer(), GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_circleShape) });
 	}
 
 	void ShapeDrawableComponent::SetPointCount(size_t val)

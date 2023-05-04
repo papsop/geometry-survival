@@ -23,7 +23,7 @@ namespace Engine
 
 	void TextDrawableComponent::GetDrawables(TDrawablesMap& drawables)
 	{
-		drawables.insert({ GetLayer(), {Owner.GetTransform()->GetAbsoluteTransform(), &m_text} });
+		drawables.insert({ GetLayer(), GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_text) });
 	}
 
 	void TextDrawableComponent::SetString(const char* val)

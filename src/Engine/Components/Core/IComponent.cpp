@@ -38,6 +38,7 @@ namespace Engine
 	IDrawableComponent::IDrawableComponent(GameObject& obj, view::Layer layer)
 		: IComponent(obj)
 		, m_layer(layer)
+		, m_renderManager(RenderManager::Get())
 	{
 
 	}
@@ -46,7 +47,18 @@ namespace Engine
 		RenderManager::Get().RegisterComponent(this);
 	}
 
-	IDrawableComponent::~IDrawableComponent()
+  sf::Drawable* IDrawableComponent::GetDrawableDataForRendering(ITransform::AbsoluteTransform transform, sf::Transformable* transformable)
+  {
+		transformable->setPosition(m_renderManager.coordsPosToPixelsPos(transform.Position));
+		transformable->setRotation(m_renderManager.Box2DRotationToSFML(transform.Rotation));
+    // not quite sure right now
+    auto transformableScale = transformable->getScale();
+		transformable->setScale({ transform.Scale.x * transformableScale.x, transform.Scale.y * transformableScale.y });
+
+		return dynamic_cast<sf::Drawable*>(transformable);
+  }
+
+  IDrawableComponent::~IDrawableComponent()
 	{
 		RenderManager::Get().UnregisterComponent(this);
 	}

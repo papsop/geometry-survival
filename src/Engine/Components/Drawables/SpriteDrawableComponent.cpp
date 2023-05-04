@@ -30,7 +30,7 @@ namespace Engine
 
 	void SpriteDrawableComponent::GetDrawables(TDrawablesMap& drawables)
 	{
-		drawables.insert({ GetLayer(), {Owner.GetTransform()->GetAbsoluteTransform(), &m_sprite} });
+		drawables.insert({ GetLayer(), GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_sprite) });
 	}
 
 }

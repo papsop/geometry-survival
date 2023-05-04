@@ -137,7 +137,7 @@ namespace Engine
 		if (ImGui::Begin("ViewManager", NULL, window_flags))
 		{
 			ImGui::Text("Frame time: %.5f", dt);
-			ImGui::Text("FPS: %.1f\n", (1000.0f / dt));
+			ImGui::Text("FPS: %.1f\n", (1.f / dt));
 		}
 		ImGui::End();
 	}

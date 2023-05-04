@@ -14,7 +14,7 @@ namespace Engine
 		m_resolutionEntries.push_back({"1920x1024", {1920, 1024} });
 
 		m_currentSettings.Fullscreen = false;
-		m_currentSettings.ResolutionEntry = m_resolutionEntries[1];
+		m_currentSettings.ResolutionEntry = m_resolutionEntries[0];
 	}
 
 	RenderManager& RenderManager::Get()

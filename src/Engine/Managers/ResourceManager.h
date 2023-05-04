@@ -2,8 +2,10 @@
 #include "IManager.h"
 #include "ResourceTypes.h"
 #include <SFML/Graphics.hpp>
+#include <yaml-cpp/yaml.h>
 
 #include <vector>
+#include <memory>
 
 namespace Engine
 {
@@ -45,23 +47,34 @@ namespace Engine
 	class ResourceManager : public IManager
 	{
 	public:
+		static ResourceManager& Get();
 		~ResourceManager() = default;
 
-		template<typename T>
-		ResourceHandle<T> LoadResource(const char* name);
+		//============================================================
+		// TODO - implement
+		//template<typename T>
+		//ResourceHandle<T> LoadResource(const char* name);
+		//template<typename T>
+		//const T* GetResource(ResourceHandle<T> handle);
+		//============================================================
 
-		template<typename T>
-		const T* GetResource(ResourceHandle<T> handle);
+		//============================================================
+		// Placeholder resource management
+		//============================================================
+		std::shared_ptr<sf::Texture> LoadTextureResource(std::string name);
 
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
 
 	private:
-		void LoadResources();
+		void LoadResourcesList();
 		ResourceManager() = default;
 
-		std::map< uint32_t, void* > m_resourceContainers;
+		//std::map< uint32_t, void* > m_resourceContainers;
+		std::unordered_map< std::string, std::shared_ptr<sf::Texture> > m_textures;
+		// kinda disgusting, but just a placeholder
+		std::unordered_map< std::string, std::unordered_map< std::string, std::string> > m_resources;
 
 		const char* m_assetListFilePath = "assets/assetlist.yaml";
 

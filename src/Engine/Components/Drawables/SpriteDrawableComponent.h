@@ -2,6 +2,8 @@
 #include "../Core/IComponent.h"
 
 #include <SFML/Graphics.hpp>
+#include <memory>
+
 namespace Engine
 {
 	struct SpriteDrawableDef
@@ -26,6 +28,6 @@ namespace Engine
 	private:
 		sf::Vector2f m_desiredPixelSize;
 		sf::Sprite m_sprite;
-		sf::Texture m_texture;
+		std::shared_ptr<sf::Texture> m_texture;
 	};
 }

@@ -1,4 +1,14 @@
 ---
 textures:
-  player: "sprites/player.png"
-  enemy1: "sprites/enemy1.png"
+  - texture:
+    name: player
+    path: sprites/player.png
+  - texture:
+    name: enemy1
+    path: sprites/enemy.png
+  - texture:
+    name: experience
+    path: sprites/exp.png
+  - texture:
+    name: bullet
+    path: sprites/bullet.png

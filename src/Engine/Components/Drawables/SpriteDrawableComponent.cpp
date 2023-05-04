@@ -1,5 +1,7 @@
 #include "SpriteDrawableComponent.h"
 #include "../../Managers/RenderManager.h"
+#include "../../Managers/ResourceManager.h"
+
 namespace Engine
 {
 
@@ -8,8 +10,8 @@ namespace Engine
 		, m_sprite()
 		, m_texture()
 	{
-		m_texture.loadFromFile(def.TexturePath);
-		m_sprite.setTexture(m_texture);
+		m_texture = ResourceManager::Get().LoadTextureResource(def.TexturePath);
+		m_sprite.setTexture(*m_texture);
 	
 		auto localBounds = m_sprite.getLocalBounds();
 		m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);

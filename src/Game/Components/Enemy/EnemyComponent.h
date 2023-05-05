@@ -20,11 +20,16 @@ namespace Game
     TEST,
   };
 
+  struct EnemyComponentDef
+  {
+    float DamagePerSecond;
+  };
+
   class EnemyComponent : public Engine::IComponent,
     public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
   {
   public:
-    EnemyComponent(Engine::GameObject& obj);
+    EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def);
     ~EnemyComponent() override = default;
 
     void OnCreate() override;
@@ -50,6 +55,7 @@ namespace Game
     Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
     Engine::SpriteDrawableComponent* m_spriteDrawableComponent = nullptr;
     bool m_isTouchingTarget = false;
+    float m_damagePerSecond;
 
   };
 }

@@ -17,9 +17,10 @@
 
 namespace Game
 {
-  EnemyComponent::EnemyComponent(Engine::GameObject& obj)
+  EnemyComponent::EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def)
     : IComponent(obj)
     , m_stateMachine(Owner)
+		, m_damagePerSecond(def.DamagePerSecond)
   {
     SetRequiredComponents<RPGComponent, ActorComponent, Engine::SpriteDrawableComponent>();
   }
@@ -44,7 +45,7 @@ namespace Game
 
 		// continuous damage to the target
 		if (m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
-			m_target->GetComponent<ActorComponent>()->ApplyDamage(5 * dt, Actor_DamageSource::Collision);
+			m_target->GetComponent<ActorComponent>()->ApplyDamage(m_damagePerSecond * dt, Actor_DamageSource::Collision);
 
 	}
 

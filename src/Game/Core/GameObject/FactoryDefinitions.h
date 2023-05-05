@@ -18,6 +18,9 @@ namespace Game
 	{
 		Engine::math::Vec2 Position;
 		float MovementSpeed;
+		float MaxHealth;
+		float DamagePerSecond;
+		sf::Color Color;
 	};
 
 	struct ExperienceGlobeDef

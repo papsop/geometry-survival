@@ -14,6 +14,8 @@ namespace Game
 				EnemyFactoryDef def;
 				def.MovementSpeed = 5.0f;
 				def.Position = m_spawnerObject->GetTransform()->GetPosition();
+				def.DamagePerSecond = 10.0f;
+				def.Color = sf::Color::Magenta;
 				return GameObjectFactory::CreateEnemy(def);
 			};
 			entry.Cooldown = 1.0f;
@@ -31,6 +33,8 @@ namespace Game
         EnemyFactoryDef def;
         def.MovementSpeed = 5.0f;
         def.Position = m_spawnerObject->GetTransform()->GetPosition();
+				def.DamagePerSecond = 20.0f;
+				def.Color = sf::Color::Red;
         return GameObjectFactory::CreateEnemy(def);
       };
       entry.Cooldown = 0.5f;

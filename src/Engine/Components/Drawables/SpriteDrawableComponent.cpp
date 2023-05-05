@@ -12,7 +12,8 @@ namespace Engine
 	{
 		m_texture = ResourceManager::Get().LoadTextureResource(def.TexturePath);
 		m_sprite.setTexture(*m_texture);
-	
+		m_sprite.setColor(def.Color);
+
 		auto localBounds = m_sprite.getLocalBounds();
 		m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);
 		// Sprite doesn't support setting size by pixels, so use scaling instead

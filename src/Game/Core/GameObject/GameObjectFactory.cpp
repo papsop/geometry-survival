@@ -38,16 +38,20 @@ namespace Game
 		circleFixtureDef.Radius = 2.0f;
 
 		RPGActorDef rpgActorDef;
-		rpgActorDef.MaxHealth = 10;
-		rpgActorDef.MovementSpeed = 10.0f;
+		rpgActorDef.MaxHealth = def.MaxHealth;
+		rpgActorDef.MovementSpeed = def.MovementSpeed;
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::ENEMY;
 		spriteDef.TexturePath = "textures/enemy1";
 		spriteDef.Size = { 4.0f, 4.0f };
+		spriteDef.Color = def.Color;
 
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;
+
+		EnemyComponentDef enemyDef;
+		enemyDef.DamagePerSecond = def.DamagePerSecond;
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
@@ -55,7 +59,7 @@ namespace Game
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
-		obj->AddComponent<EnemyComponent>();
+		obj->AddComponent<EnemyComponent>(enemyDef);
 
 		obj->SetActive(true);
 		return obj;

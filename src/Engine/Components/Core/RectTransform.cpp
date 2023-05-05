@@ -203,4 +203,10 @@ namespace Engine
 
 		viewStrategy->DebugRenderRectangle(GetPositionSpace(), center, size, GetRotation(), sf::Color::Yellow, sf::Color::Transparent);
 	}
+
+	void RectTransform::SetScale(math::Vec2 scale)
+	{
+		return;
+	}
+
 }

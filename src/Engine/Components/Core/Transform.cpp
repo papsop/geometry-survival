@@ -89,4 +89,10 @@ namespace Engine
 		forward += GetPosition();
 		viewStrategy->DebugRenderLine(GetPositionSpace(), GetPosition(), forward, color);
 	}
+
+	void Transform::SetScale(math::Vec2 scale)
+	{
+		m_scale = scale;
+	}
+
 }

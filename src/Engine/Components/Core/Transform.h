@@ -18,6 +18,8 @@ namespace Engine
 		math::Vec2 GetPosition() const override;
 		float GetRotation() const override;
 
+		void SetScale(math::Vec2 scale) override;
+
 		void SetRotationDeg(float rotation) override;
 		void SetRotationRad(float rotation) override;
 		math::Vec2 Forward() const override;
@@ -27,6 +29,8 @@ namespace Engine
 		Transform& operator=(const Transform& rhs);
 
 		void Debug(view::IViewStrategy* viewStrategy) override;
+
+
 
 	private:
 		math::Vec2 m_position;

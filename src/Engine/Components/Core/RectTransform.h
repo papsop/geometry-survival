@@ -70,6 +70,9 @@ namespace Engine
 
 		// ================================
 		void Debug(view::IViewStrategy* viewStrategy) override;
+
+		void SetScale(math::Vec2 scale) override;
+
 	private:
 		math::Vec2 m_position;
 		float	   m_rotation;

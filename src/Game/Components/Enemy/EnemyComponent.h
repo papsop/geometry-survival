@@ -6,6 +6,7 @@
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Core/Events.h>
 #include <Engine/Core/StateMachine/PushdownStateMachine.h>
+#include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 
 #include "../../Core/EventData.h"
 
@@ -47,7 +48,7 @@ namespace Game
   private:
     Engine::GameObject* m_target = nullptr;
     Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
-
+    Engine::SpriteDrawableComponent* m_spriteDrawableComponent = nullptr;
     bool m_isTouchingTarget = false;
 
   };

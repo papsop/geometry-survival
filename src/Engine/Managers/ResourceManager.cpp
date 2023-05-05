@@ -3,6 +3,7 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <stdexcept>
+#include "../imgui/imgui.h"
 #include "../Debug/Logger.h"
 #include "../Application.h"
 
@@ -12,11 +13,13 @@ namespace Engine
 
 	void ResourceManager::VirtualOnInit()
 	{
+		IDebuggable::DebuggableOnInit();
 		LoadResourcesList();
 	}
 
 	void ResourceManager::VirtualOnDestroy()
 	{
+		IDebuggable::DebuggableOnDestroy();
 // 		for (auto& container : m_resourceContainers)
 // 		{
 // 			delete container.second;
@@ -49,6 +52,38 @@ namespace Engine
 		}
 
 		return m_textures[path];
+	}
+
+	void ResourceManager::Debug(VisualDebugContext& debugContext)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(100.f, 100.f), ImGuiCond_Once, ImVec2(0.0f, 0.0f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize;
+
+		if (ImGui::Begin("ResourceManager", NULL, window_flags))
+		{
+			ImGui::Text("Loaded resources:");
+			ImGuiTableFlags tableFlags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
+			if (ImGui::BeginTable("LoadedResources", 2, tableFlags))
+			{
+				ImGui::TableSetupColumn("Name");
+				ImGui::TableSetupColumn("Use_count");
+				ImGui::TableHeadersRow();
+				for (const auto& entry : m_textures)
+				{
+					ImGui::TableNextRow();
+					ImGui::TableSetColumnIndex(0);
+					ImGui::Text("%s", entry.first.c_str());
+					ImGui::TableSetColumnIndex(1);
+					ImGui::Text("%d", entry.second.use_count());
+				}
+				ImGui::EndTable();
+			}
+
+		}
+		ImGui::End();
 	}
 
 	void ResourceManager::LoadResourcesList()

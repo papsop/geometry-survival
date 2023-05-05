@@ -21,12 +21,13 @@ namespace Game
     : IComponent(obj)
     , m_stateMachine(Owner)
   {
-    SetRequiredComponents<RPGComponent, ActorComponent>();
+    SetRequiredComponents<RPGComponent, ActorComponent, Engine::SpriteDrawableComponent>();
   }
 
 	void EnemyComponent::OnCreate()
 	{
 		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnDeath);
+		m_spriteDrawableComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
 	}
 
 	void EnemyComponent::OnDestroy()
@@ -38,8 +39,13 @@ namespace Game
 	{
     m_stateMachine.Update(dt);
 
-		if (m_target && m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
+		if (!m_target)
+			return;
+
+		// continuous damage to the target
+		if (m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
 			m_target->GetComponent<ActorComponent>()->ApplyDamage(5 * dt, Actor_DamageSource::Collision);
+
 	}
 
 	void EnemyComponent::OnDeath()

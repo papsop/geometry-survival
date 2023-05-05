@@ -35,4 +35,16 @@ namespace Engine
 		drawables.insert({ GetLayer(), GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_sprite) });
 	}
 
+	void SpriteDrawableComponent::SetFlipX(bool flip)
+	{
+		auto scale = m_sprite.getScale();
+		m_sprite.setScale((flip) ? -scale.x : scale.x, scale.y);
+	}
+
+	void SpriteDrawableComponent::SetFlipY(bool flip)
+	{
+		auto scale = m_sprite.getScale();
+		m_sprite.setScale(scale.x, (flip) ? -scale.y : scale.y);
+	}
+
 }

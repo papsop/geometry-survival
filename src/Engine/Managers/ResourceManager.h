@@ -1,6 +1,8 @@
 #pragma once
 #include "IManager.h"
 #include "ResourceTypes.h"
+#include "../Debug/IDebuggable.h"
+
 #include <SFML/Graphics.hpp>
 #include <yaml-cpp/yaml.h>
 
@@ -44,7 +46,7 @@ namespace Engine
 	// ============================
 	// RESOURCE MANAGER
 	// ============================
-	class ResourceManager : public IManager
+	class ResourceManager : public IManager, public IDebuggable
 	{
 	public:
 		static ResourceManager& Get();
@@ -62,6 +64,9 @@ namespace Engine
 		// Placeholder resource management
 		//============================================================
 		std::shared_ptr<sf::Texture> LoadTextureResource(std::string name);
+
+
+		void Debug(VisualDebugContext& debugContext) override;
 
 	protected:
 		void VirtualOnInit() override;

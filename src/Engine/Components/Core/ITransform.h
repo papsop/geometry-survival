@@ -81,6 +81,7 @@ namespace Engine
 		virtual void SetPosition(math::Vec2 pos) = 0;
 		virtual math::Vec2 GetPosition() const = 0;
 		virtual float GetRotation() const = 0;
+		virtual void SetScale(math::Vec2 scale) = 0;
 
 		virtual void SetRotationDeg(float rotation) = 0;
 		virtual void SetRotationRad(float rotation) = 0;

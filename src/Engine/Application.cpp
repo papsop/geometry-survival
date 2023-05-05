@@ -193,9 +193,9 @@ namespace Engine
     LOG_INFO("Initializing managers");
     m_configManager->OnInit();
 		m_configManager->LoadCvarsFromFile();
-		m_resourceManager->OnInit();
 		m_uiManager->OnInit();
-    m_renderManager->OnInit();
+    m_renderManager->OnInit(); // needs to be initialed for all the debuggables
+    m_resourceManager->OnInit();
 		//m_viewManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
@@ -255,9 +255,9 @@ namespace Engine
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
 		//m_viewManager->OnDestroy();
-    m_renderManager->OnDestroy();
     m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
+    m_renderManager->OnDestroy();
     m_configManager->OnDestroy();
     LOG_INFO("Destroying complete");
   }

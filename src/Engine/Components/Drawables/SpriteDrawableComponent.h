@@ -23,6 +23,8 @@ namespace Engine
 
 		void GetDrawables(TDrawablesMap& drawables) override;
 
+		void SetFlipX(bool flip);
+		void SetFlipY(bool flip);
 	protected:
 
 	private:

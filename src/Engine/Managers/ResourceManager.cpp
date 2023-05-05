@@ -3,6 +3,7 @@
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <stdexcept>
+#include <iostream>
 #include "../Debug/Logger.h"
 #include "../Application.h"
 
@@ -30,25 +31,30 @@ namespace Engine
 	}
 
 	// Usage: LoadResource("textures/player")
-	std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(std::string name)
+	std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(const char* name)
 	{
-		std::string topLevel = name.substr(0, name.find('/'));
-		DD_ASSERT(m_resources.find(topLevel) != m_resources.end(), "Unable to find toplevel '%s' in the assetlist", topLevel.c_str());
-
-		std::string assetName = name.substr(name.find('/') + 1);
-		DD_ASSERT(m_resources[topLevel].find(assetName) != m_resources[topLevel].end(), "Unable to find asset named '%s' in toplevel '%s'", assetName.c_str(), topLevel.c_str());
-
-		std::string path = "assets/" + m_resources[topLevel][assetName];
-		DD_ASSERT(std::filesystem::exists(m_assetListFilePath), "Can't find file '%s'", path.c_str())
-
-		if (m_textures.find(path) == m_textures.end())
+		if (m_resources.find(name) == m_resources.end())
 		{
-			std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-			texture->loadFromFile(path);
-			m_textures[path] = texture;
+			// TODO: pink texture
+			return nullptr;
 		}
 
-		return m_textures[path];
+		std::string filePath = m_assetsFolder + m_resources[name];
+
+		if (!std::filesystem::exists(m_assetListFilePath))
+		{
+      // TODO: pink texture
+      return nullptr;
+		}
+
+		if (m_textures.find(filePath) == m_textures.end())
+		{
+			std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
+			texture->loadFromFile(filePath);
+			m_textures[filePath] = texture;
+		}
+
+		return m_textures[filePath];
 	}
 
 	void ResourceManager::LoadResourcesList()
@@ -58,20 +64,27 @@ namespace Engine
 		try 
 		{
 			YAML::Node assetList = YAML::LoadFile(m_assetListFilePath);
-			// store top level nodes into map
+			
+			// TODO: Any number of subnodes, some kind of graph 
+			// traversal to get all the paths to each resource
+			// YAML won't let me access the graph pointers, 
+			// so it might be annoying to work with
+			// = For now let's only support TopLevel + resource
+
+			// TODO: We should be able to support multiple types
+			//   - texture:
+			//			name: bullet
+			//			path : sprites / bullet.png
+			// maybe use the "- texture" as a resourceType classifier
 			for (auto& node : assetList)
 			{
 				std::string topLevel = node.first.as<std::string>();
-
-				if (m_resources.find(topLevel) == m_resources.end())
-					m_resources[topLevel] = {};
-
-				for (auto& subNode : node.second)
+				for (auto& subNode : assetList[topLevel])
 				{
-					std::string name = subNode["name"].as<std::string>();
-					std::string path = subNode["path"].as<std::string>();
+          std::string name = subNode["name"].as<std::string>();
+          std::string path = subNode["path"].as<std::string>();
 
-					m_resources[topLevel][name] = path;
+					m_resources[topLevel + "/" + name] = path;
 				}
 			}
 		}

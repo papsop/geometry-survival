@@ -8,7 +8,6 @@
 #include "../Debug/IDebuggable.h"
 #include "../Debug/VisualDebugContext.h"
 
-
 #include <SFML/Graphics/Drawable.hpp>
 #include <vector>
 

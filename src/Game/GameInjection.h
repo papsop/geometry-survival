@@ -58,7 +58,7 @@ namespace Game
     void BeforeGameLoop(Engine::Application& app) override
     {
       // Setup logger
-      Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
+      //Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ConsoleBackendStrategy>());
       Engine::Logger::Instance().AddBackend(std::make_unique<Engine::ImGuiBackendStrategy>());
       Engine::Logger::Instance().SetLevel(Engine::LOGGER_LEVEL::ERROR);
 

@@ -185,7 +185,14 @@ namespace Engine
 		// draw them
 		for (auto& [layer, data] : drawables)
 		{
-			m_window->draw(*data);
+			if (data.Shader)
+			{
+				m_window->draw(*data.Drawable, data.Shader);
+			}
+			else
+			{
+				m_window->draw(*data.Drawable);
+			}
 		}
 		
 		// debuggable

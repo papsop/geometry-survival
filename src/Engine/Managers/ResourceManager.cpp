@@ -34,73 +34,17 @@ namespace Engine
 		return Application::Instance().GetResourceManager();
 	}
 
-	// Usage: LoadResource("textures/player")
-	std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(const char* name)
-	{
-		if (m_resources.find(name) == m_resources.end())
-		{
-			// TODO: pink texture
-			return nullptr;
-		}
-
-		std::string filePath = m_assetsFolder + m_resources[name];
-
-		if (!std::filesystem::exists(m_assetListFilePath))
-		{
-      // TODO: pink texture
-      return nullptr;
-		}
-
-		if (m_textures.find(filePath) == m_textures.end())
-		{
-			std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-			texture->loadFromFile(filePath);
-			m_textures[filePath] = texture;
-		}
-
-		return m_textures[filePath];
-	}
-
-	void ResourceManager::Debug(VisualDebugContext& debugContext)
-	{
-		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(100.f, 100.f), ImGuiCond_Once, ImVec2(0.0f, 0.0f));
-		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize;
-
-		if (ImGui::Begin("ResourceManager", NULL, window_flags))
-		{
-			ImGui::Text("Loaded resources:");
-			ImGuiTableFlags tableFlags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
-			if (ImGui::BeginTable("LoadedResources", 2, tableFlags))
-			{
-				ImGui::TableSetupColumn("Name");
-				ImGui::TableSetupColumn("Use_count");
-				ImGui::TableHeadersRow();
-				for (const auto& entry : m_textures)
-				{
-					ImGui::TableNextRow();
-					ImGui::TableSetColumnIndex(0);
-					ImGui::Text("%s", entry.first.c_str());
-					ImGui::TableSetColumnIndex(1);
-					ImGui::Text("%d", entry.second.use_count());
-				}
-				ImGui::EndTable();
-			}
-
-		}
-		ImGui::End();
-	}
-
+	// ============================
+	// Resource loading
+	// ============================
 	void ResourceManager::LoadResourcesList()
 	{
 		DD_ASSERT(std::filesystem::exists(m_assetListFilePath), "Unable to find Assetlist, searching path '%s'", m_assetListFilePath);
 
-		try 
+		try
 		{
 			YAML::Node assetList = YAML::LoadFile(m_assetListFilePath);
-			
+
 			// TODO: Any number of subnodes, some kind of graph 
 			// traversal to get all the paths to each resource
 			// YAML won't let me access the graph pointers, 
@@ -117,10 +61,10 @@ namespace Engine
 				std::string topLevel = node.first.as<std::string>();
 				for (auto& subNode : assetList[topLevel])
 				{
-          std::string name = subNode["name"].as<std::string>();
-          std::string path = subNode["path"].as<std::string>();
+					std::string name = subNode["name"].as<std::string>();
+					std::string path = subNode["path"].as<std::string>();
 
-					m_resources[topLevel + "/" + name] = path;
+					m_resourceNamesToPaths[topLevel + "/" + name] = path;
 				}
 			}
 		}
@@ -130,6 +74,85 @@ namespace Engine
 		}
 	}
 
+	// Usage: LoadTextureResource("textures/player")
+	std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(const char* name)
+	{
+		if (m_resourceNamesToPaths.find(name) == m_resourceNamesToPaths.end())
+		{
+			// TODO: pink texture
+			return nullptr;
+		}
+
+		std::string filePath = m_assetsFolder + m_resourceNamesToPaths[name];
+
+		if (!std::filesystem::exists(filePath))
+		{
+			// TODO: pink texture
+			return nullptr;
+		}
+
+		if (m_textures.find(filePath) == m_textures.end())
+		{
+			std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
+			texture->loadFromFile(filePath);
+			m_textures[filePath] = texture;
+		}
+
+		return m_textures[filePath];
+	}
+
+	std::shared_ptr<sf::Shader> ResourceManager::LoadShaderResource(const char* name)
+	{
+		return nullptr;
+	}
+
+	void ResourceManager::Debug(VisualDebugContext& debugContext)
+	{
+		const ImGuiViewport* viewport = ImGui::GetMainViewport();
+		ImVec2 work_size = viewport->WorkSize;
+		ImGui::SetNextWindowPos(ImVec2(100.f, 100.f), ImGuiCond_Once, ImVec2(0.0f, 0.0f));
+		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
+		ImGuiWindowFlags window_flags = ImGuiWindowFlags_AlwaysAutoResize;
+
+		if (ImGui::Begin("ResourceManager", NULL, window_flags))
+		{
+			ImGui::Text("Loaded resources:");
+			ImGuiTableFlags tableFlags = ImGuiTableFlags_Borders | ImGuiTableFlags_RowBg;
+			if (ImGui::BeginTable("LoadedTextures", 2, tableFlags))
+			{
+				ImGui::TableSetupColumn("Name");
+				ImGui::TableSetupColumn("Use_count");
+				ImGui::TableHeadersRow();
+				for (const auto& entry : m_textures)
+				{
+					ImGui::TableNextRow();
+					ImGui::TableSetColumnIndex(0);
+					ImGui::Text("%s", entry.first.c_str());
+					ImGui::TableSetColumnIndex(1);
+					ImGui::Text("%d", entry.second.use_count());
+				}
+				ImGui::EndTable();
+			}
+
+			if (ImGui::BeginTable("LoadedShaders", 2, tableFlags))
+			{
+				ImGui::TableSetupColumn("Name");
+				ImGui::TableSetupColumn("Use_count");
+				ImGui::TableHeadersRow();
+				for (const auto& entry : m_shaders)
+				{
+					ImGui::TableNextRow();
+					ImGui::TableSetColumnIndex(0);
+					ImGui::Text("%s", entry.first.c_str());
+					ImGui::TableSetColumnIndex(1);
+					ImGui::Text("%d", entry.second.use_count());
+				}
+				ImGui::EndTable();
+			}
+
+		}
+		ImGui::End();
+	}
 
 	// ============================
 	template<>

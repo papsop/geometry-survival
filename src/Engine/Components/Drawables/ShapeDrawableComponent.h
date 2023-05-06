@@ -26,8 +26,6 @@ namespace Engine
 		void SetColor(sf::Color val);
 		void SetRadius(float val);
 	protected:
-
-	private:
 		sf::CircleShape m_circleShape;
 	};
 }

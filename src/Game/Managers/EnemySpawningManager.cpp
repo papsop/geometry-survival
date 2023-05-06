@@ -16,6 +16,7 @@ namespace Game
 				def.Position = m_spawnerObject->GetTransform()->GetPosition();
 				def.DamagePerSecond = 10.0f;
 				def.Color = sf::Color::Magenta;
+				def.MaxHealth = 10.0f;
 				return GameObjectFactory::CreateEnemy(def);
 			};
 			entry.Cooldown = 1.0f;
@@ -35,6 +36,7 @@ namespace Game
         def.Position = m_spawnerObject->GetTransform()->GetPosition();
 				def.DamagePerSecond = 20.0f;
 				def.Color = sf::Color::Red;
+				def.MaxHealth = 20.0f;
         return GameObjectFactory::CreateEnemy(def);
       };
       entry.Cooldown = 0.5f;

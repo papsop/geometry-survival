@@ -43,7 +43,7 @@ namespace Game
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::ENEMY;
-		spriteDef.TexturePath = "textures/enemy1";
+		spriteDef.TextureName = "textures/enemy1";
 		spriteDef.Size = { 4.0f, 4.0f };
 		spriteDef.Color = def.Color;
 
@@ -87,7 +87,7 @@ namespace Game
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::EXPERIENCE_GLOBE;
-		spriteDef.TexturePath = "textures/experience";
+		spriteDef.TextureName = "textures/experience";
 		spriteDef.Size = { 2.0f, 2.0f };
 
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE, transformDef);
@@ -117,7 +117,7 @@ namespace Game
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::PLAYER;
-		spriteDef.TexturePath = "textures/player";
+		spriteDef.TextureName = "textures/player";
 		spriteDef.Size = { 4.0f, 4.0f };
 
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
@@ -167,7 +167,7 @@ namespace Game
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::BULLET;
-		spriteDef.TexturePath = "textures/bullet";
+		spriteDef.TextureName = "textures/bullet";
 		spriteDef.Size = { 2.0f, 2.0f };
 
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);

@@ -23,7 +23,9 @@ namespace Engine
 
 	void TextDrawableComponent::GetDrawables(TDrawablesMap& drawables)
 	{
-		drawables.insert({ GetLayer(), GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_text) });
+		sf::Drawable* drawable = GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_text);
+		DrawableData data{ drawable, nullptr };
+		drawables.insert({ GetLayer(), data });
 	}
 
 	void TextDrawableComponent::SetString(const char* val)

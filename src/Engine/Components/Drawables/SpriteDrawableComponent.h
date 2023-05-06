@@ -8,7 +8,8 @@ namespace Engine
 {
 	struct SpriteDrawableDef
 	{
-		const char* TexturePath;
+		const char* TextureName;
+		const char* ShaderName;
 		view::Layer Layer;
 		math::Vec2 Size = {1.0f, 1.0f}; // in world coords
 		sf::Color Color = { 255, 255, 255, 255 };

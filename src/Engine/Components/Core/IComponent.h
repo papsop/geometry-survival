@@ -100,10 +100,17 @@ namespace Engine
 	// =========================================================
 	// DRAWABLE COMPONENT
 	// =========================================================
+
+  struct DrawableData
+  {
+    sf::Drawable* Drawable;
+    sf::Shader* Shader = nullptr;
+  };
+
   class IDrawableComponent : public IComponent
   {
   public:
-    using TDrawablesMap = std::multimap<view::Layer, sf::Drawable*>;
+    using TDrawablesMap = std::multimap<view::Layer, DrawableData>;
 
     IDrawableComponent(GameObject& obj, view::Layer layer);
     ~IDrawableComponent();

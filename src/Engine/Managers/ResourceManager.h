@@ -63,7 +63,8 @@ namespace Engine
 		//============================================================
 		// Placeholder resource management
 		//============================================================
-		std::shared_ptr<sf::Texture> LoadTextureResource(const char* name);
+		std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(const char* name);
+		std::shared_ptr<sf::Shader> ResourceManager::LoadShaderResource(const char* name);
 
 
 		void Debug(VisualDebugContext& debugContext) override;
@@ -77,9 +78,10 @@ namespace Engine
 		ResourceManager() = default;
 
 		//std::map< uint32_t, void* > m_resourceContainers;
-		std::unordered_map< std::string, std::shared_ptr<sf::Texture> > m_textures;
+		std::unordered_map < std::string, std::shared_ptr<sf::Texture> > m_textures;
+		std::unordered_map < std::string, std::shared_ptr<sf::Shader> > m_shaders;
 		// kinda disgusting, but just a placeholder
-		std::unordered_map< std::string, std::string > m_resources;
+		std::unordered_map< std::string, std::string > m_resourceNamesToPaths;
 
 		const char* m_assetListFilePath = "assets/assetlist.yaml";
 		const char* m_assetsFolder = "assets/";

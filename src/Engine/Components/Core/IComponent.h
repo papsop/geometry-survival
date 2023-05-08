@@ -110,7 +110,7 @@ namespace Engine
   class IDrawableComponent : public IComponent
   {
   public:
-    using TDrawablesMap = std::multimap<view::Layer, DrawableData>;
+    using TDrawablesMap = std::array<std::vector<DrawableData>, static_cast<size_t>(view::Layer::COUNT)>;
 
     IDrawableComponent(GameObject& obj, view::Layer layer);
     ~IDrawableComponent();
@@ -120,6 +120,7 @@ namespace Engine
     virtual void GetDrawables(TDrawablesMap& drawables) {};
 
     view::Layer GetLayer() const { return m_layer; };
+    size_t GetLayerAsIndex() const { return static_cast<size_t>(m_layer); }
   protected:
     sf::Drawable* GetDrawableDataForRendering(ITransform::AbsoluteTransform transform, sf::Transformable* transformable);
     view::Layer m_layer;

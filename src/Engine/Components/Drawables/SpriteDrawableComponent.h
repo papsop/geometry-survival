@@ -27,6 +27,7 @@ namespace Engine
 
 		void SetFlipX(bool flip);
 		void SetFlipY(bool flip);
+
 	protected:
 
 	private:

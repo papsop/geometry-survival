@@ -23,7 +23,7 @@ namespace Engine
 	{
 		sf::Drawable* drawable = GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_circleShape);
 		DrawableData data{ drawable, nullptr };
-		drawables.insert({ GetLayer(), data});
+		drawables[GetLayerAsIndex()].push_back(data);
 	}
 
 	void ShapeDrawableComponent::SetPointCount(size_t val)

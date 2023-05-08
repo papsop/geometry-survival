@@ -170,28 +170,28 @@ namespace Engine
 	{
 		if (!m_window)
 			return;
-
-		IDrawableComponent::TDrawablesMap drawables;
-		
 		m_window->clear();
 
+		IDrawableComponent::TDrawablesMap m_layersDrawableData;
 		// get all the drawables
 		for (auto& drawableComponent : m_drawableComponents)
 		{
-			drawableComponent->GetDrawables(drawables);
+			drawableComponent->GetDrawables(m_layersDrawableData);
 		}
 
-
 		// draw them
-		for (auto& [layer, data] : drawables)
+		for (auto& layer : m_layersDrawableData)
 		{
-			if (data.Shader)
+			for (auto& drawableData : layer)
 			{
-				m_window->draw(*data.Drawable, data.Shader);
-			}
-			else
-			{
-				m_window->draw(*data.Drawable);
+				if (drawableData.Shader)
+				{
+					m_window->draw(*drawableData.Drawable, drawableData.Shader);
+				}
+				else
+				{
+					m_window->draw(*drawableData.Drawable);
+				}
 			}
 		}
 		

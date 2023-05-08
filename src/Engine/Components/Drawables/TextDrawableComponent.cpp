@@ -25,7 +25,7 @@ namespace Engine
 	{
 		sf::Drawable* drawable = GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_text);
 		DrawableData data{ drawable, nullptr };
-		drawables.insert({ GetLayer(), data });
+		drawables[GetLayerAsIndex()].push_back(data);
 	}
 
 	void TextDrawableComponent::SetString(const char* val)

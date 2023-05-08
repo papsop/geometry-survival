@@ -40,7 +40,7 @@ namespace Engine
 	{
 		sf::Drawable* drawable = GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_sprite);
 		DrawableData data{ drawable, m_shader.get()};
-		drawables.insert({ GetLayer(), data });
+		drawables[GetLayerAsIndex()].push_back(data);
 	}
 
 	void SpriteDrawableComponent::SetFlipX(bool flip)

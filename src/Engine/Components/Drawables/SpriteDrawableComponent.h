@@ -9,7 +9,7 @@ namespace Engine
 	struct SpriteDrawableDef
 	{
 		const char* TextureName;
-		const char* ShaderName;
+		const char* ShaderName = nullptr;
 		view::Layer Layer;
 		math::Vec2 Size = {1.0f, 1.0f}; // in world coords
 		sf::Color Color = { 255, 255, 255, 255 };
@@ -33,5 +33,6 @@ namespace Engine
 		sf::Vector2f m_desiredPixelSize;
 		sf::Sprite m_sprite;
 		std::shared_ptr<sf::Texture> m_texture;
+		std::shared_ptr<sf::Shader> m_shader;
 	};
 }

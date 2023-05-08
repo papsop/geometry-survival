@@ -10,7 +10,12 @@ namespace Engine
 		, m_sprite()
 		, m_texture()
 	{
-		m_texture = ResourceManager::Get().LoadTextureResource(def.TextureName);
+		m_texture = ResourceManager::Get().GetTexture(def.TextureName);
+		if (def.ShaderName != nullptr)
+		{
+			m_shader = ResourceManager::Get().GetShader(def.ShaderName);
+		}
+		
 		m_sprite.setTexture(*m_texture);
 		m_sprite.setColor(def.Color);
 
@@ -34,7 +39,7 @@ namespace Engine
 	void SpriteDrawableComponent::GetDrawables(TDrawablesMap& drawables)
 	{
 		sf::Drawable* drawable = GetDrawableDataForRendering(Owner.GetTransform()->GetAbsoluteTransform(), &m_sprite);
-		DrawableData data{ drawable, nullptr };
+		DrawableData data{ drawable, m_shader.get()};
 		drawables.insert({ GetLayer(), data });
 	}
 

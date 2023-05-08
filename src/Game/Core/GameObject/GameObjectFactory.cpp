@@ -88,6 +88,7 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::EXPERIENCE_GLOBE;
 		spriteDef.TextureName = "textures/experience";
+		spriteDef.ShaderName = "shaders/test_shader";
 		spriteDef.Size = { 2.0f, 2.0f };
 
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Experience globe by factory", Engine::GameObjectTag::EXPERIENCE_GLOBE, transformDef);

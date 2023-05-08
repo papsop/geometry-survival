@@ -50,21 +50,19 @@ namespace Engine
 			// YAML won't let me access the graph pointers, 
 			// so it might be annoying to work with
 			// = For now let's only support TopLevel + resource
-
-			// TODO: We should be able to support multiple types
-			//   - texture:
-			//			name: bullet
-			//			path : sprites / bullet.png
-			// maybe use the "- texture" as a resourceType classifier
 			for (auto& node : assetList)
 			{
 				std::string topLevel = node.first.as<std::string>();
 				for (auto& subNode : assetList[topLevel])
 				{
-					std::string name = subNode["name"].as<std::string>();
-					std::string path = subNode["path"].as<std::string>();
-
-					m_resourceNamesToPaths[topLevel + "/" + name] = path;
+					if (subNode.IsMap())
+					{
+						auto resourceType = subNode["resource"].as<std::string>();
+						if (resourceType == "texture")
+							LoadTextureResourceYAML(topLevel, subNode);
+						else if (resourceType == "shader")
+							LoadShaderResourceYAML(topLevel, subNode);
+					}
 				}
 			}
 		}
@@ -74,36 +72,76 @@ namespace Engine
 		}
 	}
 
-	// Usage: LoadTextureResource("textures/player")
-	std::shared_ptr<sf::Texture> ResourceManager::LoadTextureResource(const char* name)
+	void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)
 	{
-		if (m_resourceNamesToPaths.find(name) == m_resourceNamesToPaths.end())
-		{
-			// TODO: pink texture
-			return nullptr;
-		}
+		auto name = node["name"].as<std::string>();
+		auto path = node["path"].as<std::string>();
 
-		std::string filePath = m_assetsFolder + m_resourceNamesToPaths[name];
+		auto fullResourceName = topLevel + "/" + name;
+		auto filePath = m_assetsFolder + path;
 
 		if (!std::filesystem::exists(filePath))
 		{
-			// TODO: pink texture
-			return nullptr;
+			LOG_ERROR("Unable to find file at '%s'", filePath.c_str());
+			return;
 		}
 
-		if (m_textures.find(filePath) == m_textures.end())
+		if (m_textures.find(fullResourceName) != m_textures.end())
 		{
-			std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-			texture->loadFromFile(filePath);
-			m_textures[filePath] = texture;
+			LOG_ERROR("Texture with name '%s' already loaded", fullResourceName.c_str());
+			return;
 		}
 
-		return m_textures[filePath];
+		auto texture = std::make_shared<sf::Texture>();
+		texture->loadFromFile(filePath);
+		m_textures[fullResourceName] = texture;
 	}
 
-	std::shared_ptr<sf::Shader> ResourceManager::LoadShaderResource(const char* name)
+	void ResourceManager::LoadShaderResourceYAML(std::string topLevel, YAML::Node& node)
 	{
-		return nullptr;
+		auto name = node["name"].as<std::string>();
+
+		auto fullResourceName = topLevel + "/" + name;
+
+		if (m_shaders.find(fullResourceName) != m_shaders.end())
+		{
+			LOG_ERROR("Shader with name '%s' already loaded", fullResourceName.c_str());
+			return;
+		}
+
+		auto shader = std::make_shared<sf::Shader>();
+		if (node["vertex_path"])
+		{
+			auto vertexPath = m_assetsFolder + node["vertex_path"].as<std::string>();
+			shader->loadFromFile(vertexPath, sf::Shader::Vertex);
+		}
+		if (node["fragment_path"])
+		{
+			auto fragmentPath = m_assetsFolder + node["fragment_path"].as<std::string>();
+			shader->loadFromFile(fragmentPath, sf::Shader::Fragment);
+		}
+		m_shaders[fullResourceName] = shader;
+	}
+
+	// Usage: LoadTextureResource("textures/player")
+	std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name)
+	{
+		if (m_textures.find(name) == m_textures.end())
+		{
+			LOG_ERROR("Unable to GetTexture with name '%s'", name);
+			return nullptr;
+		}
+		return m_textures[name];
+	}
+
+	std::shared_ptr<sf::Shader> ResourceManager::GetShader(const char* name)
+	{
+		if (m_shaders.find(name) == m_shaders.end())
+		{
+			LOG_ERROR("Unable to GetShader with name '%s'", name);
+			return nullptr;
+		}
+		return m_shaders[name];
 	}
 
 	void ResourceManager::Debug(VisualDebugContext& debugContext)

@@ -1,14 +1,18 @@
 ---
 textures:
-  - texture:
+  - resource: texture
     name: player
     path: sprites/player.png
-  - texture:
+  - resource: texture
     name: enemy1
     path: sprites/enemy.png
-  - texture:
+  - resource: texture
     name: experience
     path: sprites/exp.png
-  - texture:
+  - resource: texture
     name: bullet
     path: sprites/bullet.png
+shaders:
+  - resource: shader
+    name: test_shader
+    fragment_path: shaders/test.frag

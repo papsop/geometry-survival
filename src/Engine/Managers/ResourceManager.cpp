@@ -86,13 +86,16 @@ namespace Engine
 			return;
 		}
 
+		std::shared_ptr<sf::Texture> texture;
 		if (m_textures.find(fullResourceName) != m_textures.end())
 		{
-			LOG_ERROR("Texture with name '%s' already loaded", fullResourceName.c_str());
-			return;
+			texture = m_textures[fullResourceName];
+		}
+		else
+		{
+			texture = std::make_shared<sf::Texture>();
 		}
 
-		auto texture = std::make_shared<sf::Texture>();
 		texture->loadFromFile(filePath);
 		m_textures[fullResourceName] = texture;
 	}
@@ -102,14 +105,17 @@ namespace Engine
 		auto name = node["name"].as<std::string>();
 
 		auto fullResourceName = topLevel + "/" + name;
-
+		
+		std::shared_ptr<sf::Shader> shader;
 		if (m_shaders.find(fullResourceName) != m_shaders.end())
 		{
-			LOG_ERROR("Shader with name '%s' already loaded", fullResourceName.c_str());
-			return;
+			shader = m_shaders[fullResourceName];
+		}
+		else
+		{
+			shader = std::make_shared<sf::Shader>();
 		}
 
-		auto shader = std::make_shared<sf::Shader>();
 		if (node["vertex_path"])
 		{
 			auto vertexPath = m_assetsFolder + node["vertex_path"].as<std::string>();
@@ -187,7 +193,10 @@ namespace Engine
 				}
 				ImGui::EndTable();
 			}
-
+			if (ImGui::Button("Reload resources"))
+			{
+				LoadResourcesList();
+			}
 		}
 		ImGui::End();
 	}

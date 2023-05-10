@@ -85,7 +85,8 @@ namespace Engine
 		
 		// std::unordered_map< std::string, std::string > m_resourceNamesToPaths;
 
-		const char* m_assetListFilePath = "assets/assetlist.yaml";
+		const char* m_texturesIndexPath = "assets/textures_index.yaml";
+		const char* m_shadersIndexPath = "assets/shaders_index.yaml";
 		const char* m_assetsFolder = "assets/";
 
 		friend class Application;

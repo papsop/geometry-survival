@@ -1,0 +1,12 @@
+---
+# format:
+# <asset_name>:
+#   fragment_path: <path-to-shader-in-assets-folder>
+#   vertext_path: <path-to-shader-in-assets-folder>
+# ===
+# example:
+# test_shader:
+#   fragment_path: shaders/test.frag
+#   fragment_path: shaders/test.vert
+test_shader:
+ fragment_path: shaders/test.frag  

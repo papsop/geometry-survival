@@ -16,7 +16,10 @@ namespace Engine
 			m_shader = ResourceManager::Get().GetShader(def.ShaderName);
 		}
 		
-		m_sprite.setTexture(*m_texture);
+		if (m_texture)
+		{
+			m_sprite.setTexture(*m_texture);
+		}
 		m_sprite.setColor(def.Color);
 
 		auto localBounds = m_sprite.getLocalBounds();

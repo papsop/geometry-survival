@@ -39,37 +39,71 @@ namespace Engine
 	// ============================
 	void ResourceManager::LoadResourcesList()
 	{
-		DD_ASSERT(std::filesystem::exists(m_assetListFilePath), "Unable to find Assetlist, searching path '%s'", m_assetListFilePath);
-
-		try
+		// TODO: split into 2 functions?
+		// TexturesIndex
+		try 
 		{
-			YAML::Node assetList = YAML::LoadFile(m_assetListFilePath);
+			DD_ASSERT(std::filesystem::exists(m_texturesIndexPath), "Unable to find TexturesIndex, searching path '%s'", m_texturesIndexPath);
+			YAML::Node texturesList = YAML::LoadFile(m_texturesIndexPath);
 
-			// TODO: Any number of subnodes, some kind of graph 
-			// traversal to get all the paths to each resource
-			// YAML won't let me access the graph pointers, 
-			// so it might be annoying to work with
-			// = For now let's only support TopLevel + resource
-			for (auto& node : assetList)
+			for (auto& texture : texturesList)
 			{
-				std::string topLevel = node.first.as<std::string>();
-				for (auto& subNode : assetList[topLevel])
-				{
-					if (subNode.IsMap())
-					{
-						auto resourceType = subNode["resource"].as<std::string>();
-						if (resourceType == "texture")
-							LoadTextureResourceYAML(topLevel, subNode);
-						else if (resourceType == "shader")
-							LoadShaderResourceYAML(topLevel, subNode);
-					}
-				}
+				auto name = texture.first.as<std::string>();
+				auto path = texture.second["path"].as<std::string>();
+
+				std::cout << name << " = " << path << std::endl;
 			}
 		}
-		catch (std::exception e)
+		catch (const std::exception& e)
 		{
-			LOG_ERROR("Exception while parsing AssetList: %s", e.what());
+			LOG_ERROR("Exception while parsing TexturesIndex: %s", e.what());
+			std::cout << e.what() << std::endl;
 		}
+
+		// Shaders Index
+		try
+		{
+			DD_ASSERT(std::filesystem::exists(m_shadersIndexPath), "Unable to find ShadersIndex, searching path '%s'", m_shadersIndexPath);
+		}
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("Exception while parsing ShaderIndex: %s", e.what());
+		}
+	
+
+// 		try
+// 		{
+// 			YAML::Node assetList = YAML::LoadFile(m_assetListFilePath);
+// 
+// 			// TODO: Any number of subnodes, some kind of graph 
+// 			// traversal to get all the paths to each resource
+// 			// YAML won't let me access the graph pointers, 
+// 			// so it might be annoying to work with
+// 			// = For now let's only support TopLevel + resource
+// 			for (auto& topLevelNode : assetList)
+// 			{
+// 				std::string topLevel = topLevelNode.first.as<std::string>();
+// 				for (auto& subNode : topLevelNode.second)
+// 				{
+// 					auto nodeName = subNode.first.as<std::string>();
+// 					auto assetName = topLevel + "/" + nodeName;
+// 					auto& node = subNode.second;
+// 					std::cout << nodeName << std::endl;
+// // 					if (subNode.IsMap())
+// // 					{
+// // 						auto resourceType = subNode["resource"].as<std::string>();
+// // 						if (resourceType == "texture")
+// // 							LoadTextureResourceYAML(topLevel, subNode);
+// // 						else if (resourceType == "shader")
+// // 							LoadShaderResourceYAML(topLevel, subNode);
+// // 					}
+// 				}
+// 			}
+// 		}
+// 		catch (std::exception e)
+// 		{
+// 			LOG_ERROR("Exception while parsing AssetList: %s", e.what());
+// 		}
 	}
 
 	void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)

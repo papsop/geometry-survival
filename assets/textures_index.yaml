@@ -1,0 +1,16 @@
+---
+# format:
+# <asset_name>:
+#   path: <path-to-texture-in-assets-folder>
+# ===
+# example:
+# player:
+#   path: sprites/player.png
+player:
+  path: sprites/player.png
+enemy1:
+  path: sprites/enemy.png
+experience:
+  path: sprites/exp.png
+bullet:
+  path: sprites/bullet.png

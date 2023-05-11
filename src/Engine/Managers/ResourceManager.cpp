@@ -23,7 +23,14 @@ namespace Engine
 		m_dummyTexture = std::make_shared<sf::Texture>();
 		m_dummyTexture->loadFromImage(pinkImage);
 
-		// TODO: Dummy shader
+		// Dummy shader
+    const std::string fragmentShader = \
+      "void main()" \
+      "{" \
+      "    gl_FragColor = vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, gl_TexCoord[0].x, 1.0);" \
+      "}";
+		m_dummyShader = std::make_shared<sf::Shader>();
+		m_dummyShader->loadFromMemory(fragmentShader, sf::Shader::Fragment);
 
 		LoadResourcesList();
 	}
@@ -72,6 +79,24 @@ namespace Engine
 		try
 		{
 			DD_ASSERT(std::filesystem::exists(m_shadersIndexPath), "Unable to find ShadersIndex, searching path '%s'", m_shadersIndexPath);
+			YAML::Node shadersList = YAML::LoadFile(m_shadersIndexPath);
+
+			for (auto& shader : shadersList)
+			{
+				auto name = shader.first.as<std::string>();
+				std::string fragmentPath;
+				std::string vertexPath;
+				if (shader.second["fragment_path"])
+				{
+					fragmentPath = m_assetsFolder + shader.second["fragment_path"].as<std::string>();
+				}
+        if (shader.second["vertex_path"])
+        {
+          vertexPath = m_assetsFolder + shader.second["vertex_path"].as<std::string>();
+        }
+
+				m_shaders[name] = LoadShaderFromFiles(fragmentPath, vertexPath);
+			}
 		}
 		catch (const std::exception& e)
 		{
@@ -92,9 +117,27 @@ namespace Engine
 		return texture;
   }
 
-  std::shared_ptr<sf::Shader> ResourceManager::LoadTextureFromFile(std::string fragmentPath, std::string vertexPath)
+  std::shared_ptr<sf::Shader> ResourceManager::LoadShaderFromFiles(std::string fragmentPath, std::string vertexPath)
   {
-		return nullptr;
+    if (!fragmentPath.empty() && !std::filesystem::exists(fragmentPath))
+    {
+      LOG_ERROR("Unable to find fragment shader at '%s'", fragmentPath);
+			return m_dummyShader;
+    }
+    if (!vertexPath.empty() && !std::filesystem::exists(vertexPath))
+    {
+      LOG_ERROR("Unable to find vertex shader at '%s'", vertexPath);
+      return m_dummyShader;
+    }
+
+    std::shared_ptr<sf::Shader> shader = std::make_shared<sf::Shader>();
+    
+		if(!fragmentPath.empty())
+			shader->loadFromFile(fragmentPath, sf::Shader::Fragment);
+    if (!vertexPath.empty())
+      shader->loadFromFile(vertexPath, sf::Shader::Vertex);
+
+    return shader;
   }
 
   void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)

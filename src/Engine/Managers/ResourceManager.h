@@ -77,7 +77,7 @@ namespace Engine
 		void LoadResourcesList();
 
     std::shared_ptr<sf::Texture> LoadTextureFromFile(std::string filePath);
-    std::shared_ptr<sf::Shader> LoadTextureFromFile(std::string fragmentPath, std::string vertexPath);
+    std::shared_ptr<sf::Shader> LoadShaderFromFiles(std::string fragmentPath, std::string vertexPath);
 
 		void LoadTextureResourceYAML(std::string topLevel, YAML::Node& node);
 		void LoadShaderResourceYAML(std::string topLevel, YAML::Node& node);

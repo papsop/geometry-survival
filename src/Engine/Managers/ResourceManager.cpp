@@ -16,6 +16,15 @@ namespace Engine
 	void ResourceManager::VirtualOnInit()
 	{
 		IDebuggable::DebuggableOnInit();
+		
+		// Dummy image
+		sf::Image pinkImage;
+		pinkImage.create(16, 16, {255, 0, 127, 255});
+		m_dummyTexture = std::make_shared<sf::Texture>();
+		m_dummyTexture->loadFromImage(pinkImage);
+
+		// TODO: Dummy shader
+
 		LoadResourcesList();
 	}
 
@@ -49,15 +58,14 @@ namespace Engine
 			for (auto& texture : texturesList)
 			{
 				auto name = texture.first.as<std::string>();
-				auto path = texture.second["path"].as<std::string>();
+				auto path = m_assetsFolder + texture.second["path"].as<std::string>();
 
-				std::cout << name << " = " << path << std::endl;
+				m_textures[name] = LoadTextureFromFile(path);
 			}
 		}
 		catch (const std::exception& e)
 		{
 			LOG_ERROR("Exception while parsing TexturesIndex: %s", e.what());
-			std::cout << e.what() << std::endl;
 		}
 
 		// Shaders Index
@@ -69,44 +77,27 @@ namespace Engine
 		{
 			LOG_ERROR("Exception while parsing ShaderIndex: %s", e.what());
 		}
-	
-
-// 		try
-// 		{
-// 			YAML::Node assetList = YAML::LoadFile(m_assetListFilePath);
-// 
-// 			// TODO: Any number of subnodes, some kind of graph 
-// 			// traversal to get all the paths to each resource
-// 			// YAML won't let me access the graph pointers, 
-// 			// so it might be annoying to work with
-// 			// = For now let's only support TopLevel + resource
-// 			for (auto& topLevelNode : assetList)
-// 			{
-// 				std::string topLevel = topLevelNode.first.as<std::string>();
-// 				for (auto& subNode : topLevelNode.second)
-// 				{
-// 					auto nodeName = subNode.first.as<std::string>();
-// 					auto assetName = topLevel + "/" + nodeName;
-// 					auto& node = subNode.second;
-// 					std::cout << nodeName << std::endl;
-// // 					if (subNode.IsMap())
-// // 					{
-// // 						auto resourceType = subNode["resource"].as<std::string>();
-// // 						if (resourceType == "texture")
-// // 							LoadTextureResourceYAML(topLevel, subNode);
-// // 						else if (resourceType == "shader")
-// // 							LoadShaderResourceYAML(topLevel, subNode);
-// // 					}
-// 				}
-// 			}
-// 		}
-// 		catch (std::exception e)
-// 		{
-// 			LOG_ERROR("Exception while parsing AssetList: %s", e.what());
-// 		}
 	}
 
-	void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)
+  std::shared_ptr<sf::Texture> ResourceManager::LoadTextureFromFile(std::string filePath)
+  {
+		if (!std::filesystem::exists(filePath))
+		{
+			LOG_ERROR("Unable to find texture at '%s'", filePath);
+			return m_dummyTexture;
+		}
+
+		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
+		texture->loadFromFile(filePath);
+		return texture;
+  }
+
+  std::shared_ptr<sf::Shader> ResourceManager::LoadTextureFromFile(std::string fragmentPath, std::string vertexPath)
+  {
+		return nullptr;
+  }
+
+  void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)
 	{
 		auto name = node["name"].as<std::string>();
 		auto path = node["path"].as<std::string>();
@@ -163,14 +154,14 @@ namespace Engine
 		m_shaders[fullResourceName] = shader;
 	}
 
-	// Usage: LoadTextureResource("textures/player")
+	// Usage: LoadTextureResource("player")
 	std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name)
 	{
-		if (m_textures.find(name) == m_textures.end())
-		{
-			LOG_ERROR("Unable to GetTexture with name '%s'", name);
-			return nullptr;
-		}
+    if (m_textures.find(name) == m_textures.end())
+    {
+      LOG_ERROR("Unable to GetTexture with name '%s'", name);
+      return nullptr;
+    }
 		return m_textures[name];
 	}
 

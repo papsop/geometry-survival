@@ -75,6 +75,10 @@ namespace Engine
 
 	private:
 		void LoadResourcesList();
+
+    std::shared_ptr<sf::Texture> LoadTextureFromFile(std::string filePath);
+    std::shared_ptr<sf::Shader> LoadTextureFromFile(std::string fragmentPath, std::string vertexPath);
+
 		void LoadTextureResourceYAML(std::string topLevel, YAML::Node& node);
 		void LoadShaderResourceYAML(std::string topLevel, YAML::Node& node);
 		ResourceManager() = default;
@@ -82,7 +86,9 @@ namespace Engine
 		//std::map< uint32_t, void* > m_resourceContainers;
 		std::unordered_map < std::string, std::shared_ptr<sf::Texture> > m_textures;
 		std::unordered_map < std::string, std::shared_ptr<sf::Shader> > m_shaders;
-		
+	
+		std::shared_ptr<sf::Texture> m_dummyTexture;
+		std::shared_ptr<sf::Shader>  m_dummyShader;
 		// std::unordered_map< std::string, std::string > m_resourceNamesToPaths;
 
 		const char* m_texturesIndexPath = "assets/textures_index.yaml";

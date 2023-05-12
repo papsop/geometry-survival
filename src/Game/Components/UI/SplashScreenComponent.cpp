@@ -1,6 +1,5 @@
 #include "SplashScreenComponent.h"
 #include <Engine/Managers/SceneManager.h>
-#include <Engine/Managers/UIManager.h>
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Application.h>
 

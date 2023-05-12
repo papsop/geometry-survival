@@ -2,7 +2,6 @@
 
 #include "../Debug/Logger.h"
 #include "../Managers/ViewManager.h"
-#include "../Managers/UIManager.h"
 #include "../Application.h"
 
 #include <SFML/Graphics.hpp>

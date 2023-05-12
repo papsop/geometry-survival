@@ -19,6 +19,7 @@ namespace Engine
   class ConfigManager;
 	class ResourceManager;
 	class RenderManager;
+	class EditorManager;
 
   class Application : public IEventListener<event::E_SFMLEvent>
   {
@@ -40,6 +41,7 @@ namespace Engine
       ConfigManager& GetConfigManager();
 			ResourceManager& GetResourceManager();
 			RenderManager& GetRenderManager();
+      EditorManager& GetEditorManager();
 
       // Game managers
       template<typename T,
@@ -79,6 +81,7 @@ namespace Engine
       std::unique_ptr<ConfigManager> m_configManager;
 			std::unique_ptr<ResourceManager> m_resourceManager;
 			std::unique_ptr<RenderManager> m_renderManager;
+      std::unique_ptr<EditorManager> m_editorManager;
 
       std::map< uint32_t, std::unique_ptr<IManager> > m_managers;
       std::vector< std::function<void()> > m_endOfFrameDeferredActions;

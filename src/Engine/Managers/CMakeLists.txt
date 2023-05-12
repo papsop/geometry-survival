@@ -1,5 +1,6 @@
 set(SOURCES
 	IManager.h
+	IManager.cpp
 
 	EventManager.h
 	EventManager.inl
@@ -23,6 +24,8 @@ set(SOURCES
 	ResourceManager.cpp
 	RenderManager.h
 	RenderManager.cpp
+	EditorManager.h
+	EditorManager.cpp
 
 	Config/IConfigurable.h
 	ResourceTypes.h

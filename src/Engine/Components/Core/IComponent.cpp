@@ -3,7 +3,6 @@
 #include "../../Core/GameObject/GameObject.h"
 #include "../../Application.h"
 #include "../../Managers/RenderManager.h"
-#include "../../Managers/UIManager.h"
 
 #include "../../ImGui/imgui.h"
 namespace Engine

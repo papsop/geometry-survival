@@ -33,4 +33,14 @@ namespace Engine
 
 	friend class Application; // only application should be able to init/destroy managers
 	};
+
+	class IManagerEditorWindow : public IManager
+	{
+	public:
+		IManagerEditorWindow() = default;
+		~IManagerEditorWindow() = default;
+
+		void OnInit();
+		void OnDestroy();
+	};
 };

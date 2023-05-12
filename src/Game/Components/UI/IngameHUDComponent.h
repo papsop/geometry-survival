@@ -1,7 +1,6 @@
 #pragma once
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
-#include <Engine/Managers/UIManager.h>
 #include <Engine/Core/Events.h>
 #include <Engine/Core/EventData.h>
 

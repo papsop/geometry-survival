@@ -18,6 +18,7 @@
 #include "Managers/GameObjectManager.h"
 #include "Managers/ResourceManager.h"
 #include "Managers/RenderManager.h"
+#include "Managers/EditorManager.h"
 
 #include <iostream>
 #include <type_traits>
@@ -80,6 +81,11 @@ namespace Engine
 		GET_MANAGER_HELPER("RenderManager", *m_renderManager);
 	}
 
+	EditorManager& Application::GetEditorManager()
+	{
+		GET_MANAGER_HELPER("EditorManager", *m_editorManager);
+	}
+
 	// ===========================================================
   // Application stuff
   // ===========================================================
@@ -108,6 +114,7 @@ namespace Engine
     CREATE_MANAGER(ConfigManager, m_configManager);
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
 		CREATE_MANAGER(RenderManager, m_renderManager);
+		CREATE_MANAGER(EditorManager, m_editorManager);
   }
 
   void Application::EndOfFrame()
@@ -178,6 +185,7 @@ namespace Engine
     LOG_INFO("Creating managers");
     CreateManagers();
     LOG_INFO("Initializing managers");
+    m_editorManager->OnInit();
     m_configManager->OnInit();
 		m_configManager->LoadCvarsFromFile();
     m_renderManager->OnInit(); // needs to be initialed for all the debuggables
@@ -237,6 +245,7 @@ namespace Engine
 		m_resourceManager->OnDestroy();
     m_renderManager->OnDestroy();
     m_configManager->OnDestroy();
+    m_editorManager->OnDestroy();
     LOG_INFO("Destroying complete");
   }
 

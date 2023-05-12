@@ -1,7 +1,6 @@
 #pragma once
 #include <Engine/Components/Core.h>
 #include <Engine/Core/GameObject/GameObject.h>
-#include <Engine/Managers/UIManager.h>
 #include "../../Skills/ISkill.h"
 
 namespace Game

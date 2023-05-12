@@ -1,8 +1,9 @@
 #pragma once
 #include "IManager.h"
-#include "../Managers/ViewManager.h"
-#include "../Managers/EventManager.h"
+#include "EventManager.h"
+#include "RenderManager.h"
 #include "../Core/Events.h"
+
 
 #include <SFML/Window.hpp>
 #include <array>

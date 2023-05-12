@@ -10,7 +10,6 @@
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/ComponentManager.h>
 
-#include <Engine/Components/View.h>
 #include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>

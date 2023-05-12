@@ -1,6 +1,5 @@
 #include "MainMenuScreenComponent.h"
 #include <Engine/Application.h>
-#include <Engine/Managers/ViewManager.h>
 #include "../../Managers/GameManager.h"
 #include "Controllers/MainMenuUIControllerComponent.h"
 

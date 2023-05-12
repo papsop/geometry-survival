@@ -1,6 +1,5 @@
 #include "SkillPickerScreenComponent.h"
 #include <Engine/Application.h>
-#include <Engine/Managers/ViewManager.h>
 
 #include "../../Skills/Skill_AmmoStealer.h"
 #include "../../Skills/Skill_AmmoPiercer.h"

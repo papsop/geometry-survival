@@ -1,7 +1,6 @@
 #include "InputComponent.h"
 
 #include <Engine/Application.h>
-#include <Engine/Managers/ViewManager.h>
 #include <Engine/Managers/RenderManager.h>
 #include <Engine/Managers/ComponentManager.h>
 

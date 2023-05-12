@@ -2,7 +2,6 @@
 
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Components/Physics.h>
-#include <Engine/Components/View.h>
 #include <Engine/Components/Drawables/ShapeDrawableComponent.h>
 #include <Engine/Components/Drawables/TextDrawableComponent.h>
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
@@ -72,14 +71,8 @@ namespace Game
 		physBodyDef.CategoryBits = physics::EntityCategory::PICKABLE;
 		physBodyDef.MaskBits = physics::EntityMask::M_PICKABLE;
 
-		Engine::ShapeViewDef shapeViewDef;
-		shapeViewDef.Color = sf::Color::White;
-		shapeViewDef.PointCount = 10;
-		shapeViewDef.Radius = .5;
-		shapeViewDef.Layer = Engine::view::Layer::EXPERIENCE_GLOBE;
-
 		Engine::CircleFixtureDef circleFixtureDef;
-		circleFixtureDef.Radius = shapeViewDef.Radius;
+		circleFixtureDef.Radius = .5;
 		circleFixtureDef.IsSensor = true;
 
 		Engine::ITransform::TransformDefinition transformDef;

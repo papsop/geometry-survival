@@ -1,7 +1,6 @@
 set(SOURCES
 	Core.h
 	Physics.h
-	View.h
 	UI.h
 
 	Core/Transform_old.h
@@ -26,13 +25,6 @@ set(SOURCES
 	Physics/RectangleFixtureComponent.cpp
 	Physics/TriangleFixtureComponent.h
 	Physics/TriangleFixtureComponent.cpp
-
-	View/ShapeViewComponent.h
-	View/ShapeViewComponent.cpp
-	View/RectangleViewComponent.h
-	View/RectangleViewComponent.cpp
-	View/TextViewComponent.h
-	View/TextViewComponent.cpp
 
 	Drawables/ShapeDrawableComponent.h
 	Drawables/ShapeDrawableComponent.cpp

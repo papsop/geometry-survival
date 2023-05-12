@@ -16,32 +16,13 @@ namespace Engine
 	void ResourceManager::VirtualOnInit()
 	{
 		IDebuggable::DebuggableOnInit();
-		
-		// Dummy image
-		sf::Image pinkImage;
-		pinkImage.create(16, 16, {255, 0, 127, 255});
-		m_dummyTexture = std::make_shared<sf::Texture>();
-		m_dummyTexture->loadFromImage(pinkImage);
-
-		// Dummy shader
-    const std::string fragmentShader = \
-      "void main()" \
-      "{" \
-      "    gl_FragColor = vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, gl_TexCoord[0].x, 1.0);" \
-      "}";
-		m_dummyShader = std::make_shared<sf::Shader>();
-		m_dummyShader->loadFromMemory(fragmentShader, sf::Shader::Fragment);
-
+		GenerateDummyResources();
 		LoadResourcesList();
 	}
 
 	void ResourceManager::VirtualOnDestroy()
 	{
 		IDebuggable::DebuggableOnDestroy();
-// 		for (auto& container : m_resourceContainers)
-// 		{
-// 			delete container.second;
-// 		}
 	}
 
 
@@ -50,12 +31,29 @@ namespace Engine
 		return Application::Instance().GetResourceManager();
 	}
 
+  void ResourceManager::GenerateDummyResources()
+  {
+    // Dummy image
+    sf::Image pinkImage;
+    pinkImage.create(16, 16, { 255, 0, 127, 255 });
+    m_dummyTexture = std::make_shared<sf::Texture>();
+    m_dummyTexture->loadFromImage(pinkImage);
+
+    // Dummy shader
+    const std::string fragmentShader = \
+      "void main()" \
+      "{" \
+      "    gl_FragColor = vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, gl_TexCoord[0].x, 1.0);" \
+      "}";
+    m_dummyShader = std::make_shared<sf::Shader>();
+    m_dummyShader->loadFromMemory(fragmentShader, sf::Shader::Fragment);
+  }
+
 	// ============================
 	// Resource loading
 	// ============================
 	void ResourceManager::LoadResourcesList()
 	{
-		// TODO: split into 2 functions?
 		// TexturesIndex
 		try 
 		{
@@ -67,7 +65,14 @@ namespace Engine
 				auto name = texture.first.as<std::string>();
 				auto path = m_assetsFolder + texture.second["path"].as<std::string>();
 
-				m_textures[name] = LoadTextureFromFile(path);
+				std::shared_ptr<sf::Texture> loadedTexture = LoadTextureFromFile(path);
+				if (!loadedTexture)
+				{
+					LOG_ERROR("Unable to load texture '%s' at '%s", name, path);
+					continue; // gg go next
+				}
+
+				m_textures[name] = loadedTexture;
 			}
 		}
 		catch (const std::exception& e)
@@ -75,7 +80,7 @@ namespace Engine
 			LOG_ERROR("Exception while parsing TexturesIndex: %s", e.what());
 		}
 
-		// Shaders Index
+		// ShadersIndex
 		try
 		{
 			DD_ASSERT(std::filesystem::exists(m_shadersIndexPath), "Unable to find ShadersIndex, searching path '%s'", m_shadersIndexPath);
@@ -95,7 +100,14 @@ namespace Engine
           vertexPath = m_assetsFolder + shader.second["vertex_path"].as<std::string>();
         }
 
-				m_shaders[name] = LoadShaderFromFiles(fragmentPath, vertexPath);
+				std::shared_ptr<sf::Shader> loadedShader = LoadShaderFromFiles(fragmentPath, vertexPath);
+				if (!loadedShader)
+				{
+					LOG_ERROR("Unable to load shader '%s' at [frag: '%s', vertex: '%s']", name, fragmentPath, vertexPath);
+					continue; // gg go next
+				}
+
+				m_shaders[name] = loadedShader;
 			}
 		}
 		catch (const std::exception& e)
@@ -108,7 +120,7 @@ namespace Engine
   {
 		if (!std::filesystem::exists(filePath))
 		{
-			LOG_ERROR("Unable to find texture at '%s'", filePath);
+			LOG_ERROR("Unable to find texture at '%s', using dummyTexture", filePath);
 			return m_dummyTexture;
 		}
 
@@ -121,12 +133,12 @@ namespace Engine
   {
     if (!fragmentPath.empty() && !std::filesystem::exists(fragmentPath))
     {
-      LOG_ERROR("Unable to find fragment shader at '%s'", fragmentPath);
+      LOG_ERROR("Unable to find fragment shader at '%s', using dummyShader", fragmentPath);
 			return m_dummyShader;
     }
     if (!vertexPath.empty() && !std::filesystem::exists(vertexPath))
     {
-      LOG_ERROR("Unable to find vertex shader at '%s'", vertexPath);
+      LOG_ERROR("Unable to find vertex shader at '%s', using dummyShader", vertexPath);
       return m_dummyShader;
     }
 
@@ -140,70 +152,13 @@ namespace Engine
     return shader;
   }
 
-  void ResourceManager::LoadTextureResourceYAML(std::string topLevel, YAML::Node& node)
-	{
-		auto name = node["name"].as<std::string>();
-		auto path = node["path"].as<std::string>();
-
-		auto fullResourceName = topLevel + "/" + name;
-		auto filePath = m_assetsFolder + path;
-
-		if (!std::filesystem::exists(filePath))
-		{
-			LOG_ERROR("Unable to find file at '%s'", filePath.c_str());
-			return;
-		}
-
-		std::shared_ptr<sf::Texture> texture;
-		if (m_textures.find(fullResourceName) != m_textures.end())
-		{
-			texture = m_textures[fullResourceName];
-		}
-		else
-		{
-			texture = std::make_shared<sf::Texture>();
-		}
-
-		texture->loadFromFile(filePath);
-		m_textures[fullResourceName] = texture;
-	}
-
-	void ResourceManager::LoadShaderResourceYAML(std::string topLevel, YAML::Node& node)
-	{
-		auto name = node["name"].as<std::string>();
-
-		auto fullResourceName = topLevel + "/" + name;
-		
-		std::shared_ptr<sf::Shader> shader;
-		if (m_shaders.find(fullResourceName) != m_shaders.end())
-		{
-			shader = m_shaders[fullResourceName];
-		}
-		else
-		{
-			shader = std::make_shared<sf::Shader>();
-		}
-
-		if (node["vertex_path"])
-		{
-			auto vertexPath = m_assetsFolder + node["vertex_path"].as<std::string>();
-			shader->loadFromFile(vertexPath, sf::Shader::Vertex);
-		}
-		if (node["fragment_path"])
-		{
-			auto fragmentPath = m_assetsFolder + node["fragment_path"].as<std::string>();
-			shader->loadFromFile(fragmentPath, sf::Shader::Fragment);
-		}
-		m_shaders[fullResourceName] = shader;
-	}
-
-	// Usage: LoadTextureResource("player")
+	// Usage: GetTexture("player")
 	std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name)
 	{
     if (m_textures.find(name) == m_textures.end())
     {
-      LOG_ERROR("Unable to GetTexture with name '%s'", name);
-      return nullptr;
+      LOG_ERROR("Unable to GetTexture with name '%s', using dummyTexture", name);
+      return m_dummyTexture;
     }
 		return m_textures[name];
 	}
@@ -213,7 +168,7 @@ namespace Engine
 		if (m_shaders.find(name) == m_shaders.end())
 		{
 			LOG_ERROR("Unable to GetShader with name '%s'", name);
-			return nullptr;
+			return m_dummyShader;
 		}
 		return m_shaders[name];
 	}
@@ -267,16 +222,5 @@ namespace Engine
 			}
 		}
 		ImGui::End();
-	}
-
-	// ============================
-	template<>
-	TextureResource ResourceContainer<TextureResource>::LoadResourceImpl(const char* name)
-	{
-		// TODO: actually load a template
-		TextureResource resource;
-		resource.Texture = sf::Texture();
-		resource.FilePath = name;
-		return resource;
 	}
 }

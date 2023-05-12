@@ -1,7 +1,6 @@
 #include "IngameMenuComponent.h"
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/UIManager.h>
-#include <Engine/Managers/ViewManager.h>
 #include <Engine/Application.h>
 #include <Engine/ImGui/imgui.h>
 

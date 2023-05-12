@@ -14,7 +14,6 @@ namespace Game
 
 	void EnemyStunnedState::OnTransitionIn()
 	{
-		m_shapeViewComponent = m_parentGameObject.GetComponent<Engine::ShapeViewComponent>();
 		m_parentGameObject.GetComponent<ActorComponent>()->AddCommand<MoveCommand>(0.0f,0.0f);
 		
 		//m_previousColor = m_shapeViewComponent->GetRenderable().shape.Color;

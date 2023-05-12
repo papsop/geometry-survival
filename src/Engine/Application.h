@@ -37,7 +37,6 @@ namespace Engine
       GameObjectManager& GetGameObjectManager();
       SceneManager& GetSceneManager();
       PhysicsManager& GetPhysicsManager();
-      ViewManager& GetViewManager();
       ComponentManager& GetComponentManager();
       ConfigManager& GetConfigManager();
       UIManager& GetUIManager();
@@ -78,7 +77,6 @@ namespace Engine
       std::unique_ptr<GameObjectManager> m_gameObjectManager;
       std::unique_ptr<SceneManager> m_sceneManager;
       std::unique_ptr<PhysicsManager> m_physicsManager;
-      std::unique_ptr<ViewManager> m_viewManager;
       std::unique_ptr<ComponentManager> m_componentManager;
       std::unique_ptr<ConfigManager> m_configManager;
 			std::unique_ptr<UIManager> m_uiManager;

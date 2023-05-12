@@ -61,11 +61,6 @@ namespace Engine
     GET_MANAGER_HELPER("PhysicsManager", *m_physicsManager);
   }
 
-  ViewManager& Application::GetViewManager()
-  {
-    GET_MANAGER_HELPER("ViewManager", *m_viewManager);
-  }
-
   ComponentManager& Application::GetComponentManager()
   {
     GET_MANAGER_HELPER("ComponentManager", *m_componentManager);
@@ -115,7 +110,6 @@ namespace Engine
     CREATE_MANAGER(GameObjectManager, m_gameObjectManager);
     CREATE_MANAGER(SceneManager, m_sceneManager);
     CREATE_MANAGER(PhysicsManager, m_physicsManager);
-    //CREATE_MANAGER(ViewManager, m_viewManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
 		CREATE_MANAGER(UIManager, m_uiManager);

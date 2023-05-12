@@ -4,7 +4,6 @@
 #include "Controllers/IngameUIControllerComponent.h"
 #include <Engine/Application.h>
 #include <Engine/ImGui/imgui.h>
-#include <Engine/Managers/ViewManager.h>
 
 namespace Game
 {

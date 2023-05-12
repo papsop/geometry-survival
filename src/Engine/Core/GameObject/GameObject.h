@@ -2,7 +2,6 @@
 #include "../../Debug/Logger.h"
 #include "../../Components/Core.h"
 #include "../../Components/Physics.h"
-#include "../../Components/View.h"
 #include "../../Utils/IdGenerator.h"
 #include "GameObjectTag.h"
 

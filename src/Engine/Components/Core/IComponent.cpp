@@ -2,7 +2,6 @@
 
 #include "../../Core/GameObject/GameObject.h"
 #include "../../Application.h"
-#include "../../Managers/ViewManager.h"
 #include "../../Managers/RenderManager.h"
 #include "../../Managers/UIManager.h"
 

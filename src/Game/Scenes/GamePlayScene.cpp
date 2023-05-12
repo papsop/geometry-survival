@@ -6,7 +6,6 @@
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Core/Serializing/SceneSerializer.h>
 
-#include <Engine/Components/View.h>
 #include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
@@ -39,12 +38,6 @@ namespace Game
     gameMenuScene.InstantiateObjects();
 
     // ===================================================
-
-    Engine::ShapeViewDef shapeViewDef;
-    shapeViewDef.Color = sf::Color::Green;
-    shapeViewDef.PointCount = 3;
-    shapeViewDef.Radius = 2;
-
     Engine::PhysicsBodyDef physBodyDef;
     physBodyDef.BodyType = b2_dynamicBody;
     physBodyDef.CategoryBits = 0x1;
@@ -54,7 +47,6 @@ namespace Game
 
     Engine::CircleFixtureDef circleFixtureDef;
     circleFixtureDef.Radius = 2.0f;
-    shapeViewDef.Layer = Engine::view::Layer::PLAYER;
 
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
@@ -69,12 +61,6 @@ namespace Game
 
     physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
     physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
-    shapeViewDef.Color = sf::Color::Red;
-
-    Engine::ShapeViewDef shapeViewDef2;
-    shapeViewDef2.Color = sf::Color::Magenta;
-    shapeViewDef2.PointCount = 7;
-    shapeViewDef2.Radius = 25.0f;
 
     // ================== Enemy spawner ==================
     auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);

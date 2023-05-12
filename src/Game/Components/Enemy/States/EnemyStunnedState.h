@@ -2,8 +2,6 @@
 #include "../EnemyComponent.h"
 #include "../../Actor/RPGComponent.h"
 
-#include <Engine/Components/View/ShapeViewComponent.h>
-
 namespace Game
 {
 	class EnemyStunnedState : public Engine::IState<EnemyAIStates>
@@ -17,8 +15,6 @@ namespace Game
 		void OnTransitionOut() override;
 
 	private:
-		Engine::ShapeViewComponent* m_shapeViewComponent;
-
 		sf::Color m_previousColor;
 		float m_duration;
 	};

@@ -1,5 +1,4 @@
 #include "Actor_Stunned.h"
-#include <Engine/Components/View.h>
 
 namespace Game
 {

@@ -18,8 +18,6 @@ set(SOURCES
 	ComponentManager.cpp
 	ConfigManager.h
 	ConfigManager.cpp
-	UIManager.h
-	UIManager.cpp
 	ResourceManager.h
 	ResourceManager.inl
 	ResourceManager.cpp

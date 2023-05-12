@@ -17,7 +17,6 @@ namespace Engine
   class ViewManager;
   class ComponentManager;
   class ConfigManager;
-  class UIManager;
 	class ResourceManager;
 	class RenderManager;
 
@@ -39,7 +38,6 @@ namespace Engine
       PhysicsManager& GetPhysicsManager();
       ComponentManager& GetComponentManager();
       ConfigManager& GetConfigManager();
-      UIManager& GetUIManager();
 			ResourceManager& GetResourceManager();
 			RenderManager& GetRenderManager();
 
@@ -79,7 +77,6 @@ namespace Engine
       std::unique_ptr<PhysicsManager> m_physicsManager;
       std::unique_ptr<ComponentManager> m_componentManager;
       std::unique_ptr<ConfigManager> m_configManager;
-			std::unique_ptr<UIManager> m_uiManager;
 			std::unique_ptr<ResourceManager> m_resourceManager;
 			std::unique_ptr<RenderManager> m_renderManager;
 

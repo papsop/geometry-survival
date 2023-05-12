@@ -15,7 +15,6 @@
 #include "Managers/EventManager.h"
 #include "Managers/SceneManager.h"
 #include "Managers/PhysicsManager.h"
-#include "Managers/UIManager.h"
 #include "Managers/GameObjectManager.h"
 #include "Managers/ResourceManager.h"
 #include "Managers/RenderManager.h"
@@ -71,11 +70,6 @@ namespace Engine
     GET_MANAGER_HELPER("ConfigManager", *m_configManager);
   }
 
-	UIManager& Application::GetUIManager()
-	{
-		GET_MANAGER_HELPER("UIManager", *m_uiManager);
-  }
-
 	ResourceManager& Application::GetResourceManager()
 	{
 		GET_MANAGER_HELPER("ResourceManager", *m_resourceManager);
@@ -112,7 +106,6 @@ namespace Engine
     CREATE_MANAGER(PhysicsManager, m_physicsManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
-		CREATE_MANAGER(UIManager, m_uiManager);
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
 		CREATE_MANAGER(RenderManager, m_renderManager);
   }
@@ -187,10 +180,8 @@ namespace Engine
     LOG_INFO("Initializing managers");
     m_configManager->OnInit();
 		m_configManager->LoadCvarsFromFile();
-		m_uiManager->OnInit();
     m_renderManager->OnInit(); // needs to be initialed for all the debuggables
     m_resourceManager->OnInit();
-		//m_viewManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
 	  m_sceneManager->OnInit();
@@ -198,11 +189,7 @@ namespace Engine
     m_gameObjectManager->OnInit();
     LOG_INFO("Initializing complete");
     IEventListener<event::E_SFMLEvent>::RegisterListener();
-    // Let the game create it's subsystems
-    //injection.RegisterGameComponents(*this);
 
-    // Create and set ViewStrategy
-	  //m_viewManager->SetViewStrategy(new view::WindowViewStrategy(*m_viewManager));
     // Let the game initialize scene/gameobjects/etc.
     injection.BeforeGameLoop(*this);
 
@@ -233,7 +220,6 @@ namespace Engine
       UpdateGameplay(elapsedSeconds);
 
       // Rendering
-      //m_viewManager->Update(elapsedSeconds);
       m_renderManager->Update(elapsedSeconds);
 
       EndOfFrame();
@@ -248,8 +234,6 @@ namespace Engine
     m_sceneManager->OnDestroy();
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
-		//m_viewManager->OnDestroy();
-    m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_renderManager->OnDestroy();
     m_configManager->OnDestroy();

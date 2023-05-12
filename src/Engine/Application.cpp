@@ -15,7 +15,6 @@
 #include "Managers/EventManager.h"
 #include "Managers/SceneManager.h"
 #include "Managers/PhysicsManager.h"
-#include "Managers/UIManager.h"
 #include "Managers/GameObjectManager.h"
 #include "Managers/ResourceManager.h"
 #include "Managers/RenderManager.h"
@@ -71,11 +70,6 @@ namespace Engine
     GET_MANAGER_HELPER("ConfigManager", *m_configManager);
   }
 
-	UIManager& Application::GetUIManager()
-	{
-		GET_MANAGER_HELPER("UIManager", *m_uiManager);
-  }
-
 	ResourceManager& Application::GetResourceManager()
 	{
 		GET_MANAGER_HELPER("ResourceManager", *m_resourceManager);
@@ -112,7 +106,6 @@ namespace Engine
     CREATE_MANAGER(PhysicsManager, m_physicsManager);
     CREATE_MANAGER(ComponentManager, m_componentManager);
     CREATE_MANAGER(ConfigManager, m_configManager);
-		CREATE_MANAGER(UIManager, m_uiManager);
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
 		CREATE_MANAGER(RenderManager, m_renderManager);
   }
@@ -187,7 +180,6 @@ namespace Engine
     LOG_INFO("Initializing managers");
     m_configManager->OnInit();
 		m_configManager->LoadCvarsFromFile();
-		m_uiManager->OnInit();
     m_renderManager->OnInit(); // needs to be initialed for all the debuggables
     m_resourceManager->OnInit();
 		//m_viewManager->OnInit();
@@ -249,7 +241,6 @@ namespace Engine
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
 		//m_viewManager->OnDestroy();
-    m_uiManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_renderManager->OnDestroy();
     m_configManager->OnDestroy();

@@ -20,7 +20,6 @@ add_subdirectory(Debug)
 add_subdirectory(Components)
 add_subdirectory(Utils)
 add_subdirectory(Core)
-add_subdirectory(UI)
 add_subdirectory(ImGui)
 
 # PRIVATE because we don't want to propagate

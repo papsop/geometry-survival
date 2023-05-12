@@ -8,6 +8,7 @@
 #include "../../Managers/ViewLayers.h"
 #include "../../Core/EventData.h"
 #include "../../Core/Events.h"
+#include "../../ImGui/imgui.h"
 
 #include <functional>
 #include <iostream>
@@ -165,7 +166,7 @@ namespace Engine
     virtual void Update(float dt) {};
   protected:
     void InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative, math::Vec2 pivot = {0.0f,0.0f});
-
+    ImGuiWindowFlags m_staticUIFlags = ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav | ImGuiWindowFlags_NoDocking | ImGuiWindowFlags_NoCollapse | ImGuiWindowFlags_NoTitleBar;
   };
 
 	template<typename T>

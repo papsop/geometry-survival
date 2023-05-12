@@ -88,8 +88,10 @@ namespace Engine
 	void IImGuiComponent::InitializeOverlayWindow(const char* name, math::Vec2 RelativePos, math::Vec2 Size, bool IsSizeRelative, math::Vec2 pivot)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
-		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(work_size.x * RelativePos.x, work_size.y * RelativePos.y), ImGuiCond_Always, ImVec2(pivot.x, pivot.y));
+		ImVec2 work_size = viewport->WorkSize;		
+		ImVec2 work_pos = viewport->WorkPos;
+
+		ImGui::SetNextWindowPos(ImVec2(work_pos.x + work_size.x * RelativePos.x, work_pos.y + work_size.y * RelativePos.y), ImGuiCond_Always, ImVec2(pivot.x, pivot.y));
 		if (IsSizeRelative)
 		{
 			ImGui::SetNextWindowSize(ImVec2(work_size.x * Size.x, work_size.y * Size.y));

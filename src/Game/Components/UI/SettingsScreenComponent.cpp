@@ -62,13 +62,13 @@ namespace Game
 		// Center window
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
-		ImGui::SetNextWindowPos(ImVec2(work_size.x * 0.5f, work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
+		ImVec2 work_pos = viewport->WorkPos;
+		ImGui::SetNextWindowPos(ImVec2(work_pos.x + work_size.x * 0.5f, work_pos.y + work_size.y * 0.5f), ImGuiCond_Always, ImVec2(0.5f, 0.5f));
 		ImGui::SetNextWindowBgAlpha(0.35f); // Transparent background
-		ImGuiWindowFlags window_flags = ImGuiWindowFlags_NoDecoration | ImGuiWindowFlags_AlwaysAutoResize | ImGuiWindowFlags_NoSavedSettings | ImGuiWindowFlags_NoFocusOnAppearing | ImGuiWindowFlags_NoNav |
-			ImGuiWindowFlags_NoDocking;
 
-		if (ImGui::Begin("Settings", NULL, window_flags))
+		if (ImGui::Begin("Settings", NULL, m_staticUIFlags))
 		{
+			ImGui::Text("Settings\n");
 			ImGuiComboFlags flags = 0;
 			const char* comboPreview = m_resolutions[m_selectedResolution].Name;
 			if (ImGui::BeginCombo("Resolution", comboPreview, flags))

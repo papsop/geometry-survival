@@ -39,7 +39,6 @@ namespace Engine
 		~RenderManager() = default;
 
 		void Update(float dt) override;
-		void Render(float dt);
 
 		void PollEvents();
 		sf::Vector2f GetMousePosition();
@@ -93,5 +92,7 @@ namespace Engine
 
 		RenderManager();
 		void RenderDebugDraw(float dt);
+		void RenderDrawables(float dt);
+		void RenderImGui(float dt);
 	};
 }

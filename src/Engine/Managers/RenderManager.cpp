@@ -98,14 +98,14 @@ namespace Engine
 
 	void RenderManager::ReloadWindow()
 	{
-		if(m_window)
+		if (m_window)
 			ImGui::SFML::Shutdown(); // before we destroy the old window
 
 		sf::ContextSettings settings;
 		settings.antialiasingLevel = 8;
 		sf::VideoMode videoMode(m_currentSettings.ResolutionEntry.Value.x, m_currentSettings.ResolutionEntry.Value.y, 32);
 		uint32 style = sf::Style::Titlebar | sf::Style::Close;
-		if(m_currentSettings.Fullscreen)
+		if (m_currentSettings.Fullscreen)
 			style = sf::Style::Fullscreen;
 
 		m_window = std::make_unique<sf::RenderWindow>(videoMode, "test", style, settings);
@@ -113,7 +113,7 @@ namespace Engine
 		m_debugContext.SetRenderWindow(m_window.get());
 
 		ImGui::SFML::Init(*m_window);
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable | ImGuiConfigFlags_ViewportsEnable;
 	}
 
 	void RenderManager::DestroyWindow()
@@ -144,9 +144,10 @@ namespace Engine
 
 	void RenderManager::Update(float dt)
 	{
-		if (m_window)
-			ImGui::SFML::Update(*m_window, sf::seconds(dt));
+		if (!m_window)
+			return;
 
+		// Just an update of components, not rendering yet
 		for (auto& c : m_drawableComponents)
 		{
 			if (c->ShouldUpdate())
@@ -155,23 +156,16 @@ namespace Engine
 			}
 		}
 
-		for (auto& c : m_imGuiComponents)
-		{
-			if (c->ShouldUpdate())
-			{
-				c->Update(dt);
-			}
-		}
-
-		Render(dt);
-	}
-
-	void RenderManager::Render(float dt)
-	{
-		if (!m_window)
-			return;
 		m_window->clear();
 
+		RenderDrawables(dt);
+		RenderImGui(dt);
+
+		m_window->display();
+	}
+
+	void RenderManager::RenderDrawables(float dt)
+	{
 		IDrawableComponent::TDrawablesMap m_layersDrawableData;
 		// get all the drawables
 		for (auto& drawableComponent : m_drawableComponents)
@@ -194,8 +188,21 @@ namespace Engine
 				}
 			}
 		}
-		
-		// debuggable
+	}
+
+	void RenderManager::RenderImGui(float dt)
+	{
+		ImGui::SFML::Update(*m_window, sf::seconds(dt));
+		ImGui::SFML::SetCurrentWindow(*m_window);
+
+		for (auto& c : m_imGuiComponents)
+		{
+			if (c->ShouldUpdate())
+			{
+				c->Update(dt);
+			}
+		}
+
 		if (m_shouldUpdateDebugs)
 		{
 			for (auto& c : m_debuggableComponents)
@@ -206,7 +213,8 @@ namespace Engine
 		}
 
 		ImGui::SFML::Render(*m_window);
-		m_window->display();
+		ImGui::UpdatePlatformWindows();
+		ImGui::RenderPlatformWindowsDefault();
 	}
 
 	void RenderManager::PollEvents()

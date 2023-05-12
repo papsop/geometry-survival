@@ -13,6 +13,7 @@
 #include <SFML/Window/Cursor.hpp>
 #include <SFML/Window/Event.hpp>
 #include <SFML/Window/Touch.hpp>
+#include <SFML/Window/VideoMode.hpp>
 #include <SFML/Window/Window.hpp>
 
 #include <cassert>
@@ -20,7 +21,20 @@
 #include <cstddef> // offsetof, NULL, size_t
 #include <cstring> // memcpy
 
+#include <algorithm>
+#include <memory>
 #include <vector>
+#define IMGUI_SFML_VIEWPORTS_ENABLE
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+#if defined(_WIN32)
+#include <Windows.h>
+#elif defined(__linux__)
+#include <X11/Xlib.h>
+#include <X11/extensions/Xrandr.h>
+
+#undef None // collides with sf::Style::None
+#endif
+#endif
 
 #ifdef ANDROID
 #ifdef USE_JNI
@@ -128,9 +142,9 @@ void initDefaultJoystickMapping();
 // Returns first id of connected joystick
 unsigned int getConnectedJoystickId();
 
-void updateJoystickActionState(ImGuiIO& io, ImGuiNavInput_ action);
+void updateJoystickButtonState(ImGuiIO& io);
 void updateJoystickDPadState(ImGuiIO& io);
-void updateJoystickLStickState(ImGuiIO& io);
+void updateJoystickAxisState(ImGuiIO& io);
 
 // clipboard functions
 void setClipboardText(void* userData, const char* text);
@@ -159,30 +173,44 @@ struct StickInfo {
         yAxis = sf::Joystick::Y;
         xInverted = false;
         yInverted = false;
-        threshold = 0.5;
+        threshold = 15;
+    }
+};
+
+struct TriggerInfo {
+    sf::Joystick::Axis axis;
+    float threshold;
+
+    TriggerInfo() {
+        axis = sf::Joystick::Z;
+        threshold = 0;
     }
 };
 
 struct WindowContext {
-    const sf::Window* window;
+    sf::Window* const window;
     ImGuiContext* imContext;
 
-    sf::Texture* fontTexture; // owning pointer to internal font atlas which is used if user
-                              // doesn't set a custom sf::Texture.
+    sf::Texture fontTexture; // internal font atlas which is used if user doesn't set a custom
+                             // sf::Texture.
 
     bool windowHasFocus;
     bool mouseMoved;
     bool mousePressed[3];
+    ImGuiMouseCursor lastCursor;
 
     bool touchDown[3];
     sf::Vector2i touchPos;
 
     unsigned int joystickId;
-    unsigned int joystickMapping[ImGuiNavInput_COUNT];
+    ImGuiKey_ joystickMapping[sf::Joystick::ButtonCount];
     StickInfo dPadInfo;
     StickInfo lStickInfo;
+    StickInfo rStickInfo;
+    TriggerInfo lTriggerInfo;
+    TriggerInfo rTriggerInfo;
 
-    sf::Cursor* mouseCursors[ImGuiMouseCursor_COUNT];
+    sf::Cursor mouseCursors[ImGuiMouseCursor_COUNT];
     bool mouseCursorLoaded[ImGuiMouseCursor_COUNT];
 
 #ifdef ANDROID
@@ -191,25 +219,42 @@ struct WindowContext {
 #endif
 #endif
 
-    WindowContext(const sf::Window* w) {
-        window = w;
-        imContext = ImGui::CreateContext();
-        fontTexture = new sf::Texture;
+    bool isImContextOwner; // Context owner/main viewport
+    bool isRenderWindow;
+    bool mouseHovered;
+    float titleBarHeight;
+
+    WindowContext(const WindowContext&) = delete; // non construction-copyable
+    WindowContext& operator=(const WindowContext&) = delete; // non copyable
+
+    WindowContext(sf::Window* w) : WindowContext(w, nullptr) {
+    }
+
+    WindowContext(sf::Window* w, ImGuiContext* context) :
+        window(w), isImContextOwner(context == nullptr), titleBarHeight(0.f) {
+        if (context) {
+            imContext = context;
+        } else {
+            imContext = ::ImGui::CreateContext();
+        }
+
+        isRenderWindow = dynamic_cast<sf::RenderWindow*>(w) != nullptr;
 
         windowHasFocus = window->hasFocus();
         mouseMoved = false;
+        mouseHovered = false;
         for (int i = 0; i < 3; ++i) {
             mousePressed[i] = false;
             touchDown[i] = false;
         }
+        lastCursor = ImGuiMouseCursor_COUNT;
 
         joystickId = getConnectedJoystickId();
-        for (int i = 0; i < ImGuiNavInput_COUNT; ++i) {
-            joystickMapping[i] = NULL_JOYSTICK_BUTTON;
+        for (int i = 0; i < sf::Joystick::ButtonCount; ++i) {
+            joystickMapping[i] = ImGuiKey_None;
         }
 
         for (int i = 0; i < ImGuiMouseCursor_COUNT; ++i) {
-            mouseCursors[i] = NULL;
             mouseCursorLoaded[i] = false;
         }
 
@@ -221,42 +266,45 @@ struct WindowContext {
     }
 
     ~WindowContext() {
-        delete fontTexture;
-        for (int i = 0; i < ImGuiMouseCursor_COUNT; ++i) {
-            if (mouseCursorLoaded[i]) {
-                delete mouseCursors[i];
-            }
-        }
-
-        ImGui::DestroyContext(imContext);
+        if (isImContextOwner)
+            ::ImGui::DestroyContext(imContext);
+        else
+            delete window;
     }
 };
 
-std::vector<WindowContext*> s_windowContexts;
-WindowContext* s_currWindowCtx = NULL;
+std::vector<std::unique_ptr<WindowContext>> s_windowContexts;
+WindowContext* s_currWindowCtx = nullptr;
+
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+void SFML_UpdateMonitors();
+void SFML_InitInterface(WindowContext* windowContext);
+void SFML_ShutdownInterface();
+
+#endif
 
 } // end of anonymous namespace
 
 namespace ImGui {
 namespace SFML {
-void Init(sf::RenderWindow& window, bool loadDefaultFont) {
-    Init(window, window, loadDefaultFont);
+bool Init(sf::RenderWindow& window, bool loadDefaultFont) {
+    return Init(window, window, loadDefaultFont);
 }
 
-void Init(sf::Window& window, sf::RenderTarget& target, bool loadDefaultFont) {
-    Init(window, static_cast<sf::Vector2f>(target.getSize()), loadDefaultFont);
+bool Init(sf::Window& window, sf::RenderTarget& target, bool loadDefaultFont) {
+    return Init(window, static_cast<sf::Vector2f>(target.getSize()), loadDefaultFont);
 }
 
-void Init(sf::Window& window, const sf::Vector2f& displaySize, bool loadDefaultFont) {
+bool Init(sf::Window& window, const sf::Vector2f& displaySize, bool loadDefaultFont) {
 #if __cplusplus < 201103L // runtime assert when using earlier than C++11 as no
                           // static_assert support
     assert(sizeof(GLuint) <= sizeof(ImTextureID)); // ImTextureID is not large enough to fit
                                                    // GLuint.
 #endif
 
-    s_windowContexts.push_back(new WindowContext(&window));
+    s_windowContexts.emplace_back(new WindowContext(&window));
 
-    s_currWindowCtx = s_windowContexts.back();
+    s_currWindowCtx = s_windowContexts.back().get();
     ImGui::SetCurrentContext(s_currWindowCtx->imContext);
 
     ImGuiIO& io = ImGui::GetIO();
@@ -265,30 +313,19 @@ void Init(sf::Window& window, const sf::Vector2f& displaySize, bool loadDefaultF
     io.BackendFlags |= ImGuiBackendFlags_HasGamepad;
     io.BackendFlags |= ImGuiBackendFlags_HasMouseCursors;
     io.BackendFlags |= ImGuiBackendFlags_HasSetMousePos;
-    io.BackendPlatformName = "imgui_impl_sfml";
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+    io.BackendFlags |= ImGuiBackendFlags_PlatformHasViewports;
+    io.BackendFlags |= ImGuiBackendFlags_RendererHasViewports;
+    io.BackendFlags |= ImGuiBackendFlags_HasMouseHoveredViewport;
+    SFML_InitInterface(s_currWindowCtx);
+    SFML_UpdateMonitors();
 
-    // init keyboard mapping
-    io.KeyMap[ImGuiKey_Tab] = sf::Keyboard::Tab;
-    io.KeyMap[ImGuiKey_LeftArrow] = sf::Keyboard::Left;
-    io.KeyMap[ImGuiKey_RightArrow] = sf::Keyboard::Right;
-    io.KeyMap[ImGuiKey_UpArrow] = sf::Keyboard::Up;
-    io.KeyMap[ImGuiKey_DownArrow] = sf::Keyboard::Down;
-    io.KeyMap[ImGuiKey_PageUp] = sf::Keyboard::PageUp;
-    io.KeyMap[ImGuiKey_PageDown] = sf::Keyboard::PageDown;
-    io.KeyMap[ImGuiKey_Home] = sf::Keyboard::Home;
-    io.KeyMap[ImGuiKey_End] = sf::Keyboard::End;
-    io.KeyMap[ImGuiKey_Insert] = sf::Keyboard::Insert;
-    io.KeyMap[ImGuiKey_Delete] = sf::Keyboard::Delete;
-    io.KeyMap[ImGuiKey_Backspace] = sf::Keyboard::BackSpace;
-    io.KeyMap[ImGuiKey_Space] = sf::Keyboard::Space;
-    io.KeyMap[ImGuiKey_Enter] = sf::Keyboard::Return;
-    io.KeyMap[ImGuiKey_Escape] = sf::Keyboard::Escape;
-    io.KeyMap[ImGuiKey_A] = sf::Keyboard::A;
-    io.KeyMap[ImGuiKey_C] = sf::Keyboard::C;
-    io.KeyMap[ImGuiKey_V] = sf::Keyboard::V;
-    io.KeyMap[ImGuiKey_X] = sf::Keyboard::X;
-    io.KeyMap[ImGuiKey_Y] = sf::Keyboard::Y;
-    io.KeyMap[ImGuiKey_Z] = sf::Keyboard::Z;
+    sf::Vector2i windowMousePos = sf::Mouse::getPosition(window);
+    sf::Vector2i globalMousePos = sf::Mouse::getPosition();
+    s_currWindowCtx->titleBarHeight =
+        globalMousePos.y - (window.getPosition().y + windowMousePos.y);
+#endif
+    io.BackendPlatformName = "imgui_impl_sfml";
 
     s_currWindowCtx->joystickId = getConnectedJoystickId();
 
@@ -314,19 +351,21 @@ void Init(sf::Window& window, const sf::Vector2f& displaySize, bool loadDefaultF
     if (loadDefaultFont) {
         // this will load default font automatically
         // No need to call AddDefaultFont
-        UpdateFontTexture();
+        return UpdateFontTexture();
     }
+
+    return true;
 }
 
 void SetCurrentWindow(const sf::Window& window) {
-    for (std::size_t i = 0; i < s_windowContexts.size(); ++i) {
-        if (s_windowContexts[i]->window->getSystemHandle() == window.getSystemHandle()) {
-            s_currWindowCtx = s_windowContexts[i];
-            ImGui::SetCurrentContext(s_currWindowCtx->imContext);
-            return;
-        }
-    }
-    assert(false && "Failed to find the window. Forgot to call ImGui::SFML::Init for the window?");
+    auto found = std::find_if(s_windowContexts.begin(), s_windowContexts.end(),
+                              [&](std::unique_ptr<WindowContext>& ctx) {
+                                  return ctx->window->getSystemHandle() == window.getSystemHandle();
+                              });
+    assert(found != s_windowContexts.end() &&
+           "Failed to find the window. Forgot to call ImGui::SFML::Init for the window?");
+    s_currWindowCtx = found->get();
+    ImGui::SetCurrentContext(s_currWindowCtx->imContext);
 }
 
 void ProcessEvent(const sf::Window& window, const sf::Event& event) {
@@ -334,20 +373,261 @@ void ProcessEvent(const sf::Window& window, const sf::Event& event) {
     ProcessEvent(event);
 }
 
+ImGuiKey keycodeToImGuiKey(sf::Keyboard::Key code) {
+    switch (code) {
+    case sf::Keyboard::Tab:
+        return ImGuiKey_Tab;
+    case sf::Keyboard::Left:
+        return ImGuiKey_LeftArrow;
+    case sf::Keyboard::Right:
+        return ImGuiKey_RightArrow;
+    case sf::Keyboard::Up:
+        return ImGuiKey_UpArrow;
+    case sf::Keyboard::Down:
+        return ImGuiKey_DownArrow;
+    case sf::Keyboard::PageUp:
+        return ImGuiKey_PageUp;
+    case sf::Keyboard::PageDown:
+        return ImGuiKey_PageDown;
+    case sf::Keyboard::Home:
+        return ImGuiKey_Home;
+    case sf::Keyboard::End:
+        return ImGuiKey_End;
+    case sf::Keyboard::Insert:
+        return ImGuiKey_Insert;
+    case sf::Keyboard::Delete:
+        return ImGuiKey_Delete;
+    case sf::Keyboard::Backspace:
+        return ImGuiKey_Backspace;
+    case sf::Keyboard::Space:
+        return ImGuiKey_Space;
+    case sf::Keyboard::Enter:
+        return ImGuiKey_Enter;
+    case sf::Keyboard::Escape:
+        return ImGuiKey_Escape;
+    case sf::Keyboard::Quote:
+        return ImGuiKey_Apostrophe;
+    case sf::Keyboard::Comma:
+        return ImGuiKey_Comma;
+    case sf::Keyboard::Hyphen:
+        return ImGuiKey_Minus;
+    case sf::Keyboard::Period:
+        return ImGuiKey_Period;
+    case sf::Keyboard::Slash:
+        return ImGuiKey_Slash;
+    case sf::Keyboard::Semicolon:
+        return ImGuiKey_Semicolon;
+    case sf::Keyboard::Equal:
+        return ImGuiKey_Equal;
+    case sf::Keyboard::LBracket:
+        return ImGuiKey_LeftBracket;
+    case sf::Keyboard::Backslash:
+        return ImGuiKey_Backslash;
+    case sf::Keyboard::RBracket:
+        return ImGuiKey_RightBracket;
+    case sf::Keyboard::Tilde:
+        return ImGuiKey_GraveAccent;
+    // case : return ImGuiKey_CapsLock;
+    // case : return ImGuiKey_ScrollLock;
+    // case : return ImGuiKey_NumLock;
+    // case : return ImGuiKey_PrintScreen;
+    case sf::Keyboard::Pause:
+        return ImGuiKey_Pause;
+    case sf::Keyboard::Numpad0:
+        return ImGuiKey_Keypad0;
+    case sf::Keyboard::Numpad1:
+        return ImGuiKey_Keypad1;
+    case sf::Keyboard::Numpad2:
+        return ImGuiKey_Keypad2;
+    case sf::Keyboard::Numpad3:
+        return ImGuiKey_Keypad3;
+    case sf::Keyboard::Numpad4:
+        return ImGuiKey_Keypad4;
+    case sf::Keyboard::Numpad5:
+        return ImGuiKey_Keypad5;
+    case sf::Keyboard::Numpad6:
+        return ImGuiKey_Keypad6;
+    case sf::Keyboard::Numpad7:
+        return ImGuiKey_Keypad7;
+    case sf::Keyboard::Numpad8:
+        return ImGuiKey_Keypad8;
+    case sf::Keyboard::Numpad9:
+        return ImGuiKey_Keypad9;
+    // case : return ImGuiKey_KeypadDecimal;
+    case sf::Keyboard::Divide:
+        return ImGuiKey_KeypadDivide;
+    case sf::Keyboard::Multiply:
+        return ImGuiKey_KeypadMultiply;
+    case sf::Keyboard::Subtract:
+        return ImGuiKey_KeypadSubtract;
+    case sf::Keyboard::Add:
+        return ImGuiKey_KeypadAdd;
+    // case : return ImGuiKey_KeypadEnter;
+    // case : return ImGuiKey_KeypadEqual;
+    case sf::Keyboard::LControl:
+        return ImGuiKey_LeftCtrl;
+    case sf::Keyboard::LShift:
+        return ImGuiKey_LeftShift;
+    case sf::Keyboard::LAlt:
+        return ImGuiKey_LeftAlt;
+    case sf::Keyboard::LSystem:
+        return ImGuiKey_LeftSuper;
+    case sf::Keyboard::RControl:
+        return ImGuiKey_RightCtrl;
+    case sf::Keyboard::RShift:
+        return ImGuiKey_RightShift;
+    case sf::Keyboard::RAlt:
+        return ImGuiKey_RightAlt;
+    case sf::Keyboard::RSystem:
+        return ImGuiKey_RightSuper;
+    case sf::Keyboard::Menu:
+        return ImGuiKey_Menu;
+    case sf::Keyboard::Num0:
+        return ImGuiKey_0;
+    case sf::Keyboard::Num1:
+        return ImGuiKey_1;
+    case sf::Keyboard::Num2:
+        return ImGuiKey_2;
+    case sf::Keyboard::Num3:
+        return ImGuiKey_3;
+    case sf::Keyboard::Num4:
+        return ImGuiKey_4;
+    case sf::Keyboard::Num5:
+        return ImGuiKey_5;
+    case sf::Keyboard::Num6:
+        return ImGuiKey_6;
+    case sf::Keyboard::Num7:
+        return ImGuiKey_7;
+    case sf::Keyboard::Num8:
+        return ImGuiKey_8;
+    case sf::Keyboard::Num9:
+        return ImGuiKey_9;
+    case sf::Keyboard::A:
+        return ImGuiKey_A;
+    case sf::Keyboard::B:
+        return ImGuiKey_B;
+    case sf::Keyboard::C:
+        return ImGuiKey_C;
+    case sf::Keyboard::D:
+        return ImGuiKey_D;
+    case sf::Keyboard::E:
+        return ImGuiKey_E;
+    case sf::Keyboard::F:
+        return ImGuiKey_F;
+    case sf::Keyboard::G:
+        return ImGuiKey_G;
+    case sf::Keyboard::H:
+        return ImGuiKey_H;
+    case sf::Keyboard::I:
+        return ImGuiKey_I;
+    case sf::Keyboard::J:
+        return ImGuiKey_J;
+    case sf::Keyboard::K:
+        return ImGuiKey_K;
+    case sf::Keyboard::L:
+        return ImGuiKey_L;
+    case sf::Keyboard::M:
+        return ImGuiKey_M;
+    case sf::Keyboard::N:
+        return ImGuiKey_N;
+    case sf::Keyboard::O:
+        return ImGuiKey_O;
+    case sf::Keyboard::P:
+        return ImGuiKey_P;
+    case sf::Keyboard::Q:
+        return ImGuiKey_Q;
+    case sf::Keyboard::R:
+        return ImGuiKey_R;
+    case sf::Keyboard::S:
+        return ImGuiKey_S;
+    case sf::Keyboard::T:
+        return ImGuiKey_T;
+    case sf::Keyboard::U:
+        return ImGuiKey_U;
+    case sf::Keyboard::V:
+        return ImGuiKey_V;
+    case sf::Keyboard::W:
+        return ImGuiKey_W;
+    case sf::Keyboard::X:
+        return ImGuiKey_X;
+    case sf::Keyboard::Y:
+        return ImGuiKey_Y;
+    case sf::Keyboard::Z:
+        return ImGuiKey_Z;
+    case sf::Keyboard::F1:
+        return ImGuiKey_F1;
+    case sf::Keyboard::F2:
+        return ImGuiKey_F2;
+    case sf::Keyboard::F3:
+        return ImGuiKey_F3;
+    case sf::Keyboard::F4:
+        return ImGuiKey_F4;
+    case sf::Keyboard::F5:
+        return ImGuiKey_F5;
+    case sf::Keyboard::F6:
+        return ImGuiKey_F6;
+    case sf::Keyboard::F7:
+        return ImGuiKey_F7;
+    case sf::Keyboard::F8:
+        return ImGuiKey_F8;
+    case sf::Keyboard::F9:
+        return ImGuiKey_F9;
+    case sf::Keyboard::F10:
+        return ImGuiKey_F10;
+    case sf::Keyboard::F11:
+        return ImGuiKey_F11;
+    case sf::Keyboard::F12:
+        return ImGuiKey_F12;
+    }
+    return ImGuiKey_None;
+}
+
+ImGuiKey keycodeToImGuiMod(sf::Keyboard::Key code) {
+    switch (code) {
+    case sf::Keyboard::LControl:
+    case sf::Keyboard::RControl:
+        return ImGuiKey_ModCtrl;
+    case sf::Keyboard::LShift:
+    case sf::Keyboard::RShift:
+        return ImGuiKey_ModShift;
+    case sf::Keyboard::LAlt:
+    case sf::Keyboard::RAlt:
+        return ImGuiKey_ModAlt;
+    case sf::Keyboard::LSystem:
+    case sf::Keyboard::RSystem:
+        return ImGuiKey_ModSuper;
+    }
+    return ImGuiKey_None;
+}
+
 void ProcessEvent(const sf::Event& event) {
     assert(s_currWindowCtx && "No current window is set - forgot to call ImGui::SFML::Init?");
-    if (s_currWindowCtx->windowHasFocus) {
-        ImGuiIO& io = ImGui::GetIO();
+    ImGuiIO& io = ImGui::GetIO();
 
+    if (s_currWindowCtx->windowHasFocus) {
         switch (event.type) {
         case sf::Event::MouseMoved:
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+                sf::Vector2i mousePos = sf::Mouse::getPosition();
+                io.AddMousePosEvent(mousePos.x, mousePos.y);
+            } else
+#endif // IMGUI_SFML_VIEWPORTS_ENABLE
+            {
+                io.AddMousePosEvent(event.mouseMove.x, event.mouseMove.y);
+            }
             s_currWindowCtx->mouseMoved = true;
             break;
         case sf::Event::MouseButtonPressed: // fall-through
         case sf::Event::MouseButtonReleased: {
             int button = event.mouseButton.button;
-            if (event.type == sf::Event::MouseButtonPressed && button >= 0 && button < 3) {
-                s_currWindowCtx->mousePressed[event.mouseButton.button] = true;
+            if (button >= 0 && button < 3) {
+                if (event.type == sf::Event::MouseButtonPressed) {
+                    s_currWindowCtx->mousePressed[event.mouseButton.button] = true;
+                    io.AddMouseButtonEvent(button, true);
+                } else {
+                    io.AddMouseButtonEvent(button, false);
+                }
             }
         } break;
         case sf::Event::TouchBegan: // fall-through
@@ -361,21 +641,30 @@ void ProcessEvent(const sf::Event& event) {
         case sf::Event::MouseWheelScrolled:
             if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel ||
                 (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel && io.KeyShift)) {
-                io.MouseWheel += event.mouseWheelScroll.delta;
+                io.AddMouseWheelEvent(0, event.mouseWheelScroll.delta);
             } else if (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) {
-                io.MouseWheelH += event.mouseWheelScroll.delta;
+                io.AddMouseWheelEvent(event.mouseWheelScroll.delta, 0);
             }
             break;
         case sf::Event::KeyPressed: // fall-through
         case sf::Event::KeyReleased: {
-            int key = event.key.code;
-            if (key >= 0 && key < IM_ARRAYSIZE(io.KeysDown)) {
-                io.KeysDown[key] = (event.type == sf::Event::KeyPressed);
+            bool down = (event.type == sf::Event::KeyPressed);
+
+            ImGuiKey mod = keycodeToImGuiMod(event.key.code);
+            // The modifier booleans are not reliable when it's the modifier
+            // itself that's being pressed. Detect these presses directly.
+            if (mod != ImGuiKey_None) {
+                io.AddKeyEvent(mod, down);
+            } else {
+                io.AddKeyEvent(ImGuiKey_ModCtrl, event.key.control);
+                io.AddKeyEvent(ImGuiKey_ModShift, event.key.shift);
+                io.AddKeyEvent(ImGuiKey_ModAlt, event.key.alt);
+                io.AddKeyEvent(ImGuiKey_ModSuper, event.key.system);
             }
-            io.KeyCtrl = event.key.control;
-            io.KeyAlt = event.key.alt;
-            io.KeyShift = event.key.shift;
-            io.KeySuper = event.key.system;
+
+            ImGuiKey key = keycodeToImGuiKey(event.key.code);
+            io.AddKeyEvent(key, down);
+            io.SetKeyEventNativeData(key, event.key.code, -1);
         } break;
         case sf::Event::TextEntered:
             // Don't handle the event for unprintable characters
@@ -403,22 +692,29 @@ void ProcessEvent(const sf::Event& event) {
 
     switch (event.type) {
     case sf::Event::LostFocus: {
-        // reset all input - SFML doesn't send KeyReleased
-        // event when window goes out of focus
-        ImGuiIO& io = ImGui::GetIO();
-        for (int i = 0; i < IM_ARRAYSIZE(io.KeysDown); ++i) {
-            io.KeysDown[i] = false;
-        }
-        io.KeyCtrl = false;
-        io.KeyAlt = false;
-        io.KeyShift = false;
-        io.KeySuper = false;
-
+        io.AddFocusEvent(false);
         s_currWindowCtx->windowHasFocus = false;
     } break;
     case sf::Event::GainedFocus:
+        io.AddFocusEvent(true);
         s_currWindowCtx->windowHasFocus = true;
         break;
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+    case sf::Event::MouseEntered:
+        if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            sf::Vector2i mousePos = sf::Mouse::getPosition();
+            io.AddMousePosEvent(mousePos.x, mousePos.y);
+        } else {
+            sf::Vector2i mousePos = sf::Mouse::getPosition(*s_currWindowCtx->window);
+            io.AddMousePosEvent(mousePos.x, mousePos.y);
+        }
+        s_currWindowCtx->mouseHovered = true;
+        break;
+    case sf::Event::MouseLeft:
+        io.AddMousePosEvent(-FLT_MAX, -FLT_MAX);
+        s_currWindowCtx->mouseHovered = false;
+        break;
+#endif // VIEWPORT_ENABLE
     default:
         break;
     }
@@ -430,31 +726,195 @@ void Update(sf::RenderWindow& window, sf::Time dt) {
 
 void Update(sf::Window& window, sf::RenderTarget& target, sf::Time dt) {
     SetCurrentWindow(window);
-    // Update OS/hardware mouse cursor if imgui isn't drawing a software cursor
-    updateMouseCursor(window);
-
     assert(s_currWindowCtx);
+
+    // Update OS/hardware mouse cursor if imgui isn't drawing a software cursor
+    ImGuiMouseCursor mouse_cursor =
+        ImGui::GetIO().MouseDrawCursor ? ImGuiMouseCursor_None : ImGui::GetMouseCursor();
+    if (s_currWindowCtx->lastCursor != mouse_cursor) {
+        s_currWindowCtx->lastCursor = mouse_cursor;
+        updateMouseCursor(window);
+    }
+
     if (!s_currWindowCtx->mouseMoved) {
         if (sf::Touch::isDown(0)) s_currWindowCtx->touchPos = sf::Touch::getPosition(0, window);
 
         Update(s_currWindowCtx->touchPos, static_cast<sf::Vector2f>(target.getSize()), dt);
     } else {
-        Update(sf::Mouse::getPosition(window), static_cast<sf::Vector2f>(target.getSize()), dt);
-    }
-
-    if (ImGui::GetIO().MouseDrawCursor) {
-        // Hide OS mouse cursor if imgui is drawing it
-        window.setMouseCursorVisible(false);
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+        if (ImGui::GetIO().ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+            Update(sf::Mouse::getPosition(), static_cast<sf::Vector2f>(target.getSize()), dt);
+        } else
+#endif // IMGUI_SFML_VIEWPORTS_ENABLE
+        {
+            Update(sf::Mouse::getPosition(window), static_cast<sf::Vector2f>(target.getSize()), dt);
+        }
     }
 }
 
 void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize, sf::Time dt) {
     assert(s_currWindowCtx && "No current window is set - forgot to call ImGui::SFML::Init?");
-
     ImGuiIO& io = ImGui::GetIO();
+
     io.DisplaySize = ImVec2(displaySize.x, displaySize.y);
     io.DeltaTime = dt.asSeconds();
 
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+    if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable) {
+        SFML_UpdateMonitors();
+
+        for (auto& viewport : ImGui::GetPlatformIO().Viewports) {
+            WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+            if (wc->isImContextOwner) continue;
+            sf::Event event;
+
+            while (wc->window->pollEvent(event)) {
+                if (wc->window->hasFocus()) {
+                    switch (event.type) {
+                    case sf::Event::MouseMoved: {
+                        sf::Vector2i mousePos = sf::Mouse::getPosition();
+                        io.AddMousePosEvent(mousePos.x, mousePos.y);
+                    }
+                        wc->mouseMoved = true;
+                        break;
+                    case sf::Event::MouseButtonPressed: // fall-through
+                    case sf::Event::MouseButtonReleased: {
+                        int button = event.mouseButton.button;
+                        if (button >= 0 && button < 3) {
+                            if (event.type == sf::Event::MouseButtonPressed) {
+                                wc->mousePressed[event.mouseButton.button] = true;
+                                io.AddMouseButtonEvent(button, true);
+                            } else {
+                                io.AddMouseButtonEvent(button, false);
+                            }
+                        }
+                    } break;
+                    case sf::Event::TouchBegan: // fall-through
+                    case sf::Event::TouchEnded: {
+                        wc->mouseMoved = false;
+                        int button = event.touch.finger;
+                        if (event.type == sf::Event::TouchBegan && button >= 0 && button < 3) {
+                            wc->touchDown[event.touch.finger] = true;
+                        }
+                    } break;
+                    case sf::Event::MouseWheelScrolled:
+                        if (event.mouseWheelScroll.wheel == sf::Mouse::VerticalWheel ||
+                            (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel &&
+                             io.KeyShift)) {
+                            io.AddMouseWheelEvent(0, event.mouseWheelScroll.delta);
+                        } else if (event.mouseWheelScroll.wheel == sf::Mouse::HorizontalWheel) {
+                            io.AddMouseWheelEvent(event.mouseWheelScroll.delta, 0);
+                        }
+                        break;
+                    case sf::Event::KeyPressed: // fall-through
+                    case sf::Event::KeyReleased: {
+                        bool down = (event.type == sf::Event::KeyPressed);
+
+                        ImGuiKey mod = keycodeToImGuiMod(event.key.code);
+                        // The modifier booleans are not reliable when it's the modifier
+                        // itself that's being pressed. Detect these presses directly.
+                        if (mod != ImGuiKey_None) {
+                            io.AddKeyEvent(mod, down);
+                        } else {
+                            io.AddKeyEvent(ImGuiKey_ModCtrl, event.key.control);
+                            io.AddKeyEvent(ImGuiKey_ModShift, event.key.shift);
+                            io.AddKeyEvent(ImGuiKey_ModAlt, event.key.alt);
+                            io.AddKeyEvent(ImGuiKey_ModSuper, event.key.system);
+                        }
+
+                        ImGuiKey key = keycodeToImGuiKey(event.key.code);
+                        io.AddKeyEvent(key, down);
+                        io.SetKeyEventNativeData(key, event.key.code, -1);
+                    } break;
+                    case sf::Event::TextEntered:
+                        // Don't handle the event for unprintable characters
+                        if (event.text.unicode < ' ' || event.text.unicode == 127) {
+                            break;
+                        }
+                        io.AddInputCharacter(event.text.unicode);
+                        break;
+                    case sf::Event::JoystickConnected:
+                        if (wc->joystickId == NULL_JOYSTICK_ID) {
+                            wc->joystickId = event.joystickConnect.joystickId;
+                        }
+                        break;
+                    case sf::Event::JoystickDisconnected:
+                        if (wc->joystickId == event.joystickConnect.joystickId) { // used gamepad
+                                                                                  // was
+                                                                                  // disconnected
+                            wc->joystickId = getConnectedJoystickId();
+                        }
+                        break;
+                    default:
+                        break;
+                    }
+                }
+
+                switch (event.type) {
+                case sf::Event::LostFocus: {
+                    io.AddFocusEvent(false);
+                    wc->windowHasFocus = false;
+                } break;
+                case sf::Event::GainedFocus:
+                    io.AddFocusEvent(true);
+                    wc->windowHasFocus = true;
+                    break;
+                case sf::Event::MouseEntered: {
+                    sf::Vector2i mousePos = sf::Mouse::getPosition();
+                    io.AddMousePosEvent(mousePos.x, mousePos.y);
+                }
+                    wc->mouseHovered = true;
+                    break;
+                case sf::Event::MouseLeft:
+                    io.AddMousePosEvent(-FLT_MAX, -FLT_MAX);
+                    wc->mouseHovered = false;
+                    break;
+                default:
+                    break;
+                }
+            }
+        }
+    }
+
+    ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+    const ImVec2 mousePosPrev = io.MousePos;
+    ImGuiID mouseViewportID = 0;
+
+    for (auto* viewport : platform_io.Viewports) {
+        WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+        sf::Window* window = (sf::Window*)viewport->PlatformHandle;
+
+        if (window->hasFocus()) {
+            if (io.WantSetMousePos) {
+                sf::Mouse::setPosition({static_cast<int>(mousePosPrev.x - viewport->Pos.x),
+                                        static_cast<int>(mousePosPrev.y - viewport->Pos.y)},
+                                       *window);
+            }
+            sf::Vector2i mousePos;
+            if (io.ConfigFlags & ImGuiConfigFlags_ViewportsEnable)
+                mousePos = sf::Mouse::getPosition();
+            else
+                mousePos = sf::Mouse::getPosition(*window);
+
+            io.AddMousePosEvent(mousePos.x, mousePos.y);
+
+            for (unsigned int i = 0; i < 3; i++) {
+                io.MouseDown[i] = wc->touchDown[i] || sf::Touch::isDown(i) || wc->mousePressed[i] ||
+                                  sf::Mouse::isButtonPressed((sf::Mouse::Button)i);
+                wc->mousePressed[i] = false;
+                wc->touchDown[i] = false;
+            }
+        }
+
+        const bool windowNoInput = (viewport->Flags & ImGuiViewportFlags_NoInputs) != 0;
+
+        if (wc->mouseHovered && !windowNoInput) mouseViewportID = viewport->ID;
+    }
+
+    if (io.BackendFlags & ImGuiBackendFlags_HasMouseHoveredViewport)
+        io.AddMouseViewportEvent(mouseViewportID);
+
+#else
     if (s_currWindowCtx->windowHasFocus) {
         if (io.WantSetMousePos) {
             sf::Vector2i newMousePos(static_cast<int>(io.MousePos.x),
@@ -471,6 +931,7 @@ void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize, sf::T
             s_currWindowCtx->touchDown[i] = false;
         }
     }
+#endif
 
 #ifdef ANDROID
 #ifdef USE_JNI
@@ -492,19 +953,9 @@ void Update(const sf::Vector2i& mousePos, const sf::Vector2f& displaySize, sf::T
     // gamepad navigation
     if ((io.ConfigFlags & ImGuiConfigFlags_NavEnableGamepad) &&
         s_currWindowCtx->joystickId != NULL_JOYSTICK_ID) {
-        updateJoystickActionState(io, ImGuiNavInput_Activate);
-        updateJoystickActionState(io, ImGuiNavInput_Cancel);
-        updateJoystickActionState(io, ImGuiNavInput_Input);
-        updateJoystickActionState(io, ImGuiNavInput_Menu);
-
-        updateJoystickActionState(io, ImGuiNavInput_FocusPrev);
-        updateJoystickActionState(io, ImGuiNavInput_FocusNext);
-
-        updateJoystickActionState(io, ImGuiNavInput_TweakSlow);
-        updateJoystickActionState(io, ImGuiNavInput_TweakFast);
-
+        updateJoystickButtonState(io);
         updateJoystickDPadState(io);
-        updateJoystickLStickState(io);
+        updateJoystickAxisState(io);
     }
 
     ImGui::NewFrame();
@@ -529,49 +980,52 @@ void Render() {
 }
 
 void Shutdown(const sf::Window& window) {
-    // set current context to some window for convenience if needed
-    if (window.getSystemHandle() == s_currWindowCtx->window->getSystemHandle()) {
-        if (s_windowContexts.size() > 1) {
-            // set to some other window
-            for (std::size_t i = 0; i < s_windowContexts.size(); ++i) {
-                if (s_windowContexts[i]->window->getSystemHandle() != window.getSystemHandle()) {
-                    s_currWindowCtx = s_windowContexts[i];
-                    ImGui::SetCurrentContext(s_currWindowCtx->imContext);
-                    break;
-                }
-            }
-        } else {
-            // no alternatives...
-            s_currWindowCtx = NULL;
-        }
-    }
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+    SetCurrentWindow(window);
+    SFML_ShutdownInterface();
+#endif // IMGUI_SFML_VIEWPORTS_ENABLE
+
+    bool needReplacement = (s_currWindowCtx->window->getSystemHandle() == window.getSystemHandle());
 
     // remove window's context
-    std::size_t ctxIdxToErase = 0;
-    bool ctxFound = true;
-    for (std::size_t i = 0; i < s_windowContexts.size(); ++i) {
-        if (s_windowContexts[i]->window->getSystemHandle() == window.getSystemHandle()) {
-            delete s_windowContexts[i];
-            ctxIdxToErase = i;
-            ctxFound = true;
-            break;
+    auto found = std::find_if(s_windowContexts.begin(), s_windowContexts.end(),
+                              [&](std::unique_ptr<WindowContext>& ctx) {
+                                  return ctx->window->getSystemHandle() == window.getSystemHandle();
+                              });
+    assert(found != s_windowContexts.end() &&
+           "Window wasn't inited properly: forgot to call ImGui::SFML::Init(window)?");
+    s_windowContexts.erase(found); // s_currWindowCtx can become invalid here!
+
+    // set current context to some window for convenience if needed
+    if (needReplacement) {
+        auto it = s_windowContexts.begin();
+        if (it != s_windowContexts.end()) {
+            // set to some other window
+            s_currWindowCtx = it->get();
+            ImGui::SetCurrentContext(s_currWindowCtx->imContext);
+        } else {
+            // no alternatives...
+            s_currWindowCtx = nullptr;
+            ImGui::SetCurrentContext(nullptr);
         }
     }
-    assert(ctxFound && "Window wasn't inited properly: forgot to call ImGui::SFML::Init(window)?");
-    s_windowContexts.erase(s_windowContexts.begin() + ctxIdxToErase);
 }
 
 void Shutdown() {
-    s_currWindowCtx = NULL;
-    ImGui::SetCurrentContext(NULL);
-
-    for (std::size_t i = 0; i < s_windowContexts.size(); ++i) {
-        delete s_windowContexts[i];
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+    for (auto& ctx : s_windowContexts) {
+        ImGui::SetCurrentContext(ctx->imContext);
+        SFML_ShutdownInterface();
     }
+#endif // IMGUI_SFML_VIEWPORTS_ENABLE
+
+    s_currWindowCtx = nullptr;
+    ImGui::SetCurrentContext(nullptr);
+
     s_windowContexts.clear();
 }
 
-void UpdateFontTexture() {
+bool UpdateFontTexture() {
     assert(s_currWindowCtx);
 
     ImGuiIO& io = ImGui::GetIO();
@@ -580,17 +1034,28 @@ void UpdateFontTexture() {
 
     io.Fonts->GetTexDataAsRGBA32(&pixels, &width, &height);
 
-    sf::Texture& texture = *s_currWindowCtx->fontTexture;
-    texture.create(width, height);
+    sf::Texture& texture = s_currWindowCtx->fontTexture;
+#if SFML_VERSION_MAJOR >= 3
+    if (!texture.create(sf::Vector2u(width, height))) {
+        return false;
+    }
+#else
+    if (!texture.create(width, height)) {
+        return false;
+    }
+#endif
+
     texture.update(pixels);
 
     ImTextureID texID = convertGLTextureHandleToImTextureID(texture.getNativeHandle());
     io.Fonts->SetTexID(texID);
+
+    return true;
 }
 
 sf::Texture& GetFontTexture() {
     assert(s_currWindowCtx);
-    return *s_currWindowCtx->fontTexture;
+    return s_currWindowCtx->fontTexture;
 }
 
 void SetActiveJoystickId(unsigned int joystickId) {
@@ -599,23 +1064,68 @@ void SetActiveJoystickId(unsigned int joystickId) {
     s_currWindowCtx->joystickId = joystickId;
 }
 
-void SetJoytickDPadThreshold(float threshold) {
+void SetJoystickDPadThreshold(float threshold) {
     assert(s_currWindowCtx);
     assert(threshold >= 0.f && threshold <= 100.f);
     s_currWindowCtx->dPadInfo.threshold = threshold;
 }
 
-void SetJoytickLStickThreshold(float threshold) {
+void SetJoystickLStickThreshold(float threshold) {
     assert(s_currWindowCtx);
     assert(threshold >= 0.f && threshold <= 100.f);
     s_currWindowCtx->lStickInfo.threshold = threshold;
 }
 
-void SetJoystickMapping(int action, unsigned int joystickButton) {
+void SetJoystickRStickThreshold(float threshold) {
     assert(s_currWindowCtx);
-    assert(action < ImGuiNavInput_COUNT);
+    assert(threshold >= 0.f && threshold <= 100.f);
+    s_currWindowCtx->rStickInfo.threshold = threshold;
+}
+
+void SetJoystickLTriggerThreshold(float threshold) {
+    assert(s_currWindowCtx);
+    assert(threshold >= -100.f && threshold <= 100.f);
+    s_currWindowCtx->lTriggerInfo.threshold = threshold;
+}
+
+void SetJoystickRTriggerThreshold(float threshold) {
+    assert(s_currWindowCtx);
+    assert(threshold >= -100.f && threshold <= 100.f);
+    s_currWindowCtx->rTriggerInfo.threshold = threshold;
+}
+
+void SetJoystickMapping(int key, unsigned int joystickButton) {
+    assert(s_currWindowCtx);
+    // This function now expects ImGuiKey_* values.
+    // For partial backwards compatibility, also expect some ImGuiNavInput_* values.
+    ImGuiKey_ finalKey;
+    switch (key) {
+    case ImGuiNavInput_Activate:
+        finalKey = ImGuiKey_GamepadFaceDown;
+        break;
+    case ImGuiNavInput_Cancel:
+        finalKey = ImGuiKey_GamepadFaceRight;
+        break;
+    case ImGuiNavInput_Input:
+        finalKey = ImGuiKey_GamepadFaceUp;
+        break;
+    case ImGuiNavInput_Menu:
+        finalKey = ImGuiKey_GamepadFaceLeft;
+        break;
+    case ImGuiNavInput_FocusPrev:
+    case ImGuiNavInput_TweakSlow:
+        finalKey = ImGuiKey_GamepadL1;
+        break;
+    case ImGuiNavInput_FocusNext:
+    case ImGuiNavInput_TweakFast:
+        finalKey = ImGuiKey_GamepadR1;
+        break;
+    default:
+        assert(key >= ImGuiKey_NamedKey_BEGIN && key < ImGuiKey_NamedKey_END);
+        finalKey = static_cast<ImGuiKey_>(key);
+    }
     assert(joystickButton < sf::Joystick::ButtonCount);
-    s_currWindowCtx->joystickMapping[action] = joystickButton;
+    s_currWindowCtx->joystickMapping[joystickButton] = finalKey;
 }
 
 void SetDPadXAxis(sf::Joystick::Axis dPadXAxis, bool inverted) {
@@ -640,6 +1150,28 @@ void SetLStickYAxis(sf::Joystick::Axis lStickYAxis, bool inverted) {
     assert(s_currWindowCtx);
     s_currWindowCtx->lStickInfo.yAxis = lStickYAxis;
     s_currWindowCtx->lStickInfo.yInverted = inverted;
+}
+
+void SetRStickXAxis(sf::Joystick::Axis rStickXAxis, bool inverted) {
+    assert(s_currWindowCtx);
+    s_currWindowCtx->rStickInfo.xAxis = rStickXAxis;
+    s_currWindowCtx->rStickInfo.xInverted = inverted;
+}
+
+void SetRStickYAxis(sf::Joystick::Axis rStickYAxis, bool inverted) {
+    assert(s_currWindowCtx);
+    s_currWindowCtx->rStickInfo.yAxis = rStickYAxis;
+    s_currWindowCtx->rStickInfo.yInverted = inverted;
+}
+
+void SetLTriggerAxis(sf::Joystick::Axis lTriggerAxis) {
+    assert(s_currWindowCtx);
+    s_currWindowCtx->rTriggerInfo.axis = lTriggerAxis;
+}
+
+void SetRTriggerAxis(sf::Joystick::Axis rTriggerAxis) {
+    assert(s_currWindowCtx);
+    s_currWindowCtx->rTriggerInfo.axis = rTriggerAxis;
 }
 
 } // end of namespace SFML
@@ -954,10 +1486,9 @@ void RenderDrawLists(ImDrawData* draw_data) {
                     glBindTexture(GL_TEXTURE_2D, textureHandle);
                     glDrawElements(GL_TRIANGLES, (GLsizei)pcmd->ElemCount,
                                    sizeof(ImDrawIdx) == 2 ? GL_UNSIGNED_SHORT : GL_UNSIGNED_INT,
-                                   idx_buffer);
+                                   idx_buffer + pcmd->IdxOffset);
                 }
             }
-            idx_buffer += pcmd->ElemCount;
         }
     }
 
@@ -996,14 +1527,16 @@ unsigned int getConnectedJoystickId() {
 }
 
 void initDefaultJoystickMapping() {
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_Activate, 0);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_Cancel, 1);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_Input, 3);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_Menu, 2);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_FocusPrev, 4);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_FocusNext, 5);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_TweakSlow, 4);
-    ImGui::SFML::SetJoystickMapping(ImGuiNavInput_TweakFast, 5);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadFaceDown, 0);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadFaceRight, 1);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadFaceLeft, 2);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadFaceUp, 3);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadL1, 4);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadR1, 5);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadBack, 6);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadStart, 7);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadL3, 9);
+    ImGui::SFML::SetJoystickMapping(ImGuiKey_GamepadR3, 10);
 
     ImGui::SFML::SetDPadXAxis(sf::Joystick::PovX);
     // D-pad Y axis is inverted on Windows
@@ -1015,61 +1548,78 @@ void initDefaultJoystickMapping() {
 
     ImGui::SFML::SetLStickXAxis(sf::Joystick::X);
     ImGui::SFML::SetLStickYAxis(sf::Joystick::Y);
+    ImGui::SFML::SetRStickXAxis(sf::Joystick::U);
+    ImGui::SFML::SetRStickYAxis(sf::Joystick::V);
+    ImGui::SFML::SetLTriggerAxis(sf::Joystick::Z);
+    ImGui::SFML::SetRTriggerAxis(sf::Joystick::R);
 
-    ImGui::SFML::SetJoytickDPadThreshold(5.f);
-    ImGui::SFML::SetJoytickLStickThreshold(5.f);
+    ImGui::SFML::SetJoystickDPadThreshold(5.f);
+    ImGui::SFML::SetJoystickLStickThreshold(5.f);
+    ImGui::SFML::SetJoystickRStickThreshold(15.f);
+    ImGui::SFML::SetJoystickLTriggerThreshold(0.f);
+    ImGui::SFML::SetJoystickRTriggerThreshold(0.f);
 }
 
-void updateJoystickActionState(ImGuiIO& io, ImGuiNavInput_ action) {
-    bool isPressed = sf::Joystick::isButtonPressed(s_currWindowCtx->joystickId,
-                                                   s_currWindowCtx->joystickMapping[action]);
-    io.NavInputs[action] = isPressed ? 1.0f : 0.0f;
+void updateJoystickButtonState(ImGuiIO& io) {
+    for (int i = 0; i < sf::Joystick::ButtonCount; ++i) {
+        ImGuiKey_ key = s_currWindowCtx->joystickMapping[i];
+        if (key != ImGuiKey_None) {
+            bool isPressed = sf::Joystick::isButtonPressed(s_currWindowCtx->joystickId, i);
+            if (s_currWindowCtx->windowHasFocus || !isPressed) {
+                io.AddKeyEvent(key, isPressed);
+            }
+        }
+    }
+}
+
+void updateJoystickAxis(ImGuiIO& io, ImGuiKey_ key, sf::Joystick::Axis axis, float threshold,
+                        float maxThreshold, bool inverted) {
+    float pos = sf::Joystick::getAxisPosition(s_currWindowCtx->joystickId, axis);
+    if (inverted) {
+        pos = -pos;
+    }
+    bool passedThreshold = (pos > threshold) == (maxThreshold > threshold);
+    if (passedThreshold && s_currWindowCtx->windowHasFocus) {
+        io.AddKeyAnalogEvent(key, true, std::abs(pos / 100.f));
+    } else {
+        io.AddKeyAnalogEvent(key, false, 0);
+    }
+}
+
+void updateJoystickAxisPair(ImGuiIO& io, ImGuiKey_ key1, ImGuiKey_ key2, sf::Joystick::Axis axis,
+                            float threshold, bool inverted) {
+    updateJoystickAxis(io, key1, axis, -threshold, -100, inverted);
+    updateJoystickAxis(io, key2, axis, threshold, 100, inverted);
 }
 
 void updateJoystickDPadState(ImGuiIO& io) {
-    float dpadXPos =
-        sf::Joystick::getAxisPosition(s_currWindowCtx->joystickId, s_currWindowCtx->dPadInfo.xAxis);
-    if (s_currWindowCtx->dPadInfo.xInverted) dpadXPos = -dpadXPos;
-
-    float dpadYPos =
-        sf::Joystick::getAxisPosition(s_currWindowCtx->joystickId, s_currWindowCtx->dPadInfo.yAxis);
-    if (s_currWindowCtx->dPadInfo.yInverted) dpadYPos = -dpadYPos;
-
-    io.NavInputs[ImGuiNavInput_DpadLeft] =
-        dpadXPos < -s_currWindowCtx->dPadInfo.threshold ? 1.0f : 0.0f;
-    io.NavInputs[ImGuiNavInput_DpadRight] =
-        dpadXPos > s_currWindowCtx->dPadInfo.threshold ? 1.0f : 0.0f;
-
-    io.NavInputs[ImGuiNavInput_DpadUp] =
-        dpadYPos < -s_currWindowCtx->dPadInfo.threshold ? 1.0f : 0.0f;
-    io.NavInputs[ImGuiNavInput_DpadDown] =
-        dpadYPos > s_currWindowCtx->dPadInfo.threshold ? 1.0f : 0.0f;
+    updateJoystickAxisPair(io, ImGuiKey_GamepadDpadLeft, ImGuiKey_GamepadDpadRight,
+                           s_currWindowCtx->dPadInfo.xAxis, s_currWindowCtx->dPadInfo.threshold,
+                           s_currWindowCtx->dPadInfo.xInverted);
+    updateJoystickAxisPair(io, ImGuiKey_GamepadDpadUp, ImGuiKey_GamepadDpadDown,
+                           s_currWindowCtx->dPadInfo.yAxis, s_currWindowCtx->dPadInfo.threshold,
+                           s_currWindowCtx->dPadInfo.yInverted);
 }
 
-void updateJoystickLStickState(ImGuiIO& io) {
-    float lStickXPos = sf::Joystick::getAxisPosition(s_currWindowCtx->joystickId,
-                                                     s_currWindowCtx->lStickInfo.xAxis);
-    if (s_currWindowCtx->lStickInfo.xInverted) lStickXPos = -lStickXPos;
+void updateJoystickAxisState(ImGuiIO& io) {
+    updateJoystickAxisPair(io, ImGuiKey_GamepadLStickLeft, ImGuiKey_GamepadLStickRight,
+                           s_currWindowCtx->lStickInfo.xAxis, s_currWindowCtx->lStickInfo.threshold,
+                           s_currWindowCtx->lStickInfo.xInverted);
+    updateJoystickAxisPair(io, ImGuiKey_GamepadLStickUp, ImGuiKey_GamepadLStickDown,
+                           s_currWindowCtx->lStickInfo.yAxis, s_currWindowCtx->lStickInfo.threshold,
+                           s_currWindowCtx->lStickInfo.yInverted);
 
-    float lStickYPos = sf::Joystick::getAxisPosition(s_currWindowCtx->joystickId,
-                                                     s_currWindowCtx->lStickInfo.yAxis);
-    if (s_currWindowCtx->lStickInfo.yInverted) lStickYPos = -lStickYPos;
+    updateJoystickAxisPair(io, ImGuiKey_GamepadRStickLeft, ImGuiKey_GamepadRStickRight,
+                           s_currWindowCtx->rStickInfo.xAxis, s_currWindowCtx->rStickInfo.threshold,
+                           s_currWindowCtx->rStickInfo.xInverted);
+    updateJoystickAxisPair(io, ImGuiKey_GamepadRStickUp, ImGuiKey_GamepadRStickDown,
+                           s_currWindowCtx->rStickInfo.yAxis, s_currWindowCtx->rStickInfo.threshold,
+                           s_currWindowCtx->rStickInfo.yInverted);
 
-    if (lStickXPos < -s_currWindowCtx->lStickInfo.threshold) {
-        io.NavInputs[ImGuiNavInput_LStickLeft] = std::abs(lStickXPos / 100.f);
-    }
-
-    if (lStickXPos > s_currWindowCtx->lStickInfo.threshold) {
-        io.NavInputs[ImGuiNavInput_LStickRight] = lStickXPos / 100.f;
-    }
-
-    if (lStickYPos < -s_currWindowCtx->lStickInfo.threshold) {
-        io.NavInputs[ImGuiNavInput_LStickUp] = std::abs(lStickYPos / 100.f);
-    }
-
-    if (lStickYPos > s_currWindowCtx->lStickInfo.threshold) {
-        io.NavInputs[ImGuiNavInput_LStickDown] = lStickYPos / 100.f;
-    }
+    updateJoystickAxis(io, ImGuiKey_GamepadL2, s_currWindowCtx->lTriggerInfo.axis,
+                       s_currWindowCtx->lTriggerInfo.threshold, 100, false);
+    updateJoystickAxis(io, ImGuiKey_GamepadR2, s_currWindowCtx->rTriggerInfo.axis,
+                       s_currWindowCtx->rTriggerInfo.threshold, 100, false);
 }
 
 void setClipboardText(void* /*userData*/, const char* text) {
@@ -1083,9 +1633,8 @@ const char* getClipboardText(void* /*userData*/) {
 }
 
 void loadMouseCursor(ImGuiMouseCursor imguiCursorType, sf::Cursor::Type sfmlCursorType) {
-    s_currWindowCtx->mouseCursors[imguiCursorType] = new sf::Cursor();
     s_currWindowCtx->mouseCursorLoaded[imguiCursorType] =
-        s_currWindowCtx->mouseCursors[imguiCursorType]->loadFromSystem(sfmlCursorType);
+        s_currWindowCtx->mouseCursors[imguiCursorType].loadFromSystem(sfmlCursorType);
 }
 
 void updateMouseCursor(sf::Window& window) {
@@ -1098,11 +1647,207 @@ void updateMouseCursor(sf::Window& window) {
             window.setMouseCursorVisible(true);
 
             sf::Cursor& c = s_currWindowCtx->mouseCursorLoaded[cursor] ?
-                                *s_currWindowCtx->mouseCursors[cursor] :
-                                *s_currWindowCtx->mouseCursors[ImGuiMouseCursor_Arrow];
+                                s_currWindowCtx->mouseCursors[cursor] :
+                                s_currWindowCtx->mouseCursors[ImGuiMouseCursor_Arrow];
             window.setMouseCursor(c);
         }
     }
 }
+
+#ifdef IMGUI_SFML_VIEWPORTS_ENABLE
+
+void SFML_CreateWindow(ImGuiViewport* viewport) {
+#if SFML_VERSION_MAJOR >= 3
+    sf::RenderWindow* window = new sf::RenderWindow(sf::VideoMode({(unsigned int)viewport->Size.x,
+                                                                   (unsigned int)viewport->Size.y}),
+                                                    "", sf::Style::None);
+#else
+    sf::RenderWindow* window =
+        new sf::RenderWindow(sf::VideoMode(viewport->Size.x, viewport->Size.y), "",
+                             sf::Style::None);
+#endif
+    window->setVisible(false);
+    WindowContext* data = IM_NEW(WindowContext)(window, ImGui::GetCurrentContext());
+    data->windowHasFocus = true;
+    viewport->PlatformUserData = data;
+    viewport->PlatformHandle = window;
+}
+
+void SFML_DestroyWindow(ImGuiViewport* viewport) {
+    if (WindowContext* wc = (WindowContext*)viewport->PlatformUserData) {
+        if (!wc->isImContextOwner) {
+            wc->window->close();
+            IM_DELETE(wc);
+        }
+    }
+    viewport->PlatformUserData = nullptr;
+    viewport->PlatformHandle = nullptr;
+}
+
+void SFML_ShowWindow(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->setVisible(true);
+}
+
+void SFML_SetWindowPos(ImGuiViewport* viewport, ImVec2 pos) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->setPosition(pos);
+}
+
+ImVec2 SFML_GetWindowPos(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+
+    // SFML window origin is top left corner of the title bar.
+    // This results in that main viewport's coordinates are offsetted
+    // in reference to MousePos, because ImGUi expects coordinates of 
+    // client area.
+    return wc->window->getPosition() + sf::Vector2i(0, wc->titleBarHeight);
+}
+
+void SFML_SetWindowSize(ImGuiViewport* viewport, ImVec2 size) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->setSize(size);
+}
+
+ImVec2 SFML_GetWindowSize(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    return wc->window->getSize();
+}
+
+void SFML_SetWindowFocus(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->requestFocus();
+}
+
+bool SFML_GetWindowFocus(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    return wc->window->hasFocus();
+}
+
+bool SFML_GetWindowMinimized(ImGuiViewport* viewport) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    return false; // tell imgui that window is allways maximized
+}
+
+void SFML_SetWindowTitle(ImGuiViewport* viewport, const char* str) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->setTitle(str);
+}
+
+void SFML_UpdateWindow(ImGuiViewport* viewport) {
+}
+
+void SFML_RenderWindow(ImGuiViewport* viewport, void*) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    if (wc->isImContextOwner) return;
+
+    IM_ASSERT(wc->isRenderWindow);
+    sf::RenderWindow* window = (sf::RenderWindow*)wc->window;
+    window->setActive(true);
+    window->resetGLStates();
+    window->pushGLStates();
+    RenderDrawLists(viewport->DrawData);
+    window->popGLStates();
+}
+
+void SFML_SwapBuffers(ImGuiViewport* viewport, void*) {
+    WindowContext* wc = (WindowContext*)viewport->PlatformUserData;
+    wc->window->display();
+}
+
+#ifdef _WIN32
+static BOOL CALLBACK MonitorEnumProc(HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor,
+                                     LPARAM dwData) {
+    int* Count = (int*)dwData;
+    (*Count)++;
+    return TRUE;
+}
+#endif // _WIN32
+
+void SFML_UpdateMonitors() {
+    ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+    platform_io.Monitors.resize(0);
+
+#if defined(_WIN32)
+    MONITORENUMPROC proc = [](HMONITOR hMonitor, HDC hdcMonitor, LPRECT lprcMonitor,
+                              LPARAM dwData) -> BOOL {
+        ImGuiPlatformIO& platform_io = *((ImGuiPlatformIO*)dwData);
+        ImGuiPlatformMonitor monitor;
+
+        MONITORINFOEXW mi;
+        ZeroMemory(&mi, sizeof(mi));
+        mi.cbSize = sizeof(mi);
+
+        GetMonitorInfoW(hMonitor, (MONITORINFO*)&mi);
+
+        monitor.MainPos = ImVec2(mi.rcMonitor.left, mi.rcMonitor.top);
+        monitor.MainSize =
+            ImVec2(mi.rcMonitor.right - mi.rcMonitor.left, mi.rcMonitor.bottom - mi.rcMonitor.top);
+        monitor.WorkPos = ImVec2(mi.rcWork.left, mi.rcWork.top);
+        monitor.WorkSize =
+            ImVec2(mi.rcWork.right - mi.rcWork.left, mi.rcWork.bottom - mi.rcWork.top);
+
+        platform_io.Monitors.push_back(monitor);
+        return TRUE;
+    };
+
+    // if (EnumDisplayMonitors(NULL, NULL, MonitorEnumProc, (LPARAM)&Count))
+    EnumDisplayMonitors(NULL, NULL, proc, (LPARAM)&platform_io);
+#elif defined(__linux__)
+    static Display* display = nullptr;
+    if (display == nullptr) {
+        if (!(display = XOpenDisplay(0))) {
+            fprintf(stderr, "Could not open X display.\n");
+            return;
+        }
+    }
+
+    XRRScreenResources* screen_res = XRRGetScreenResources(display, DefaultRootWindow(display));
+
+    int nmonitors = 0;
+    XRRGetMonitors(display, DefaultRootWindow(display), 1, &nmonitors);
+
+    for (int i = 0; i < nmonitors; i++) {
+        ImGuiPlatformMonitor monitor;
+        XRRCrtcInfo* screen_info = XRRGetCrtcInfo(display, screen_res, screen_res->crtcs[i]);
+
+        monitor.MainPos = monitor.WorkPos = ImVec2(screen_info->x, screen_info->y);
+        monitor.MainSize = monitor.WorkSize = ImVec2(screen_info->width, screen_info->width);
+
+        platform_io.Monitors.push_back(monitor);
+    }
+#else
+#error "Update monitors is not implemented for this platform."
+#endif // _WIN32
+}
+
+void SFML_InitInterface(WindowContext* windowContext) {
+    ImGuiPlatformIO& platform_io = ImGui::GetPlatformIO();
+    platform_io.Platform_CreateWindow = SFML_CreateWindow;
+    platform_io.Platform_DestroyWindow = SFML_DestroyWindow;
+    platform_io.Platform_ShowWindow = SFML_ShowWindow;
+    platform_io.Platform_SetWindowPos = SFML_SetWindowPos;
+    platform_io.Platform_GetWindowPos = SFML_GetWindowPos;
+    platform_io.Platform_SetWindowSize = SFML_SetWindowSize;
+    platform_io.Platform_GetWindowSize = SFML_GetWindowSize;
+    platform_io.Platform_SetWindowFocus = SFML_SetWindowFocus;
+    platform_io.Platform_GetWindowFocus = SFML_GetWindowFocus;
+    platform_io.Platform_GetWindowMinimized = SFML_GetWindowMinimized;
+    platform_io.Platform_SetWindowTitle = SFML_SetWindowTitle;
+    // platform_io.Platform_SetWindowAlpha = SFML_SetWindowAlpha;
+    platform_io.Platform_UpdateWindow = SFML_UpdateWindow;
+    platform_io.Platform_RenderWindow = SFML_RenderWindow;
+    platform_io.Platform_SwapBuffers = SFML_SwapBuffers;
+
+    ImGuiViewport* mainViewport = ImGui::GetMainViewport();
+    mainViewport->PlatformUserData = windowContext;
+    mainViewport->PlatformHandle = windowContext->window;
+}
+
+void SFML_ShutdownInterface() {
+    ImGui::DestroyPlatformWindows();
+}
+
+#endif // IMGUI_SFML_VIEWPORTS_ENABLE
 
 } // end of anonymous namespace

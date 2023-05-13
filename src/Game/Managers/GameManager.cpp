@@ -9,6 +9,7 @@
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/InputManager.h>
 #include <Engine/Managers/PhysicsManager.h>
+#include <Engine/Managers/AnimationManager.h>
 #include <Engine/ImGui/imgui.h>
 
 #include "../Core/EventData.h"
@@ -54,10 +55,12 @@ namespace Game
     case GameState::Gameplay:
       m_currentGameState = GameState::Gameplay;
 			Engine::PhysicsManager::Get().SetPhysicsEnabled(true);
+      Engine::AnimationManager::Get().SetAnimationsEnabled(true);
       break;
     case GameState::Paused:
       m_currentGameState = GameState::Paused;
       Engine::PhysicsManager::Get().SetPhysicsEnabled(false);
+      Engine::AnimationManager::Get().SetAnimationsEnabled(false);
       break;
     default:
       break;

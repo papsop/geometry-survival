@@ -32,7 +32,9 @@ set(SOURCES
 	Drawables/SpriteDrawableComponent.inl
 	Drawables/SpriteDrawableComponent.cpp
 	Drawables/TextDrawableComponent.h
-	Drawables/TextDrawableComponent.cpp
+	Drawables/TextDrawableComponent.cpp	
+	Drawables/AnimationControllerComponent.h
+	Drawables/AnimationControllerComponent.cpp
 
 	UI/LayoutElementComponent.h
 	UI/LayoutElementComponent.cpp

@@ -19,6 +19,7 @@
 #include "Managers/ResourceManager.h"
 #include "Managers/RenderManager.h"
 #include "Managers/EditorManager.h"
+#include "Managers/AnimationManager.h"
 
 #include <iostream>
 #include <type_traits>
@@ -86,6 +87,10 @@ namespace Engine
 		GET_MANAGER_HELPER("EditorManager", *m_editorManager);
 	}
 
+	AnimationManager& Application::GetAnimationManager()
+	{
+		GET_MANAGER_HELPER("AnimationManager", *m_animationManager);
+	}
 	// ===========================================================
   // Application stuff
   // ===========================================================
@@ -115,6 +120,7 @@ namespace Engine
 		CREATE_MANAGER(ResourceManager, m_resourceManager);
 		CREATE_MANAGER(RenderManager, m_renderManager);
 		CREATE_MANAGER(EditorManager, m_editorManager);
+		CREATE_MANAGER(AnimationManager, m_animationManager);
   }
 
   void Application::EndOfFrame()
@@ -153,6 +159,7 @@ namespace Engine
 		m_sceneManager->Update(dt);
 		m_componentManager->Update(dt);
     m_physicsManager->Update(dt);
+    m_animationManager->Update(dt);
 
 		m_timeAccumulator += dt;
     // FixedUpdate
@@ -161,6 +168,7 @@ namespace Engine
       m_physicsManager->FixedUpdate(fixedUpdate);
       m_sceneManager->FixedUpdate(fixedUpdate);
       m_componentManager->FixedUpdate(fixedUpdate);
+      m_animationManager->FixedUpdate(fixedUpdate);
       m_timeAccumulator -= fixedUpdate;
 
       if (m_timeAccumulator > 0 && m_timeAccumulator < fixedUpdate)
@@ -168,6 +176,7 @@ namespace Engine
 				m_physicsManager->FixedUpdate(m_timeAccumulator);
 				m_sceneManager->FixedUpdate(m_timeAccumulator);
 				m_componentManager->FixedUpdate(m_timeAccumulator);
+        m_animationManager->FixedUpdate(m_timeAccumulator);
         m_timeAccumulator = 0;
       }
     }
@@ -190,6 +199,7 @@ namespace Engine
 		m_configManager->LoadCvarsFromFile();
     m_renderManager->OnInit(); // needs to be initialed for all the debuggables
     m_resourceManager->OnInit();
+    m_animationManager->OnInit();
     m_physicsManager->OnInit();
 	  m_inputManager->OnInit();
 	  m_sceneManager->OnInit();
@@ -242,6 +252,7 @@ namespace Engine
     m_sceneManager->OnDestroy();
     m_inputManager->OnDestroy();
     m_physicsManager->OnDestroy();
+    m_animationManager->OnDestroy();
 		m_resourceManager->OnDestroy();
     m_renderManager->OnDestroy();
     m_configManager->OnDestroy();

@@ -1,6 +1,8 @@
 #include "MainMenuUIControllerComponent.h"
 #include "../MainMenuScreenComponent.h"
 #include "../SettingsScreenComponent.h"
+#include "../../../Managers/GameManager.h"
+
 namespace Game {
 
 	MainMenuUIControllerComponent::MainMenuUIControllerComponent(Engine::GameObject& obj)
@@ -11,6 +13,7 @@ namespace Game {
 
 	void MainMenuUIControllerComponent::VirtualOnActivated()
 	{
+		GameManager::Get()->SetGameState(GameState::Paused);
 		m_components[0] = Owner.GetComponent<MainMenuScreenComponent>();
 		m_components[1] = Owner.GetComponent<SettingsScreenComponent>();
 

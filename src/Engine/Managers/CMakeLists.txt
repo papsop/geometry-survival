@@ -26,6 +26,8 @@ set(SOURCES
 	RenderManager.cpp
 	EditorManager.h
 	EditorManager.cpp
+	AnimationManager.h
+	AnimationManager.cpp
 
 	Config/IConfigurable.h
 	ResourceTypes.h

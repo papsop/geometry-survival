@@ -38,15 +38,6 @@ namespace Engine
     pinkImage.create(16, 16, { 255, 0, 127, 255 });
     m_dummyTexture = std::make_shared<sf::Texture>();
     m_dummyTexture->loadFromImage(pinkImage);
-
-    // Dummy shader
-    const std::string fragmentShader = \
-      "void main()" \
-      "{" \
-      "    gl_FragColor = vec4(gl_TexCoord[0].x, gl_TexCoord[0].y, gl_TexCoord[0].x, 1.0);" \
-      "}";
-    m_dummyShader = std::make_shared<sf::Shader>();
-    m_dummyShader->loadFromMemory(fragmentShader, sf::Shader::Fragment);
   }
 
 	// ============================
@@ -71,14 +62,17 @@ namespace Engine
 				if(texture.second["repeatable"] && texture.second["repeatable"].as<bool>())
 					isRepeatable = true;
 					
-				std::shared_ptr<sf::Texture> loadedTexture = LoadTextureFromFile(path, isRepeatable);
-				if (!loadedTexture)
+				if (m_textures.find(name) == m_textures.end())
+				{
+					m_textures[name] = std::make_shared<sf::Texture>();
+				}
+
+				LoadTextureFromFile(m_textures[name].get(), path, isRepeatable);
+				if (!m_textures[name])
 				{
 					LOG_ERROR("Unable to load texture '%s' at '%s", name, path);
 					continue; // gg go next
 				}
-
-				m_textures[name] = loadedTexture;
 			}
 		}
 		catch (const std::exception& e)
@@ -106,14 +100,16 @@ namespace Engine
           vertexPath = m_assetsFolder + shader.second["vertex_path"].as<std::string>();
         }
 
-				std::shared_ptr<sf::Shader> loadedShader = LoadShaderFromFiles(fragmentPath, vertexPath);
-				if (!loadedShader)
+				if (m_shaders.find(name) == m_shaders.end())
+				{
+					m_shaders[name] = std::make_shared<sf::Shader>();
+				}
+				LoadShaderFromFiles(m_shaders[name].get(), fragmentPath, vertexPath);
+				if (!m_shaders[name])
 				{
 					LOG_ERROR("Unable to load shader '%s' at [frag: '%s', vertex: '%s']", name, fragmentPath, vertexPath);
 					continue; // gg go next
 				}
-
-				m_shaders[name] = loadedShader;
 			}
 		}
 		catch (const std::exception& e)
@@ -122,41 +118,38 @@ namespace Engine
 		}
 	}
 
-  std::shared_ptr<sf::Texture> ResourceManager::LoadTextureFromFile(std::string filePath, bool isRepeatable)
+  void ResourceManager::LoadTextureFromFile(sf::Texture* target, std::string filePath, bool isRepeatable)
   {
 		if (!std::filesystem::exists(filePath))
 		{
 			LOG_ERROR("Unable to find texture at '%s', using dummyTexture", filePath);
-			return m_dummyTexture;
+			target = nullptr;
+			return;
 		}
 
-		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
-		texture->loadFromFile(filePath);
-		texture->setRepeated(isRepeatable);
-		return texture;
+		target->loadFromFile(filePath);
+		target->setRepeated(isRepeatable);
   }
 
-  std::shared_ptr<sf::Shader> ResourceManager::LoadShaderFromFiles(std::string fragmentPath, std::string vertexPath)
+  void ResourceManager::LoadShaderFromFiles(sf::Shader* target, std::string fragmentPath, std::string vertexPath)
   {
     if (!fragmentPath.empty() && !std::filesystem::exists(fragmentPath))
     {
-      LOG_ERROR("Unable to find fragment shader at '%s', using dummyShader", fragmentPath);
-			return m_dummyShader;
+      LOG_ERROR("Unable to find fragment shader at '%s', can't load shader", fragmentPath);
+			target = nullptr;
+			return;
     }
     if (!vertexPath.empty() && !std::filesystem::exists(vertexPath))
     {
-      LOG_ERROR("Unable to find vertex shader at '%s', using dummyShader", vertexPath);
-      return m_dummyShader;
+      LOG_ERROR("Unable to find vertex shader at '%s', can't load shader", vertexPath);
+			target = nullptr;
+      return;
     }
 
-    std::shared_ptr<sf::Shader> shader = std::make_shared<sf::Shader>();
-    
 		if(!fragmentPath.empty())
-			shader->loadFromFile(fragmentPath, sf::Shader::Fragment);
+			target->loadFromFile(fragmentPath, sf::Shader::Fragment);
     if (!vertexPath.empty())
-      shader->loadFromFile(vertexPath, sf::Shader::Vertex);
-
-    return shader;
+			target->loadFromFile(vertexPath, sf::Shader::Vertex);
   }
 
 	// Usage: GetTexture("player")
@@ -175,7 +168,7 @@ namespace Engine
 		if (m_shaders.find(name) == m_shaders.end())
 		{
 			LOG_ERROR("Unable to GetShader with name '%s'", name);
-			return m_dummyShader;
+			return nullptr;
 		}
 		return m_shaders[name];
 	}

@@ -35,14 +35,17 @@ namespace Engine
     void LoadResourcesList();
 		void GenerateDummyResources();
 
-    std::shared_ptr<sf::Texture> LoadTextureFromFile(std::string filePath, bool isRepeatable);
-    std::shared_ptr<sf::Shader> LoadShaderFromFiles(std::string fragmentPath, std::string vertexPath);
+		//
+		// sf::Shader is noncopyable, so we can't return it from the function
+		// BUT we need to change the already existing shader, so we need to pass a target pointer
+		// to keep it the same, use the same process for textures
+    void LoadTextureFromFile(sf::Texture* target, std::string filePath, bool isRepeatable);
+    void LoadShaderFromFiles(sf::Shader* target, std::string fragmentPath, std::string vertexPath);
 
 		std::unordered_map < std::string, std::shared_ptr<sf::Texture> > m_textures;
 		std::unordered_map < std::string, std::shared_ptr<sf::Shader> > m_shaders;
 	
 		std::shared_ptr<sf::Texture> m_dummyTexture;
-		std::shared_ptr<sf::Shader>  m_dummyShader;
 
 		const char* m_assetsFolder = "assets/";
 		const char* m_texturesIndexPath = "assets/textures_index.yaml";

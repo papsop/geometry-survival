@@ -35,7 +35,7 @@ namespace Engine
     void LoadResourcesList();
 		void GenerateDummyResources();
 
-    std::shared_ptr<sf::Texture> LoadTextureFromFile(std::string filePath);
+    std::shared_ptr<sf::Texture> LoadTextureFromFile(std::string filePath, bool isRepeatable);
     std::shared_ptr<sf::Shader> LoadShaderFromFiles(std::string fragmentPath, std::string vertexPath);
 
 		std::unordered_map < std::string, std::shared_ptr<sf::Texture> > m_textures;

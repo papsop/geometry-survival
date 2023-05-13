@@ -65,7 +65,13 @@ namespace Engine
 				auto name = texture.first.as<std::string>();
 				auto path = m_assetsFolder + texture.second["path"].as<std::string>();
 
-				std::shared_ptr<sf::Texture> loadedTexture = LoadTextureFromFile(path);
+				// shit code, YAML::Node -> bool doesnt exists
+				// but you can use it in if(YAML::Node)
+				bool isRepeatable = false;
+				if(texture.second["repeatable"] && texture.second["repeatable"].as<bool>())
+					isRepeatable = true;
+					
+				std::shared_ptr<sf::Texture> loadedTexture = LoadTextureFromFile(path, isRepeatable);
 				if (!loadedTexture)
 				{
 					LOG_ERROR("Unable to load texture '%s' at '%s", name, path);
@@ -116,7 +122,7 @@ namespace Engine
 		}
 	}
 
-  std::shared_ptr<sf::Texture> ResourceManager::LoadTextureFromFile(std::string filePath)
+  std::shared_ptr<sf::Texture> ResourceManager::LoadTextureFromFile(std::string filePath, bool isRepeatable)
   {
 		if (!std::filesystem::exists(filePath))
 		{
@@ -126,6 +132,7 @@ namespace Engine
 
 		std::shared_ptr<sf::Texture> texture = std::make_shared<sf::Texture>();
 		texture->loadFromFile(filePath);
+		texture->setRepeated(isRepeatable);
 		return texture;
   }
 

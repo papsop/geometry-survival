@@ -16,8 +16,8 @@ namespace Engine
 	};
 
 	class SpriteDrawableComponent : public IDrawableComponent
-	{
-	public:
+  {
+  public:
 		SpriteDrawableComponent(GameObject& obj, SpriteDrawableDef def);
 		~SpriteDrawableComponent() override = default;
 
@@ -27,7 +27,7 @@ namespace Engine
 
 		void SetFlipX(bool flip);
 		void SetFlipY(bool flip);
-
+		void Resize(math::Vec2 newSize);
 	protected:
 
 	private:

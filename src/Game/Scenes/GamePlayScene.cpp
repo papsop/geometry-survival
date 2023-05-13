@@ -8,6 +8,8 @@
 
 #include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
+#include <Engine/Components/Drawables/SpriteDrawableComponent.h>
+
 #include <Engine/Utils/VectorUtils.h>
 
 #include "../Core/GameObject/GameObjectFactory.h"
@@ -66,7 +68,17 @@ namespace Game
     auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     enemySpawner->AddComponent<EnemySpawnerComponent>();
 
+
+    // ================== Background ==================
+    auto* background = Engine::GameObjectManager::Get().CreateGameObject("Background", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+    Engine::SpriteDrawableDef spriteDef;
+    spriteDef.Layer = Engine::view::Layer::BACKGROUND;
+    spriteDef.TextureName = "grass_tile";
+    spriteDef.Size = {100, 100};
+    background->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
+
     // ================== Activate objects ==================
+    background->SetActive(true);
     camera->SetActive(true);
     enemySpawner->SetActive(true);
     playerSpawner->SetActive(true);

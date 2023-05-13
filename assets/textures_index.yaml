@@ -14,3 +14,6 @@ experience:
   path: sprites/exp.png
 bullet:
   path: sprites/bullet.png
+grass_tile:
+  path: sprites/environment/grass_tile.png
+  repeatable: true

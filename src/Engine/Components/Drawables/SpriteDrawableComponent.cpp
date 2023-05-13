@@ -15,23 +15,10 @@ namespace Engine
 		{
 			m_shader = ResourceManager::Get().GetShader(def.ShaderName);
 		}
-		
-		if (m_texture)
-		{
-			m_sprite.setTexture(*m_texture);
-		}
-		m_sprite.setColor(def.Color);
 
-		auto localBounds = m_sprite.getLocalBounds();
-		m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);
-		// Sprite doesn't support setting size by pixels, so use scaling instead
-		// this scale is local to the sprite itself and will get multiplied
-		// by GameObject's transform.scale before rendering. The size is in world 
-		// coordinates (used by box2d) so it's synced with the physics system
-		// and PixelsPerMeter still apply to this sprite
-		m_desiredPixelSize = RenderManager::Get().coordsToPixels(def.Size);
-		sf::Vector2f scale = { m_desiredPixelSize.x / localBounds.width, m_desiredPixelSize.y / localBounds.height };
-		m_sprite.setScale(scale);
+		m_sprite.setTexture(*m_texture);
+		m_sprite.setColor(def.Color);
+		Resize(def.Size);
 	}
 
 	void SpriteDrawableComponent::Update(float dt)
@@ -57,5 +44,23 @@ namespace Engine
 		auto scale = m_sprite.getScale();
 		m_sprite.setScale(scale.x, (flip) ? -scale.y : scale.y);
 	}
+
+  void SpriteDrawableComponent::Resize(math::Vec2 newSize)
+  {
+    // Sprite doesn't support setting size by pixels, so use scaling instead
+		// this scale is local to the sprite itself and will get multiplied
+		// by GameObject's transform.scale before rendering. The size is in world 
+		// coordinates (used by box2d) so it's synced with the physics system
+		// and PixelsPerMeter still apply to this sprite
+    m_desiredPixelSize = RenderManager::Get().coordsToPixels(newSize);
+    if (m_texture->isRepeated())
+    {
+      m_sprite.setTextureRect({ 0, 0, static_cast<int>(m_desiredPixelSize.x), static_cast<int>(m_desiredPixelSize.y) });
+    }
+    auto localBounds = m_sprite.getLocalBounds();
+    m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);
+    sf::Vector2f scale = { m_desiredPixelSize.x / localBounds.width, m_desiredPixelSize.y / localBounds.height };
+    m_sprite.setScale(scale);
+  }
 
 }

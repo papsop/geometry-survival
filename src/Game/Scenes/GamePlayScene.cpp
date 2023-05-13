@@ -59,29 +59,23 @@ namespace Game
     playerSpawner->AddComponent<PlayerSpawnerComponent>();
 
     // ================== Camera ==================
-    auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
-    camera->AddComponent<CameraComponent>(nullptr);
+		Engine::SpriteDrawableDef spriteDef;
+		spriteDef.Layer = Engine::view::Layer::BACKGROUND;
+		spriteDef.TextureName = "grass_tile";
+		spriteDef.Size = { 128, 72 };
+		spriteDef.ShaderName = "background_shader";
 
-    physBodyDef.CategoryBits = physics::EntityCategory::ENEMY;
-    physBodyDef.MaskBits = physics::EntityMask::M_ENEMY;
+		auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
+		camera->AddComponent<CameraComponent>(nullptr);
+    camera->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
+		camera->AddComponent<BackgroundComponent>();
 
     // ================== Enemy spawner ==================
     auto* enemySpawner = Engine::GameObjectManager::Get().CreateGameObject("Enemy spawner", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
     enemySpawner->AddComponent<EnemySpawnerComponent>();
 
 
-    // ================== Background ==================
-    auto* background = Engine::GameObjectManager::Get().CreateGameObject("Background", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
-    Engine::SpriteDrawableDef spriteDef;
-    spriteDef.Layer = Engine::view::Layer::BACKGROUND;
-    spriteDef.TextureName = "grass_tile";
-    spriteDef.Size = {100, 100};
-    spriteDef.ShaderName = "background_shader";
-    background->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
-    background->AddComponent<BackgroundComponent>(camera);
-
     // ================== Activate objects ==================
-    background->SetActive(true);
     camera->SetActive(true);
     enemySpawner->SetActive(true);
     playerSpawner->SetActive(true);

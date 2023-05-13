@@ -62,7 +62,7 @@ namespace Game
 
 	void CameraComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
 	{
-		SetEnabled(eventData.NewState == GameState::Gameplay);
+		//SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 };

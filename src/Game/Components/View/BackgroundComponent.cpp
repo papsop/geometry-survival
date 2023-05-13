@@ -1,20 +1,21 @@
 #include "BackgroundComponent.h"
 #include <Engine/Managers/ComponentManager.h>
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
+#include "CameraComponent.h"
 
 namespace Game
 {
 
-  BackgroundComponent::BackgroundComponent(Engine::GameObject& obj, Engine::GameObject* target)
+  BackgroundComponent::BackgroundComponent(Engine::GameObject& obj)
     : IComponent(obj)
-    , m_target(target)
   {
-    SetRequiredComponents<Engine::SpriteDrawableComponent>();
+    SetRequiredComponents<Engine::SpriteDrawableComponent, CameraComponent>();
   }
 
   void BackgroundComponent::OnCreate()
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
+    m_spriteComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
   }
 
   BackgroundComponent::~BackgroundComponent()
@@ -33,11 +34,11 @@ namespace Game
   }
 
   void BackgroundComponent::FixedUpdate(float dt)
-  {
-    auto cameraTransformPos = m_target->GetTransform()->GetPosition();
-    sf::Vector2f cameraPos = {cameraTransformPos.x, cameraTransformPos.y};
-    Owner.GetComponent<Engine::SpriteDrawableComponent>()->SetShaderParameter("cameraPos", cameraPos);
-    Owner.GetTransform()->SetPosition(cameraTransformPos);
+	{
+		auto cameraTransformPos = Owner.GetTransform()->GetPosition();
+		sf::Vector2f cameraPos = { cameraTransformPos.x, cameraTransformPos.y };
+		m_spriteComponent->SetShaderParameter("cameraPos", cameraPos);
+    m_spriteComponent->SetShaderParameter("textureSize", sf::Vector2f{3.2f, 3.2f});
   }
 
 }

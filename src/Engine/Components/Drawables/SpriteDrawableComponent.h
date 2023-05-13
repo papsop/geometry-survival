@@ -28,6 +28,16 @@ namespace Engine
 		void SetFlipX(bool flip);
 		void SetFlipY(bool flip);
 		void Resize(math::Vec2 newSize);
+
+    template<
+      typename T,
+      typename ... Args,
+      typename = enable_if_base_of_component<T>
+    >
+      void AddComponent(Args&& ... args);
+
+		template<typename ... Args>
+		void SetShaderParameter(const char* parameter, Args&& ... args);
 	protected:
 
 	private:
@@ -36,4 +46,7 @@ namespace Engine
 		std::shared_ptr<sf::Texture> m_texture;
 		std::shared_ptr<sf::Shader> m_shader;
 	};
+
 }
+
+#include "SpriteDrawableComponent.inl"

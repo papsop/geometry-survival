@@ -10,3 +10,5 @@
 #   fragment_path: shaders/test.vert
 test_shader:
  fragment_path: shaders/test.frag  
+background_shader:
+ fragment_path: shaders/background.frag

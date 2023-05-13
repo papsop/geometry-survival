@@ -14,6 +14,7 @@ namespace Engine
 		if (def.ShaderName != nullptr)
 		{
 			m_shader = ResourceManager::Get().GetShader(def.ShaderName);
+			SetShaderParameter("texture", sf::Shader::CurrentTexture);
 		}
 
 		m_sprite.setTexture(*m_texture);

@@ -37,6 +37,7 @@
 #include "Components/UI/SplashScreenComponent.h"
 #include "Components/View/CameraComponent.h"
 #include "Components/View/CombatTextComponent.h"
+#include "Components/View/BackgroundComponent.h"
 
 #include "Scenes/GamePlayScene.h"
 #include "Scenes/MainMenuScene.h"
@@ -76,7 +77,8 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();
-      
+      Engine::ComponentManager::Get().RegisterComponentType<BackgroundComponent>();
+
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();
       Engine::Application::Instance().RegisterGameManager<SkillsManager>();

@@ -24,6 +24,7 @@
 #include "../Components/Actor/RPGComponent.h"
 #include "../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../Components/View/CameraComponent.h"
+#include "../Components/View/BackgroundComponent.h"
 #include "../Physics/Filters.h"
 
 
@@ -75,7 +76,9 @@ namespace Game
     spriteDef.Layer = Engine::view::Layer::BACKGROUND;
     spriteDef.TextureName = "grass_tile";
     spriteDef.Size = {100, 100};
+    spriteDef.ShaderName = "background_shader";
     background->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
+    background->AddComponent<BackgroundComponent>(camera);
 
     // ================== Activate objects ==================
     background->SetActive(true);

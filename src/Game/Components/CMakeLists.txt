@@ -81,6 +81,8 @@ set(VIEW_SOURCE
 	View/CameraComponent.cpp
 	View/CombatTextComponent.h
 	View/CombatTextComponent.cpp
+	View/BackgroundComponent.h
+	View/BackgroundComponent.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

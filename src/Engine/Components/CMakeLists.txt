@@ -29,6 +29,7 @@ set(SOURCES
 	Drawables/ShapeDrawableComponent.h
 	Drawables/ShapeDrawableComponent.cpp
 	Drawables/SpriteDrawableComponent.h
+	Drawables/SpriteDrawableComponent.inl
 	Drawables/SpriteDrawableComponent.cpp
 	Drawables/TextDrawableComponent.h
 	Drawables/TextDrawableComponent.cpp

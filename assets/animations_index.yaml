@@ -4,13 +4,13 @@ color_test:
   frame_size: [32, 32]
   loopable: true
   samples:
-    - duration: 0.5
+    - duration: 0.2
       coords: [0, 0]
-    - duration: 0.5
+    - duration: 0.2
       coords: [32, 0]
-    - duration: 0.5
+    - duration: 0.2
       coords: [64, 0]
-    - duration: 0.5
+    - duration: 0.2
       coords: [96, 0]
-    - duration: 0.5
+    - duration: 0.2
       coords: [128, 0]

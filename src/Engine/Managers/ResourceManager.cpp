@@ -129,7 +129,7 @@ namespace Engine
 			{
 				auto name = animation.first.as<std::string>();
 				auto textureName = animation.second["texture"].as<std::string>();
-				auto texture = GetTexture(textureName.c_str());
+				//auto texture = GetTexture(textureName.c_str());
 
 				if (m_animations.find(name) == m_animations.end())
 				{
@@ -138,7 +138,7 @@ namespace Engine
 
 				auto& clip = m_animations[name];
 				clip->Name = name;
-				clip->Texture = texture;
+				clip->TextureName = textureName;
 				clip->SampleTextureSize = animation.second["frame_size"].as<sf::Vector2i>();
 				clip->Loopable = animation.second["loopable"].as<bool>();
 				clip->Samples = {};
@@ -217,6 +217,16 @@ namespace Engine
 		return m_shaders[name];
 	}
 
+	std::shared_ptr<Engine::AnimationClip> ResourceManager::GetAnimation(const char* name)
+	{
+		if (m_animations.find(name) == m_animations.end())
+		{
+			LOG_ERROR("Unable to GetAnimation with name '%s'", name);
+			return nullptr;
+		}
+		return m_animations[name];
+	}
+
 	void ResourceManager::Debug(VisualDebugContext& debugContext)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -267,4 +277,5 @@ namespace Engine
 		}
 		ImGui::End();
 	}
+
 }

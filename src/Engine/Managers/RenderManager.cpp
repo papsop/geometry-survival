@@ -113,7 +113,7 @@ namespace Engine
 		m_debugContext.SetRenderWindow(m_window.get());
 
 		ImGui::SFML::Init(*m_window);
-		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable | ImGuiConfigFlags_ViewportsEnable;
+		ImGui::GetIO().ConfigFlags |= ImGuiConfigFlags_DockingEnable;// | ImGuiConfigFlags_ViewportsEnable;
 	}
 
 	void RenderManager::DestroyWindow()

@@ -24,6 +24,7 @@ namespace Engine
 
 		std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name);
 		std::shared_ptr<sf::Shader> ResourceManager::GetShader(const char* name);
+		std::shared_ptr<AnimationClip> ResourceManager::GetAnimation(const char* name);
 
 		void Debug(VisualDebugContext& debugContext) override;
 	protected:

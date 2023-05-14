@@ -9,17 +9,17 @@ namespace Engine
 		: IDrawableComponent(obj, def.Layer)
 		, m_sprite()
 		, m_texture()
+		, m_desiredWorldSize(def.Size)
+		, m_color(def.Color)
 	{
-		m_texture = ResourceManager::Get().GetTexture(def.TextureName);
+		SetTexture(def.TextureName);
+		Resize(def.Size);
+
 		if (def.ShaderName != nullptr)
 		{
 			m_shader = ResourceManager::Get().GetShader(def.ShaderName);
 			SetShaderParameter("texture", sf::Shader::CurrentTexture);
 		}
-
-		m_sprite.setTexture(*m_texture);
-		m_sprite.setColor(def.Color);
-		Resize(def.Size);
 	}
 
 	void SpriteDrawableComponent::Update(float dt)
@@ -46,6 +46,19 @@ namespace Engine
 		m_sprite.setScale(scale.x, (flip) ? -scale.y : scale.y);
 	}
 
+	void SpriteDrawableComponent::SetTexture(const char* textureName)
+	{
+		m_texture = ResourceManager::Get().GetTexture(textureName);
+		m_sprite.setTexture(*m_texture);
+		m_sprite.setColor(m_color);
+		Resize(m_desiredWorldSize);
+	}
+
+	void SpriteDrawableComponent::SetTextureRect(sf::IntRect rect)
+	{
+		m_sprite.setTextureRect(rect);
+	}
+
   void SpriteDrawableComponent::Resize(math::Vec2 newSize)
   {
     // Sprite doesn't support setting size by pixels, so use scaling instead
@@ -53,7 +66,7 @@ namespace Engine
 		// by GameObject's transform.scale before rendering. The size is in world 
 		// coordinates (used by box2d) so it's synced with the physics system
 		// and PixelsPerMeter still apply to this sprite
-    m_desiredPixelSize = RenderManager::Get().coordsToPixels(newSize);
+		m_desiredPixelSize = RenderManager::Get().coordsToPixels(newSize);
     if (m_texture->isRepeated())
     {
       m_sprite.setTextureRect({ 0, 0, static_cast<int>(m_desiredPixelSize.x), static_cast<int>(m_desiredPixelSize.y) });

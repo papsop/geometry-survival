@@ -5,6 +5,7 @@
 #include <Engine/Components/Drawables/ShapeDrawableComponent.h>
 #include <Engine/Components/Drawables/TextDrawableComponent.h>
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
+#include <Engine/Components/Drawables/AnimationControllerComponent.h>
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
@@ -118,7 +119,10 @@ namespace Game
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		player->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		player->AddComponent<Engine::AnimationControllerComponent>();
 
+		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("color_test");
+			
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;
     rpgActorDef.AttackSpeed = 100.0f;

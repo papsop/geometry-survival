@@ -28,6 +28,8 @@ namespace Engine
 		void SetFlipX(bool flip);
 		void SetFlipY(bool flip);
 		void Resize(math::Vec2 newSize);
+		void SetTexture(const char* textureName);
+		void SetTextureRect(sf::IntRect rect);
 
     template<
       typename T,
@@ -41,8 +43,10 @@ namespace Engine
 	protected:
 
 	private:
+		math::Vec2 m_desiredWorldSize;
 		sf::Vector2f m_desiredPixelSize;
 		sf::Sprite m_sprite;
+		sf::Color m_color;
 		std::shared_ptr<sf::Texture> m_texture;
 		std::shared_ptr<sf::Shader> m_shader;
 	};

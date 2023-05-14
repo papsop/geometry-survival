@@ -8,6 +8,7 @@
 #include "../imgui/imgui.h"
 #include "../Debug/Logger.h"
 #include "../Application.h"
+#include "../Utils/VectorUtils.h"
 
 namespace Engine
 {
@@ -45,6 +46,7 @@ namespace Engine
 	// ============================
 	void ResourceManager::LoadResourcesList()
 	{
+		// TODO: SPLIIIIIIIIIIIIIIIIIIIIIIIT
 		// TexturesIndex
 		try 
 		{
@@ -116,6 +118,43 @@ namespace Engine
 		{
 			LOG_ERROR("Exception while parsing ShaderIndex: %s", e.what());
 		}
+
+		// AnimationsIndex
+		try
+		{
+			DD_ASSERT(std::filesystem::exists(m_animationsIndexPath), "Unable to find AnimationsIndex, searching path '%s'", m_animationsIndexPath);
+			YAML::Node animationsList = YAML::LoadFile(m_animationsIndexPath);
+
+			for (auto& animation : animationsList)
+			{
+				auto name = animation.first.as<std::string>();
+				auto textureName = animation.second["texture"].as<std::string>();
+				auto texture = GetTexture(textureName.c_str());
+
+				if (m_animations.find(name) == m_animations.end())
+				{
+					m_animations[name] = std::make_shared<AnimationClip>();
+				}
+
+				auto& clip = m_animations[name];
+				clip->Name = name;
+				clip->Texture = texture;
+				clip->SampleTextureSize = animation.second["frame_size"].as<sf::Vector2i>();
+				clip->Loopable = animation.second["loopable"].as<bool>();
+				clip->Samples = {};
+				for (auto& sample : animation.second["samples"])
+				{
+					AnimationSample s;
+					s.Duration = sample["duration"].as<float>();
+					s.TextureCoord = sample["coords"].as<sf::Vector2i>();
+					clip->Samples.emplace_back(s);
+				}
+			}
+		}
+		catch (const std::exception& e)
+		{
+			LOG_ERROR("Exception while parsing AnimationsList: %s", e.what());
+		}
 	}
 
   void ResourceManager::LoadTextureFromFile(sf::Texture* target, std::string filePath, bool isRepeatable)
@@ -151,6 +190,11 @@ namespace Engine
     if (!vertexPath.empty())
 			target->loadFromFile(vertexPath, sf::Shader::Vertex);
   }
+
+	void ResourceManager::LoadAnimationData(AnimationClip* target, YAML::Node)
+	{
+		/* todo split */
+	}
 
 	// Usage: GetTexture("player")
 	std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name)

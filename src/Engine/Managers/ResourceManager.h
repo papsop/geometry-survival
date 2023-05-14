@@ -1,6 +1,6 @@
 #pragma once
 #include "IManager.h"
-#include "ResourceTypes.h"
+#include "AnimationManager.h"
 #include "../Debug/IDebuggable.h"
 
 #include <SFML/Graphics.hpp>
@@ -12,6 +12,7 @@
 namespace Engine
 {
 	class Application;
+
 	// ============================
 	// RESOURCE MANAGER
 	// ============================
@@ -40,16 +41,20 @@ namespace Engine
 		// BUT we need to change the already existing shader, so we need to pass a target pointer
 		// to keep it the same, use the same process for textures
     void LoadTextureFromFile(sf::Texture* target, std::string filePath, bool isRepeatable);
-    void LoadShaderFromFiles(sf::Shader* target, std::string fragmentPath, std::string vertexPath);
+		void LoadShaderFromFiles(sf::Shader* target, std::string fragmentPath, std::string vertexPath);
+		
+		void LoadAnimationData(AnimationClip* target, YAML::Node);
 
 		std::unordered_map < std::string, std::shared_ptr<sf::Texture> > m_textures;
 		std::unordered_map < std::string, std::shared_ptr<sf::Shader> > m_shaders;
+		std::unordered_map < std::string, std::shared_ptr<AnimationClip> > m_animations;
 	
 		std::shared_ptr<sf::Texture> m_dummyTexture;
 
 		const char* m_assetsFolder = "assets/";
 		const char* m_texturesIndexPath = "assets/textures_index.yaml";
 		const char* m_shadersIndexPath = "assets/shaders_index.yaml";
+		const char* m_animationsIndexPath = "assets/animations_index.yaml";
 		
 
 		friend class Application;

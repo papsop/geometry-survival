@@ -17,3 +17,5 @@ bullet:
 grass_tile:
   path: sprites/environment/grass_tile.png
   repeatable: true
+color_test:
+  path: sprites/colors_spritesheet.png

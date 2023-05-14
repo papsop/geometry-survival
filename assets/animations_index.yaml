@@ -4,9 +4,9 @@ color_test:
   frame_size: [32, 32]
   loopable: true
   samples:
-    - duration: 0.05
+    - duration: 0.5
       coords: [0, 0]
-    - duration: 0.05
+    - duration: 0.5
       coords: [32, 0]
     - duration: 0.5
       coords: [64, 0]

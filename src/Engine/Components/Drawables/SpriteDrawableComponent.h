@@ -27,7 +27,7 @@ namespace Engine
 
 		void SetFlipX(bool flip);
 		void SetFlipY(bool flip);
-		void Resize(math::Vec2 newSize);
+		void UpdateSize();
 		void SetTexture(const char* textureName);
 		void SetTextureRect(sf::IntRect rect);
 

@@ -13,7 +13,7 @@ namespace Engine
 		, m_color(def.Color)
 	{
 		SetTexture(def.TextureName);
-		Resize(def.Size);
+		UpdateSize();
 
 		if (def.ShaderName != nullptr)
 		{
@@ -51,7 +51,7 @@ namespace Engine
 		m_texture = ResourceManager::Get().GetTexture(textureName);
 		m_sprite.setTexture(*m_texture);
 		m_sprite.setColor(m_color);
-		Resize(m_desiredWorldSize);
+		UpdateSize();
 	}
 
 	void SpriteDrawableComponent::SetTextureRect(sf::IntRect rect)
@@ -59,14 +59,14 @@ namespace Engine
 		m_sprite.setTextureRect(rect);
 	}
 
-  void SpriteDrawableComponent::Resize(math::Vec2 newSize)
+  void SpriteDrawableComponent::UpdateSize()
   {
     // Sprite doesn't support setting size by pixels, so use scaling instead
 		// this scale is local to the sprite itself and will get multiplied
 		// by GameObject's transform.scale before rendering. The size is in world 
 		// coordinates (used by box2d) so it's synced with the physics system
 		// and PixelsPerMeter still apply to this sprite
-		m_desiredPixelSize = RenderManager::Get().coordsToPixels(newSize);
+		m_desiredPixelSize = RenderManager::Get().coordsToPixels(m_desiredWorldSize);
     if (m_texture->isRepeated())
     {
       m_sprite.setTextureRect({ 0, 0, static_cast<int>(m_desiredPixelSize.x), static_cast<int>(m_desiredPixelSize.y) });

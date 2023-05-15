@@ -3,6 +3,7 @@ color_test:
   texture: color_test
   frame_size: [32, 32]
   loopable: true
+  samples_type: per_sample
   samples:
     - duration: 0.2
       coords: [0, 0]
@@ -14,3 +15,10 @@ color_test:
       coords: [96, 0]
     - duration: 0.2
       coords: [128, 0]
+necromancer_move:
+  texture: necromancer_move_spritesheet
+  frame_size: [160, 80]
+  loopable: true
+  samples_type: fps
+  fps: 10
+  samples_count: 8

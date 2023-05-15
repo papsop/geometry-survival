@@ -5,6 +5,8 @@
 namespace Engine
 {
 	class AnimationClip;
+	class AnimationSample;
+
 	class AnimationControllerComponent : public IComponent
 	{
 	public:
@@ -25,5 +27,7 @@ namespace Engine
 		size_t m_maxSamples = 0;
 		std::shared_ptr<AnimationClip> m_animationClip;
 		SpriteDrawableComponent* m_spriteComponent = nullptr;
+
+		void ApplySampleData(const AnimationSample& sample);
 	};
 }

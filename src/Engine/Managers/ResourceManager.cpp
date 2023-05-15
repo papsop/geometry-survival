@@ -142,12 +142,29 @@ namespace Engine
 				clip->SampleTextureSize = animation.second["frame_size"].as<sf::Vector2i>();
 				clip->Loopable = animation.second["loopable"].as<bool>();
 				clip->Samples = {};
-				for (auto& sample : animation.second["samples"])
+				std::string samplesType = animation.second["samples_type"].as<std::string>();
+				if (samplesType == "per_sample")
 				{
-					AnimationSample s;
-					s.Duration = sample["duration"].as<float>();
-					s.TextureCoord = sample["coords"].as<sf::Vector2i>();
-					clip->Samples.emplace_back(s);
+					for (auto& sample : animation.second["samples"])
+					{
+						AnimationSample s;
+						s.Duration = sample["duration"].as<float>();
+						s.TextureCoord = sample["coords"].as<sf::Vector2i>();
+						clip->Samples.emplace_back(s);
+					}
+				}
+				else if (samplesType == "fps")
+				{
+					int samplesCount = animation.second["samples_count"].as<int>();
+					float sampleDuration = 1.0f / animation.second["fps"].as<int>();
+					for (int i = 0; i < samplesCount; i++)
+					{
+						AnimationSample s;
+						s.Duration = sampleDuration;
+						s.TextureCoord.x = clip->SampleTextureSize.x * i;
+						s.TextureCoord.y = 0;
+						clip->Samples.emplace_back(s);
+					}
 				}
 			}
 		}

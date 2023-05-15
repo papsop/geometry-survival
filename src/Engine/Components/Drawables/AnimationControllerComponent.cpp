@@ -39,15 +39,7 @@ namespace Engine
 			}
 			m_currentTimer = 0.0f;
 		}
-
-		m_spriteComponent->SetTexture(m_animationClip->TextureName.c_str());
-		sf::IntRect textureRect;
-		textureRect.top = currentSample.TextureCoord.y;
-		textureRect.left = currentSample.TextureCoord.x;
-		textureRect.width = m_animationClip->SampleTextureSize.x;
-		textureRect.height = m_animationClip->SampleTextureSize.y;
-		
-		m_spriteComponent->SetTextureRect(textureRect);
+		ApplySampleData(m_animationClip->Samples[m_currentSample]);
 	}
 
 	void AnimationControllerComponent::FixedUpdate(float dt)
@@ -58,9 +50,21 @@ namespace Engine
 	void AnimationControllerComponent::AddAnimationClip(const char* name)
 	{
 		m_animationClip = ResourceManager::Get().GetAnimation(name);
+		m_spriteComponent->SetTexture(m_animationClip->TextureName.c_str());
 		m_currentTimer = 0.0f;
 		m_currentSample = 0;
 		m_maxSamples = m_animationClip->Samples.size();
+	}
+
+	void AnimationControllerComponent::ApplySampleData(const AnimationSample& sample)
+	{
+		sf::IntRect textureRect;
+		textureRect.left = sample.TextureCoord.x;
+		textureRect.top = sample.TextureCoord.y;
+		textureRect.width = m_animationClip->SampleTextureSize.x;
+		textureRect.height = m_animationClip->SampleTextureSize.y;
+
+		m_spriteComponent->SetTextureRect(textureRect);
 	}
 
 }

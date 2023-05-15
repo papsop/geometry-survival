@@ -112,7 +112,7 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::PLAYER;
 		spriteDef.TextureName = "player";
-		spriteDef.Size = { 4.0f, 4.0f };
+		spriteDef.Size = { 32.0f, 16.0f };
 
     auto* player = Engine::GameObjectManager::Get().CreateGameObject("Player", Engine::GameObjectTag::PLAYER, transformDefDefault);
     player->GetTransform()->SetPosition({ 5.0f, 0.0f });
@@ -121,7 +121,7 @@ namespace Game
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		player->AddComponent<Engine::AnimationControllerComponent>();
 
-		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("color_test");
+		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("necromancer_move");
 			
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;

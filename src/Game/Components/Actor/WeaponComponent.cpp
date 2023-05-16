@@ -105,9 +105,13 @@ namespace Game
 		if (!IsFireable())
 			return;
 
+		Engine::math::Vec2 dir = (m_targetPosition - Owner.GetTransform()->GetPosition());
+		dir.Normalize();
+    float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), m_targetPosition);
+
 		BulletFactoryDef def;
-		def.Position = Owner.GetTransform()->GetPosition() + Owner.GetTransform()->Forward();
-		def.Rotation = Owner.GetTransform()->GetRotation();
+		def.Position = Owner.GetTransform()->GetPosition() + dir;
+		def.Rotation = angle;
 		def.Damage = m_weapon->GetBulletDamage() + m_rpgComponent->GetStat(RPGStats::WEAPON_DAMAGE);
 		def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
 		def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);

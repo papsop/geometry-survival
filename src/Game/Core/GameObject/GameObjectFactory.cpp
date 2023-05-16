@@ -130,8 +130,8 @@ namespace Game
     player->AddComponent<RPGComponent>(rpgActorDef);
     player->AddComponent<ActorComponent>();
     player->AddComponent<PickUpFieldComponent>();
-    player->AddComponent<InputComponent>();
     player->AddComponent<WeaponComponent>();
+		player->AddComponent<InputComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
 

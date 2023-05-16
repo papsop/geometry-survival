@@ -37,18 +37,6 @@ namespace Game
       actor.Rotate(m_angle);
   }
 
-  // --------------------------------------------------------
-  void FireCommand::Execute(ActorComponent& actor)
-  {
-      actor.WeaponFire();
-  }
-
-  // --------------------------------------------------------
-	void ReloadCommand::Execute(ActorComponent& actor)
-	{
-		actor.WeaponReload();
-	}
-
 // --------------------------------------------------------
   DamageCommand::DamageCommand(float amount, Actor_DamageSource source)
     : m_amount(amount) 

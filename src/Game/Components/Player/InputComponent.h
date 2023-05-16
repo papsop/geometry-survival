@@ -6,6 +6,7 @@
 #include <Engine/Core/Events.h>
 #include "../../Core/EventData.h"
 #include "../Actor/ActorComponent.h"
+#include "../Actor/WeaponComponent.h"
 
 namespace Game
 {
@@ -27,6 +28,7 @@ namespace Game
   private:
     Engine::InputManager& m_inputManager;
     ActorComponent* m_actorComponent;
+    WeaponComponent* m_weaponComponent;
 
     float m_previousUpdateHorizontal = 0.0f;
     float m_previousUpdateVertical = 0.0f;

@@ -106,20 +106,6 @@ namespace Game
       
 	}
 
-	void ActorComponent::WeaponFire()
-  {
-    auto* weaponComponent = Owner.GetComponent<WeaponComponent>();
-    if (weaponComponent)
-      weaponComponent->Fire();
-  }
-
-	void ActorComponent::WeaponReload()
-	{
-		auto* weaponComponent = Owner.GetComponent<WeaponComponent>();
-    if(weaponComponent)
-      weaponComponent->InitiateTimedReload();
-	}
-
 	void ActorComponent::Debug(Engine::view::IViewStrategy* viewStrategy)
 	{
     // name

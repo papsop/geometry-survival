@@ -40,8 +40,6 @@ namespace Game
     void KnockBack(Engine::math::Vec2 dir);
     void Rotate(float angle);
     void ApplyDamage(float amount, Actor_DamageSource source);
-    void WeaponFire();
-    void WeaponReload();
 
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
     

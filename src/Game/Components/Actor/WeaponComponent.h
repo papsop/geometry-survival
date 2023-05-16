@@ -38,6 +38,8 @@ namespace Game
 
 		void EquipWeapon(std::unique_ptr<WeaponData> weapon);
 
+		void SetTargetPosition(Engine::math::Vec2 pos) { m_targetPosition = pos; }
+
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
@@ -50,6 +52,7 @@ namespace Game
 		float m_reloadTimer = 0.0f;
 		unsigned int m_ammo = 0;
 		float m_cooldown = 0.0f;
+		Engine::math::Vec2 m_targetPosition = {0,0};
 	};
 
 }

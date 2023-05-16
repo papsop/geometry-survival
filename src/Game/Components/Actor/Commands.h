@@ -43,24 +43,6 @@ namespace Game
     float m_angle;
   };
 
-  class FireCommand : public ICommand
-  {
-  public:
-    FireCommand() = default;
-    ~FireCommand() override = default;
-    void Execute(ActorComponent& actor) override;
-  private:
-  };
-
-  class ReloadCommand : public ICommand
-  {
-  public:
-    ReloadCommand() = default;
-    ~ReloadCommand() override = default;
-    void Execute(ActorComponent& actor) override;
-  private:
-  };
-
   class DamageCommand : public ICommand
   {
   public:

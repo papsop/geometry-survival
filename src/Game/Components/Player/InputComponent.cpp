@@ -10,13 +10,14 @@ namespace Game
       : IComponent(obj)
       , m_inputManager(Engine::InputManager::Get())
   {
-      SetRequiredComponents<ActorComponent>();
+      SetRequiredComponents<ActorComponent, WeaponComponent>();
   }
 
   void InputComponent::OnCreate()
   {
       Engine::ComponentManager::Get().RegisterComponent(this);
       m_actorComponent = Owner.GetComponent<ActorComponent>();
+      m_weaponComponent = Owner.GetComponent<WeaponComponent>();
   }
 
   InputComponent::~InputComponent()
@@ -36,11 +37,10 @@ namespace Game
 
   void InputComponent::Update(float dt)
   {
-    // rotation
+    // shooting target
     auto b2MousePos = Engine::RenderManager::Get().pixelsPosToCoordsPos(m_inputManager.GetCursorPosition());
-    float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), b2MousePos);
+    m_weaponComponent->SetTargetPosition(b2MousePos);
 
-    m_actorComponent->AddCommand<RotateCommand>(angle);
     // movement
     float horizontal = m_inputManager.GetAxis(Engine::InputManager::Axis::Horizontal);
     float vertical = -m_inputManager.GetAxis(Engine::InputManager::Axis::Vertical);
@@ -49,11 +49,15 @@ namespace Game
         
     // shooting
     if (m_inputManager.GetAction(Engine::InputManager::Action::Fire1).Pressed)
-      m_actorComponent->AddCommand<FireCommand>();
+    {
+      m_weaponComponent->Fire();
+    }
 
 		// reloading
-		if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
-      m_actorComponent->AddCommand<ReloadCommand>();
+    if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
+    {
+      m_weaponComponent->InitiateTimedReload(); 
+    }
   }
 
 	void InputComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)

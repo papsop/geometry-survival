@@ -23,3 +23,5 @@ player_idle:
   path: sprites/entities/player_idle.png
 player_move:
   path: sprites/entities/player_move.png
+enemy_move:
+  path: sprites/entities/enemy_move.png

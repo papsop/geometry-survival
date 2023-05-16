@@ -29,3 +29,10 @@ player_move:
   samples_type: fps
   fps: 10
   samples_count: 8
+enemy_move:
+  texture: enemy_move
+  frame_size: [115, 110]
+  loopable: true
+  samples_type: fps
+  fps: 10
+  samples_count: 10

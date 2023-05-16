@@ -25,8 +25,8 @@ namespace Game
 		m_actorComponent->AddCommand<MoveCommand>(meToTarget.x * 0.5f, meToTarget.y * 0.5f);
 
 		// rotate
-		float angle = Engine::math::AngleBetweenVecs(m_actorComponent->Owner.GetTransform()->GetPosition(), m_target->GetTransform()->GetPosition());
-		m_actorComponent->AddCommand<RotateCommand>(angle);
+		//float angle = Engine::math::AngleBetweenVecs(m_actorComponent->Owner.GetTransform()->GetPosition(), m_target->GetTransform()->GetPosition());
+		//m_actorComponent->AddCommand<RotateCommand>(angle);
 	}
 }
 

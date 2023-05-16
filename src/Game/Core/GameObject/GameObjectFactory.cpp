@@ -44,8 +44,7 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::ENEMY;
 		spriteDef.TextureName = "enemy1";
-		spriteDef.Size = { 4.0f, 4.0f };
-		spriteDef.Color = def.Color;
+		spriteDef.Size = { 18.5f, 17.0f };
 
 		Engine::ITransform::TransformDefinition transformDef;
 		transformDef.Position = def.Position;
@@ -60,6 +59,11 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>(enemyDef);
+		obj->AddComponent<Engine::AnimationControllerComponent>();
+
+		// Animation setup
+		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
+		auto* idleState = animController->AddAnimationState("enemy_move");
 
 		obj->SetActive(true);
 		return obj;

@@ -19,5 +19,7 @@ grass_tile:
   repeatable: true
 color_test:
   path: sprites/colors_spritesheet.png
-necromancer_move_spritesheet:
-  path: sprites/entities/necromancer_move_spritesheet.png
+player_idle:
+  path: sprites/entities/player_idle.png
+player_move:
+  path: sprites/entities/player_move.png

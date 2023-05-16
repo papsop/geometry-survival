@@ -18,12 +18,13 @@ namespace Game
     , m_commandsQueue()
   {
     SetRequiredComponents<Engine::PhysicsBodyComponent, RPGComponent>();
-
-    m_RPGComponent = Owner.GetComponent<RPGComponent>();
   }
 
   void ActorComponent::OnCreate()
   {
+    m_RPGComponent = Owner.GetComponent<RPGComponent>();
+    m_spriteComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>(); // not required
+
     Engine::ComponentManager::Get().RegisterComponent(this);
   }
 
@@ -54,6 +55,23 @@ namespace Game
     auto impulse = (desiredVelocity - actualVelocity);
     impulse *= mass;
     physBody->ApplyImpulseToCenter(impulse);
+
+    if(Owner.Tag != Engine::GameObjectTag::PLAYER)
+      return;
+
+    if (m_spriteComponent)
+    {
+      if (dir.x < 0 && !isFlipped)
+      {
+        m_spriteComponent->FlipX();
+        isFlipped = true;
+      }
+      else if (dir.x > 0 && isFlipped)
+      {
+        m_spriteComponent->FlipX();
+        isFlipped = false;
+      }
+    }
   }
 
   void ActorComponent::KnockBack(Engine::math::Vec2 dir)

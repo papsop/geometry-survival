@@ -34,16 +34,16 @@ namespace Engine
 		drawables[GetLayerAsIndex()].push_back(data);
 	}
 
-	void SpriteDrawableComponent::SetFlipX(bool flip)
-	{
-		auto scale = m_sprite.getScale();
-		m_sprite.setScale((flip) ? -scale.x : scale.x, scale.y);
+	void SpriteDrawableComponent::FlipX()
+  {
+    auto scale = m_sprite.getScale();
+		m_sprite.setScale(-scale.x, scale.y);
 	}
 
-	void SpriteDrawableComponent::SetFlipY(bool flip)
+	void SpriteDrawableComponent::FlipY()
 	{
-		auto scale = m_sprite.getScale();
-		m_sprite.setScale(scale.x, (flip) ? -scale.y : scale.y);
+    auto scale = m_sprite.getScale();
+    m_sprite.setScale(scale.x, -scale.y);
 	}
 
 	void SpriteDrawableComponent::SetTexture(const char* textureName)

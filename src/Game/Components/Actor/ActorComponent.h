@@ -1,6 +1,8 @@
 #pragma once
 #include <Engine/Components/Core.h>
+#include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 #include <Engine/Debug/IDebuggable.h>
+
 #include "Commands.h"
 #include "RPGComponent.h"
 #include <queue>
@@ -51,7 +53,9 @@ namespace Game
 		void VirtualOnDeactivated() override;
   private:
     RPGComponent* m_RPGComponent;
+    Engine::SpriteDrawableComponent* m_spriteComponent;
     std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
+    bool isFlipped = false;
   };
 };
 

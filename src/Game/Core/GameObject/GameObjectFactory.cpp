@@ -121,8 +121,8 @@ namespace Game
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		player->AddComponent<Engine::AnimationControllerComponent>();
 
-		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("necromancer_move");
-			
+		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("player_idle");
+		
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;
     rpgActorDef.AttackSpeed = 100.0f;

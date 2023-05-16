@@ -25,8 +25,8 @@ namespace Engine
 
 		void GetDrawables(TDrawablesMap& drawables) override;
 
-		void SetFlipX(bool flip);
-		void SetFlipY(bool flip);
+		void FlipX();
+		void FlipY();
 		void UpdateSize();
 		void SetTexture(const char* textureName);
 		void SetTextureRect(sf::IntRect rect);

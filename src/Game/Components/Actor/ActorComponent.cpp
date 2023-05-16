@@ -56,8 +56,13 @@ namespace Game
     impulse *= mass;
     physBody->ApplyImpulseToCenter(impulse);
 
-    if(Owner.Tag != Engine::GameObjectTag::PLAYER)
-      return;
+
+    // TODO:
+    //  - should work for all actors, not just player
+    //if(Owner.Tag != Engine::GameObjectTag::PLAYER)
+    //  return;
+    
+    IsMoving = !(dir.x == 0 && dir.y == 0);
 
     if (m_spriteComponent)
     {

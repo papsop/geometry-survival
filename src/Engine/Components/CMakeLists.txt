@@ -35,6 +35,8 @@ set(SOURCES
 	Drawables/TextDrawableComponent.cpp	
 	Drawables/AnimationControllerComponent.h
 	Drawables/AnimationControllerComponent.cpp
+	Drawables/AnimationStateMachine.h
+	Drawables/AnimationStateMachine.cpp
 
 	UI/LayoutElementComponent.h
 	UI/LayoutElementComponent.cpp

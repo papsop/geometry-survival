@@ -74,6 +74,11 @@ namespace Engine
     auto localBounds = m_sprite.getLocalBounds();
     m_sprite.setOrigin(localBounds.width / 2, localBounds.height / 2);
     sf::Vector2f scale = { m_desiredPixelSize.x / localBounds.width, m_desiredPixelSize.y / localBounds.height };
+
+		// TODO: make this prettier
+		if (m_sprite.getScale().x < 0)
+			scale.x *= -1;
+
     m_sprite.setScale(scale);
   }
 

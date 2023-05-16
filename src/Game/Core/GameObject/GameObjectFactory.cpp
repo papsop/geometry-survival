@@ -121,8 +121,6 @@ namespace Game
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		player->AddComponent<Engine::AnimationControllerComponent>();
 
-		player->GetComponent<Engine::AnimationControllerComponent>()->AddAnimationClip("player_idle");
-		
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;
     rpgActorDef.AttackSpeed = 100.0f;
@@ -134,6 +132,15 @@ namespace Game
 		player->AddComponent<InputComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
+
+		// Animation setup
+		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();
+		auto* idleState = animController->AddAnimationState("player_idle");
+		auto* runState = animController->AddAnimationState("player_move");
+
+		auto* actor = player->GetComponent<ActorComponent>();
+		idleState->AddStateTransition(runState, actor->IsMoving, Engine::TransitionConditionType::EQUALS, true);
+		runState->AddStateTransition(idleState, actor->IsMoving, Engine::TransitionConditionType::EQUALS, false);
 
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>());

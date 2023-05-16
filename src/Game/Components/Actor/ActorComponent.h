@@ -46,6 +46,9 @@ namespace Game
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
     
     Engine::Signal OnZeroHealth;
+
+    // We need this here for the animation transition reference
+    bool IsMoving = false;
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 

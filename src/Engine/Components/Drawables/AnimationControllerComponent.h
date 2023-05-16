@@ -1,6 +1,7 @@
 #pragma once
 #include "../Core/IComponent.h"
 #include "SpriteDrawableComponent.h"
+#include "AnimationStateMachine.h"
 
 namespace Engine
 {
@@ -19,15 +20,16 @@ namespace Engine
 		void Update(float dt) override;
 		void FixedUpdate(float dt) override;
 
-		void AddAnimationClip(const char* name);
+		AnimationState* AddAnimationState(const char* animationClipName);
 	private:
-		// placeholder for now
-		float m_currentTimer = 0.0f;
-		size_t m_currentSample = 0;
-		size_t m_maxSamples = 0;
-		std::shared_ptr<AnimationClip> m_animationClip;
 		SpriteDrawableComponent* m_spriteComponent = nullptr;
+		std::vector<std::unique_ptr<AnimationState>> m_animationStates;
+		AnimationState* m_currentAnimationState = nullptr;
+		AnimationClip* m_currentAnimationClip = nullptr;
+		float m_currentSampleTimer = 0.0f;
+		size_t m_currentSample = 0;
 
 		void ApplySampleData(const AnimationSample& sample);
+		void SwapAnimationState(AnimationState* newState);
 	};
 }

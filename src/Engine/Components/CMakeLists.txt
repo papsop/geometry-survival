@@ -36,6 +36,7 @@ set(SOURCES
 	Drawables/AnimationControllerComponent.h
 	Drawables/AnimationControllerComponent.cpp
 	Drawables/AnimationStateMachine.h
+	Drawables/AnimationStateMachine.inl
 	Drawables/AnimationStateMachine.cpp
 
 	UI/LayoutElementComponent.h

@@ -6,8 +6,11 @@ namespace Engine
 {
 	class AnimationClip;
 	class AnimationState;
+	class AnimationControllerComponent;
 
-
+	// =========================================
+	// Transition
+	// =========================================
 	class IAnimationStateTransition
 	{
 	public:
@@ -41,8 +44,10 @@ namespace Engine
 
 		bool CheckTransitionCondition() override;
 	};
-	
 
+	// =========================================
+	// State
+	// =========================================
 	class AnimationState
 	{
 	public:
@@ -66,12 +71,31 @@ namespace Engine
 		TransitionsVector m_transitions{};
 	};
 
-	template<typename T>
-	void AnimationState::AddStateTransition(AnimationState* target, const T& variable, TransitionConditionType conditionType, T value)
+	// =========================================
+	// State machine
+	// =========================================
+	class AnimationStateMachine
 	{
-		AnimationStateTransition<T>* trans_ptr = new AnimationStateTransition<T>(target, variable, conditionType, value);
-		auto transition = std::unique_ptr<IAnimationStateTransition>(trans_ptr);
-		m_transitions.push_back(std::move(transition));
-	}
+	public:
+		AnimationStateMachine(AnimationControllerComponent& ownerController);
+		~AnimationStateMachine() = default;
 
+		void Update(float dt);
+		void ResetToDefaultState();
+
+		AnimationState* AddAnimationState(const char* animationClipName);
+
+		template<typename T>
+		void AddAnyStateTransition(AnimationState* target, const T& variable, TransitionConditionType conditionType, T value);
+	private:
+		AnimationControllerComponent& m_ownerController;
+		std::vector<std::unique_ptr<AnimationState>> m_states;
+		AnimationState* m_currentAnimationState = nullptr;
+		std::vector<std::unique_ptr<IAnimationStateTransition>> m_anyStateTransitions;
+		
+		void CheckTransitions();
+		void UpdateOwnerComponentClip();
+	};
 }
+
+#include "AnimationStateMachine.inl"

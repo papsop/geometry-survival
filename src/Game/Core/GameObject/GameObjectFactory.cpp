@@ -63,7 +63,7 @@ namespace Game
 
 		// Animation setup
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->AddAnimationState("enemy_move");
+		auto* idleState = animController->StateMachine.AddAnimationState("enemy_move");
 
 		obj->SetActive(true);
 		return obj;
@@ -139,8 +139,8 @@ namespace Game
 
 		// Animation setup
 		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->AddAnimationState("player_idle");
-		auto* runState = animController->AddAnimationState("player_move");
+		auto* idleState = animController->StateMachine.AddAnimationState("player_idle");
+		auto* runState = animController->StateMachine.AddAnimationState("player_move");
 
 		auto* actor = player->GetComponent<ActorComponent>();
 		idleState->AddStateTransition(runState, actor->GetIsMoving(), Engine::TransitionConditionType::EQUALS, true);

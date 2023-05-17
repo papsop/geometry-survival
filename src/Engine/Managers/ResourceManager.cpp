@@ -9,11 +9,10 @@
 #include "../Debug/Logger.h"
 #include "../Application.h"
 #include "../Utils/VectorUtils.h"
+#include "../Core/CustomYAMLTypes.h"
 
 namespace Engine
 {
-
-
 	void ResourceManager::VirtualOnInit()
 	{
 		IDebuggable::DebuggableOnInit();

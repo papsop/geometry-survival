@@ -4,6 +4,7 @@ set(SOURCES
 	EventData.h
 	Events.h
 	CameraData.h
+	CustomYAMLTypes.h
 
 	GameObject/GameObjectTag.h
 	GameObject/GameObject.h

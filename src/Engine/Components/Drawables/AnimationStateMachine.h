@@ -46,16 +46,24 @@ namespace Engine
 	class AnimationState
 	{
 	public:
+		using TransitionsVector = std::vector<std::unique_ptr<IAnimationStateTransition>>;
+
 		AnimationState(const char* animationName);
+
+		bool operator==(const AnimationState& rhs)
+		{
+			return this->AnimationName == rhs.AnimationName;
+		}
 
 		template<typename T>
 		void AddStateTransition(AnimationState* target, const T& variable, TransitionConditionType conditionType, T value);
 
-		// TODO: shouldn't return a transition itself?
-		IAnimationStateTransition* GetValidTransitionIfAny(); // can return null if no transitions are valid
-
+		TransitionsVector& GetStateTransitions() { return m_transitions; };
+		std::shared_ptr<AnimationClip> GetStateAnimationClip() { return m_animationClip; };
+		const char* AnimationName;
+	private:
 		std::shared_ptr<AnimationClip> m_animationClip;
-		std::vector<std::unique_ptr<IAnimationStateTransition>> m_transitions{};
+		TransitionsVector m_transitions{};
 	};
 
 	template<typename T>

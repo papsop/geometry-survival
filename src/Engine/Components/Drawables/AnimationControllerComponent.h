@@ -21,6 +21,9 @@ namespace Engine
 		void FixedUpdate(float dt) override;
 
 		AnimationState* AddAnimationState(const char* animationClipName);
+
+    template<typename T>
+    void AddAnyStateTransition(AnimationState* target, const T& variable, TransitionConditionType conditionType, T value);
 	private:
 		SpriteDrawableComponent* m_spriteComponent = nullptr;
 		std::vector<std::unique_ptr<AnimationState>> m_animationStates;
@@ -28,8 +31,21 @@ namespace Engine
 		AnimationClip* m_currentAnimationClip = nullptr;
 		float m_currentSampleTimer = 0.0f;
 		size_t m_currentSample = 0;
+		std::vector<std::unique_ptr<IAnimationStateTransition>> m_anyStateTransitions;
 
-		void ApplySampleData(const AnimationSample& sample);
-		void SwapAnimationState(AnimationState* newState);
+    void ApplySampleData(const AnimationSample& sample);
+    void SwapAnimationState(AnimationState* newState);
+
+		void UpdateAnimation(float dt);
+		void CheckStateTransitions();
 	};
+	// TODO: .inl file, but too lazy rn
+  template<typename T>
+  void Engine::AnimationControllerComponent::AddAnyStateTransition(AnimationState* target, const T& variable, TransitionConditionType conditionType, T value)
+  {
+    AnimationStateTransition<T>* trans_ptr = new AnimationStateTransition<T>(target, variable, conditionType, value);
+    auto transition = std::unique_ptr<IAnimationStateTransition>(trans_ptr);
+    m_anyStateTransitions.push_back(std::move(transition));
+  }
+
 }

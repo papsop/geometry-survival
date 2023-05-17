@@ -14,26 +14,16 @@ namespace Engine
 		case TransitionConditionType::NOT_EQUALS:
 			return VariableToCheck != ValueToCheck;
 		default:
-			LOG_ERROR("Condition not supported for BOOLEAN transition");
+			LOG_ERROR("ConditionType '%d' not supported for BOOLEAN transition", static_cast<int>(ConditionType));
+			return false;
 		}
 	}
 
 	AnimationState::AnimationState(const char* animationName)
+	 : AnimationName(animationName)
 	{
 		m_animationClip = ResourceManager::Get().GetAnimation(animationName);
 		DD_ASSERT(m_animationClip != nullptr, "Unable to find animation clip '%s'", animationName);
-	}
-
-	IAnimationStateTransition* AnimationState::GetValidTransitionIfAny()
-	{
-		for (const auto& transition : m_transitions)
-		{
-			if (transition->CheckTransitionCondition())
-			{
-				return transition.get();
-			}
-		}
-		return nullptr;
 	}
 
 }

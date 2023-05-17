@@ -143,8 +143,8 @@ namespace Game
 		auto* runState = animController->AddAnimationState("player_move");
 
 		auto* actor = player->GetComponent<ActorComponent>();
-		idleState->AddStateTransition(runState, actor->IsMoving, Engine::TransitionConditionType::EQUALS, true);
-		runState->AddStateTransition(idleState, actor->IsMoving, Engine::TransitionConditionType::EQUALS, false);
+		idleState->AddStateTransition(runState, actor->GetIsMoving(), Engine::TransitionConditionType::EQUALS, true);
+		runState->AddStateTransition(idleState, actor->GetIsMoving(), Engine::TransitionConditionType::EQUALS, false);
 
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>());

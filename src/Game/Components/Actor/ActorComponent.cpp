@@ -49,20 +49,15 @@ namespace Game
     auto mass = physBody->GetMass();
 
     auto actualVelocity = physBody->GetLinearVelocity();
-    dir *= m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED);
     auto desiredVelocity = dir;
+    desiredVelocity *= m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED);
 
     auto impulse = (desiredVelocity - actualVelocity);
     impulse *= mass;
     physBody->ApplyImpulseToCenter(impulse);
 
-
-    // TODO:
-    //  - should work for all actors, not just player
-    //if(Owner.Tag != Engine::GameObjectTag::PLAYER)
-    //  return;
-    
-    IsMoving = !(dir.x == 0 && dir.y == 0);
+		m_isMoving = !(dir.x == 0 && dir.y == 0);
+		m_movingDir = dir;
 
     if (m_spriteComponent)
     {

@@ -1,6 +1,7 @@
 #include "EnemySpawningManager.h"
 
 #include "../Core/GameObject/GameObjectFactory.h"
+#include "../Components/Actor/ActorComponent.h"
 #include "GameManager.h"
 
 #include <stdlib.h>
@@ -101,6 +102,13 @@ namespace Game
 		if(!m_player)
 			return {0.0f,0.0f};
 
+		if (m_player->GetComponent<ActorComponent>()->IsMoving())
+		{
+			auto movingDir = m_player->GetComponent<ActorComponent>()->GetMovingDir();
+			auto movingAngle = Engine::math::AngleBetweenVecs({ 0.0f, 0.0f }, movingDir);
+			LOG_ERROR("MovingAngle: %.1f", movingAngle);
+		}
+
 		float randomAngle = Engine::math::DEG_TO_RAD(rand() % 361);
 		m_lastSpawnPosition = {sinf(randomAngle), cosf(randomAngle)};
 
@@ -154,6 +162,13 @@ namespace Game
 		{
 			debugContext.DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_spawnRadius, sf::Color::Yellow);
 			debugContext.DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, m_lastSpawnPosition, 1.0f, sf::Color::Red);
+
+			auto movingDir = m_player->GetComponent<ActorComponent>()->GetMovingDir();
+			auto movingAngle = Engine::math::AngleOfVec(movingDir);
+
+			Engine::math::Vec2 dir = Engine::math::GetVectorFromAngle(movingAngle);
+			dir *= 10.0f;
+			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + dir, sf::Color::Cyan);
 		}
 
 		// ImGui debug

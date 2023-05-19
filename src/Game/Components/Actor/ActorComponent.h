@@ -46,7 +46,8 @@ namespace Game
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
     
     Engine::Signal OnZeroHealth;
-    const bool& GetIsMoving() { return IsMoving; } // needs to be a ref we can pass it to animation transition
+    const bool& IsMoving() { return m_isMoving; }; // needs to be a ref, so we can pass it to animation transition
+    Engine::math::Vec2 GetMovingDir() { return m_movingDir; };
 
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
@@ -55,7 +56,8 @@ namespace Game
 		void VirtualOnDeactivated() override;
 
   private:
-    bool IsMoving = false;
+    bool m_isMoving = false;
+    Engine::math::Vec2 m_movingDir = { 0.0f, 0.0f };
     RPGComponent* m_RPGComponent;
     Engine::SpriteDrawableComponent* m_spriteComponent;
     std::queue<std::unique_ptr<ICommand>> m_commandsQueue;

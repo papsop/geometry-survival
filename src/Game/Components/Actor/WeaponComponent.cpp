@@ -107,7 +107,7 @@ namespace Game
 
 		Engine::math::Vec2 dir = (m_targetPosition - Owner.GetTransform()->GetPosition());
 		dir.Normalize();
-    float angle = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), m_targetPosition);
+    float angle = Engine::math::AngleOfVec(dir);
 
 		BulletFactoryDef def;
 		def.Position = Owner.GetTransform()->GetPosition() + dir;

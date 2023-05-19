@@ -15,7 +15,14 @@ namespace Engine
     if (!m_window)
       return;
 
+		auto p1 = m_renderManager.coordsPosToPixelsPos(a);
+		auto p2 = m_renderManager.coordsPosToPixelsPos(b);
 
+		sf::Vertex line[] = {
+							sf::Vertex(p1, color),
+			sf::Vertex(p2, color)
+		};
+		m_window->draw(line, 2, sf::Lines);
   }
 
   void VisualDebugContext::DebugRenderCircle(ITransform::PositionSpace space, math::Vec2 center, float radius, sf::Color color)

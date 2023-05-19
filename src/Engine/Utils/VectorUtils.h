@@ -15,7 +15,9 @@ namespace Engine
 
         float DEG_TO_RAD(float angle);
 
-        float AngleBetweenVecs(Vec2 a, Vec2 b);
+        Vec2 GetVectorFromAngle(float angleRad);
+				float AngleBetweenVecs(Vec2 a, Vec2 b);
+				float AngleOfVec(Vec2 a);
 
         float V2fLengthSquared(const Vec2& v);
         float V2FDistanceSquared(const Vec2& a, const Vec2& b);

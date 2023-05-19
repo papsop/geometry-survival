@@ -16,13 +16,24 @@ namespace Engine
             return angle * (M_PI_F / 180.0f);
         };
 
-        float AngleBetweenVecs(Vec2 a, Vec2 b)
+				Engine::math::Vec2 GetVectorFromAngle(float angleRad)
+				{
+          angleRad += Engine::math::M_PI_F / 2.0f; // need to rotate because 0 angles is 'up' instead of 'right'
+          return { cosf(angleRad), sinf(angleRad) };
+				}
+
+				float AngleBetweenVecs(Vec2 a, Vec2 b)
         {
             Vec2 AB = b - a;
-            return atan2(-AB.x, AB.y);
+            return atan2(AB.y, AB.x);
         }
 
-        float V2fLengthSquared(const Vec2& v)
+				float AngleOfVec(Vec2 a)
+				{
+          return atan2(a.y, a.x) - M_PI_F/2.0f;
+				}
+
+				float V2fLengthSquared(const Vec2& v)
         {
             return v.x * v.x + v.y * v.y;
         }

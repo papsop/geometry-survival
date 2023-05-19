@@ -35,7 +35,18 @@ namespace Engine
 
 	}
 
-  void AnimationControllerComponent::UpdateAnimation(float dt)
+	void AnimationControllerComponent::PlayForcedAnimationClip(const char* animationClipName)
+	{
+		m_isPlayingForcedAnimation = true;
+		PlayAnimationClipFromSM(animationClipName);
+	}
+
+	std::string AnimationControllerComponent::GetRunningAnimationClipName()
+	{
+		return (m_currentAnimationClip) ? m_currentAnimationClip->Name : "";
+	}
+
+	void AnimationControllerComponent::UpdateAnimation(float dt)
   {
 		if (!m_currentAnimationClip)
 			return;
@@ -45,8 +56,15 @@ namespace Engine
     {
       m_currentSample++;
 
-      if (m_currentSample == m_currentAnimationClip->Samples.size())
-        m_currentSample = 0;
+			if (m_currentSample == m_currentAnimationClip->Samples.size())
+			{
+				m_currentSample = 0;
+				if (m_isPlayingForcedAnimation)
+				{
+					StateMachine.ResetToDefaultState();
+					m_isPlayingForcedAnimation = false;
+				}
+			}
 
       m_currentSampleTimer = 0.0f;
       ApplySampleData(m_currentAnimationClip->Samples[m_currentSample]);
@@ -69,6 +87,11 @@ namespace Engine
 	void AnimationControllerComponent::PlayAnimationClipFromSM(const char* animationClipName)
 	{
 		m_currentAnimationClip = ResourceManager::Get().GetAnimation(animationClipName).get();
+		if (m_currentAnimationClip->Samples.size() == 0)
+		{
+			LOG_ERROR("Animation clip '%s' has no samples", animationClipName);
+			return;
+		}
 		m_currentSample = 0;
 		m_currentSampleTimer = 0.0f;
 		m_spriteComponent->SetTexture(m_currentAnimationClip->TextureName.c_str());

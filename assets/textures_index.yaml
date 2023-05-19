@@ -25,3 +25,5 @@ player_move:
   path: sprites/entities/player_move.png
 enemy_move:
   path: sprites/entities/enemy_move.png
+enemy_die:
+  path: sprites/entities/enemy_die.png

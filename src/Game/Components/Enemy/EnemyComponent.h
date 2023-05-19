@@ -41,7 +41,6 @@ namespace Game
     void Update(float dt) override;
     void OnDeath();
 
-
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 		void OnCollisionEnd(Engine::CollisionData& collision) override;
 
@@ -57,7 +56,9 @@ namespace Game
     Engine::PushdownStateMachine<Engine::IState<EnemyAIStates>> m_stateMachine;
     Engine::SpriteDrawableComponent* m_spriteDrawableComponent = nullptr;
     bool m_isTouchingTarget = false;
+    bool m_isDying = false;
     float m_damagePerSecond;
 
+    void OnDeathImpl();
   };
 }

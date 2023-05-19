@@ -36,3 +36,10 @@ enemy_move:
   samples_type: fps
   fps: 10
   samples_count: 10
+enemy_die:
+  texture: enemy_die
+  frame_size: [115, 110]
+  loopable: false
+  samples_type: fps
+  fps: 10
+  samples_count: 12

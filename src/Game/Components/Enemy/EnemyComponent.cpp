@@ -105,7 +105,8 @@ namespace Game
 	{
 		m_target = GameManager::Get()->GetPlayerGameObject();
 		Engine::ComponentManager::Get().RegisterComponent(this);
-		Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+    Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+    Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
 		m_stateMachine.AddState<ChaseTargetState>();
 	}
 
@@ -113,6 +114,7 @@ namespace Game
 	{
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 		Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+		Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
 		m_stateMachine.Clear();
 	}
 
@@ -120,5 +122,10 @@ namespace Game
 	{
 		m_target = eventData.PlayerObject;
 	}
+
+  void EnemyComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+  {
+		SetEnabled(eventData.NewState == GameState::Gameplay);
+  }
 
 }

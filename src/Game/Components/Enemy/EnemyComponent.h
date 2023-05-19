@@ -25,8 +25,9 @@ namespace Game
     float DamagePerSecond;
   };
 
-  class EnemyComponent : public Engine::IComponent,
-    public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+  class EnemyComponent : public Engine::IComponent
+    , public Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>
+    , public Engine::IEventListener<event::E_GameStateChanged>
   {
   public:
     EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def);
@@ -49,6 +50,7 @@ namespace Game
 		void VirtualOnDeactivated() override;
 
     void ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) override;
+    void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
   private:
     Engine::GameObject* m_target = nullptr;

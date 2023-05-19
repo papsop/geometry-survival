@@ -2,18 +2,24 @@
 
 #include "../Core/GameObject/GameObjectFactory.h"
 #include "GameManager.h"
+
+#include <stdlib.h>
+#include <time.h>
 namespace Game
 {
 	EnemySpawningManager::EnemySpawningManager(Engine::Application& app)
 		: m_app(app)
 	{
+
+		srand(time(NULL));
+
 		{
 			EnemySpawningEntry entry;
 			entry.DebugName = "EasyEnemy";
 			entry.SpawnFunction = [&]() {
 				EnemyFactoryDef def;
 				def.MovementSpeed = 5.0f;
-				def.Position = m_spawnerObject->GetTransform()->GetPosition();
+				def.Position = GetNewSpawnPosition();
 				def.DamagePerSecond = 10.0f;
 				def.Color = sf::Color::Magenta;
 				def.MaxHealth = 10.0f;
@@ -33,7 +39,7 @@ namespace Game
       entry.SpawnFunction = [&]() {
         EnemyFactoryDef def;
         def.MovementSpeed = 5.0f;
-        def.Position = m_spawnerObject->GetTransform()->GetPosition();
+        def.Position = GetNewSpawnPosition();
 				def.DamagePerSecond = 20.0f;
 				def.Color = sf::Color::Red;
 				def.MaxHealth = 20.0f;
@@ -90,24 +96,24 @@ namespace Game
 		return true;
 	}
 
+  Engine::math::Vec2 EnemySpawningManager::GetNewSpawnPosition()
+  {
+		if(!m_player)
+			return {0.0f,0.0f};
+
+		float randomAngle = Engine::math::DEG_TO_RAD(rand() % 361);
+		m_lastSpawnPosition = {sinf(randomAngle), cosf(randomAngle)};
+
+		m_lastSpawnPosition *= m_spawnRadius;
+		m_lastSpawnPosition += m_player->GetTransform()->GetPosition();
+		return m_lastSpawnPosition;
+  }
+
   void EnemySpawningManager::SpawnEntry(EnemySpawningEntry& entry)
   {
     auto* enemy = entry.SpawnFunction();
     m_spawnerObject->GetTransform()->AddChild(enemy);
     entry.CurrentCooldown = entry.Cooldown;
-
-    // Position the enemy
-    auto playerPos = m_player->GetTransform()->GetPosition();
-    Engine::math::Vec2 result;
-
-    float randomAngle = Engine::math::DEG_TO_RAD(rand() % 360);
-
-    result.x = cosf(randomAngle) * 100.0f;
-    result.y = sinf(randomAngle) * 100.0f;
-
-    result += playerPos;
-		LOG_WARN("Spawning enemy on [%.1f,%.1f]", result.x, result.y);
-    enemy->GetTransform()->SetPosition(result);
   }
 
 	void EnemySpawningManager::Update(float dt)
@@ -143,6 +149,14 @@ namespace Game
 
 	void EnemySpawningManager::Debug(Engine::VisualDebugContext& debugContext)
 	{
+		// Visual debug
+		if (m_player)
+		{
+			debugContext.DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_spawnRadius, sf::Color::Yellow);
+			debugContext.DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, m_lastSpawnPosition, 1.0f, sf::Color::Red);
+		}
+
+		// ImGui debug
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
 		ImGui::SetNextWindowPos(ImVec2(0.0f, 400.0f), ImGuiCond_Always, ImVec2(0.0f, 0.0f));

@@ -66,9 +66,13 @@ namespace Game
 
 		if (m_rpgComponent)
 		{
-			//InitializeOverlayWindow("PlayerHealthBar", { 0.5f, 0.55f }, { 0.05f, 0.05f }, true, {0.5f, 0.5f});
-			//ImGui::ProgressBar(m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH)/ m_rpgComponent->GetStat(RPGStats::MAX_HEALTH));
-			//ImGui::End();
+      InitializeOverlayWindow("PlayerHealthBar", { 0.5f, 0.6f }, { 70.f, 70.f }, false, { 0.5f, 0.5f });
+			ImGui::PushStyleColor(ImGuiCol_PlotHistogram, { 1.f, .0f, .0f, 1.f });
+			ImGui::PushItemWidth(ImGui::GetWindowWidth());
+      ImGui::ProgressBar(m_rpgComponent->GetStat(RPGStats::CURRENT_HEALTH) / m_rpgComponent->GetStat(RPGStats::MAX_HEALTH), {0.0f, 0.0f}, " ");
+			ImGui::PopItemWidth();
+			ImGui::PopStyleColor();
+      ImGui::End();
 		}
 	}
 

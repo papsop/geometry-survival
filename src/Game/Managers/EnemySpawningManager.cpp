@@ -102,15 +102,26 @@ namespace Game
 		if(!m_player)
 			return {0.0f,0.0f};
 
+		float randomAngle;
 		if (m_player->GetComponent<ActorComponent>()->IsMoving())
 		{
 			auto movingDir = m_player->GetComponent<ActorComponent>()->GetMovingDir();
 			auto movingAngle = Engine::math::AngleBetweenVecs({ 0.0f, 0.0f }, movingDir);
-			LOG_ERROR("MovingAngle: %.1f", movingAngle);
+
+			auto biasLeft = movingAngle + Engine::math::M_PI_F / 4.0f;
+			auto biasRight = movingAngle - Engine::math::M_PI_F / 4.0f;
+
+			float min = std::min(biasLeft, biasRight);
+			float max = std::max(biasLeft, biasRight);
+
+			randomAngle= min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (min - max)));
+		}
+		else
+		{
+			randomAngle = Engine::math::DEG_TO_RAD(rand() % 361);
 		}
 
-		float randomAngle = Engine::math::DEG_TO_RAD(rand() % 361);
-		m_lastSpawnPosition = {sinf(randomAngle), cosf(randomAngle)};
+		m_lastSpawnPosition = Engine::math::GetVectorFromAngle(randomAngle);
 
 		m_lastSpawnPosition *= m_spawnRadius;
 		m_lastSpawnPosition += m_player->GetTransform()->GetPosition();
@@ -158,6 +169,7 @@ namespace Game
 	void EnemySpawningManager::Debug(Engine::VisualDebugContext& debugContext)
 	{
 		// Visual debug
+		// TODO: shouldn't be calculated here
 		if (m_player)
 		{
 			debugContext.DebugRenderCircle(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_spawnRadius, sf::Color::Yellow);
@@ -167,8 +179,20 @@ namespace Game
 			auto movingAngle = Engine::math::AngleOfVec(movingDir);
 
 			Engine::math::Vec2 dir = Engine::math::GetVectorFromAngle(movingAngle);
-			dir *= 10.0f;
+			dir *= m_spawnRadius;
 			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + dir, sf::Color::Cyan);
+
+			// bias
+			float movingBiasLeft = movingAngle + Engine::math::M_PI_F / 4.0f;
+			float movingBiasRight = movingAngle - Engine::math::M_PI_F / 4.0f;
+
+			Engine::math::Vec2 biasLeft = Engine::math::GetVectorFromAngle(movingBiasLeft);
+			Engine::math::Vec2 biasRight = Engine::math::GetVectorFromAngle(movingBiasRight);
+			biasLeft *= m_spawnRadius;
+			biasRight *= m_spawnRadius;
+
+			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + biasLeft, sf::Color::Green);
+			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + biasRight, sf::Color::Red);
 		}
 
 		// ImGui debug

@@ -93,6 +93,10 @@ namespace Game
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<ExperienceGlobeComponent>();
+		obj->AddComponent<Engine::AnimationControllerComponent>();
+
+		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
+		auto* rotateState = animController->StateMachine.AddAnimationState("experience_rotate");
 
 		obj->SetActive(true);
 		return obj;

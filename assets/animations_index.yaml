@@ -50,3 +50,10 @@ bullet_flying:
   samples_type: fps
   fps: 10
   samples_count: 5
+experience_rotate:
+  texture: experience_rotate
+  frame_size: [32, 32]
+  loopable: false
+  samples_type: fps
+  fps: 10
+  samples_count: 4

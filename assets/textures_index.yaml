@@ -11,7 +11,9 @@ player:
 enemy1:
   path: sprites/enemy.png
 experience:
-  path: sprites/exp.png
+  path: sprites/experience.png
+experience_rotate:
+  path: sprites/entities/experience_rotate.png
 bullet:
   path: sprites/bullet.png
 bullet_flying:

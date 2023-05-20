@@ -54,7 +54,7 @@ namespace Game
 			if (m_weaponComponent->IsReloading())
 			{
 				ImGui::Text("Ammo: RELOADING");
-				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion());
+				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion(), {0.0f, 0.0f}, "Reloading");
 			}
 			else
 			{

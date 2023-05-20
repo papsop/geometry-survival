@@ -43,3 +43,10 @@ enemy_die:
   samples_type: fps
   fps: 10
   samples_count: 12
+bullet_flying:
+  texture: bullet_flying
+  frame_size: [64, 64]
+  loopable: false
+  samples_type: fps
+  fps: 10
+  samples_count: 5

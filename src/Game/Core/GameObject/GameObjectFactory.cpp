@@ -170,16 +170,20 @@ namespace Game
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 
 		Engine::CircleFixtureDef circleFixtureDef;
-		circleFixtureDef.Radius = 0.5f;
+		circleFixtureDef.Radius = 1.0f;
 		circleFixtureDef.IsSensor = true;
 
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::BULLET;
 		spriteDef.TextureName = "bullet";
-		spriteDef.Size = { 2.0f, 2.0f };
+		spriteDef.Size = { 6.0f, 6.0f };
 
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+		obj->AddComponent<Engine::AnimationControllerComponent>();
+
+		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
+		auto* flyingState = animController->StateMachine.AddAnimationState("bullet_flying");
 
 		BulletDef bulletDef;
 		bulletDef.Damage = def.Damage;

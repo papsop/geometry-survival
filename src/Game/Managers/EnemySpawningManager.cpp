@@ -26,7 +26,7 @@ namespace Game
 				def.MaxHealth = 10.0f;
 				return GameObjectFactory::CreateEnemy(def);
 			};
-			entry.Cooldown = 1.0f;
+			entry.Cooldown = 4.0f;
 			entry.CurrentCooldown = 0.0f;
 			entry.TimeMin = 1.f;
 			entry.TimeMax = 25.0f;
@@ -46,7 +46,7 @@ namespace Game
 				def.MaxHealth = 20.0f;
         return GameObjectFactory::CreateEnemy(def);
       };
-      entry.Cooldown = 0.5f;
+      entry.Cooldown = 3.0f;
       entry.CurrentCooldown = 0.0f;
       entry.TimeMin = 10.0f;
       entry.TimeMax = 100.0f;

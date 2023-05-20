@@ -33,7 +33,7 @@ namespace Game
 		IEventListener<event::E_GameStateChanged>::RegisterListener();
 
 		auto forward = Owner.GetTransform()->Forward();
-		forward *= 30.0f;
+		forward *= 100.0f;
 		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
 	}
 

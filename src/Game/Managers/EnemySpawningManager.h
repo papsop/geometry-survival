@@ -55,7 +55,7 @@ namespace Game
     std::vector<EnemySpawningEntry> m_spawningEntries;
 
     float m_spawnRadius = 50.0f;
-    float m_biasAngle = Engine::math::M_PI_F / 6.0f;
+    float m_biasAngle = Engine::math::M_PI_F / 9.0f;
 
     // Variables for debug
     float m_lastSpawnAngle = 0.0f;

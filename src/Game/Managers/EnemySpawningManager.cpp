@@ -183,8 +183,8 @@ namespace Game
 			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + dir, sf::Color::Cyan);
 
 			// bias
-			float movingBiasLeft = movingAngle + Engine::math::M_PI_F / 4.0f;
-			float movingBiasRight = movingAngle - Engine::math::M_PI_F / 4.0f;
+			float movingBiasLeft = movingAngle + m_biasAngle;
+			float movingBiasRight = movingAngle - m_biasAngle;
 
 			Engine::math::Vec2 biasLeft = Engine::math::GetVectorFromAngle(movingBiasLeft);
 			Engine::math::Vec2 biasRight = Engine::math::GetVectorFromAngle(movingBiasRight);

@@ -64,7 +64,7 @@ namespace Engine
 
 		RenderManagerSettings GetSettings() const { return m_currentSettings; }
 		void SetSettings(RenderManagerSettings settings);
-		Signal OnSettingsChanged;
+		Signal<void> OnSettingsChanged;
 
 		const sf::Font& GetFont() const { return m_font; }
 		std::vector<ResolutionEntry> GetResolutionEntries() const { return m_resolutionEntries; }

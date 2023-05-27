@@ -47,22 +47,25 @@ namespace Game
 			ImGui::SetWindowFontScale(2.0f);
 			ImGui::Text("Level: %d", m_levelComponent->GetCurrentLevel());
 		}
+
+		ImGui::End();
+
 		if (m_weaponComponent)
 		{
-			ImGui::Separator();
-
+			InitializeOverlayWindow("Weapon bar", { 0.5f, 0.45f }, { 70.f, 70.f }, false, { 0.5f, 0.5f });
+			ImGui::PushItemWidth(ImGui::GetWindowWidth());
 			if (m_weaponComponent->IsReloading())
 			{
-				ImGui::Text("Ammo: RELOADING");
-				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion(), {0.0f, 0.0f}, "Reloading");
+				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion(), { 0.0f, 0.0f }, " ");
 			}
 			else
 			{
-				ImGui::Text("Ammo: %d/%d", m_weaponComponent->GetAmmo(), m_weaponComponent->GetMaxAmmo());
+				ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("00/00").x) / 2.f);
+				ImGui::Text("%02d/%02d", m_weaponComponent->GetAmmo(), m_weaponComponent->GetMaxAmmo());
 			}
-			
+			ImGui::PopItemWidth();
+			ImGui::End();
 		}
-		ImGui::End();
 
 		if (m_rpgComponent)
 		{

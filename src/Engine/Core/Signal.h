@@ -2,6 +2,7 @@
 
 namespace Engine
 {
+	template<typename T = void>
 	class Signal
 	{
 	public:
@@ -30,6 +31,6 @@ namespace Engine
 			}
 		}
 	private:
-		std::vector<std::function<void()>> m_listeners;
+		std::vector<std::function<void(T)>> m_listeners;
 	};
 }

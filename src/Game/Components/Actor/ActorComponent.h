@@ -45,7 +45,7 @@ namespace Game
 
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
     
-    Engine::Signal OnZeroHealth;
+    Engine::Signal<void> OnZeroHealth;
     const bool& IsMoving() { return m_isMoving; }; // needs to be a ref, so we can pass it to animation transition
     Engine::math::Vec2 GetMovingDir() { return m_movingDir; };
 

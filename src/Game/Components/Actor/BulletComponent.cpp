@@ -18,36 +18,12 @@ namespace Game
     SetRequiredComponents<Engine::PhysicsBodyComponent>();
   }
 
-  void BulletComponent::OnCreate()
-  {
-    Engine::ComponentManager::Get().RegisterComponent(this);
-  }
-
-  BulletComponent::~BulletComponent()
-  {
-    Engine::ComponentManager::Get().UnregisterComponent(this);
-  }
-
-	void BulletComponent::VirtualOnActivated()
+	void BulletComponent::OnCreate()
 	{
-		IEventListener<event::E_GameStateChanged>::RegisterListener();
-
 		auto forward = Owner.GetTransform()->Forward();
 		forward *= 100.0f;
 		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
 	}
-
-	void BulletComponent::VirtualOnDeactivated()
-	{
-		IEventListener<event::E_GameStateChanged>::UnregisterListener();
-	}
-
-  void BulletComponent::Update(float dt)
-  {
-    m_timeToDie -= dt;
-    if (m_timeToDie <= 0.0f)
-      Owner.Destroy();
-  }
 
 	void BulletComponent::OnCollisionStart(Engine::CollisionData& collision)
 	{
@@ -57,7 +33,6 @@ namespace Game
     if (m_collisions.find(otherActor->Owner.ID) != m_collisions.end()) return;
 
     // Flat damage
-
     m_collisions.insert(otherActor->Owner.ID);
     otherActor->AddCommand<DamageCommand>(m_damage, Actor_DamageSource::Bullet);
     
@@ -73,11 +48,6 @@ namespace Game
     // =========
     m_hitsLeft--;
     if(m_hitsLeft<= 0) Owner.Destroy();
-	}
-
-	void BulletComponent::ReceiveEvent(const event::E_GameStateChanged & eventData)
-	{
-    SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 }

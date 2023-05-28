@@ -33,6 +33,7 @@
 #include "Components/Actor/WeaponComponent.h"
 #include "Components/Actor/BulletComponent.h"
 #include "Components/Actor/RPGComponent.h"
+#include "Components/Actor/DestroyAfterTimeComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "Components/UI/SplashScreenComponent.h"
 #include "Components/View/CameraComponent.h"
@@ -69,7 +70,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<InputComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CameraComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<WeaponComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
+      Engine::ComponentManager::Get().RegisterComponentType<DestroyAfterTimeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ExperienceGlobeComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<RPGComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<ActorComponent>();

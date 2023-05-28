@@ -10,6 +10,8 @@ set(ACTOR_SOURCE
 	Actor/RPGComponent.cpp
 	Actor/WeaponComponent.h
 	Actor/WeaponComponent.cpp
+	Actor/DestroyAfterTimeComponent.h
+	Actor/DestroyAfterTimeComponent.cpp
 	
 	Actor/Weapons.h
 )

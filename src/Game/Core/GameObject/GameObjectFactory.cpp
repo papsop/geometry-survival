@@ -18,6 +18,7 @@
 #include "../../Components/Player/PlayerComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/Weapons.h"
+#include "../../Components/Actor/DestroyAfterTimeComponent.h"
 #include "../../Components/Enemy/EnemyComponent.h"
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/BulletComponent.h"
@@ -185,6 +186,7 @@ namespace Game
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<Engine::AnimationControllerComponent>();
+		obj->AddComponent<DestroyAfterTimeComponent>(3.0f);
 
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
 		auto* flyingState = animController->StateMachine.AddAnimationState("bullet_flying");

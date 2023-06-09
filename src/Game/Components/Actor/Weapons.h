@@ -1,6 +1,4 @@
 #pragma once
-#include <algorithm>
-#include <Engine/Core/GameObject/GameObject.h>
 
 namespace Game
 {
@@ -25,7 +23,7 @@ namespace Game
 		PistolWeapon()
 		{
 			MaxAmmo = 10;
-			FireRate = 0.5f;
+			FireRate = .4f;
 			BulletDamage = 5.0f;
 			ReloadTime = 1.5f;
 		}

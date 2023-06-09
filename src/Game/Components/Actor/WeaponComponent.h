@@ -8,10 +8,11 @@
 #include "../../Core/EventData.h"
 
 #include "RPGComponent.h"
-#include "Weapons.h"
 
 namespace Game
 {
+	struct WeaponData;
+
 	class WeaponComponent : public Engine::IComponent,
 		public Engine::IEventListener<event::E_GameStateChanged>
 	{

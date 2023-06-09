@@ -2,6 +2,8 @@
 #include <Engine/Managers/ComponentManager.h>
 #include "../../Core/GameObject/GameObjectFactory.h"
 
+#include "Weapons.h"
+
 namespace Game
 {
 	WeaponComponent::WeaponComponent(Engine::GameObject& obj)

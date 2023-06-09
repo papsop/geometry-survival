@@ -64,7 +64,7 @@ namespace Game
 
 		// Animation setup
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->StateMachine.AddAnimationState("enemy_move");
+		auto* idleState = animController->GetStateMachine().AddAnimationState("enemy_move");
 
 		obj->SetActive(true);
 		return obj;
@@ -97,7 +97,7 @@ namespace Game
 		obj->AddComponent<Engine::AnimationControllerComponent>();
 
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* rotateState = animController->StateMachine.AddAnimationState("experience_rotate");
+		auto* rotateState = animController->GetStateMachine().AddAnimationState("experience_rotate");
 
 		obj->SetActive(true);
 		return obj;
@@ -113,7 +113,7 @@ namespace Game
 		Engine::ITransform::TransformDefinition transformDefDefault; // use default
 
     Engine::CircleFixtureDef circleFixtureDef;
-    circleFixtureDef.Radius = 2.0f;
+    circleFixtureDef.Radius = 2.5f;
 		
     physBodyDef.CategoryBits = physics::EntityCategory::PLAYER;
     physBodyDef.MaskBits = physics::EntityMask::M_PLAYER;
@@ -144,8 +144,8 @@ namespace Game
 
 		// Animation setup
 		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->StateMachine.AddAnimationState("player_idle");
-		auto* runState = animController->StateMachine.AddAnimationState("player_move");
+		auto* idleState = animController->GetStateMachine().AddAnimationState("player_idle");
+		auto* runState = animController->GetStateMachine().AddAnimationState("player_move");
 
 		auto* actor = player->GetComponent<ActorComponent>();
 		idleState->AddStateTransition(runState, actor->IsMoving(), Engine::TransitionConditionType::EQUALS, true);
@@ -189,7 +189,7 @@ namespace Game
 		obj->AddComponent<DestroyAfterTimeComponent>(3.0f);
 
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* flyingState = animController->StateMachine.AddAnimationState("bullet_flying");
+		auto* flyingState = animController->GetStateMachine().AddAnimationState("bullet_flying");
 
 		BulletDef bulletDef;
 		bulletDef.Damage = def.Damage;

@@ -6,7 +6,7 @@ namespace Engine
 {
 	AnimationControllerComponent::AnimationControllerComponent(GameObject& obj)
 		: IComponent(obj)
-		, StateMachine(*this)
+		, m_stateMachine(*this)
 	{
 		SetRequiredComponents<Engine::SpriteDrawableComponent>();
 	}
@@ -25,7 +25,7 @@ namespace Engine
 	void AnimationControllerComponent::Update(float dt)
 	{
 		if(!m_isPlayingForcedAnimation)
-			StateMachine.Update(dt);
+			m_stateMachine.Update(dt);
 
 		UpdateAnimation(dt);
 	}
@@ -61,7 +61,7 @@ namespace Engine
 				m_currentSample = 0;
 				if (m_isPlayingForcedAnimation)
 				{
-					StateMachine.ResetToDefaultState();
+					m_stateMachine.ResetToDefaultState();
 					m_isPlayingForcedAnimation = false;
 				}
 			}

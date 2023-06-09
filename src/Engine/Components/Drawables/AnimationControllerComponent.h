@@ -27,10 +27,9 @@ namespace Engine
 		void PlayForcedAnimationClip(const char* animationClipName);
 		std::string GetRunningAnimationClipName();
 
-		// TODO: Add one-shot state that calls a lambda when it finishes
-		// So it's possible to play death animation and react when it ends
-		AnimationStateMachine StateMachine;
+		AnimationStateMachine& GetStateMachine() { return m_stateMachine; }
 	private:
+		AnimationStateMachine m_stateMachine;
 		SpriteDrawableComponent* m_spriteComponent = nullptr;
 		AnimationClip* m_currentAnimationClip = nullptr;
 		float m_currentSampleTimer = 0.0f;

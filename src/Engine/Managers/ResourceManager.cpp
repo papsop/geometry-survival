@@ -1,15 +1,18 @@
 #include "ResourceManager.h"
+
+#include "AnimationData.h"
+#include "../imgui/imgui.h"
+#include "../Debug/Logger.h"
+#include "../Application.h"
+#include "../Utils/VectorUtils.h"
+#include "../Core/CustomYAMLTypes.h"
+
 #include <filesystem>
 #include <fstream>
 #include <yaml-cpp/yaml.h>
 #include <stdexcept>
 
 #include <iostream>
-#include "../imgui/imgui.h"
-#include "../Debug/Logger.h"
-#include "../Application.h"
-#include "../Utils/VectorUtils.h"
-#include "../Core/CustomYAMLTypes.h"
 
 namespace Engine
 {

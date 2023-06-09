@@ -25,8 +25,13 @@ namespace Engine
 		{
 			controller->Update(dt);
 		}
-	}
 
+		for (auto& animator : m_animatorComponents)
+		{
+			animator->Update(dt);
+		}
+	}
+	
 	void AnimationManager::FixedUpdate(float dt)
 	{
 		if (!m_enabled)
@@ -35,6 +40,11 @@ namespace Engine
 		for (auto& controller : m_animationControllers)
 		{
 			controller->FixedUpdate(dt);
+		}
+
+		for (auto& animator : m_animatorComponents)
+		{
+			animator->FixedUpdate(dt);
 		}
 	}
 
@@ -46,6 +56,16 @@ namespace Engine
 	void AnimationManager::UnregisterAnimationController(AnimationControllerComponent* component)
 	{
 		m_animationControllers.erase(std::remove(m_animationControllers.begin(), m_animationControllers.end(), component), m_animationControllers.end());
+	}
+
+	void AnimationManager::RegisterAnimator(AnimatorComponent* component)
+	{
+		m_animatorComponents.push_back(component);
+	}
+
+	void AnimationManager::UnregisterAnimator(AnimatorComponent* component)
+	{
+		m_animatorComponents.erase(std::remove(m_animatorComponents.begin(), m_animatorComponents.end(), component), m_animatorComponents.end());
 	}
 
 }

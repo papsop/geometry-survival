@@ -1,6 +1,7 @@
 #include "AnimationControllerComponent.h"
 #include "../../Managers/AnimationManager.h"
 #include "../../Managers/ResourceManager.h"
+#include "../../Managers/AnimationData.h"
 
 namespace Engine
 {

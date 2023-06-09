@@ -1,4 +1,6 @@
 #include "AnimationStateMachine.h"
+
+#include "AnimationControllerComponent.h"
 #include "../../Debug/Logger.h"
 #include "../../Managers/ResourceManager.h"
 

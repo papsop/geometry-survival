@@ -45,6 +45,10 @@ set(SOURCES
 	UI/HorizontalLayoutComponent.cpp
 	UI/VerticalLayoutComponent.h
 	UI/VerticalLayoutComponent.cpp
+
+	Animations/AnimatorController.h
+	Animations/AnimatorComponent.h
+	Animations/AnimatorComponent.cpp
 )
 
 target_sources(${ENGINE_PROJECT} PUBLIC 

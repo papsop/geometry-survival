@@ -1,4 +1,5 @@
 #pragma once
+#include <type_traits>
 
 namespace Engine
 {
@@ -23,7 +24,22 @@ namespace Engine
 			}), m_listeners.end());
 		}
 
-		void Invoke()
+
+		// ============== Only for parametrized signals ==============
+		template<typename U = T,
+						typename = std::enable_if_t<std::is_same_v<U, void> == false>>
+		void Invoke(U val)
+		{
+			for (auto& listener : m_listeners)
+			{
+				listener(val);
+			}
+		}
+
+		// ============== Only for void signals ==============
+		template<typename U = T,
+						 typename = std::enable_if_t<std::is_same_v<U, void> == true>>
+			void Invoke()
 		{
 			for (auto& listener : m_listeners)
 			{
@@ -33,4 +49,6 @@ namespace Engine
 	private:
 		std::vector<std::function<void(T)>> m_listeners;
 	};
+
+
 }

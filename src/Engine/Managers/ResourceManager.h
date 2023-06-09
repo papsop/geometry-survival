@@ -1,6 +1,5 @@
 #pragma once
 #include "IManager.h"
-#include "AnimationManager.h"
 #include "../Debug/IDebuggable.h"
 
 #include <SFML/Graphics.hpp>
@@ -12,6 +11,7 @@
 namespace Engine
 {
 	class Application;
+	class AnimationClip;
 
 	// ============================
 	// RESOURCE MANAGER

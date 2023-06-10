@@ -46,7 +46,11 @@ set(SOURCES
 	UI/VerticalLayoutComponent.h
 	UI/VerticalLayoutComponent.cpp
 
+	Animations/AnimationData.h
+	Animations/IAnimationPlayRequester.h
 	Animations/AnimatorController.h
+	Animations/AnimatorController.inl
+	Animations/AnimatorController.cpp
 	Animations/AnimatorComponent.h
 	Animations/AnimatorComponent.cpp
 )

@@ -26,7 +26,6 @@ set(SOURCES
 	RenderManager.cpp
 	EditorManager.h
 	EditorManager.cpp
-	AnimationData.h
 	AnimationManager.h
 	AnimationManager.cpp
 

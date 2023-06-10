@@ -1,9 +1,9 @@
 #include "ResourceManager.h"
+#include "../Application.h"
+#include "../Components/Animations/AnimationData.h"
 
-#include "AnimationData.h"
 #include "../imgui/imgui.h"
 #include "../Debug/Logger.h"
-#include "../Application.h"
 #include "../Utils/VectorUtils.h"
 #include "../Core/CustomYAMLTypes.h"
 
@@ -29,7 +29,7 @@ namespace Engine
 	}
 
 
-	Engine::ResourceManager& ResourceManager::Get()
+	ResourceManager& ResourceManager::Get()
 	{
 		return Application::Instance().GetResourceManager();
 	}
@@ -236,7 +236,7 @@ namespace Engine
 		return m_shaders[name];
 	}
 
-	std::shared_ptr<Engine::AnimationClip> ResourceManager::GetAnimation(const char* name)
+	std::shared_ptr<AnimationClip> ResourceManager::GetAnimation(const char* name)
 	{
 		if (m_animations.find(name) == m_animations.end())
 		{

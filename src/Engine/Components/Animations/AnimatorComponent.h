@@ -1,22 +1,17 @@
 #pragma once
-#include "AnimatorController.h"
-#include "../../Managers/AnimationData.h"
-
 #include "../Core/IComponent.h"
+#include "../../Managers/ResourceManager.h"
+#include "../../Managers/AnimationManager.h"
+#include "IAnimationPlayRequester.h"
+#include "AnimationData.h"
+#include "AnimatorController.h"
+
+#include "../Drawables/SpriteDrawableComponent.h"
 #include "../../Core/Signal.h"
 
 #include <memory>
 namespace Engine
 {
-	class SpriteDrawableComponent;
-
-	struct AnimationPlayRequest 
-	{
-		std::shared_ptr<AnimationClip> Clip;
-		bool ShouldLoop;
-		Signal<void> OnStarted;
-		Signal<void> OnFinished;
-	};
 
 	class AnimatorComponent final : public IComponent
 	{
@@ -29,15 +24,24 @@ namespace Engine
 
 		void Update(float dt) override;
 
-
 		void SetAnimatorController(std::unique_ptr<AnimatorController> controller);
 
-		void PlayAnimation(AnimationPlayRequest request);
+		void RequestAnimationPlay(AnimationPlayRequest request);
 
 		Signal<std::string> OnAnimationEvent;
+
 	private:
+		void ApplySampleDataToSprite(AnimationSample& sample);
+
 		SpriteDrawableComponent* m_spriteComponent = nullptr;
 		std::unique_ptr<AnimatorController> m_animatorController;
 
+		AnimationPlayRequest m_currentRequest;
+		AnimationClip* m_currentClip = nullptr;
+
+		size_t m_currentSampleIndex = 0;
+		float m_currentSampleTimer = 0.0f;
+		bool m_requestFinished = false;
+		bool m_shouldNotify = false;
 	};
 }

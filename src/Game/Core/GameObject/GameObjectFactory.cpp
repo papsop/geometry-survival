@@ -6,6 +6,7 @@
 #include <Engine/Components/Drawables/TextDrawableComponent.h>
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 #include <Engine/Components/Drawables/AnimationControllerComponent.h>
+#include <Engine/Components/Animations/AnimatorComponent.h>
 
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
@@ -128,7 +129,8 @@ namespace Game
     player->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		player->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		player->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		player->AddComponent<Engine::AnimationControllerComponent>();
+		//player->AddComponent<Engine::AnimationControllerComponent>();
+		player->AddComponent<Engine::AnimatorComponent>();
 
     RPGActorDef rpgActorDef;
     rpgActorDef.MaxHealth = 100;
@@ -141,15 +143,26 @@ namespace Game
 		player->AddComponent<InputComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
-
+		
 		// Animation setup
-		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->GetStateMachine().AddAnimationState("player_idle");
-		auto* runState = animController->GetStateMachine().AddAnimationState("player_move");
+// 		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();
+// 		auto* idleState = animController->GetStateMachine().AddAnimationState("player_idle");
+// 		auto* runState = animController->GetStateMachine().AddAnimationState("player_move");
+// 
+ 		
+// 		idleState->AddStateTransition(runState, actor->IsMoving(), Engine::TransitionConditionType::EQUALS, true);
+// 		runState->AddStateTransition(idleState, actor->IsMoving(), Engine::TransitionConditionType::EQUALS, false);
+
+		auto playerAnimatorController = std::make_unique<Engine::AnimatorController>();
+		auto* idleState = playerAnimatorController->AddAnimatorState("player_idle", true);
+		auto* moveState = playerAnimatorController->AddAnimatorState("player_move", false); // test one shot
+		
+		playerAnimatorController->SetDefaultState(idleState);
 
 		auto* actor = player->GetComponent<ActorComponent>();
-		idleState->AddStateTransition(runState, actor->IsMoving(), Engine::TransitionConditionType::EQUALS, true);
-		runState->AddStateTransition(idleState, actor->IsMoving(), Engine::TransitionConditionType::EQUALS, false);
+		idleState->AddStateTransition(moveState, actor->IsMoving(), Engine::AnimatorTransitionConditionType::EQUALS, true);
+		moveState->AddStateTransition(idleState, actor->IsMoving(), Engine::AnimatorTransitionConditionType::EQUALS, false);
+		player->GetComponent<Engine::AnimatorComponent>()->SetAnimatorController(std::move(playerAnimatorController));
 
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>());

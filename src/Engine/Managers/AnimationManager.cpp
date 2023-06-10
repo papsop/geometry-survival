@@ -1,4 +1,8 @@
 #include "AnimationManager.h"
+#include "../Components/Animations/AnimationData.h"
+#include "../Components/Drawables/AnimationControllerComponent.h"
+#include "../Components/Animations/AnimatorComponent.h"
+
 #include "../Application.h"
 
 namespace Engine

@@ -1,8 +1,5 @@
 #pragma once
 #include "IManager.h"
-#include "AnimationData.h"
-#include "../Components/Drawables/AnimationControllerComponent.h"
-#include "../Components/Animations/AnimatorComponent.h"
 
 #include <SFML/Graphics.hpp>
 #include <vector>
@@ -10,6 +7,9 @@
 
 namespace Engine
 {
+	class AnimationControllerComponent;
+	class AnimatorComponent;
+
 	class AnimationManager : public IManager
 	{
 	public:

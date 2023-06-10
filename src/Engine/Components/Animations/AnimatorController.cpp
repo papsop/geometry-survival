@@ -139,4 +139,14 @@ namespace Engine
 		}
 	}
 
+	void AnimatorController::OnAnimationStarted()
+	{
+		m_currentState->OnAnimationStarted();
+	}
+
+	void AnimatorController::OnAnimationFinished()
+	{
+		m_currentState->OnAnimationFinished();
+	}
+
 }

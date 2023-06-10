@@ -112,6 +112,8 @@ namespace Engine
 
 	protected:
 		void SetOwnerAnimatorComponent(AnimatorComponent* owner);
+		void OnAnimationStarted() override;
+		void OnAnimationFinished() override;
 
 	private:
 		AnimatorComponent* m_ownerComponent = nullptr;

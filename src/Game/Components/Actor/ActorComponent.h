@@ -46,9 +46,11 @@ namespace Game
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
     
     Engine::Signal<void> OnZeroHealth;
-    const bool& IsMoving() { return m_isMoving; }; // needs to be a ref, so we can pass it to animation transition
     Engine::math::Vec2 GetMovingDir() { return m_movingDir; };
 
+    // Bool references for animation transitions
+		const bool& IsMoving() { return m_isMoving; };
+    const bool& HasHealth() { return m_hasHealth; };
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
@@ -62,6 +64,7 @@ namespace Game
     Engine::SpriteDrawableComponent* m_spriteComponent;
     std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     bool isFlipped = false;
+    bool m_hasHealth = true;
   };
 };
 

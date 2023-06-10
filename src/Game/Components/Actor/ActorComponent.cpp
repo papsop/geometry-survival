@@ -119,6 +119,7 @@ namespace Game
 
     if (m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
     {
+      m_hasHealth = false;
       OnZeroHealth.Invoke();
 		}
       

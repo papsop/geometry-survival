@@ -157,6 +157,7 @@ namespace Game
 		auto* idleState = playerAnimatorController->AddAnimatorState("player_idle", true);
 		auto* moveState = playerAnimatorController->AddAnimatorState("player_move", false); // test one shot
 		
+		
 		playerAnimatorController->SetDefaultState(idleState);
 
 		auto* actor = player->GetComponent<ActorComponent>();

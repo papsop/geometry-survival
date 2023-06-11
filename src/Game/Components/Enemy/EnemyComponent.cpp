@@ -5,7 +5,9 @@
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/PhysicsManager.h>
+#include <Engine/Components/Physics/PhysicsBodyComponent.h>
 #include <Engine/Components/Drawables/AnimationControllerComponent.h>
+#include <Engine/Application.h>
 #include <Engine/Core/Events.h>
 
 #include "../../Managers/GameManager.h"
@@ -28,7 +30,7 @@ namespace Game
 
 	void EnemyComponent::OnCreate()
 	{
-		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnDeath);
+		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnZeroHealthCallback);
 		m_spriteDrawableComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
 	}
 
@@ -39,13 +41,8 @@ namespace Game
 
 	void EnemyComponent::Update(float dt)
 	{
-// 		if (m_isDying)
-// 		{
-// 			if (Owner.GetComponent<Engine::AnimationControllerComponent>()->GetRunningAnimationClipName() != "enemy_die")
-// 				OnDeathImpl();
-// 			return;
-// 		}
-
+		if (m_isDying)
+			return;
 
     m_stateMachine.Update(dt);
 
@@ -58,14 +55,12 @@ namespace Game
 
 	}
 
-	void EnemyComponent::OnDeath()
+	void EnemyComponent::OnZeroHealthCallback()
 	{
-		//m_isDying = true;
-		//Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
-		//Owner.GetComponent<Engine::AnimationControllerComponent>()->PlayForcedAnimationClip("enemy_die");
-		// Now let's wait til the animation finishes
-
-		OnDeathImpl();
+		// this bool controls animatorcontroller death state
+		m_isDying = true;
+		
+		// TODO: disable physics, right now it crashes
 	}
 
 	void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)
@@ -82,6 +77,11 @@ namespace Game
 		// !collision.Other is for case when player is already dead, but we still have to receive onCollisionEnd
 		if (!collision.Other || collision.Other->Tag == Engine::GameObjectTag::PLAYER)
 			m_isTouchingTarget = false;
+	}
+
+	void EnemyComponent::OnDeathAnimationFinishedCallback()
+	{
+		OnDeathImpl();
 	}
 
 	void EnemyComponent::VirtualOnActivated()

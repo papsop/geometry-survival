@@ -37,8 +37,8 @@ namespace Engine
 	CircleFixtureComponent::~CircleFixtureComponent()
 	{
 		// body destroys all the fixtures when it's deleted
-	}
-
+	}	
+	
   void CircleFixtureComponent::Debug(VisualDebugContext& debugContext)
   {
 		debugContext.DebugRenderCircle(ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), m_radius, sf::Color::Red);

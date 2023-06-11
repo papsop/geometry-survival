@@ -50,7 +50,6 @@ namespace Game
 
     // Bool references for animation transitions
 		const bool& IsMoving() { return m_isMoving; };
-    const bool& HasHealth() { return m_hasHealth; };
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 
@@ -64,7 +63,6 @@ namespace Game
     Engine::SpriteDrawableComponent* m_spriteComponent;
     std::queue<std::unique_ptr<ICommand>> m_commandsQueue;
     bool isFlipped = false;
-    bool m_hasHealth = true;
   };
 };
 

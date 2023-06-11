@@ -102,6 +102,17 @@ namespace Engine
 			TransitionIntoState(m_defaultState);
 		}
 
+		for (const auto& transition : m_anyTransitions)
+		{
+			if (transition->CheckTransitionCondition())
+			{
+				if (m_currentState == transition->GetTargetState())
+					continue; // to prevent loop
+
+				TransitionIntoState(transition->GetTargetState());
+			}
+		}
+
 		for (const auto& transition : m_currentState->GetStateTransitions())
 		{
 			if (transition->CheckTransitionCondition())

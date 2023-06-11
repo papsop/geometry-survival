@@ -117,10 +117,9 @@ namespace Game
       Owner.SendMessageTo(&Owner, Engine::MessageType::Actor_TookDamage_NoKnockback);
     }
 
-    if (m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
-    {
-      m_hasHealth = false;
-      OnZeroHealth.Invoke();
+		if (m_RPGComponent->GetStat(RPGStats::CURRENT_HEALTH) <= 0.0f)
+		{
+      this->OnZeroHealth.Invoke();
 		}
       
 	}

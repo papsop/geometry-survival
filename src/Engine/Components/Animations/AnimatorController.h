@@ -106,6 +106,10 @@ namespace Engine
 		~AnimatorController() = default;
 
 		AnimatorState* AddAnimatorState(const char* clip, bool isLooped);
+
+		template<typename T>
+		void AddAnyStateTransition(AnimatorState* target, const T& variable, AnimatorTransitionConditionType condType, T value);
+
 		void SetDefaultState(AnimatorState* state);
 
 		void Update(float dt);
@@ -118,12 +122,15 @@ namespace Engine
 	private:
 		AnimatorComponent* m_ownerComponent = nullptr;
 		std::vector< std::unique_ptr<AnimatorState> > m_states;
+		AnimatorState::T_AnimatorStateTransitions m_anyTransitions;
+
 		AnimatorState* m_defaultState = nullptr;
 		AnimatorState* m_currentState = nullptr;
 
 		void TransitionIntoState(AnimatorState* state);
 
 	};
+
 }
 
 #include "AnimatorController.inl"

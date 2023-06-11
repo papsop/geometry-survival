@@ -38,5 +38,11 @@ namespace Engine
 	// ====================================================
 	// Controller
 	// ====================================================
-
+	template<typename T>
+	void AnimatorController::AddAnyStateTransition(AnimatorState* target, const T& variable, AnimatorTransitionConditionType condType, T value)
+	{
+		DD_ASSERT(target != nullptr, "Trying to add a null state transition");
+		std::unique_ptr<IAnimatorStateTransition> transition = std::make_unique<AnimatorStateTransition<T>>(target, variable, condType, value);
+		m_anyTransitions.push_back(std::move(transition));
+	}
 }

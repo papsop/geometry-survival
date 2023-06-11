@@ -61,11 +61,19 @@ namespace Game
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>(enemyDef);
-		obj->AddComponent<Engine::AnimationControllerComponent>();
+		obj->AddComponent<Engine::AnimatorComponent>();
 
-		// Animation setup
-		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* idleState = animController->GetStateMachine().AddAnimationState("enemy_move");
+		auto* enemyComponent = obj->GetComponent<EnemyComponent>();
+
+		auto objAnimatorController = std::make_unique<Engine::AnimatorController>();
+		auto* moveState = objAnimatorController->AddAnimatorState("enemy_move", true);
+		auto* deathState = objAnimatorController->AddAnimatorState("enemy_die", false);
+		deathState->OnAnimationFinishedSignal.AddListener(enemyComponent, &EnemyComponent::OnDeathAnimationFinishedCallback);
+
+		objAnimatorController->AddAnyStateTransition(deathState, enemyComponent->IsDying(), Engine::AnimatorTransitionConditionType::EQUALS, true);
+		
+
+		obj->GetComponent<Engine::AnimatorComponent>()->SetAnimatorController(std::move(objAnimatorController));
 
 		obj->SetActive(true);
 		return obj;
@@ -95,10 +103,12 @@ namespace Game
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<ExperienceGlobeComponent>();
-		obj->AddComponent<Engine::AnimationControllerComponent>();
+		obj->AddComponent<Engine::AnimatorComponent>();
 
-		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-		auto* rotateState = animController->GetStateMachine().AddAnimationState("experience_rotate");
+		auto objAnimatorController = std::make_unique<Engine::AnimatorController>();
+		auto* idleState = objAnimatorController->AddAnimatorState("experience_rotate", true);
+
+		obj->GetComponent<Engine::AnimatorComponent>()->SetAnimatorController(std::move(objAnimatorController));
 
 		obj->SetActive(true);
 		return obj;
@@ -155,7 +165,7 @@ namespace Game
 
 		auto playerAnimatorController = std::make_unique<Engine::AnimatorController>();
 		auto* idleState = playerAnimatorController->AddAnimatorState("player_idle", true);
-		auto* moveState = playerAnimatorController->AddAnimatorState("player_move", false); // test one shot
+		auto* moveState = playerAnimatorController->AddAnimatorState("player_move", true); // test one shot
 		
 		
 		playerAnimatorController->SetDefaultState(idleState);

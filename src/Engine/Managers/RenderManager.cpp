@@ -82,7 +82,7 @@ namespace Engine
 	void RenderManager::SetSettings(RenderManagerSettings settings)
 	{
 		m_currentSettings = settings;
-		OnSettingsChanged.Invoke();
+		this->OnSettingsChanged.Invoke();
 
 		Application::Instance().AddEndOfFrameDeferredAction(
 			[&]() {

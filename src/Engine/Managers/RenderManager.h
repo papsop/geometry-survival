@@ -61,7 +61,7 @@ namespace Engine
 		inline float Box2DRotationToSFML(float angle) { return 360.0f - math::RAD_TO_DEG(angle); }
 
 		void SetView(CameraData cameraData);
-
+		 
 		RenderManagerSettings GetSettings() const { return m_currentSettings; }
 		void SetSettings(RenderManagerSettings settings);
 		Signal<void> OnSettingsChanged;

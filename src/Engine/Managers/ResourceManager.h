@@ -1,6 +1,5 @@
 #pragma once
 #include "IManager.h"
-#include "AnimationManager.h"
 #include "../Debug/IDebuggable.h"
 
 #include <SFML/Graphics.hpp>
@@ -12,6 +11,8 @@
 namespace Engine
 {
 	class Application;
+	struct AnimationSample;
+	struct AnimationClip;
 
 	// ============================
 	// RESOURCE MANAGER
@@ -22,9 +23,9 @@ namespace Engine
 		static ResourceManager& Get();
 		~ResourceManager() = default;
 
-		std::shared_ptr<sf::Texture> ResourceManager::GetTexture(const char* name);
-		std::shared_ptr<sf::Shader> ResourceManager::GetShader(const char* name);
-		std::shared_ptr<AnimationClip> ResourceManager::GetAnimation(const char* name);
+		std::shared_ptr<sf::Texture> GetTexture(const char* name);
+		std::shared_ptr<sf::Shader> GetShader(const char* name);
+		std::shared_ptr<AnimationClip> GetAnimation(const char* name);
 
 		void Debug(VisualDebugContext& debugContext) override;
 	protected:

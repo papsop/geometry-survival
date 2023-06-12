@@ -37,13 +37,14 @@ namespace Game
     void OnDestroy() override;
     Engine::GameObject* GetTarget() const { return m_target; }
 
-
     void Update(float dt) override;
-    void OnDeath();
+    void OnZeroHealthCallback();
 
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 		void OnCollisionEnd(Engine::CollisionData& collision) override;
 
+    const bool& IsDying() { return m_isDying; }
+    void OnDeathAnimationFinishedCallback();
   protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;

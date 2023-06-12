@@ -3,7 +3,6 @@
 #include "SpriteDrawableComponent.h"
 #include "AnimationStateMachine.h"
 
-#include <functional>
 namespace Engine
 {
 	class AnimationClip;

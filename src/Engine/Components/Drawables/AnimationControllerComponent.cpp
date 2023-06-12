@@ -1,6 +1,7 @@
 #include "AnimationControllerComponent.h"
-#include "../../Managers/AnimationManager.h"
 #include "../../Managers/ResourceManager.h"
+#include "../../Managers/AnimationManager.h"
+#include "../Animations/AnimationData.h"
 
 namespace Engine
 {
@@ -86,7 +87,8 @@ namespace Engine
 
 	void AnimationControllerComponent::PlayAnimationClipFromSM(const char* animationClipName)
 	{
-		m_currentAnimationClip = ResourceManager::Get().GetAnimation(animationClipName).get();
+		return;
+		//m_currentAnimationClip = ResourceManager::Get().GetAnimation(animationClipName).get();
 		if (m_currentAnimationClip->Samples.size() == 0)
 		{
 			LOG_ERROR("Animation clip '%s' has no samples", animationClipName);

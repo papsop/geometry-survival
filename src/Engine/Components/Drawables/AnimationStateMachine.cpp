@@ -1,4 +1,6 @@
 #include "AnimationStateMachine.h"
+
+#include "AnimationControllerComponent.h"
 #include "../../Debug/Logger.h"
 #include "../../Managers/ResourceManager.h"
 
@@ -22,8 +24,8 @@ namespace Engine
 	AnimationState::AnimationState(const char* animationName)
 	 : AnimationName(animationName)
 	{
-		m_animationClip = ResourceManager::Get().GetAnimation(animationName);
-		DD_ASSERT(m_animationClip != nullptr, "Unable to find animation clip '%s'", animationName);
+		//m_animationClip = ResourceManager::Get().GetAnimation(animationName);
+		//DD_ASSERT(m_animationClip != nullptr, "Unable to find animation clip '%s'", animationName);
 	}
 
 	AnimationStateMachine::AnimationStateMachine(AnimationControllerComponent& ownerController)

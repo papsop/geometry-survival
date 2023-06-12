@@ -1,3 +1,3 @@
 # Geometry Survival
 
-![image](https://github.com/papsop/geometry-survival/assets/9076709/3f476d0f-ec83-4127-bfc1-8edf7fd59871)
+![image](https://github.com/papsop/geometry-survival/assets/9076709/74e96fc9-ef15-4dbb-b361-5673b83a5927)

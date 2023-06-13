@@ -18,6 +18,20 @@ namespace Engine
 		b2Filter MyFilter;
 	};
 
+	enum class CollisionType 
+	{
+		START, END
+	};
+
+	struct CachedCollisionEntry
+	{
+		CollisionType Type;
+		GameObjectID TargetID;
+		GameObjectID OtherID;
+		b2Filter MyFilter;
+		b2Filter OtherFilter;
+	};
+
 	class PhysicsManager : public IManager, public b2ContactListener, public IEventListener<event::E_ApplicationStopped>
 	{
 	public:
@@ -51,8 +65,12 @@ namespace Engine
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;
 
+		void ProcessCachedCollisions();
+
 		std::unique_ptr<b2World> m_b2World;
 		std::vector<PhysicsBodyComponent*> m_physicsBodies;	
+
+		std::queue< CachedCollisionEntry > m_cachedCollisions;
 
 		const float m_fixedUpdate = 1.0f/120.0f;
 

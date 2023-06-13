@@ -18,6 +18,7 @@ namespace Engine
 	void AnimatorComponent::OnDestroy()
 	{
 		AnimationManager::Get().UnregisterAnimator(this);
+		m_animatorController = nullptr;
 	}
 
 	void AnimatorComponent::Update(float dt)

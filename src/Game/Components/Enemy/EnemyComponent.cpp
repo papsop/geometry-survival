@@ -59,8 +59,7 @@ namespace Game
 	{
 		// this bool controls animatorcontroller death state
 		m_isDying = true;
-		
-		// TODO: disable physics, right now it crashes
+		Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
 	}
 
 	void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)

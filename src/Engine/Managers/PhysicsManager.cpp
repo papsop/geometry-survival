@@ -31,6 +31,39 @@ namespace Engine
 		IEventListener<event::E_ApplicationStopped>::UnregisterListener();
 	}
 
+	void PhysicsManager::ProcessCachedCollisions()
+	{
+		while (!m_cachedCollisions.empty())
+		{
+			CachedCollisionEntry cachedCollision = m_cachedCollisions.front();
+			m_cachedCollisions.pop();
+
+			auto* targetObject = GameObjectManager::Get().GetGameObjectByID(cachedCollision.TargetID);
+			auto* otherObject = GameObjectManager::Get().GetGameObjectByID(cachedCollision.OtherID);
+
+			if(!targetObject)
+				continue; // Target object doesn't live anymore
+
+			CollisionData data;
+			data.MyFilter = cachedCollision.MyFilter;
+			data.OtherFilter = cachedCollision.OtherFilter;
+			data.Other = otherObject;
+
+			switch (cachedCollision.Type)
+			{
+			case CollisionType::START:
+				targetObject->OnCollisionStart(data);
+				break;
+			case CollisionType::END:
+				targetObject->OnCollisionEnd(data);
+				break;
+			default:
+				LOG_ERROR("Unknown collision type");
+				break;
+			}
+		}
+	}
+
 	void PhysicsManager::RegisterComponent(PhysicsBodyComponent* component)
 	{
 		m_physicsBodies.emplace_back(component);
@@ -61,21 +94,22 @@ namespace Engine
 		
 		if (bodyA == bodyB) return;
 
-		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
-		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
+		CachedCollisionEntry entryObjectA;
+		entryObjectA.TargetID = bodyA->GetUserData().pointer;
+		entryObjectA.OtherID= bodyB->GetUserData().pointer;
+		entryObjectA.MyFilter = contact->GetFixtureA()->GetFilterData();
+		entryObjectA.OtherFilter = contact->GetFixtureB()->GetFilterData();
+		entryObjectA.Type = CollisionType::START;
 
-		CollisionData collisionDataA;
-		collisionDataA.Other = objB;
-		collisionDataA.MyFilter = contact->GetFixtureA()->GetFilterData();
-		collisionDataA.OtherFilter = contact->GetFixtureB()->GetFilterData();
+		CachedCollisionEntry entryObjectB;
+		entryObjectB.TargetID = bodyB->GetUserData().pointer;
+		entryObjectB.OtherID = bodyA->GetUserData().pointer;
+		entryObjectB.MyFilter = contact->GetFixtureB()->GetFilterData();
+		entryObjectB.OtherFilter = contact->GetFixtureA()->GetFilterData();
+		entryObjectB.Type = CollisionType::START;
 
-		CollisionData collisionDataB;
-		collisionDataB.Other = objA;
-		collisionDataB.MyFilter = contact->GetFixtureB()->GetFilterData();
-		collisionDataB.OtherFilter = contact->GetFixtureA()->GetFilterData();
-
-		if (objA) objA->OnCollisionStart(collisionDataA);
-		if (objB) objB->OnCollisionStart(collisionDataB);
+		m_cachedCollisions.push(entryObjectA);
+		m_cachedCollisions.push(entryObjectB);
 	}
 
 	void PhysicsManager::EndContact(b2Contact* contact)
@@ -85,21 +119,22 @@ namespace Engine
 
 		if (bodyA == bodyB) return;
 
-		GameObject* objA = GameObjectManager::Get().GetGameObjectByID(bodyA->GetUserData().pointer);
-		GameObject* objB = GameObjectManager::Get().GetGameObjectByID(bodyB->GetUserData().pointer);
+		CachedCollisionEntry entryObjectA;
+		entryObjectA.TargetID = bodyA->GetUserData().pointer;
+		entryObjectA.OtherID = bodyB->GetUserData().pointer;
+		entryObjectA.MyFilter = contact->GetFixtureA()->GetFilterData();
+		entryObjectA.OtherFilter = contact->GetFixtureB()->GetFilterData();
+		entryObjectA.Type = CollisionType::END;
 
-		CollisionData collisionDataA;
-		collisionDataA.Other = objB;
-		collisionDataA.MyFilter = contact->GetFixtureA()->GetFilterData();
-		collisionDataA.OtherFilter = contact->GetFixtureB()->GetFilterData();
+		CachedCollisionEntry entryObjectB;
+		entryObjectB.TargetID = bodyB->GetUserData().pointer;
+		entryObjectB.OtherID = bodyA->GetUserData().pointer;
+		entryObjectB.MyFilter = contact->GetFixtureB()->GetFilterData();
+		entryObjectB.OtherFilter = contact->GetFixtureA()->GetFilterData();
+		entryObjectB.Type = CollisionType::END;
 
-		CollisionData collisionDataB;
-		collisionDataB.Other = objA;
-		collisionDataB.MyFilter = contact->GetFixtureB()->GetFilterData();
-		collisionDataB.OtherFilter = contact->GetFixtureA()->GetFilterData();
-
-		if (objA) objA->OnCollisionEnd(collisionDataA);
-		if (objB) objB->OnCollisionEnd(collisionDataB);
+		m_cachedCollisions.push(entryObjectA);
+		m_cachedCollisions.push(entryObjectB);
 	}
 
 	void PhysicsManager::ReceiveEvent(const event::E_ApplicationStopped& eventData)
@@ -129,6 +164,9 @@ namespace Engine
 			return;
 
 		m_b2World->Step(dt, 8, 3);
+
+		ProcessCachedCollisions(); // sends OnCollisionXXX
+
 		for (auto& body : m_physicsBodies)
 		{
 			if (body->ShouldUpdate())

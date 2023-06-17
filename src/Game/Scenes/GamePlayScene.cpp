@@ -4,9 +4,8 @@
 #include <Engine/Core/GameObject/GameObject.h>
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
-#include <Engine/Core/Serializing/SceneSerializer.h>
+#include <Engine/Managers/GameObjectManager.h>
 
-#include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 

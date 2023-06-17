@@ -15,13 +15,9 @@ set(SOURCES
 	Scene/Scene.cpp
 	Scene/IScene.h
 
-
 	StateMachine/IState.h
 	StateMachine/PushdownStateMachine.h
 	StateMachine/PushdownStateMachine.inl
-
-	Serializing/SceneSerializer.h
-	Serializing/SceneSerializer.cpp
 
 	Messaging/MessageTypes.h
 

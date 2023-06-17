@@ -1,7 +1,6 @@
 set(SOURCES
 	Core.h
 	Physics.h
-	UI.h
 
 	Core/Transform_old.h
 	Core/ITransform.h
@@ -38,13 +37,6 @@ set(SOURCES
 	Drawables/AnimationStateMachine.h
 	Drawables/AnimationStateMachine.inl
 	Drawables/AnimationStateMachine.cpp
-
-	UI/LayoutElementComponent.h
-	UI/LayoutElementComponent.cpp
-	UI/HorizontalLayoutComponent.h
-	UI/HorizontalLayoutComponent.cpp
-	UI/VerticalLayoutComponent.h
-	UI/VerticalLayoutComponent.cpp
 
 	Animations/AnimationData.h
 	Animations/IAnimationPlayRequester.h

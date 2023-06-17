@@ -1,7 +1,6 @@
 #include "Application.h"
 #include "Managers/InputManager.h"
 #include "Core/GameObject/GameObject.h"
-#include "Core/Serializing/SceneSerializer.h"
 
 #include "View/WindowViewStrategy.h"
 #include "View/ConsoleViewStrategy.h"

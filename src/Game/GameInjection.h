@@ -5,20 +5,14 @@
 #include <Engine/Debug/Backend/WindowBackendStrategy.h>
 #include <Engine/Debug/Backend/ConsoleBackendStrategy.h>
 #include <Engine/Debug/Backend/ImGuiBackendStrategy.h>
-#include <Engine/Core/Serializing/SceneSerializer.h>
 
 #include <Engine/Managers/SceneManager.h>
 #include <Engine/Managers/ComponentManager.h>
 
-#include <Engine/Components/UI.h>
 #include <Engine/Components/Physics.h>
 #include <Engine/Utils/VectorUtils.h>
-
-#include <Engine/Components/UI/LayoutElementComponent.h>
-#include <Engine/Components/UI/HorizontalLayoutComponent.h>
-#include <Engine/Components/UI/VerticalLayoutComponent.h>
-
 #include "Core/GameObject/GameObjectFactory.h"
+
 #include "Managers/GameManager.h"
 #include "Managers/SkillsManager.h"
 #include "Managers/EnemySpawningManager.h"

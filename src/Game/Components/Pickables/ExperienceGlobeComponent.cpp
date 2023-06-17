@@ -13,13 +13,15 @@ namespace Game
 		SetRequiredComponents<Engine::CircleFixtureComponent, Engine::PhysicsBodyComponent>();
 	}	
 	
-	void ExperienceGlobeComponent::OnCreate()
+	void ExperienceGlobeComponent::VirtualOnCreate()
 	{
+		LOG_INFO("Calling ExperienceGlobeComponent.OnCreate()");
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}
 
-	ExperienceGlobeComponent::~ExperienceGlobeComponent()
+	void ExperienceGlobeComponent::OnDestroy()
 	{
+		LOG_INFO("Calling ExperienceGlobeComponent.OnDestroy()");
 		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 

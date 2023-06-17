@@ -46,7 +46,7 @@ namespace Game
 		RPGComponent(Engine::GameObject& obj, const RPGActorDef& rpgActorDef);
 		~RPGComponent();
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 
 		void Update(float dt) override;
 

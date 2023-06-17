@@ -56,12 +56,12 @@ namespace Game
 		// Fixture/PhysicsBody set rotation
 		auto obj = Engine::GameObjectManager::Get().CreateGameObject("Enemy by factory", Engine::GameObjectTag::ENEMY, transformDef);
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+		obj->AddComponent<Engine::AnimatorComponent>();
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<RPGComponent>(rpgActorDef);
 		obj->AddComponent<ActorComponent>();
 		obj->AddComponent<EnemyComponent>(enemyDef);
-		obj->AddComponent<Engine::AnimatorComponent>();
 
 		auto* enemyComponent = obj->GetComponent<EnemyComponent>();
 
@@ -75,7 +75,6 @@ namespace Game
 
 		obj->GetComponent<Engine::AnimatorComponent>()->SetAnimatorController(std::move(objAnimatorController));
 
-		obj->SetActive(true);
 		return obj;
 	}
 
@@ -110,7 +109,6 @@ namespace Game
 
 		obj->GetComponent<Engine::AnimatorComponent>()->SetAnimatorController(std::move(objAnimatorController));
 
-		obj->SetActive(true);
 		return obj;
 	}
 
@@ -178,7 +176,6 @@ namespace Game
     auto* weaponComp = player->GetComponent<WeaponComponent>();
     weaponComp->EquipWeapon(std::make_unique<PistolWeapon>());
 
-		player->SetActive(true);
 		return player;
 	}
 
@@ -221,7 +218,6 @@ namespace Game
 		bulletDef.BurningDamage = def.BurningDamage;
 		obj->AddComponent<BulletComponent>(bulletDef);
 
-		obj->SetActive(true);
 		return obj;
 	}
 
@@ -240,8 +236,7 @@ namespace Game
 
 		obj->AddComponent<Engine::TextDrawableComponent>(textDef);
 		obj->AddComponent<CombatTextComponent>(.500f);
-		
-		obj->SetActive(true);
+
 		return obj;
 	}
 

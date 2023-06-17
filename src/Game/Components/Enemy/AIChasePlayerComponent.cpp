@@ -19,7 +19,7 @@ namespace Game
 		SetRequiredComponents<ActorComponent, EnemyComponent>();
 	}
 
-	void AIChasePlayerComponent::OnCreate()
+	void AIChasePlayerComponent::VirtualOnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 

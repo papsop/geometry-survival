@@ -11,8 +11,8 @@ namespace Engine
 
 	}
 
-	void VerticalLayoutComponent::OnCreate()
-	{
+	void VerticalLayoutComponent::VirtualOnCreate()
+{
 		m_parentRectTransform = dynamic_cast<RectTransform*>(Owner.GetTransform());
 		DD_ASSERT(m_parentRectTransform != nullptr, "HorizontalLayoutComponent only usable with a RectTransform");
 

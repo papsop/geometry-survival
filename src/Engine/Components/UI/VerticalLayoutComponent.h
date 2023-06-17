@@ -11,7 +11,7 @@ namespace Engine
 		~VerticalLayoutComponent();
 
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override;
 
 	private:

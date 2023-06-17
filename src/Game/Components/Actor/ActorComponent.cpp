@@ -20,7 +20,7 @@ namespace Game
     SetRequiredComponents<Engine::PhysicsBodyComponent, RPGComponent>();
   }
 
-  void ActorComponent::OnCreate()
+  void ActorComponent::VirtualOnCreate()
   {
     m_RPGComponent = Owner.GetComponent<RPGComponent>();
     m_spriteComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>(); // not required

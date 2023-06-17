@@ -9,8 +9,8 @@ namespace Engine
 
 	}
 
-	void LayoutElementComponent::OnCreate()
-	{
+	void LayoutElementComponent::VirtualOnCreate()
+{
 		m_parentRectTransform = dynamic_cast<RectTransform*>(Owner.GetTransform());
 		DD_ASSERT(m_parentRectTransform != nullptr, "LayoutElementComponent only usable with a RectTransform");
 

@@ -12,7 +12,7 @@ namespace Game
 		PlayerComponent(Engine::GameObject& obj);
 		~PlayerComponent() override = default;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void OnDestroy() override;
 
 		void OnCollisionStart(Engine::CollisionData& collision) override;

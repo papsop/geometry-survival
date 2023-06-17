@@ -13,7 +13,7 @@ namespace Game
       SetRequiredComponents<ActorComponent, WeaponComponent>();
   }
 
-  void InputComponent::OnCreate()
+  void InputComponent::VirtualOnCreate()
   {
       Engine::ComponentManager::Get().RegisterComponent(this);
       m_actorComponent = Owner.GetComponent<ActorComponent>();

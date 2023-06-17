@@ -12,8 +12,8 @@ namespace Engine
 		SetRequiredComponents<Engine::SpriteDrawableComponent>();
 	}
 
-	void AnimationControllerComponent::OnCreate()
-	{
+	void AnimationControllerComponent::VirtualOnCreate()
+{
 		AnimationManager::Get().RegisterAnimationController(this);
 		m_spriteComponent = Owner.GetComponent<SpriteDrawableComponent>();
 	}

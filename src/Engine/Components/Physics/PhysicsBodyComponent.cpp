@@ -31,8 +31,8 @@ namespace Engine
 		m_b2Body = PhysicsManager::Get().CreateBody(&bodyDef);
 	}
 
-	void PhysicsBodyComponent::OnCreate()
-	{
+	void PhysicsBodyComponent::VirtualOnCreate()
+{
 		PhysicsManager::Get().RegisterComponent(this);
 	}
 

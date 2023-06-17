@@ -37,7 +37,9 @@ namespace Engine
     void SetEnabled(bool val) { m_isEnabled = val; }
     bool ShouldUpdate();
 
-    virtual void OnCreate() {};
+    void OnCreate();
+
+    virtual void VirtualOnCreate() {};
     virtual void OnDestroy() {};
     virtual void Update(float dt) {};
     virtual void FixedUpdate(float dt) {};
@@ -89,7 +91,7 @@ namespace Engine
 
     ~IRenderableComponent() = default;
       
-    void OnCreate() override {};
+    void VirtualOnCreate() override {};
 
     virtual view::Renderable GetRenderable() = 0;
     virtual view::Renderable& GetMutableRenderable() = 0;
@@ -116,7 +118,7 @@ namespace Engine
     IDrawableComponent(GameObject& obj, view::Layer layer);
     ~IDrawableComponent();
 
-    void OnCreate() override final;
+    void VirtualOnCreate() override final;
 
     virtual void GetDrawables(TDrawablesMap& drawables) {};
 
@@ -136,7 +138,7 @@ namespace Engine
     IUIComponent(GameObject& obj) : IComponent(obj) {};
     ~IUIComponent() = default;
 
-    virtual void OnCreate() final {};
+    virtual void VirtualOnCreate() {};
     virtual void OnDestroy() final {};
     virtual void VirtualOnActivated() final {};
     virtual void VirtualOnDeactivated() final {};
@@ -160,7 +162,7 @@ namespace Engine
     IImGuiComponent(GameObject& obj);
     ~IImGuiComponent() = default;
 
-    virtual void OnCreate() final;
+    virtual void VirtualOnCreate();
     virtual void OnDestroy() final;
       
     virtual void Update(float dt) {};

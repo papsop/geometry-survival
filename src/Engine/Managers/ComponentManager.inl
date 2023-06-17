@@ -22,6 +22,7 @@ namespace Engine
 	template<typename T, typename>
 	void ComponentManager::RegisterComponent(T* component)
 	{
+		EnsureLocked();
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();
 		DD_ASSERT(m_containers.find(ID) != m_containers.end(), "ComponentContainer for this component doesn't exist");
 		LOG_DEBUG("Registered component '%s'", typeid(T).name());
@@ -31,6 +32,7 @@ namespace Engine
 	template<typename T, typename>
 	void ComponentManager::UnregisterComponent(T* component)
 	{
+		EnsureLocked();
 		auto ID = IdGenerator<ComponentManager>::GetID<T>();
 		DD_ASSERT(m_containers.find(ID) != m_containers.end(), "ComponentContainer for this component doesn't exist");
 		LOG_DEBUG("Unregistered component '%s'", typeid(T).name());

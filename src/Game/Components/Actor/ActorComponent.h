@@ -29,7 +29,7 @@ namespace Game
     ActorComponent(Engine::GameObject& obj);
     ~ActorComponent() override;
 
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void Update(float dt) override;
 
     template<typename T,

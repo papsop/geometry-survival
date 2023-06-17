@@ -13,7 +13,7 @@ namespace Game
 		DestroyAfterTimeComponent(Engine::GameObject& owner, float timeToDie);
 		~DestroyAfterTimeComponent();
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 
 		void Update(float dt) override;
 	private:

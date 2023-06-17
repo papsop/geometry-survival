@@ -19,7 +19,7 @@ namespace Engine
 		CircleFixtureComponent(GameObject& obj, const CircleFixtureDef& def);
 		~CircleFixtureComponent() override;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override {};
 
 		void Debug(VisualDebugContext& debugContext) override;

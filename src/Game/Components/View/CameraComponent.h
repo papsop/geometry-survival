@@ -13,7 +13,7 @@ namespace Game
   public:
     CameraComponent(Engine::GameObject& obj, Engine::GameObject* target);
     ~CameraComponent() override;
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void FixedUpdate(float dt) override;
 
     void SetTarget(Engine::GameObject* newTarget);

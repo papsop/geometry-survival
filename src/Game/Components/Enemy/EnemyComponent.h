@@ -33,7 +33,7 @@ namespace Game
     EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def);
     ~EnemyComponent() override = default;
 
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void OnDestroy() override;
     Engine::GameObject* GetTarget() const { return m_target; }
 

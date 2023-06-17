@@ -18,7 +18,7 @@ namespace Game
     SetRequiredComponents<Engine::PhysicsBodyComponent>();
   }
 
-	void BulletComponent::OnCreate()
+	void BulletComponent::VirtualOnCreate()
 	{
 		auto forward = Owner.GetTransform()->Forward();
 		forward *= 100.0f;

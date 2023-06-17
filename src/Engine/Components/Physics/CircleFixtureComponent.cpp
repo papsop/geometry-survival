@@ -16,8 +16,8 @@ namespace Engine
 		SetRequiredComponents<PhysicsBodyComponent>();
 	}
 
-	void CircleFixtureComponent::OnCreate() 
-	{
+	void CircleFixtureComponent::VirtualOnCreate()
+{
 		auto physBody = Owner.GetComponent<PhysicsBodyComponent>();
 		b2CircleShape circleShape;
 		circleShape.m_p.Set(0.0f, 0.0f);

@@ -19,7 +19,7 @@ namespace Engine
 		AnimatorComponent(GameObject& obj);
 		~AnimatorComponent() = default;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void OnDestroy() override;
 
 		void Update(float dt) override;

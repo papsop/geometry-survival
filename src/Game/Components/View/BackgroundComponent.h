@@ -14,7 +14,7 @@ namespace Game
     BackgroundComponent(Engine::GameObject& obj);
     ~BackgroundComponent() override;
 
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void FixedUpdate(float dt) override;
   protected:
 

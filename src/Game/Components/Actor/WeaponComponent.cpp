@@ -12,7 +12,7 @@ namespace Game
 		SetRequiredComponents<RPGComponent>();
 	}
 
-	void WeaponComponent::OnCreate()
+	void WeaponComponent::VirtualOnCreate()
 	{
 		m_rpgComponent = Owner.GetComponent<RPGComponent>();
 	}
@@ -83,7 +83,7 @@ namespace Game
 		return HasAmmo() && !IsOnCooldown() && !IsReloading();
   }
 
-  void WeaponComponent::Update(float dt)
+	void WeaponComponent::Update(float dt)
 	{
 		if (m_reloadTimer > 0.0f)
 		{

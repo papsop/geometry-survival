@@ -24,7 +24,8 @@ namespace Engine
       void Update(float dt) override;
       void DestroyGameObject(GameObjectID ID);
       void DestroyAllGameObjects();
-      void CleanupGameObjects();
+			void CleanupGameObjects();
+			void InitializeGameObjects();
 
       void Debug(VisualDebugContext& debugContext) override;
 
@@ -40,7 +41,8 @@ namespace Engine
       GameObjectID m_nextGameObjectID = 0;
 
       std::unordered_map<GameObjectID, std::unique_ptr<GameObject>> m_gameObjects;
-      std::queue< GameObject* > m_gameObjectsToCleanup;
+			std::queue< GameObject* > m_gameObjectsToCleanup;
+			std::queue< GameObject* > m_gameObjectsToInitialize;
 
     friend class Application;   // only Application can create a manager
 

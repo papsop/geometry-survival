@@ -66,11 +66,13 @@ namespace Engine
 
 	void PhysicsManager::RegisterComponent(PhysicsBodyComponent* component)
 	{
+		EnsureLocked();
 		m_physicsBodies.emplace_back(component);
 	}
 
 	void PhysicsManager::UnregisterComponent(PhysicsBodyComponent* component)
 	{
+		EnsureLocked();
 		DD_ASSERT(m_b2World != nullptr, "b2World doesn't exist");
 		m_physicsBodies.erase(std::remove(m_physicsBodies.begin(), m_physicsBodies.end(), component), m_physicsBodies.end());
 	}
@@ -147,7 +149,7 @@ namespace Engine
 		if (!m_physicsEnabled)
 			return;
 
-
+		Lock();
 		for (auto& body : m_physicsBodies)
 		{
 			if (body->ShouldUpdate())
@@ -155,7 +157,7 @@ namespace Engine
 				body->Update(dt);
 			}
 		}
-			
+		Unlock();
 	}
 
 	void PhysicsManager::FixedUpdate(float dt)
@@ -163,6 +165,7 @@ namespace Engine
 		if (!m_physicsEnabled)
 			return;
 
+		Lock();
 		m_b2World->Step(dt, 8, 3);
 
 		ProcessCachedCollisions(); // sends OnCollisionXXX
@@ -174,6 +177,7 @@ namespace Engine
 				body->FixedUpdate(dt);
 			}
 		}
+		Unlock();
 	}
 
 }

@@ -17,7 +17,7 @@ namespace Game
     InputComponent(Engine::GameObject& obj);
     ~InputComponent() override;
 
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void Update(float dt) override;
 
 	protected:

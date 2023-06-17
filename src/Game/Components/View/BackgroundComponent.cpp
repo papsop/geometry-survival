@@ -12,7 +12,7 @@ namespace Game
     SetRequiredComponents<Engine::SpriteDrawableComponent, CameraComponent>();
   }
 
-  void BackgroundComponent::OnCreate()
+  void BackgroundComponent::VirtualOnCreate()
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
     m_spriteComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();

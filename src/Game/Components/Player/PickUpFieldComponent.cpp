@@ -16,7 +16,7 @@ namespace Game
 		SetRequiredComponents<Engine::PhysicsBodyComponent, ActorComponent, RPGComponent>();
 	};
 
-	void PickUpFieldComponent::OnCreate()
+	void PickUpFieldComponent::VirtualOnCreate()
 	{
 		auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
 		b2CircleShape circleShape;

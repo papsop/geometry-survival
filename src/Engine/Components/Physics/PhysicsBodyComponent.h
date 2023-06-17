@@ -20,7 +20,7 @@ namespace Engine
 		~PhysicsBodyComponent() override;
 
 		void FixedUpdate(float dt) override;
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 
 		b2Body* GetB2Body() { return m_b2Body; }
 

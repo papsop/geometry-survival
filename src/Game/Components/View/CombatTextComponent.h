@@ -13,7 +13,7 @@ namespace Game
 		CombatTextComponent(Engine::GameObject& obj, float duration);
 		~CombatTextComponent() = default;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void OnDestroy() override;
 		void Update(float dt) override;
 

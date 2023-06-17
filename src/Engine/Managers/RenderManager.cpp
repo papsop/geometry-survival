@@ -42,31 +42,37 @@ namespace Engine
 
 	void RenderManager::RegisterComponent(IDrawableComponent* component)
 	{
+		EnsureLocked();
 		m_drawableComponents.push_back(component);
 	}
 
 	void RenderManager::RegisterComponent(IDebuggable* component)
 	{
+		EnsureLocked();
 		m_debuggableComponents.push_back(component);
 	}
 
 	void RenderManager::RegisterComponent(IImGuiComponent* component)
 	{
+		EnsureLocked();
 		m_imGuiComponents.push_back(component);
 	}
 
 	void RenderManager::UnregisterComponent(IDrawableComponent* component)
 	{
+		EnsureLocked();
 		m_drawableComponents.erase(std::remove(m_drawableComponents.begin(), m_drawableComponents.end(), component), m_drawableComponents.end());
 	}
 
 	void RenderManager::UnregisterComponent(IDebuggable* component)
 	{
+		EnsureLocked();
 		m_debuggableComponents.erase(std::remove(m_debuggableComponents.begin(), m_debuggableComponents.end(), component), m_debuggableComponents.end());
 	}
 
 	void RenderManager::UnregisterComponent(IImGuiComponent* component)
 	{
+		EnsureLocked();
 		m_imGuiComponents.erase(std::remove(m_imGuiComponents.begin(), m_imGuiComponents.end(), component), m_imGuiComponents.end());
 	}
 
@@ -146,7 +152,7 @@ namespace Engine
 	{
 		if (!m_window)
 			return;
-
+		Lock();
 		// Just an update of components, not rendering yet
 		for (auto& c : m_drawableComponents)
 		{
@@ -162,6 +168,7 @@ namespace Engine
 		RenderImGui(dt);
 
 		m_window->display();
+		Unlock();
 	}
 
 	void RenderManager::RenderDrawables(float dt)

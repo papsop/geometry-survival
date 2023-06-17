@@ -26,7 +26,6 @@ namespace Engine
 	void IComponent::SetRequiredComponents()
 	{
 		m_requiredFunction = std::bind(&IComponent::requires_impl<Ts...>::check, std::placeholders::_1);
-		CheckRequiredComponents();
 	}
 
 };

@@ -11,7 +11,7 @@ namespace Engine
 		~HorizontalLayoutComponent();
 
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override;
 
 	private:

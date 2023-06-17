@@ -18,7 +18,7 @@ namespace Game
     m_rpgComponent = Owner.GetComponent<RPGComponent>();
   }
 
-	void PlayerComponent::OnCreate()
+	void PlayerComponent::VirtualOnCreate()
 	{
     m_actorComponent->OnZeroHealth.AddListener(this, &PlayerComponent::OnDeath);
 	}

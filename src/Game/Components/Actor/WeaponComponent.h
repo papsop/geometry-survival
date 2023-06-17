@@ -20,7 +20,7 @@ namespace Game
 		WeaponComponent(Engine::GameObject& obj);
 		~WeaponComponent() override = default;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override;
 
 		void Fire();

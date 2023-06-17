@@ -20,7 +20,7 @@ namespace Game
 		AIChasePlayerComponent(Engine::GameObject& obj);
 		~AIChasePlayerComponent() override;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void OnDestroy() override;
 
 		void Update(float dt) override;

@@ -23,8 +23,8 @@ namespace Engine
 		m_fixture = Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->CreateFixture(&fixtureDef);
 	}
 
-	void RectangleFixtureComponent::OnCreate()
-	{
+	void RectangleFixtureComponent::VirtualOnCreate()
+{
 	}
 
 	RectangleFixtureComponent::~RectangleFixtureComponent()

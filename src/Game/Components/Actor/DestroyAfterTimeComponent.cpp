@@ -9,7 +9,7 @@ namespace Game
 	{
 	}
 
-	void DestroyAfterTimeComponent::OnCreate()
+	void DestroyAfterTimeComponent::VirtualOnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}

@@ -12,8 +12,9 @@ namespace Game
 	{
 	public:
 		ExperienceGlobeComponent(Engine::GameObject& obj);
-		~ExperienceGlobeComponent() override;
-		void OnCreate() override;
+		~ExperienceGlobeComponent() override = default;
+		void VirtualOnCreate() override;
+		void OnDestroy() override;
 
 		void OnCollisionStart(Engine::CollisionData& other) override;
 		void Update(float dt) override;

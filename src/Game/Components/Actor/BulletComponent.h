@@ -20,7 +20,7 @@ namespace Game
     BulletComponent(Engine::GameObject& obj, const BulletDef& def);
     ~BulletComponent() = default;
 
-    void OnCreate() override;
+    void VirtualOnCreate() override;
     void OnCollisionStart(Engine::CollisionData& collision) override;
 
   private:

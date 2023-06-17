@@ -40,8 +40,8 @@ namespace Engine
 	{
 
 	}
-	void IDrawableComponent::OnCreate()
-	{
+	void IDrawableComponent::VirtualOnCreate()
+{
 		RenderManager::Get().RegisterComponent(this);
 	}
 
@@ -66,6 +66,12 @@ namespace Engine
     return Owner.ShouldUpdate() && IsActive() && IsEnabled();
 	}
 
+	void IComponent::OnCreate()
+	{
+		CheckRequiredComponents();
+		VirtualOnCreate();
+	}
+
 	// =========================================================
 	// ImGui COMPONENT
 	// =========================================================
@@ -74,8 +80,8 @@ namespace Engine
 	{
 	}
 
-	void IImGuiComponent::OnCreate()
-	{
+	void IImGuiComponent::VirtualOnCreate()
+{
 		RenderManager::Get().RegisterComponent(this);
 	}
 

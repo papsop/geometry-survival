@@ -12,7 +12,7 @@ namespace Game
 
 	}
 
-	void CombatTextComponent::OnCreate()
+	void CombatTextComponent::VirtualOnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}

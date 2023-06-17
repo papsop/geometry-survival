@@ -28,7 +28,7 @@ namespace Game
     SetRequiredComponents<RPGComponent, ActorComponent, Engine::SpriteDrawableComponent>();
   }
 
-	void EnemyComponent::OnCreate()
+	void EnemyComponent::VirtualOnCreate()
 	{
 		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnZeroHealthCallback);
 		m_spriteDrawableComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
@@ -80,6 +80,7 @@ namespace Game
 
 	void EnemyComponent::OnDeathAnimationFinishedCallback()
 	{
+		LOG_INFO("OnDeathAnimationFinishedCallback");
 		OnDeathImpl();
 	}
 
@@ -142,7 +143,7 @@ namespace Game
 		// event about death
 		event::E_EnemyDied eventData;
 		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
-
+		LOG_INFO("Calling Owner.Destroy()");
 		Owner.Destroy();
 	}
 

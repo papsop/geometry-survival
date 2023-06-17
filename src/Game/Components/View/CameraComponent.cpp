@@ -12,7 +12,7 @@ namespace Game
 		m_cameraData.Center = Owner.GetTransform()->GetPosition();
 	}
 
-	void CameraComponent::OnCreate()
+	void CameraComponent::VirtualOnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}

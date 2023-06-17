@@ -128,7 +128,8 @@ namespace Engine
     // Reset inputs
     m_inputManager->PostUpdate();
     //
-    m_gameObjectManager->CleanupGameObjects();
+		m_gameObjectManager->CleanupGameObjects();    // cleans up objects destroyed this frame
+		m_gameObjectManager->InitializeGameObjects(); // initialized new objects created this frame
     // 
     auto it = m_endOfFrameDeferredActions.begin();
     while (it != m_endOfFrameDeferredActions.end()) {

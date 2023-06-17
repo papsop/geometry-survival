@@ -27,7 +27,7 @@ namespace Game
 		ResetModifiers();
 	}
 
-	void RPGComponent::OnCreate()
+	void RPGComponent::VirtualOnCreate()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
 	}

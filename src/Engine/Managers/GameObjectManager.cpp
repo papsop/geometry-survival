@@ -24,7 +24,9 @@ namespace Engine
   {
     uint32_t ID = m_nextGameObjectID++;
     m_gameObjects[ID] = std::make_unique<GameObject>(ID, name, tag, transformDef);
-    return m_gameObjects[ID].get();
+    auto* gameObject_ptr = m_gameObjects[ID].get();
+    m_gameObjectsToInitialize.push(gameObject_ptr);
+    return gameObject_ptr;
   };
 
   GameObject* GameObjectManager::GetGameObjectByID(uint32_t ID)
@@ -73,10 +75,6 @@ namespace Engine
         return; // GameObject is already scheduled to be destroyed
 
       gameObject->m_shouldDestroy = true;
-      gameObject->OnDestroy();
-			event::E_GameObjectDeleted eventData(gameObject->ID);
-			EventManager::Get().DispatchEvent(eventData);
-
       m_gameObjectsToCleanup.push(gameObject);
     }
   }
@@ -95,14 +93,33 @@ namespace Engine
   {
     while (!m_gameObjectsToCleanup.empty())
     {
-      auto* e = m_gameObjectsToCleanup.front();
+      auto* gameObject = m_gameObjectsToCleanup.front();
 
-      m_gameObjects.erase(e->ID);
+			gameObject->OnDestroy();
+			event::E_GameObjectDeleted eventData(gameObject->ID);
+			EventManager::Get().DispatchEvent(eventData);
+
+      m_gameObjects.erase(gameObject->ID);
       m_gameObjectsToCleanup.pop();
     }
   }
 
-  void GameObjectManager::DebugDraw_ExpandGameObject(GameObject* obj)
+	void GameObjectManager::InitializeGameObjects()
+	{
+		while (!m_gameObjectsToInitialize.empty())
+		{
+			auto* gameObject = m_gameObjectsToInitialize.front();
+
+      gameObject->ForEachComponent([](IComponent* component) {
+        component->OnCreate();
+      });
+
+			gameObject->SetActive(true);
+      m_gameObjectsToInitialize.pop();
+		}
+	}
+
+	void GameObjectManager::DebugDraw_ExpandGameObject(GameObject* obj)
   {
     auto& children = obj->GetTransform()->GetChildren();
     if (children.size() > 0)

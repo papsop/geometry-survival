@@ -19,7 +19,7 @@ namespace Engine
 		RectangleFixtureComponent(GameObject& obj, const RectangleFixtureDef& def);
 		~RectangleFixtureComponent() override;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override {};
 
 		void Debug(view::IViewStrategy* viewStrategy) override;

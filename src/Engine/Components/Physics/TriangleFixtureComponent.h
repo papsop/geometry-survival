@@ -19,7 +19,7 @@ namespace Engine
 		TriangleFixtureComponent(GameObject& obj, TriangleFixtureDef& def);
 		~TriangleFixtureComponent() override;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 		void Update(float dt) override {};
 
 		void Debug(view::IViewStrategy* viewStrategy) override;

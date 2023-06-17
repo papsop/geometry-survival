@@ -1,4 +1,5 @@
 #pragma once
+#include "../Debug/Logger.h"
 
 namespace Engine
 {
@@ -29,7 +30,13 @@ namespace Engine
 	protected:
 		virtual void VirtualOnInit() { /* NO IMPLEMENTATION IN BASE CLASS */ };
 		virtual void VirtualOnDestroy() { /* NO IMPLEMENTATION IN BASE CLASS */ };
+
+		inline void Lock() { m_locked = true; };
+		inline void Unlock() { m_locked = false; };
+		inline void EnsureLocked() { DD_ASSERT(!m_locked, "Manager is currently locked, this operation is blocked"); };
+
 		bool m_initialized = false;
+		bool m_locked = false;
 
 	friend class Application; // only application should be able to init/destroy managers
 	};

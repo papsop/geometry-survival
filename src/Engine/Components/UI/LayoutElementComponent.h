@@ -9,7 +9,7 @@ namespace Engine
 		LayoutElementComponent(GameObject& obj);
 		~LayoutElementComponent() = default;
 
-		void OnCreate() override;
+		void VirtualOnCreate() override;
 
 		// Layout element specific
 		void SetSize(math::Vec2 size);

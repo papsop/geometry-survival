@@ -14,8 +14,8 @@ namespace Engine
 
 	}
 
-	void TriangleFixtureComponent::OnCreate()
-	{
+	void TriangleFixtureComponent::VirtualOnCreate()
+{
 
 	}
 

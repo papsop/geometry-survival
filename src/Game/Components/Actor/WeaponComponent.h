@@ -7,6 +7,7 @@
 #include <memory>
 #include "../../Core/EventData.h"
 
+#include "BulletHandler.h"
 #include "RPGComponent.h"
 
 namespace Game
@@ -17,6 +18,7 @@ namespace Game
 		public Engine::IEventListener<event::E_GameStateChanged>
 	{
 	public:
+
 		WeaponComponent(Engine::GameObject& obj);
 		~WeaponComponent() override = default;
 
@@ -41,6 +43,7 @@ namespace Game
 
 		void SetTargetPosition(Engine::math::Vec2 pos) { m_targetPosition = pos; }
 
+		BulletHandler& GetBulletHandler() { return m_bulletHandler; };
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
@@ -48,6 +51,7 @@ namespace Game
 
 	private:
 		RPGComponent* m_rpgComponent;
+		BulletHandler m_bulletHandler;
 		std::unique_ptr<WeaponData> m_weapon;
 
 		float m_reloadTimer = 0.0f;

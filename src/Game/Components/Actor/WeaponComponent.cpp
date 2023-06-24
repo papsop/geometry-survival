@@ -8,6 +8,7 @@ namespace Game
 {
 	WeaponComponent::WeaponComponent(Engine::GameObject& obj)
 		: IComponent(obj)
+		, m_bulletHandler(*this)
 	{
 		SetRequiredComponents<RPGComponent>();
 	}
@@ -40,7 +41,7 @@ namespace Game
 		m_ammo = m_weapon->GetMaxAmmo();
 	}
 
-  unsigned int WeaponComponent::GetAmmo() const
+	unsigned int WeaponComponent::GetAmmo() const
   {
     return m_ammo;
   }
@@ -119,6 +120,7 @@ namespace Game
 		def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);
 
 		auto* bullet = GameObjectFactory::CreateBulletObject(def);
+
 		Owner.GetTransform()->AddChild(bullet);
 
 		m_ammo--;

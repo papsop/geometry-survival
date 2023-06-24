@@ -8,6 +8,8 @@ set(ACTOR_SOURCE
 	Actor/Commands.cpp
 	Actor/RPGComponent.h
 	Actor/RPGComponent.cpp
+	Actor/BulletHandler.h
+	Actor/BulletHandler.cpp
 	Actor/WeaponComponent.h
 	Actor/WeaponComponent.cpp
 	Actor/DestroyAfterTimeComponent.h
@@ -87,6 +89,11 @@ set(VIEW_SOURCE
 	View/BackgroundComponent.cpp
 )
 
+set(SKILLS_SOURCE
+	Skills/ISkill.h
+	Skills/SkillsComponent.h
+)
+
 target_sources(${GAME_PROJECT} PUBLIC 
 	${ACTOR_SOURCE}
 	${PLAYER_SOURCE}
@@ -95,4 +102,5 @@ target_sources(${GAME_PROJECT} PUBLIC
 	${PICKABLES_SOURCE}
 	${UI_SOURCE}
 	${VIEW_SOURCE}
+	${SKILLS_SOURCE}
 )

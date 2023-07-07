@@ -8,7 +8,6 @@ namespace Game
 {
 	WeaponComponent::WeaponComponent(Engine::GameObject& obj)
 		: IComponent(obj)
-		, m_bulletHandler(*this)
 	{
 		SetRequiredComponents<RPGComponent>();
 	}
@@ -33,6 +32,16 @@ namespace Game
 	void WeaponComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
 	{
 		SetEnabled(eventData.NewState == GameState::Gameplay);
+	}
+
+	void WeaponComponent::RegisterBulletMiddleware(IBulletMiddleware* middleware)
+	{
+		m_middlewares.push_back(middleware);
+	}
+
+	void WeaponComponent::UnregisterBulletMiddleware(IBulletMiddleware* middleware)
+	{
+		m_middlewares.erase(std::remove(m_middlewares.begin(), m_middlewares.end(), middleware), m_middlewares.end());
 	}
 
 	void WeaponComponent::EquipWeapon(std::unique_ptr<WeaponData> weapon)

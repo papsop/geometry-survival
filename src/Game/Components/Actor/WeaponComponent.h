@@ -7,8 +7,8 @@
 #include <memory>
 #include "../../Core/EventData.h"
 
-#include "BulletHandler.h"
 #include "RPGComponent.h"
+#include "IBulletMiddleware.h"
 
 namespace Game
 {
@@ -43,7 +43,9 @@ namespace Game
 
 		void SetTargetPosition(Engine::math::Vec2 pos) { m_targetPosition = pos; }
 
-		BulletHandler& GetBulletHandler() { return m_bulletHandler; };
+		void RegisterBulletMiddleware(IBulletMiddleware* middleware);
+		void UnregisterBulletMiddleware(IBulletMiddleware* middleware);
+
 	protected:
 		void VirtualOnActivated() override;
 		void VirtualOnDeactivated() override;
@@ -51,8 +53,8 @@ namespace Game
 
 	private:
 		RPGComponent* m_rpgComponent;
-		BulletHandler m_bulletHandler;
 		std::unique_ptr<WeaponData> m_weapon;
+		std::vector<IBulletMiddleware*> m_middlewares;
 
 		float m_reloadTimer = 0.0f;
 		unsigned int m_ammo = 0;

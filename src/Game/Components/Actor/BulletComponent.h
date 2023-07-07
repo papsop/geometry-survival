@@ -4,6 +4,7 @@
 #include <Engine/Core/GameObject/GameObject.h>
 
 #include <set>
+
 namespace Game
 {
   struct BulletDef {

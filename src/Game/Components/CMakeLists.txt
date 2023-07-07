@@ -8,8 +8,7 @@ set(ACTOR_SOURCE
 	Actor/Commands.cpp
 	Actor/RPGComponent.h
 	Actor/RPGComponent.cpp
-	Actor/BulletHandler.h
-	Actor/BulletHandler.cpp
+	Actor/IBulletMiddleware.h
 	Actor/WeaponComponent.h
 	Actor/WeaponComponent.cpp
 	Actor/DestroyAfterTimeComponent.h

@@ -130,6 +130,11 @@ namespace Game
 
 		auto* bullet = GameObjectFactory::CreateBulletObject(def);
 
+		for (auto* middleware : m_middlewares)
+		{
+			middleware->Middleware(*bullet);
+		}
+
 		Owner.GetTransform()->AddChild(bullet);
 
 		m_ammo--;

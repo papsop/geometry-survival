@@ -24,7 +24,8 @@
 #include "../../Components/Actor/WeaponComponent.h"
 #include "../../Components/Actor/BulletComponent.h"
 #include "../../Components/View/CombatTextComponent.h"
-
+#include "../../Components/Skills/SkillsComponent.h"
+#include "../../Components/Skills/BulletSizeSkill.h"
 
 namespace Game
 {
@@ -147,10 +148,14 @@ namespace Game
     player->AddComponent<RPGComponent>(rpgActorDef);
     player->AddComponent<ActorComponent>();
     player->AddComponent<PickUpFieldComponent>();
+		player->AddComponent<SkillsComponent>();						// Needs to be registered before WeaponComponent
     player->AddComponent<WeaponComponent>();
 		player->AddComponent<InputComponent>();
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
+
+		std::unique_ptr<ISkill> testSkill = std::make_unique<BulletSizeSkill>();
+		player->GetComponent<SkillsComponent>()->AddSkill(std::move(testSkill));
 		
 		// Animation setup
 // 		auto* animController = player->GetComponent<Engine::AnimationControllerComponent>();

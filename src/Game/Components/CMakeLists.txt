@@ -91,6 +91,9 @@ set(VIEW_SOURCE
 set(SKILLS_SOURCE
 	Skills/ISkill.h
 	Skills/SkillsComponent.h
+	Skills/SkillsComponent.cpp
+	Skills/BulletSizeSkill.h
+	Skills/BulletSizeSkill.cpp
 )
 
 target_sources(${GAME_PROJECT} PUBLIC 

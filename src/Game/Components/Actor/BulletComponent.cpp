@@ -50,4 +50,14 @@ namespace Game
     if(m_hitsLeft<= 0) Owner.Destroy();
 	}
 
+	void BulletComponent::SetDamage(float damage)
+	{
+    m_damage = damage;
+	}
+
+	void BulletComponent::SetHitsLeft(int hitsLeft)
+	{
+    m_hitsLeft = hitsLeft;
+	}
+
 }

@@ -24,6 +24,9 @@ namespace Game
     void VirtualOnCreate() override;
     void OnCollisionStart(Engine::CollisionData& collision) override;
 
+
+    void SetDamage(float damage);
+    void SetHitsLeft(int hitsLeft);
   private:
     float m_damage;
     float m_burningDamage;

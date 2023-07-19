@@ -25,7 +25,7 @@
 #include "../../Components/Actor/BulletComponent.h"
 #include "../../Components/View/CombatTextComponent.h"
 #include "../../Components/Skills/SkillsComponent.h"
-#include "../../Components/Skills/BulletSizeSkill.h"
+#include "../../Components/Skills/BulletDamageSkill.h"
 
 namespace Game
 {
@@ -154,7 +154,7 @@ namespace Game
 		player->AddComponent<PlayerComponent>();
 		player->AddComponent<LevelComponent>();
 
-		std::unique_ptr<ISkill> testSkill = std::make_unique<BulletSizeSkill>();
+		std::unique_ptr<ISkill> testSkill = std::make_unique<BulletDamageSkill>();
 		player->GetComponent<SkillsComponent>()->AddSkill(std::move(testSkill));
 		
 		// Animation setup

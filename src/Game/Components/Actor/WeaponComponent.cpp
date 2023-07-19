@@ -124,9 +124,9 @@ namespace Game
 		BulletFactoryDef def;
 		def.Position = Owner.GetTransform()->GetPosition() + dir;
 		def.Rotation = angle;
-		def.Damage = m_weapon->GetBulletDamage() + m_rpgComponent->GetStat(RPGStats::WEAPON_DAMAGE);
-		def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
-		def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);
+		//def.Damage = m_weapon->GetBulletDamage() + m_rpgComponent->GetStat(RPGStats::WEAPON_DAMAGE);
+		//def.BulletHits = m_rpgComponent->GetStat(RPGStats::AMMO_HITS);
+		//def.BurningDamage = m_rpgComponent->GetStat(RPGStats::BURNING_DAMAGE);
 
 		auto* bullet = GameObjectFactory::CreateBulletObject(def);
 

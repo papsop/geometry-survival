@@ -1,33 +1,35 @@
-#include "BulletSizeSkill.h"
+#include "BulletDamageSkill.h"
 #include "SkillsComponent.h"
 #include "../Actor/WeaponComponent.h"
+#include "../Actor/BulletComponent.h"
 
 #include <Engine/Components/Drawables/SpriteDrawableComponent.h>
 
 namespace Game
 {
 
-	BulletSizeSkill::BulletSizeSkill()
+	BulletDamageSkill::BulletDamageSkill()
 		: ISkill("BulletSizeSkill")
 	{
 
 	}
 
-	void BulletSizeSkill::Init(SkillsComponent& ownerComp)
+	void BulletDamageSkill::Init(SkillsComponent& ownerComp)
 	{
 		m_weaponComponent = ownerComp.Owner.GetComponent<WeaponComponent>();
 
 		m_weaponComponent->RegisterBulletMiddleware(this);
 	}
 
-	void BulletSizeSkill::Clear(SkillsComponent& ownerComp)
+	void BulletDamageSkill::Clear(SkillsComponent& ownerComp)
 	{
 		m_weaponComponent->UnregisterBulletMiddleware(this);
 	}
 
-	void BulletSizeSkill::Middleware(Engine::GameObject& bullet)
+	void BulletDamageSkill::Middleware(Engine::GameObject& bullet)
 	{
-		LOG_ERROR("MODIFYING BULLET");
+		auto* bulletComp = bullet.GetComponent<BulletComponent>();
+		bulletComp->SetDamage(20.0);
 	}
 
 }

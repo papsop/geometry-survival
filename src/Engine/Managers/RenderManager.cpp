@@ -132,6 +132,14 @@ namespace Engine
 		Engine::EventManager::Get().DispatchEvent(event::E_WindowClosed());
 	}
 
+	void RenderManager::ShowMouse(bool val)
+	{
+		if (!m_window)
+			return;
+
+		m_window->setMouseCursorVisible(val);
+	}
+
 	void RenderManager::RenderDebugDraw(float dt)
 	{
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
@@ -177,7 +185,8 @@ namespace Engine
 		// get all the drawables
 		for (auto& drawableComponent : m_drawableComponents)
 		{
-			drawableComponent->GetDrawables(m_layersDrawableData);
+			if(drawableComponent->ShouldUpdate())
+				drawableComponent->GetDrawables(m_layersDrawableData);
 		}
 
 		// draw them

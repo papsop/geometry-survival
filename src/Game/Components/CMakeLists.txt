@@ -72,6 +72,8 @@ set(UI_SOURCE
 	UI/SkillPickerScreenComponent.cpp
 	UI/GameOverMenuComponent.h
 	UI/GameOverMenuComponent.cpp
+	UI/IngameCrosshairComponent.h
+	UI/IngameCrosshairComponent.cpp
 
 	UI/Controllers/IngameUIControllerComponent.h
 	UI/Controllers/IngameUIControllerComponent.cpp

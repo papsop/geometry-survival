@@ -58,14 +58,14 @@ namespace Engine
 
 			// Shared
 			math::Vec2		Position			= {0.0f, 0.0f};
-			float			Rotation			= 0.0f;
-			math::Vec2		Scale				= {1.0f, 1.0f};
-			PositionSpace	Space				= PositionSpace::WorldSpace;
+			float			Rotation					= 0.0f;
+			math::Vec2		Scale					= {1.0f, 1.0f};
+			PositionSpace	Space					= PositionSpace::WorldSpace;
 			PositionType	PosType				= PositionType::Absolute;
 			GameObject*		Parent				= nullptr;
 
 			// Rect specific
-			math::Vec2		Size				= { 1.0f, 1.0f };
+			math::Vec2		Size					= { 1.0f, 1.0f };
 			RectAnchor		Anchor;
 			
 		};

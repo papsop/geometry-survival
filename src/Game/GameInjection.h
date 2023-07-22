@@ -30,6 +30,7 @@
 #include "Components/Actor/DestroyAfterTimeComponent.h"
 #include "Components/Pickables/ExperienceGlobeComponent.h"
 #include "Components/UI/SplashScreenComponent.h"
+#include "Components/UI/IngameCrosshairComponent.h"
 #include "Components/View/CameraComponent.h"
 #include "Components/View/CombatTextComponent.h"
 #include "Components/View/BackgroundComponent.h"
@@ -72,7 +73,8 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<SplashScreenComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<CombatTextComponent>();
       Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();
-      Engine::ComponentManager::Get().RegisterComponentType<BackgroundComponent>();
+			Engine::ComponentManager::Get().RegisterComponentType<BackgroundComponent>();
+			Engine::ComponentManager::Get().RegisterComponentType<IngameCrosshairComponent>();
 
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();

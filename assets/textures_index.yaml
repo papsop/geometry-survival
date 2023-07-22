@@ -10,6 +10,8 @@ player:
   path: sprites/player.png
 enemy1:
   path: sprites/enemy.png
+crosshair:
+  path: sprites/crosshair.png
 experience:
   path: sprites/experience.png
 experience_rotate:

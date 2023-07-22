@@ -72,6 +72,7 @@ namespace Engine
     void ReloadWindow();
     void DestroyWindow();
 
+		void ShowMouse(bool val);
 	protected:
 		void VirtualOnInit() override;
 		void VirtualOnDestroy() override;

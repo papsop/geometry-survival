@@ -24,6 +24,7 @@
 #include "../Components/Pickables/ExperienceGlobeComponent.h"
 #include "../Components/View/CameraComponent.h"
 #include "../Components/View/BackgroundComponent.h"
+#include "../Components/UI/IngameCrosshairComponent.h"
 #include "../Physics/Filters.h"
 
 
@@ -74,10 +75,22 @@ namespace Game
     enemySpawner->AddComponent<EnemySpawnerComponent>();
 
 
+    // ================== Crosshair ==================
+		spriteDef.Layer = Engine::view::Layer::UI;
+		spriteDef.TextureName = "crosshair";
+		spriteDef.Size = { 6, 6 };
+		spriteDef.ShaderName = "";
+
+    auto* crosshair = Engine::GameObjectManager::Get().CreateGameObject("Crosshair", Engine::GameObjectTag::UNTAGGED, transformDefDefault);
+    crosshair->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
+		crosshair->AddComponent<IngameCrosshairComponent>();
+		
+
     // ================== Activate objects ==================
     camera->SetActive(true);
     enemySpawner->SetActive(true);
-    playerSpawner->SetActive(true);
+		playerSpawner->SetActive(true);
+		crosshair->SetActive(true);
 
     playerSpawner->GetComponent<PlayerSpawnerComponent>()->CreatePlayerObject();
   }

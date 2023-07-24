@@ -1,10 +1,15 @@
 #pragma once
 #include <Engine/Utils/VectorUtils.h>
 
+namespace Engine
+{
+  class GameObject;
+}
+
 namespace Game
 {
   class ActorComponent;
-  enum Actor_DamageSource;
+  enum Actor_DamageType;
 
   class ICommand
   {
@@ -46,12 +51,13 @@ namespace Game
   class DamageCommand : public ICommand
   {
   public:
-    DamageCommand(float amount, Actor_DamageSource source);
+    DamageCommand(float amount, Engine::GameObject* source, Actor_DamageType type);
     ~DamageCommand() override = default;
     void Execute(ActorComponent& actor) override;
   private:
     float m_amount;
-    Actor_DamageSource m_source;
+    Engine::GameObject* m_source;
+    Actor_DamageType m_type;
   };
 };
 

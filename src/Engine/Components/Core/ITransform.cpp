@@ -68,7 +68,7 @@ namespace Engine
 
 	void ITransform::NotifyTransformChanged()
 	{
-		m_owner.SendMessageTo(&m_owner, MessageType::Transform_Changed);
+		
 	}
 
 }

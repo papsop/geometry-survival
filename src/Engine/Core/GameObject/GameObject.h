@@ -1,4 +1,3 @@
-
 #pragma once
 #include "../../Debug/Logger.h"
 #include "../../Components/Core.h"
@@ -79,11 +78,7 @@ namespace Engine
     bool IsActive() const { return m_isActive; }
     bool ShouldUpdate() const { return m_isActive && !m_shouldDestroy; }
 
-    void SendMessageTo(GameObject* receiver, MessageType type);
-    void ReceiveMessage(Message message);
-
     void ForEachComponent(FuncOverComponents func);
-
   private:
     std::unordered_map<uint32_t, std::unique_ptr<IComponent>> m_components = {};
     bool m_shouldDestroy = false;
@@ -91,7 +86,6 @@ namespace Engine
 
     std::unique_ptr<ITransform> m_transform;
 
-    std::queue<Message> m_messageQueue;
     friend class GameObjectManager;
   };
 };

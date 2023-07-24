@@ -43,15 +43,6 @@ namespace Game
 
   }
 
-  void PlayerComponent::ProcessMessage(const Engine::Message& message)
-  {
-    if (message.Type == Engine::MessageType::Actor_TookDamage_Knockback ||
-        message.Type == Engine::MessageType::Actor_TookDamage_NoKnockback)
-    {
-      Engine::EventManager::Get().DispatchEvent(event::E_PlayerTookDamage());
-    }
-  }
-
 	void PlayerComponent::OnDeath()
 	{
 		Engine::Application::Instance().GetGameManager<GameManager>()->UnregisterPlayerGameObject();

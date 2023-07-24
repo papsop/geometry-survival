@@ -34,7 +34,7 @@ namespace Game
 
     // Flat damage
     m_collisions.insert(otherActor->Owner.ID);
-    otherActor->AddCommand<DamageCommand>(m_damage, Actor_DamageSource::Bullet);
+    otherActor->AddCommand<DamageCommand>(m_damage, m_owner, Actor_DamageType::Bullet);
     
     // Burning
     auto* otherRPGComponent = collision.Other->GetComponent<RPGComponent>();

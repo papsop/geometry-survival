@@ -33,13 +33,6 @@ namespace Engine
   }
 
   template<typename _State>
-  void PushdownStateMachine<_State>::ProcessMessage(const Engine::Message& message)
-  {
-    if (m_activeState)
-      m_activeState->ProcessMessage(message);
-  }
-
-  template<typename _State>
   void PushdownStateMachine<_State>::PopState()
   {
     m_activeState->OnTransitionOut();

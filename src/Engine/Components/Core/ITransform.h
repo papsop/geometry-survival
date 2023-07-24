@@ -1,5 +1,7 @@
 #pragma once
 #include "../../Utils/VectorUtils.h"
+#include "../../Core/Signal.h"
+
 #include <list>
 
 namespace Engine
@@ -101,6 +103,7 @@ namespace Engine
 		void RemoveChild(GameObject* child);
 
 		void SetPositionType(PositionType posType);
+
 
 	protected:
 		void SetParent(GameObject* parent);

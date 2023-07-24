@@ -28,7 +28,6 @@ namespace Engine
 		bool IsEmpty();
 		_State* GetActiveState();
 
-		void ProcessMessage(const Engine::Message& message);
 	private:
 		std::stack< std::unique_ptr<_State> > m_states = {};
 		_State* m_activeState = nullptr;

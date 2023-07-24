@@ -51,7 +51,7 @@ namespace Game
 
 		// continuous damage to the target
 		if (m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
-			m_target->GetComponent<ActorComponent>()->ApplyDamage(m_damagePerSecond * dt, Actor_DamageSource::Collision);
+			m_target->GetComponent<ActorComponent>()->ApplyDamage(m_damagePerSecond * dt, &Owner, Actor_DamageType::Collision);
 
 	}
 

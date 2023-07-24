@@ -25,7 +25,6 @@ namespace Engine
 			}), m_listeners.end());
 		}
 
-
 		// ============== Only for parametrized signals ==============
 		template<typename U = T,
 						typename = std::enable_if_t<std::is_same_v<U, void> == false>>

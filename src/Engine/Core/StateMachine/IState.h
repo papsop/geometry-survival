@@ -1,6 +1,5 @@
 #pragma once
 #include <type_traits>
-#include "../Messaging/MessageTypes.h"
 
 namespace Engine
 {
@@ -29,7 +28,6 @@ namespace Engine
       virtual void OnTransitionOut() {};
 
       virtual void Update(float dt) = 0;
-      virtual void ProcessMessage(const Message & message) { };
 
       T GetStateValue() { return m_stateValue; }
     protected:

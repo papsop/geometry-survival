@@ -19,8 +19,6 @@ set(SOURCES
 	StateMachine/PushdownStateMachine.h
 	StateMachine/PushdownStateMachine.inl
 
-	Messaging/MessageTypes.h
-
 	Signal.h
 )
 

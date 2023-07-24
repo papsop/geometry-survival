@@ -17,8 +17,6 @@ namespace Game
 
 		void OnCollisionStart(Engine::CollisionData& collision) override;
 
-		void ProcessMessage(const Engine::Message& message) override;
-
 		void OnDeath();
 	protected:
 		void VirtualOnActivated() override;

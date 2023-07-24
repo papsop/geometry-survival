@@ -38,19 +38,6 @@ namespace Engine
     m_transform->OnDestroy();
   }
 
-  void GameObject::SendMessageTo(GameObject* receiver, MessageType type)
-  {
-    Message message;
-    message.Sender = this;
-    message.Type = type;
-    receiver->ReceiveMessage(message);
-  }
-
-  void GameObject::ReceiveMessage(Message message)
-  {
-    m_messageQueue.emplace(message);
-  }
-
   void GameObject::ForEachComponent(FuncOverComponents func)
   {
     for (auto& c : m_components)
@@ -59,17 +46,7 @@ namespace Engine
 
   void GameObject::Update(float dt)
   {
-    while (!m_messageQueue.empty())
-    {
-      Message& message = m_messageQueue.front();
-      ForEachComponent(
-        [&](IComponent* c)
-        {
-          c->ProcessMessage(message);
-        }
-      );
-      m_messageQueue.pop();
-    }
+    /* */
   }
 
   void GameObject::OnCollisionStart(CollisionData& collision)

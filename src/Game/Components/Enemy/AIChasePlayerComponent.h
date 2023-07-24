@@ -25,8 +25,6 @@ namespace Game
 
 		void Update(float dt) override;
 
-		void ProcessMessage(const Engine::Message& message) override;
-
 	protected:
     void VirtualOnActivated() override;
     void VirtualOnDeactivated() override;

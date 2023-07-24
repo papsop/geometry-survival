@@ -54,14 +54,6 @@ namespace Game
 		//m_stateMachine.Update(dt);
 	}
 
-  void AIChasePlayerComponent::ProcessMessage(const Engine::Message& message)
-  {
-    if (message.Type == Engine::MessageType::Actor_TookDamage_Knockback)
-    {
-      ApplyKnockbackFromPlayer();
-    }
-  }
-
   void AIChasePlayerComponent::ReceiveEvent(const event::E_PlayerTookDamage& eventData)
   {
     ApplyKnockbackFromPlayer();

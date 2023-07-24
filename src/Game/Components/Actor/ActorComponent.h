@@ -7,6 +7,7 @@
 #include "RPGComponent.h"
 #include <queue>
 #include <memory>
+#include <tuple>
 
 #include <Engine/Core/Events.h>
 #include <Engine/Core/Signal.h>
@@ -15,17 +16,26 @@
 namespace Game
 {
 
-  enum Actor_DamageSource
+  enum Actor_DamageType
   {
     Bullet,
     Collision,
     DOT, // e.g. burning, should apply a knockback
   };
 
+  struct DamageTakenData
+  {
+    float Amount;
+    Engine::GameObject* Source;
+    Actor_DamageType Type;
+  };
+
 	class ActorComponent : public Engine::IComponent, public Engine::IDebuggableComponent,
 		public Engine::IEventListener<event::E_GameStateChanged>
   {
   public:
+    // Amount, source, type
+
     ActorComponent(Engine::GameObject& obj);
     ~ActorComponent() override;
 
@@ -41,15 +51,16 @@ namespace Game
     void Move(Engine::math::Vec2 dir);
     void KnockBack(Engine::math::Vec2 dir);
     void Rotate(float angle);
-    void ApplyDamage(float amount, Actor_DamageSource source);
+    void ApplyDamage(float amount, Engine::GameObject* source, Actor_DamageType type);
 
     void Debug(Engine::view::IViewStrategy* viewStrategy) override;
-    
-    Engine::Signal<void> OnZeroHealth;
+   
     Engine::math::Vec2 GetMovingDir() { return m_movingDir; };
-
     // Bool references for animation transitions
 		const bool& IsMoving() { return m_isMoving; };
+
+		Engine::Signal<void>            OnZeroHealth;
+		Engine::Signal<DamageTakenData> OnDamageTaken;
 	protected:
 		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
 

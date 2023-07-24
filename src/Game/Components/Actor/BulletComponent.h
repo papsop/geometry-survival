@@ -24,13 +24,13 @@ namespace Game
     void VirtualOnCreate() override;
     void OnCollisionStart(Engine::CollisionData& collision) override;
 
-
     void SetDamage(float damage);
     void SetHitsLeft(int hitsLeft);
   private:
     float m_damage;
     float m_burningDamage;
     int m_hitsLeft = 2;
+    Engine::GameObject* m_owner;
     std::set<Engine::GameObjectID> m_collisions;
 
   };

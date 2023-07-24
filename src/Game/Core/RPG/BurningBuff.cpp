@@ -29,7 +29,7 @@ namespace Game
 		{
 			// apply damage
 			auto* ownerActorComponent= m_ownerRPGComponent->Owner.GetComponent<ActorComponent>();
-			ownerActorComponent->ApplyDamage(m_damagePerTick, Actor_DamageSource::DOT);
+			ownerActorComponent->ApplyDamage(m_damagePerTick, nullptr, Actor_DamageType::DOT);
 			m_burningTimer = c_dotTimer;
 		}
 	}

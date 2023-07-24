@@ -38,14 +38,15 @@ namespace Game
   }
 
 // --------------------------------------------------------
-  DamageCommand::DamageCommand(float amount, Actor_DamageSource source)
-    : m_amount(amount) 
+  DamageCommand::DamageCommand(float amount, Engine::GameObject* source, Actor_DamageType type)
+    : m_amount(amount)
     , m_source(source)
+    , m_type(type)
   {};
 
 	void DamageCommand::Execute(ActorComponent& actor)
 	{
-    actor.ApplyDamage(m_amount, m_source);
+    actor.ApplyDamage(m_amount, m_source, m_type);
 	}
 
 };

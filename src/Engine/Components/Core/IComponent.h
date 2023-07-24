@@ -4,7 +4,6 @@
 #include "../../View/IViewStrategy.h"
 #include "../../Core/ColliderData.h"
 #include "../../Debug/Logger.h"
-#include "../../Core/Messaging/MessageTypes.h"
 #include "../../Managers/ViewLayers.h"
 #include "../../Core/EventData.h"
 #include "../../Core/Events.h"
@@ -45,7 +44,6 @@ namespace Engine
     virtual void FixedUpdate(float dt) {};
     virtual void OnCollisionStart(CollisionData& collision) {};
     virtual void OnCollisionEnd(CollisionData& collision) {};
-    virtual void ProcessMessage(const Message& message) { };
 
     GameObject& Owner;
 
@@ -67,7 +65,7 @@ namespace Engine
 
     // This function asserts required components on the Owner gameObject.
     // Function call gets stored and called every time a component
-    // is removed from the owner
+    // is removed/added from the owner
     template<typename... Ts>
     void SetRequiredComponents();
 

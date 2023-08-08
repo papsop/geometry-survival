@@ -16,6 +16,11 @@ namespace Game
 
     void VirtualOnCreate() override;
     void FixedUpdate(float dt) override;
+
+    void RenderManagerSettingsChanged();
+
+    void OnDestroy() override;
+
   protected:
 
     void VirtualOnActivated() override;

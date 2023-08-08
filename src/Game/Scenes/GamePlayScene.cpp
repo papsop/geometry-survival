@@ -62,7 +62,7 @@ namespace Game
 		Engine::SpriteDrawableDef spriteDef;
 		spriteDef.Layer = Engine::view::Layer::BACKGROUND;
 		spriteDef.TextureName = "grass_tile";
-		spriteDef.Size = { 128, 72 };
+		//spriteDef.Size = { 128, 72 };
 		spriteDef.ShaderName = "background_shader";
 
 		auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);

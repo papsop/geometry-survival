@@ -46,6 +46,12 @@ namespace Engine
     m_sprite.setScale(scale.x, -scale.y);
 	}
 
+	void SpriteDrawableComponent::SetSize(math::Vec2 size)
+	{
+		m_desiredWorldSize = size;
+		UpdateSize();
+	}
+
 	void SpriteDrawableComponent::SetTexture(const char* textureName)
 	{
 		m_texture = ResourceManager::Get().GetTexture(textureName);

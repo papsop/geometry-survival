@@ -60,6 +60,16 @@ namespace Engine
 		UpdateSize();
 	}
 
+	sf::Vector2u SpriteDrawableComponent::GetTextureSize()
+	{
+		if (m_sprite.getTexture() != nullptr)
+		{
+			return m_sprite.getTexture()->getSize();
+		}
+		
+		return { 0, 0 };
+	}
+
 	void SpriteDrawableComponent::SetTextureRect(sf::IntRect rect)
 	{
 		m_sprite.setTextureRect(rect);

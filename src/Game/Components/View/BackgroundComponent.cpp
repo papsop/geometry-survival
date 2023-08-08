@@ -43,10 +43,10 @@ namespace Game
 
   void BackgroundComponent::FixedUpdate(float dt)
 	{
-		auto cameraTransformPos = Owner.GetTransform()->GetPosition();
-		sf::Vector2f cameraPos = { cameraTransformPos.x, cameraTransformPos.y };
-		m_spriteComponent->SetShaderParameter("cameraPos", cameraPos);
-    m_spriteComponent->SetShaderParameter("textureSize", sf::Vector2f{3.2f, 3.2f});
+		auto cameraTransformPos = Engine::RenderManager::Get().coordsPosToPixelsPos(Owner.GetTransform()->GetPosition());
+		m_spriteComponent->SetShaderParameter("cameraPos", cameraTransformPos);
+		//m_spriteComponent->SetShaderParameter("pixelsPerMeter", Engine::RenderManager::Get().GetPPM());
+		m_spriteComponent->SetShaderParameter("textureSize", static_cast<sf::Vector2f>(m_spriteComponent->GetTextureSize()));
   }
 
 	void BackgroundComponent::RenderManagerSettingsChanged()

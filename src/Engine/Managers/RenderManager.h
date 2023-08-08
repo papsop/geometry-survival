@@ -60,6 +60,7 @@ namespace Engine
 		inline b2Vec2 pixelsToCoords(sf::Vector2f pixels) { return { pixels.x / m_pixelsPerMeter, pixels.y / m_pixelsPerMeter }; };
 		inline float Box2DRotationToSFML(float angle) { return 360.0f - math::RAD_TO_DEG(angle); }
 
+		float GetPPM() { return m_pixelsPerMeter; }
 		void SetView(CameraData cameraData);
 		 
 		RenderManagerSettings GetSettings() const { return m_currentSettings; }
@@ -81,7 +82,7 @@ namespace Engine
 
 	private:
 		bool m_shouldUpdateDebugs = false;
-		float m_pixelsPerMeter = 10.f;
+		float m_pixelsPerMeter = 5.f;
 		std::unique_ptr<sf::RenderWindow> m_window;
 		std::vector<IDrawableComponent*> m_drawableComponents;
 		std::vector<IImGuiComponent*> m_imGuiComponents;

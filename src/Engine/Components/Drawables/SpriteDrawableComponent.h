@@ -30,14 +30,8 @@ namespace Engine
 		void SetSize(math::Vec2 size);
 		void UpdateSize();
 		void SetTexture(const char* textureName);
+		sf::Vector2u GetTextureSize();
 		void SetTextureRect(sf::IntRect rect);
-
-    template<
-      typename T,
-      typename ... Args,
-      typename = enable_if_base_of_component<T>
-    >
-      void AddComponent(Args&& ... args);
 
 		template<typename ... Args>
 		void SetShaderParameter(const char* parameter, Args&& ... args);

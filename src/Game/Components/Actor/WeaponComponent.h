@@ -26,18 +26,7 @@ namespace Game
 		void Update(float dt) override;
 
 		void Fire();
-		void FinishReload();
-		void InitiateTimedReload();
-
 		bool IsOnCooldown() const;
-		bool HasAmmo() const;
-		bool IsReloading() const;
-		bool IsFireable() const;
-
-		float GetReloadTimer() const;
-		float GetReloadCompletion() const;
-		unsigned int GetAmmo() const;
-		unsigned int GetMaxAmmo() const;
 
 		void EquipWeapon(std::unique_ptr<WeaponData> weapon);
 
@@ -56,8 +45,6 @@ namespace Game
 		std::unique_ptr<WeaponData> m_weapon;
 		std::vector<IBulletMiddleware*> m_middlewares;
 
-		float m_reloadTimer = 0.0f;
-		unsigned int m_ammo = 0;
 		float m_cooldown = 0.0f;
 		Engine::math::Vec2 m_targetPosition = {0,0};
 	};

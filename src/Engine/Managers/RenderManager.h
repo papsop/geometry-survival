@@ -82,7 +82,7 @@ namespace Engine
 
 	private:
 		bool m_shouldUpdateDebugs = false;
-		float m_pixelsPerMeter = 5.f;
+		float m_pixelsPerMeter = 7.f;
 		std::unique_ptr<sf::RenderWindow> m_window;
 		std::vector<IDrawableComponent*> m_drawableComponents;
 		std::vector<IImGuiComponent*> m_imGuiComponents;

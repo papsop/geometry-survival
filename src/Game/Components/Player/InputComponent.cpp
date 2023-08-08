@@ -52,12 +52,6 @@ namespace Game
     {
       m_weaponComponent->Fire();
     }
-
-		// reloading
-    if (m_inputManager.GetAction(Engine::InputManager::Action::Reload).PressedThisFrame)
-    {
-      m_weaponComponent->InitiateTimedReload(); 
-    }
   }
 
 	void InputComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)

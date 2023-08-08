@@ -211,7 +211,7 @@ namespace Game
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
 		obj->AddComponent<Engine::AnimationControllerComponent>();
-		obj->AddComponent<DestroyAfterTimeComponent>(3.0f);
+		obj->AddComponent<DestroyAfterTimeComponent>(7.0f);
 
 		auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
 		auto* flyingState = animController->GetStateMachine().AddAnimationState("bullet_flying");

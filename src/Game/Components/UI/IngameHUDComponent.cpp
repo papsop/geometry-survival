@@ -50,22 +50,22 @@ namespace Game
 
 		ImGui::End();
 
-		if (m_weaponComponent)
-		{
-			InitializeOverlayWindow("Weapon bar", { 0.5f, 0.45f }, { 70.f, 70.f }, false, { 0.5f, 0.5f });
-			ImGui::PushItemWidth(ImGui::GetWindowWidth());
-			if (m_weaponComponent->IsReloading())
-			{
-				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion(), { 0.0f, 0.0f }, " ");
-			}
-			else
-			{
-				ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("00/00").x) / 2.f);
-				ImGui::Text("%02d/%02d", m_weaponComponent->GetAmmo(), m_weaponComponent->GetMaxAmmo());
-			}
-			ImGui::PopItemWidth();
-			ImGui::End();
-		}
+// 		if (m_weaponComponent)
+// 		{
+// 			InitializeOverlayWindow("Weapon bar", { 0.5f, 0.45f }, { 70.f, 70.f }, false, { 0.5f, 0.5f });
+// 			ImGui::PushItemWidth(ImGui::GetWindowWidth());
+// 			if (m_weaponComponent->IsReloading())
+// 			{
+// 				ImGui::ProgressBar(m_weaponComponent->GetReloadCompletion(), { 0.0f, 0.0f }, " ");
+// 			}
+// 			else
+// 			{
+// 				ImGui::SetCursorPosX((ImGui::GetWindowWidth() - ImGui::CalcTextSize("00/00").x) / 2.f);
+// 				ImGui::Text("%02d/%02d", m_weaponComponent->GetAmmo(), m_weaponComponent->GetMaxAmmo());
+// 			}
+// 			ImGui::PopItemWidth();
+// 			ImGui::End();
+// 		}
 
 		if (m_rpgComponent)
 		{

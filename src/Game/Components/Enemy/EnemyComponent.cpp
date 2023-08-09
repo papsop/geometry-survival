@@ -57,9 +57,35 @@ namespace Game
 
 	void EnemyComponent::OnZeroHealthCallback()
 	{
-		// this bool controls animatorcontroller death state
-		m_isDying = true;
+		m_isDying = true; // start animation
 		Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
+
+		// experience orb
+		ExperienceGlobeDef experienceGlobeDef;
+		experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
+
+		GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
+
+		// scatter
+		if (m_target)
+		{
+			float scatters = m_target->GetComponent<RPGComponent>()->GetStat(RPGStats::SCATTERS);
+			if (scatters > 0.0f)
+			{
+				BulletFactoryDef def;
+				def.Position = Owner.GetTransform()->GetPosition();
+				def.Damage = 2;
+				def.BulletHits = 1;
+
+				auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
+
+				for (int i = 0; i < std::min(static_cast<size_t>(scatters), enemies.size()); i++)
+				{
+					def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemies[i]->GetTransform()->GetPosition());
+					GameObjectFactory::CreateBulletObject(def);
+				}
+			}
+		}
 	}
 
 	void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)
@@ -80,8 +106,11 @@ namespace Game
 
 	void EnemyComponent::OnDeathAnimationFinishedCallback()
 	{
-		LOG_INFO("OnDeathAnimationFinishedCallback");
-		OnDeathImpl();
+		// event about death
+		event::E_EnemyDied eventData;
+		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
+		LOG_INFO("Calling Owner.Destroy()");
+		Owner.Destroy();
 	}
 
 	void EnemyComponent::VirtualOnActivated()
@@ -110,41 +139,4 @@ namespace Game
   {
 		SetEnabled(eventData.NewState == GameState::Gameplay);
   }
-
-	void EnemyComponent::OnDeathImpl()
-	{
-		// experience orb
-		ExperienceGlobeDef experienceGlobeDef;
-		experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
-
-		GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
-
-		// scatter
-		if (m_target)
-		{
-			float scatters = m_target->GetComponent<RPGComponent>()->GetStat(RPGStats::SCATTERS);
-			if (scatters > 0.0f)
-			{
-				BulletFactoryDef def;
-				def.Position = Owner.GetTransform()->GetPosition();
-				def.Damage = 2;
-				def.BulletHits = 1;
-
-				auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
-
-				for (int i = 0; i < std::min(static_cast<size_t>(scatters), enemies.size()); i++)
-				{
-					def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemies[i]->GetTransform()->GetPosition());
-					GameObjectFactory::CreateBulletObject(def);
-				}
-			}
-		}
-
-		// event about death
-		event::E_EnemyDied eventData;
-		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
-		LOG_INFO("Calling Owner.Destroy()");
-		Owner.Destroy();
-	}
-
 }

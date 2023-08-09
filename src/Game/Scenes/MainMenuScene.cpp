@@ -29,7 +29,7 @@ namespace Game
 		//spriteDef.Size = { 128, 72 };
 		spriteDef.ShaderName = "background_shader";
 
-		auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera", Engine::GameObjectTag::CAMERA, transformDefDefault);
+		auto* camera = Engine::GameObjectManager::Get().CreateGameObject("MainCamera-mainmenu", Engine::GameObjectTag::CAMERA, transformDefDefault);
 		camera->AddComponent<CameraComponent>(nullptr);
 		camera->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		camera->AddComponent<BackgroundComponent>();

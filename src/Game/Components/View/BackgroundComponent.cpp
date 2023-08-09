@@ -17,18 +17,19 @@ namespace Game
   {
     Engine::ComponentManager::Get().RegisterComponent(this);
     m_spriteComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
-    Engine::RenderManager::Get().OnSettingsChanged.AddListener(this, &BackgroundComponent::RenderManagerSettingsChanged);
-    RenderManagerSettingsChanged(); // set first size
+    
+		auto resolution = Engine::RenderManager::Get().GetSettings().ResolutionEntry.Value;
+		auto worldSize = Engine::RenderManager::Get().pixelsToCoords({ resolution.x, resolution.y });
+		m_spriteComponent->SetSize(worldSize);
   }
 
 	void BackgroundComponent::OnDestroy()
 	{
-    Engine::RenderManager::Get().OnSettingsChanged.RemoveListener(this);
+		Engine::ComponentManager::Get().UnregisterComponent(this);
 	}
 
   BackgroundComponent::~BackgroundComponent()
   {
-    Engine::ComponentManager::Get().UnregisterComponent(this);
   }
 
   void BackgroundComponent::VirtualOnActivated()
@@ -48,13 +49,4 @@ namespace Game
 		//m_spriteComponent->SetShaderParameter("pixelsPerMeter", Engine::RenderManager::Get().GetPPM());
 		m_spriteComponent->SetShaderParameter("textureSize", static_cast<sf::Vector2f>(m_spriteComponent->GetTextureSize()));
   }
-
-	void BackgroundComponent::RenderManagerSettingsChanged()
-	{
-    auto settings = Engine::RenderManager::Get().GetSettings();
-    auto resolution = settings.ResolutionEntry.Value;
-    auto worldSize = Engine::RenderManager::Get().pixelsToCoords({ resolution.x, resolution.y });
-    m_spriteComponent->SetSize(worldSize);
-	}
-
 }

@@ -49,12 +49,20 @@ namespace Engine
 
   }
 
-  void VisualDebugContext::DebugRenderText(ITransform::PositionSpace space, std::string text, math::Vec2 position, bool shouldCenter, float size, sf::Color color)
+  void VisualDebugContext::DebugRenderText(ITransform::PositionSpace space, std::string value, math::Vec2 position, bool shouldCenter, float size, sf::Color color)
   {
     if (!m_window)
       return;
 
+    auto sfmlPosition = m_renderManager.coordsPosToPixelsPos(position);
 
+    sf::Text text;
+    text.setFont(m_renderManager.GetFont());
+    text.setPosition(sfmlPosition);
+    text.setFillColor(color);
+    text.setString(value);
+    text.setCharacterSize(size);
+    m_window->draw(text);
   }
 
 }

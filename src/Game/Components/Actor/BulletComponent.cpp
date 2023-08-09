@@ -18,11 +18,33 @@ namespace Game
     SetRequiredComponents<Engine::PhysicsBodyComponent>();
   }
 
-	void BulletComponent::VirtualOnCreate()
+	void BulletComponent::VirtualOnActivated()
 	{
-		auto forward = Owner.GetTransform()->Forward();
-		forward *= 100.0f;
-		Owner.GetComponent<Engine::PhysicsBodyComponent>()->ApplyImpulseToCenter(forward);
+		Engine::ComponentManager::Get().RegisterComponent(this);
+	}
+
+	void BulletComponent::VirtualOnDeactivated()
+	{
+		Engine::ComponentManager::Get().UnregisterComponent(this);
+	}
+
+	void BulletComponent::Update(float dt)
+	{
+		auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+		auto mass = physBody->GetMass();
+
+		auto actualVelocity = physBody->GetLinearVelocity();
+		auto desiredVelocity = Owner.GetTransform()->Forward();
+		desiredVelocity *= 50.0f;
+
+		auto impulse = (desiredVelocity - actualVelocity);
+		impulse *= mass;
+		physBody->ApplyImpulseToCenter(impulse);
+	}
+
+	void BulletComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
+	{
+		SetEnabled(eventData.NewState == GameState::Gameplay);
 	}
 
 	void BulletComponent::OnCollisionStart(Engine::CollisionData& collision)

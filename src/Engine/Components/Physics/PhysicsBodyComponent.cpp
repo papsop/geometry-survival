@@ -56,6 +56,13 @@ namespace Engine
 		m_b2Body->ApplyTorque(torque, true);
 	}
 
+	void PhysicsBodyComponent::Debug(VisualDebugContext& debugContext)
+	{
+		std::string text = std::to_string(GetLinearVelocity().Length());
+		Engine::math::Vec2 pos = Owner.GetTransform()->GetPosition() + Engine::math::Vec2(0.0f, -1.0f);
+		debugContext.DebugRenderText(ITransform::PositionSpace::WorldSpace, text, pos, true, 12.0f, sf::Color::Red);
+	}
+
 	PhysicsBodyComponent::~PhysicsBodyComponent()
 	{
 		PhysicsManager::Get().UnregisterComponent(this);

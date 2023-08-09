@@ -1,5 +1,6 @@
 #pragma once
 #include "../Core.h"
+#include "../../Debug/IDebuggable.h"
 #include <box2d/b2_body.h>
 
 namespace Engine
@@ -13,7 +14,7 @@ namespace Engine
 		uint16		MaskBits		= 0x0000; // I collide with yyy
 	};
 
-	class PhysicsBodyComponent : public IComponent
+	class PhysicsBodyComponent : public IComponent, public IDebuggableComponent
 	{
 	public:
 		PhysicsBodyComponent(GameObject& obj, PhysicsBodyDef& def);
@@ -31,6 +32,9 @@ namespace Engine
 
 		uint16 GetCategoryBits() { return m_categoryBits; }
 		uint16 GetMaskBits() { return m_maskBits; }
+
+		void Debug(VisualDebugContext& debugContext) override;
+
 	private:
 		b2Body* m_b2Body = nullptr;
 		b2BodyType m_bodyType;

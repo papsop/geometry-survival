@@ -1,7 +1,7 @@
 #include "WeaponComponent.h"
 #include <Engine/Managers/ComponentManager.h>
 #include "../../Core/GameObject/GameObjectFactory.h"
-
+#include "BulletComponent.h"
 #include "Weapons.h"
 
 namespace Game

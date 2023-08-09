@@ -75,6 +75,7 @@ namespace Game
       Engine::ComponentManager::Get().RegisterComponentType<PickUpFieldComponent>();
 			Engine::ComponentManager::Get().RegisterComponentType<BackgroundComponent>();
 			Engine::ComponentManager::Get().RegisterComponentType<IngameCrosshairComponent>();
+			Engine::ComponentManager::Get().RegisterComponentType<BulletComponent>();
 
       // Custom game managers
       Engine::Application::Instance().RegisterGameManager<GameManager>();

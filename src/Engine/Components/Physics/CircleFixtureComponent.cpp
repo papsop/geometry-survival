@@ -41,8 +41,17 @@ namespace Engine
 	
   void CircleFixtureComponent::Debug(VisualDebugContext& debugContext)
   {
+		if (!m_fixture)
+			return;
+
 		debugContext.DebugRenderCircle(ITransform::PositionSpace::WorldSpace, Owner.GetTransform()->GetPosition(), m_radius, sf::Color::Red);
   }
+
+	void CircleFixtureComponent::ForceDestroyFixture()
+	{
+		Owner.GetComponent<PhysicsBodyComponent>()->GetB2Body()->DestroyFixture(m_fixture);
+		m_fixture = nullptr;
+	}
 
 };
 

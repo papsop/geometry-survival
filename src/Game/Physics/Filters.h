@@ -18,6 +18,7 @@ namespace Game
 
 		enum EntityMask : uint16
 		{
+			M_NOTHING							= 0x0000,		// collides with nothing
 			M_WALL								= 0xFFFF,		// collides with everything
 			M_PLAYER							= EntityCategory::WALL | EntityCategory::ENEMY | EntityCategory::ENEMY_BULLET | EntityCategory::PLAYER | EntityCategory::PICKABLE,
 			M_PLAYER_BULLET				= EntityCategory::WALL | EntityCategory::ENEMY,

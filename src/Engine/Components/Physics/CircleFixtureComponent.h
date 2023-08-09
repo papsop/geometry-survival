@@ -24,6 +24,7 @@ namespace Engine
 
 		void Debug(VisualDebugContext& debugContext) override;
 
+		void ForceDestroyFixture();
 	private:
 		float m_radius;
 		bool m_isSensor;

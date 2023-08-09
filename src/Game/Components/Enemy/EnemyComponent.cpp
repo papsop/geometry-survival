@@ -59,6 +59,7 @@ namespace Game
 	{
 		m_isDying = true; // start animation
 		Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
+		Owner.GetComponent<Engine::CircleFixtureComponent>()->ForceDestroyFixture();
 
 		// experience orb
 		ExperienceGlobeDef experienceGlobeDef;

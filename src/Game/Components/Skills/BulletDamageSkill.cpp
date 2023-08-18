@@ -28,8 +28,8 @@ namespace Game
 
 	void BulletDamageSkill::Middleware(Engine::GameObject& bullet)
 	{
-		auto* bulletComp = bullet.GetComponent<BulletComponent>();
-		bulletComp->SetDamage(20.0);
+		//auto* bulletComp = bullet.GetComponent<BulletComponent>();
+		//bulletComp->SetDamage(20.0);
 	}
 
 }

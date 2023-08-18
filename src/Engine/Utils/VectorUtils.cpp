@@ -57,7 +57,6 @@ namespace Engine
                 auto length = V2fLength(v);
                 return {v.x/length, v.y/length};
             }
-                
         }
 
         float V2fDot(const Vec2& v1, const Vec2& v2)
@@ -70,5 +69,10 @@ namespace Engine
             return v1.x * v2.y - v1.y * v2.x;
         }
 
-    };
+				float RandomFloatBetween(float min, float max)
+				{
+          return min + static_cast<float>(rand()) * static_cast<float>(max - min) / RAND_MAX;
+				}
+
+		};
 };

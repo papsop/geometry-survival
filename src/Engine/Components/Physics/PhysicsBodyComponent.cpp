@@ -26,7 +26,6 @@ namespace Engine
 		bodyDef.angle = Owner.GetTransform()->GetAbsoluteTransform().Rotation;
 		bodyDef.enabled = false; // default always false, activate it in function VirtualOnActivated
 		bodyDef.fixedRotation = true;
-		//bodyDef.fixedRotation = true;
 		bodyDef.userData.pointer = Owner.ID;
 		m_b2Body = PhysicsManager::Get().CreateBody(&bodyDef);
 	}

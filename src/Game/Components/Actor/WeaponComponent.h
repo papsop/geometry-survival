@@ -5,6 +5,7 @@
 
 #include <queue>
 #include <memory>
+#include <Engine/Debug/IDebuggable.h>
 #include "../../Core/EventData.h"
 
 #include "RPGComponent.h"
@@ -15,6 +16,7 @@ namespace Game
 	struct WeaponData;
 
 	class WeaponComponent : public Engine::IComponent,
+		public Engine::IDebuggableComponent,
 		public Engine::IEventListener<event::E_GameStateChanged>
 	{
 	public:
@@ -34,6 +36,9 @@ namespace Game
 
 		void RegisterBulletMiddleware(IBulletMiddleware* middleware);
 		void UnregisterBulletMiddleware(IBulletMiddleware* middleware);
+
+
+		void Debug(Engine::VisualDebugContext& debugContext) override;
 
 	protected:
 		void VirtualOnActivated() override;

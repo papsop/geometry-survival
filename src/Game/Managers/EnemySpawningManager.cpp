@@ -31,7 +31,7 @@ namespace Game
 			entry.TimeMin = 1.f;
 			entry.TimeMax = 25.0f;
 
-			//m_spawningEntries.push_back(entry);
+			m_spawningEntries.push_back(entry);
 		}
 
     {
@@ -51,7 +51,7 @@ namespace Game
       entry.TimeMin = 10.0f;
       entry.TimeMax = 100.0f;
 
-      //m_spawningEntries.push_back(entry);
+      m_spawningEntries.push_back(entry);
     }
 	}
 
@@ -96,7 +96,7 @@ namespace Game
 			float min = std::min(biasLeft, biasRight);
 			float max = std::max(biasLeft, biasRight);
 
-			randomAngle= min + static_cast <float> (rand()) / (static_cast <float> (RAND_MAX / (min - max)));
+			randomAngle = Engine::math::RandomFloatBetween(min, max);
 		}
 		else
 		{

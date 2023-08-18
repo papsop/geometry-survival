@@ -1,4 +1,5 @@
 #pragma once
+#include <Engine/Utils/VectorUtils.h>
 
 namespace Game
 {
@@ -21,8 +22,8 @@ namespace Game
 		PistolWeapon()
 		{
 			FireRate = 0.f;
-			BulletDamage = 5.0f;
-			Spread = 45.0f;
+			BulletDamage = 1.0f;
+			Spread = Engine::math::M_PI_F / 4.0f;
 		}
 	};
 

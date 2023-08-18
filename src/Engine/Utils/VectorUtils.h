@@ -2,6 +2,7 @@
 #include <cmath>
 #include <SFML/System/Vector2.hpp>
 #include <box2d/b2_math.h>
+#include <random>
 
 namespace Engine
 {
@@ -29,5 +30,7 @@ namespace Engine
 
         float V2fCross(const Vec2& v1, const Vec2& v2);
         float V2fCross(const Vec2& v1, const Vec2& v2);
+
+        float RandomFloatBetween(float min, float max);
     };
 };

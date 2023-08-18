@@ -24,6 +24,7 @@ namespace Game
     BulletComponent(Engine::GameObject& obj, const BulletDef& def);
     ~BulletComponent() = default;
 
+    void VirtualOnCreate() override;
     void OnCollisionStart(Engine::CollisionData& collision) override;
 
     void SetDamage(float damage);
@@ -31,19 +32,19 @@ namespace Game
 
     void Update(float dt) override;
 
+  protected:
+		void VirtualOnActivated() override;
+		void VirtualOnDeactivated() override;
+
+		void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
+
   private:
     float m_damage;
     float m_burningDamage;
     int m_hitsLeft = 2;
     Engine::GameObject* m_owner;
     std::set<Engine::GameObjectID> m_collisions;
-
-  protected:
-    void VirtualOnActivated() override;
-    void VirtualOnDeactivated() override;
-
-    void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
-
+    Engine::PhysicsBodyComponent* m_physBody;
   };
 }
 

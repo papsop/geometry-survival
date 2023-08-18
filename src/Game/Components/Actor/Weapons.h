@@ -7,12 +7,12 @@ namespace Game
 	public:
 		float GetFireRate() const { return FireRate; }
 		float GetBulletDamage() const { return BulletDamage; }
-		float GetReloadTime() const { return ReloadTime; }
+		float GetSpread() const { return Spread; }
 
 	protected:
 		float FireRate;
 		float BulletDamage;
-		float ReloadTime;
+		float Spread; // angles
 		unsigned int BulletHits;
 	};
 
@@ -20,9 +20,9 @@ namespace Game
 	{
 		PistolWeapon()
 		{
-			FireRate = .4f;
+			FireRate = 0.f;
 			BulletDamage = 5.0f;
-			ReloadTime = 1.5f;
+			Spread = 45.0f;
 		}
 	};
 

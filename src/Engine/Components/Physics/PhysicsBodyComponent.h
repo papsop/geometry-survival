@@ -28,6 +28,8 @@ namespace Engine
 		void ApplyImpulseToCenter(const math::Vec2& impulse);
 		void ApplyTorque(float torque);
 		b2Vec2 GetLinearVelocity() { return m_b2Body->GetLinearVelocity(); }
+		void SetLinearVelocity(float velocity);
+		void SetLinearVelocity(math::Vec2 direction, float velocity);
 		float GetMass() { return m_b2Body->GetMass(); }
 
 		uint16 GetCategoryBits() { return m_categoryBits; }

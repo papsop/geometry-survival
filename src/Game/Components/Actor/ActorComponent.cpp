@@ -46,15 +46,7 @@ namespace Game
   void ActorComponent::Move(Engine::math::Vec2 dir)
   {
     auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
-    auto mass = physBody->GetMass();
-
-    auto actualVelocity = physBody->GetLinearVelocity();
-    auto desiredVelocity = dir;
-    desiredVelocity *= m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED);
-
-    auto impulse = (desiredVelocity - actualVelocity);
-    impulse *= mass;
-    physBody->ApplyImpulseToCenter(impulse);
+    physBody->SetLinearVelocity(dir, m_RPGComponent->GetStat(RPGStats::MOVEMENT_SPEED));
 
 		m_isMoving = !(dir.x == 0 && dir.y == 0);
 		m_movingDir = dir;

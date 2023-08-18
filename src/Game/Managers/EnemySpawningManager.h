@@ -26,6 +26,8 @@ namespace Game
     float Cooldown;
     float CurrentCooldown;
     const char* DebugName;
+
+    bool IsEntryInTime(float currentTime) const;
   };
 
   class EnemySpawningManager : public Engine::IManager, public Engine::IDebuggable,
@@ -54,7 +56,7 @@ namespace Game
     GameTimer* m_gameTimer = nullptr;
     std::vector<EnemySpawningEntry> m_spawningEntries;
 
-    float m_spawnRadius = 50.0f;
+    float m_spawnRadius = 100.0f;
     float m_biasAngle = Engine::math::M_PI_F / 9.0f;
 
     // Variables for debug

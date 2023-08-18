@@ -56,6 +56,25 @@ namespace Engine
 		m_b2Body->ApplyTorque(torque, true);
 	}
 
+	void PhysicsBodyComponent::SetLinearVelocity(float velocity)
+	{
+		SetLinearVelocity(Owner.GetTransform()->Forward(), velocity);
+	}
+
+	void PhysicsBodyComponent::SetLinearVelocity(math::Vec2 direction, float velocity)
+	{
+		auto actualVelocity = GetLinearVelocity();
+		auto desiredVelocity = direction;
+		desiredVelocity *= velocity;
+
+		auto impulse = (desiredVelocity - actualVelocity);
+		if (impulse.Length() <= 0.005f)
+			return;
+
+		impulse *= GetMass();
+		ApplyImpulseToCenter(impulse);
+	}
+
 	void PhysicsBodyComponent::Debug(VisualDebugContext& debugContext)
 	{
 		std::string text = std::to_string(GetLinearVelocity().Length());

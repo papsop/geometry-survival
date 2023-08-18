@@ -26,12 +26,12 @@ namespace Game
 				def.MaxHealth = 10.0f;
 				return GameObjectFactory::CreateEnemy(def);
 			};
-			entry.Cooldown = 4.0f;
+			entry.Cooldown = 0.1f;
 			entry.CurrentCooldown = 0.0f;
 			entry.TimeMin = 1.f;
 			entry.TimeMax = 25.0f;
 
-			m_spawningEntries.push_back(entry);
+			//m_spawningEntries.push_back(entry);
 		}
 
     {
@@ -46,12 +46,12 @@ namespace Game
 				def.MaxHealth = 20.0f;
         return GameObjectFactory::CreateEnemy(def);
       };
-      entry.Cooldown = 3.0f;
+      entry.Cooldown = 0.1f;
       entry.CurrentCooldown = 0.0f;
       entry.TimeMin = 10.0f;
       entry.TimeMax = 100.0f;
 
-      m_spawningEntries.push_back(entry);
+      //m_spawningEntries.push_back(entry);
     }
 	}
 
@@ -78,24 +78,6 @@ namespace Game
   {
     m_spawnerObject = nullptr;
   }
-
-  bool EnemySpawningManager::IsEntryInTime(const EnemySpawningEntry& entry)
-	{
-		auto currentTime = m_gameTimer->GetTimerSeconds();
-		// Time checks
-		if (entry.TimeMin < entry.TimeMax)
-		{ // consider both sides
-			if (currentTime < entry.TimeMin || currentTime > entry.TimeMax)
-				return false; // skip
-		}
-		else
-		{ // only consider timeMin
-			if (currentTime < entry.TimeMin)
-				return false; // skip
-		}
-
-		return true;
-	}
 
   Engine::math::Vec2 EnemySpawningManager::GetNewSpawnPosition()
   {
@@ -143,11 +125,12 @@ namespace Game
 		if (!m_spawnerObject || !m_gameTimer || !m_player)
 			return;
 
+		float currentTime = m_gameTimer->GetTimerSeconds();
 		
 		for (auto&& entry : m_spawningEntries)
 		{
 			// Time
-			if (!IsEntryInTime(entry))
+			if (!entry.IsEntryInTime(currentTime))
 				continue;
 
 			// Cooldown
@@ -195,6 +178,7 @@ namespace Game
 			debugContext.DebugRenderLine(Engine::ITransform::PositionSpace::WorldSpace, m_player->GetTransform()->GetPosition(), m_player->GetTransform()->GetPosition() + biasRight, sf::Color::Red);
 		}
 
+		float currentTime = m_gameTimer->GetTimerSeconds();
 		// ImGui debug
 		const ImGuiViewport* viewport = ImGui::GetMainViewport();
 		ImVec2 work_size = viewport->WorkSize;
@@ -226,13 +210,30 @@ namespace Game
 					ImGui::Text("%.1f/%.1f", entry.CurrentCooldown, entry.Cooldown);
 					ImGui::TableSetColumnIndex(2);
 					ImGui::Text("<%.1f, %.1f>", entry.TimeMin, entry.TimeMax);
-					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, IsEntryInTime(entry) ? rowBgSpawning : rowBgNotSpawning);
+					ImGui::TableSetBgColor(ImGuiTableBgTarget_RowBg1, entry.IsEntryInTime(currentTime) ? rowBgSpawning : rowBgNotSpawning);
 				}
 				ImGui::EndTable();
 			}
 
 		}
 		ImGui::End();
+	}
+
+	bool EnemySpawningEntry::IsEntryInTime(float currentTime) const
+	{
+		// Time checks
+		if (TimeMin < TimeMax)
+		{ // consider both sides
+			if (currentTime < TimeMin || currentTime > TimeMax)
+				return false; // skip
+		}
+		else
+		{ // only consider timeMin
+			if (currentTime < TimeMin)
+				return false; // skip
+		}
+
+		return true;
 	}
 
 }

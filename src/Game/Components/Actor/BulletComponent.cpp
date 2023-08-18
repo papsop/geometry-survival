@@ -18,6 +18,11 @@ namespace Game
     SetRequiredComponents<Engine::PhysicsBodyComponent>();
   }
 
+	void BulletComponent::VirtualOnCreate()
+	{
+		m_physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
+	}
+
 	void BulletComponent::VirtualOnActivated()
 	{
 		Engine::ComponentManager::Get().RegisterComponent(this);
@@ -30,16 +35,7 @@ namespace Game
 
 	void BulletComponent::Update(float dt)
 	{
-		auto physBody = Owner.GetComponent<Engine::PhysicsBodyComponent>();
-		auto mass = physBody->GetMass();
-
-		auto actualVelocity = physBody->GetLinearVelocity();
-		auto desiredVelocity = Owner.GetTransform()->Forward();
-		desiredVelocity *= 50.0f;
-
-		auto impulse = (desiredVelocity - actualVelocity);
-		impulse *= mass;
-		physBody->ApplyImpulseToCenter(impulse);
+    m_physBody->SetLinearVelocity(50.0f);
 	}
 
 	void BulletComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)

@@ -55,6 +55,8 @@ set(STATES_SOURCE
 set(PICKABLES_SOURCE
 	Pickables/ExperienceGlobeComponent.h
 	Pickables/ExperienceGlobeComponent.cpp
+	Pickables/PickableItemComponent.h
+	Pickables/PickableItemComponent.cpp
 )
 
 set(UI_SOURCE

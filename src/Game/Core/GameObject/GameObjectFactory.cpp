@@ -11,6 +11,7 @@
 #include "../../Components/Actor/ActorComponent.h"
 #include "../../Components/Enemy/AIChasePlayerComponent.h"
 #include "../../Components/Pickables/ExperienceGlobeComponent.h"
+#include "../../Components/Pickables/PickableItemComponent.h"
 #include "../../Physics/Filters.h"
 
 #include "../../Components/Player/InputComponent.h"
@@ -102,7 +103,7 @@ namespace Game
 		obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 		obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
 		obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-		obj->AddComponent<ExperienceGlobeComponent>();
+		obj->AddComponent<PickableItemComponent>();
 		obj->AddComponent<Engine::AnimatorComponent>();
 
 		auto objAnimatorController = std::make_unique<Engine::AnimatorController>();

@@ -1,50 +1,59 @@
 #pragma once
-#include "IManager.h"
-#include "../Core/GameObject/GameObject.h"
-#include "../Core/Events.h"
-#include "../Debug/IDebuggable.h"
-
-#include <vector>
+#include <array>
+#include <stack>
 #include <unordered_map>
+#include <vector>
 
-namespace Engine
-{
+#include "../Core/Events.h"
+#include "../Core/GameObject/GameObject.h"
+#include "../Debug/IDebuggable.h"
+#include "IManager.h"
 
-    class GameObjectManager : public IManager, public IDebuggable
-    {
-    public:
-      ~GameObjectManager() = default;
+namespace Engine {
+class GameObjectManager : public IManager, public IDebuggable {
+ public:
+  enum E_PoolingBucketType {
+    ENEMY,
+    BULLET,
+    EXPERIENCE,
+    COUNT,
+  };
 
-      static GameObjectManager& Get();
+  ~GameObjectManager() = default;
 
-      GameObject* CreateGameObject(const char* name, GameObjectTag tag, const ITransform::TransformDefinition & transformDef);
-      GameObject* GetGameObjectByID(GameObjectID ID);
-      std::vector<GameObject*> GetGameObjectsByTag(GameObjectTag tag);
+  static GameObjectManager& Get();
 
-      void Update(float dt) override;
-      void DestroyGameObject(GameObjectID ID);
-      void DestroyAllGameObjects();
-			void CleanupGameObjects();
-			void InitializeGameObjects();
+  GameObject* CreateGameObject(const char* name, GameObjectTag tag, const ITransform::TransformDefinition& transformDef);
+  GameObject* GetGameObjectByID(GameObjectID ID);
+  std::vector<GameObject*> GetGameObjectsByTag(GameObjectTag tag);
 
-      void Debug(VisualDebugContext& debugContext) override;
+  void Update(float dt) override;
+  void DestroyGameObject(GameObjectID ID);
+  void DestroyAllGameObjects();
+  void CleanupGameObjects();
+  void InitializeGameObjects();
 
-    protected:
-      void VirtualOnInit() override;
-      void VirtualOnDestroy() override;
+  void Debug(VisualDebugContext& debugContext) override;
 
-    private:
-      GameObjectManager() = default;
+  void ReleasePooledObject(E_PoolingBucketType type, GameObject* obj);
+  GameObject* GetPooledObject(E_PoolingBucketType type);  // might return nullptr if no objects available
 
-      void DebugDraw_ExpandGameObject(GameObject* obj);
+ protected:
+  void VirtualOnInit() override;
+  void VirtualOnDestroy() override;
 
-      GameObjectID m_nextGameObjectID = 0;
+ private:
+  GameObjectManager() = default;
 
-      std::unordered_map<GameObjectID, std::unique_ptr<GameObject>> m_gameObjects;
-			std::queue< GameObject* > m_gameObjectsToCleanup;
-			std::queue< GameObject* > m_gameObjectsToInitialize;
+  void DebugDraw_ExpandGameObject(GameObject* obj);
 
-    friend class Application;   // only Application can create a manager
+  GameObjectID m_nextGameObjectID = 0;
 
-    };
+  std::unordered_map<GameObjectID, std::unique_ptr<GameObject>> m_gameObjects;
+  std::queue<GameObject*> m_gameObjectsToCleanup;
+  std::queue<GameObject*> m_gameObjectsToInitialize;
+  std::array<std::stack<GameObject*>, static_cast<size_t>(E_PoolingBucketType::COUNT)> m_poolingBuckets;
+
+  friend class Application;  // only Application can create a manager
 };
+};  // namespace Engine

@@ -1,5 +1,5 @@
-set(GAME_PROJECT Game)
-set(GAME_PROJECT Game PARENT_SCOPE)
+set(GAME_PROJECT GameLib)
+set(GAME_PROJECT GameLib PARENT_SCOPE)
 
 project(
   ${GAME_PROJECT}
@@ -7,8 +7,8 @@ project(
   LANGUAGES CXX
 )
 
-add_executable(
-  ${PROJECT_NAME}
+add_library(
+  ${PROJECT_NAME} STATIC
   Game.cpp
 	GameInjection.h
  )
@@ -28,6 +28,6 @@ target_include_directories(
 
 target_link_libraries(
 	${GAME_PROJECT}
-  PRIVATE
+  PUBLIC
   ${ENGINE_PROJECT}
 )

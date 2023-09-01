@@ -1,6 +1,7 @@
-#include "GameInjection.h"
+#include <Engine/Application.h>
+#include <Game/GameInjection.h>
 
-int main()
+int main(void)
 {
   Game::GameInjection inj;
   Engine::Application app;

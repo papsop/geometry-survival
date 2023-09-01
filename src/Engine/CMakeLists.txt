@@ -1,5 +1,5 @@
-set(ENGINE_PROJECT Engine)
-set(ENGINE_PROJECT Engine PARENT_SCOPE)
+set(ENGINE_PROJECT EngineLib)
+set(ENGINE_PROJECT EngineLib PARENT_SCOPE)
 find_package(OpenGL REQUIRED)
 
 project(

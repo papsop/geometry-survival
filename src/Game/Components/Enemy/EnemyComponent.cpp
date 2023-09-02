@@ -1,143 +1,120 @@
 #include "EnemyComponent.h"
 
-#include <algorithm>
-
+#include <Engine/Application.h>
+#include <Engine/Components/Drawables/AnimationControllerComponent.h>
+#include <Engine/Components/Physics/PhysicsBodyComponent.h>
+#include <Engine/Core/Events.h>
 #include <Engine/Managers/EventManager.h>
 #include <Engine/Managers/GameObjectManager.h>
 #include <Engine/Managers/PhysicsManager.h>
-#include <Engine/Components/Physics/PhysicsBodyComponent.h>
-#include <Engine/Components/Drawables/AnimationControllerComponent.h>
-#include <Engine/Application.h>
-#include <Engine/Core/Events.h>
 
-#include "../../Managers/GameManager.h"
-#include "../Actor/RPGComponent.h"
+#include <algorithm>
+
 #include "../../Core/EventData.h"
 #include "../../Core/GameObject/GameObjectFactory.h"
-
+#include "../../Managers/GameManager.h"
+#include "../Actor/RPGComponent.h"
 #include "States/ChaseTargetState.h"
 #include "States/EnemyStunnedState.h"
 
-namespace Game
+namespace Game {
+EnemyComponent::EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def) : IComponent(obj), m_stateMachine(Owner), m_damagePerSecond(def.DamagePerSecond)
 {
-  EnemyComponent::EnemyComponent(Engine::GameObject& obj, EnemyComponentDef def)
-    : IComponent(obj)
-    , m_stateMachine(Owner)
-		, m_damagePerSecond(def.DamagePerSecond)
-  {
-    SetRequiredComponents<RPGComponent, ActorComponent, Engine::SpriteDrawableComponent>();
-  }
+  SetRequiredComponents<RPGComponent, ActorComponent, Engine::SpriteDrawableComponent>();
+}
 
-	void EnemyComponent::VirtualOnCreate()
-	{
-		Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnZeroHealthCallback);
-		m_spriteDrawableComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
-	}
+void EnemyComponent::VirtualOnCreate()
+{
+  Owner.GetComponent<ActorComponent>()->OnZeroHealth.AddListener(this, &EnemyComponent::OnZeroHealthCallback);
+  m_spriteDrawableComponent = Owner.GetComponent<Engine::SpriteDrawableComponent>();
+}
 
-	void EnemyComponent::OnDestroy()
-	{
-		Owner.GetComponent<ActorComponent>()->OnZeroHealth.RemoveListener(this);
-  }
+void EnemyComponent::OnDestroy() { Owner.GetComponent<ActorComponent>()->OnZeroHealth.RemoveListener(this); }
 
-	void EnemyComponent::Update(float dt)
-	{
-		if (m_isDying)
-			return;
+void EnemyComponent::Update(float dt)
+{
+  if (m_isDying) return;
 
-    m_stateMachine.Update(dt);
+  m_stateMachine.Update(dt);
 
-		if (!m_target)
-			return;
+  if (!m_target) return;
 
-		// continuous damage to the target
-		if (m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
-			m_target->GetComponent<ActorComponent>()->ApplyDamage(m_damagePerSecond * dt, &Owner, Actor_DamageType::Collision);
+  // continuous damage to the target
+  if (m_isTouchingTarget && m_stateMachine.GetActiveState()->GetStateValue() == EnemyAIStates::CHASING)
+    m_target->GetComponent<ActorComponent>()->ApplyDamage(m_damagePerSecond * dt, &Owner, Actor_DamageType::Collision);
+}
 
-	}
+void EnemyComponent::OnZeroHealthCallback()
+{
+  m_isDying = true;  // start animation
+  Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
+  Owner.GetComponent<Engine::CircleFixtureComponent>()->ForceDestroyFixture();
 
-	void EnemyComponent::OnZeroHealthCallback()
-	{
-		m_isDying = true; // start animation
-		Owner.GetComponent<Engine::PhysicsBodyComponent>()->SetEnabled(false);
-		Owner.GetComponent<Engine::CircleFixtureComponent>()->ForceDestroyFixture();
+  // experience orb
+  ExperienceGlobeDef experienceGlobeDef;
+  experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
 
-		// experience orb
-		ExperienceGlobeDef experienceGlobeDef;
-		experienceGlobeDef.Position = Owner.GetTransform()->GetPosition();
+  GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
 
-		GameObjectFactory::CreateExperienceGlobe(experienceGlobeDef);
+  // scatter
+  if (m_target) {
+    float scatters = m_target->GetComponent<RPGComponent>()->GetStat(RPGStats::SCATTERS);
+    if (scatters > 0.0f) {
+      BulletFactoryDef def;
+      def.Position = Owner.GetTransform()->GetPosition();
+      def.Damage = 2;
+      def.BulletHits = 1;
 
-		// scatter
-		if (m_target)
-		{
-			float scatters = m_target->GetComponent<RPGComponent>()->GetStat(RPGStats::SCATTERS);
-			if (scatters > 0.0f)
-			{
-				BulletFactoryDef def;
-				def.Position = Owner.GetTransform()->GetPosition();
-				def.Damage = 2;
-				def.BulletHits = 1;
+      auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
 
-				auto enemies = Engine::GameObjectManager::Get().GetGameObjectsByTag(Engine::GameObjectTag::ENEMY);
-
-				for (int i = 0; i < std::min(static_cast<size_t>(scatters), enemies.size()); i++)
-				{
-					def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemies[i]->GetTransform()->GetPosition());
-					GameObjectFactory::CreateBulletObject(def);
-				}
-			}
-		}
-	}
-
-	void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)
-	{
-		if(collision.Other->Tag == Engine::GameObjectTag::PLAYER_BULLET)
-			m_stateMachine.AddState<EnemyStunnedState>(1.0f);
-
-		if (collision.Other->Tag == Engine::GameObjectTag::PLAYER)
-			m_isTouchingTarget = true;
-	}
-
-	void EnemyComponent::OnCollisionEnd(Engine::CollisionData& collision)
-	{
-		// !collision.Other is for case when player is already dead, but we still have to receive onCollisionEnd
-		if (!collision.Other || collision.Other->Tag == Engine::GameObjectTag::PLAYER)
-			m_isTouchingTarget = false;
-	}
-
-	void EnemyComponent::OnDeathAnimationFinishedCallback()
-	{
-		// event about death
-		event::E_EnemyDied eventData;
-		Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
-		LOG_INFO("Calling Owner.Destroy()");
-		Owner.Destroy();
-	}
-
-	void EnemyComponent::VirtualOnActivated()
-	{
-		m_target = GameManager::Get()->GetPlayerGameObject();
-		Engine::ComponentManager::Get().RegisterComponent(this);
-    Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
-    Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
-		m_stateMachine.AddState<ChaseTargetState>();
-	}
-
-	void EnemyComponent::VirtualOnDeactivated()
-	{
-		Engine::ComponentManager::Get().UnregisterComponent(this);
-		Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
-		Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
-		m_stateMachine.Clear();
-	}
-
-	void EnemyComponent::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData)
-	{
-		m_target = eventData.PlayerObject;
-	}
-
-  void EnemyComponent::ReceiveEvent(const event::E_GameStateChanged& eventData)
-  {
-		SetEnabled(eventData.NewState == GameState::Gameplay);
+      for (int i = 0; i < std::min(static_cast<size_t>(scatters), enemies.size()); i++) {
+        def.Rotation = Engine::math::AngleBetweenVecs(Owner.GetTransform()->GetPosition(), enemies[i]->GetTransform()->GetPosition());
+        GameObjectFactory::CreateBulletObject(def);
+      }
+    }
   }
 }
+
+void EnemyComponent::OnCollisionStart(Engine::CollisionData& collision)
+{
+  if (collision.Other->Tag == Engine::GameObjectTag::PLAYER_BULLET) m_stateMachine.AddState<EnemyStunnedState>(1.0f);
+
+  if (collision.Other->Tag == Engine::GameObjectTag::PLAYER) m_isTouchingTarget = true;
+}
+
+void EnemyComponent::OnCollisionEnd(Engine::CollisionData& collision)
+{
+  // !collision.Other is for case when player is already dead, but we still have to receive onCollisionEnd
+  if (!collision.Other || collision.Other->Tag == Engine::GameObjectTag::PLAYER) m_isTouchingTarget = false;
+}
+
+void EnemyComponent::OnDeathAnimationFinishedCallback()
+{
+  // event about death
+  event::E_EnemyDied eventData;
+  Engine::EventManager::Get().DispatchEvent<event::E_EnemyDied>(eventData);
+  LOG_INFO("Calling Owner.Destroy()");
+  Owner.Destroy();
+}
+
+void EnemyComponent::VirtualOnActivated()
+{
+  m_target = GameManager::Get()->GetPlayerGameObject();
+  Engine::ComponentManager::Get().RegisterComponent(this);
+  Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::RegisterListener();
+  Engine::IEventListener<event::E_GameStateChanged>::RegisterListener();
+  m_stateMachine.AddState<ChaseTargetState>();
+}
+
+void EnemyComponent::VirtualOnDeactivated()
+{
+  Engine::ComponentManager::Get().UnregisterComponent(this);
+  Engine::IEventListener<event::E_PlayerObjectRegistrationChanged>::UnregisterListener();
+  Engine::IEventListener<event::E_GameStateChanged>::UnregisterListener();
+  m_stateMachine.Clear();
+}
+
+void EnemyComponent::ReceiveEvent(const event::E_PlayerObjectRegistrationChanged& eventData) { m_target = eventData.PlayerObject; }
+
+void EnemyComponent::ReceiveEvent(const event::E_GameStateChanged& eventData) { SetEnabled(eventData.NewState == GameState::Gameplay); }
+}  // namespace Game

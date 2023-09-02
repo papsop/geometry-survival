@@ -28,6 +28,7 @@ class BulletComponent : public Engine::IComponent, public Engine::IEventListener
   void SetHitsLeft(int hitsLeft);
 
   void Update(float dt) override;
+  float m_timeToDie = 3.0f;
 
  protected:
   void ReceiveEvent(const event::E_GameStateChanged& eventData) override;
@@ -36,7 +37,7 @@ class BulletComponent : public Engine::IComponent, public Engine::IEventListener
   float m_damage;
   float m_burningDamage;
   int m_hitsLeft = 2;
-  float m_timeToDie = 3.0f;
+
   Engine::GameObject* m_owner;
   std::set<Engine::GameObjectID> m_collisions;
   Engine::PhysicsBodyComponent* m_physBody;

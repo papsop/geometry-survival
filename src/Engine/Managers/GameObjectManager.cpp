@@ -3,12 +3,17 @@
 #include "../Application.h"
 #include "../Core/EventData.h"
 #include "../ImGui/imgui.h"
+#include "RenderManager.h"
 // TODO: Entity cleanup and notifications about deletion
 
 namespace Engine {
 GameObjectManager& GameObjectManager::Get() { return Application::Instance().GetGameObjectManager(); }
 
-void GameObjectManager::VirtualOnInit() { DebuggableOnInit(); }
+void GameObjectManager::VirtualOnInit()
+{
+  Engine::RenderManager::Get().RegisterDebug("GameObject");
+  DebuggableOnInit();
+}
 void GameObjectManager::VirtualOnDestroy()
 {
   DebuggableOnDestroy();

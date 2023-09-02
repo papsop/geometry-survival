@@ -1,53 +1,53 @@
 #pragma once
-#include "../Core.h"
-#include "../../Debug/IDebuggable.h"
 #include <box2d/b2_body.h>
 
-namespace Engine
-{
+#include "../../Debug/IDebuggable.h"
+#include "../Core.h"
 
-	struct PhysicsBodyDef
-	{
-		b2BodyType	BodyType		= b2_staticBody;
-		bool		IsBullet		= false;
-		uint16		CategoryBits	= 0x0000; // I'm xxx
-		uint16		MaskBits		= 0x0000; // I collide with yyy
-	};
+namespace Engine {
 
-	class PhysicsBodyComponent : public IComponent, public IDebuggableComponent
-	{
-	public:
-		PhysicsBodyComponent(GameObject& obj, PhysicsBodyDef& def);
-		~PhysicsBodyComponent() override;
+struct PhysicsBodyDef {
+  b2BodyType BodyType = b2_staticBody;
+  bool IsBullet = false;
+  uint16 CategoryBits = 0x0000;  // I'm xxx
+  uint16 MaskBits = 0x0000;      // I collide with yyy
+};
 
-		void FixedUpdate(float dt) override;
-		void VirtualOnCreate() override;
+class PhysicsBodyComponent : public IComponent, public IDebuggableComponent {
+ public:
+  PhysicsBodyComponent(GameObject& obj, PhysicsBodyDef& def);
+  ~PhysicsBodyComponent() override;
 
-		b2Body* GetB2Body() { return m_b2Body; }
+  void FixedUpdate(float dt) override;
+  void VirtualOnCreate() override;
 
-		void ApplyImpulseToCenter(const math::Vec2& impulse);
-		void ApplyTorque(float torque);
-		b2Vec2 GetLinearVelocity() { return m_b2Body->GetLinearVelocity(); }
-		void SetLinearVelocity(float velocity);
-		void SetLinearVelocity(math::Vec2 direction, float velocity);
-		float GetMass() { return m_b2Body->GetMass(); }
+  b2Body* GetB2Body() { return m_b2Body; }
 
-		uint16 GetCategoryBits() { return m_categoryBits; }
-		uint16 GetMaskBits() { return m_maskBits; }
+  void ApplyImpulseToCenter(const math::Vec2& impulse);
+  void ApplyTorque(float torque);
+  b2Vec2 GetLinearVelocity() { return m_b2Body->GetLinearVelocity(); }
+  void SetLinearVelocity(float velocity);
+  void SetLinearVelocity(math::Vec2 direction, float velocity);
+  float GetMass() { return m_b2Body->GetMass(); }
 
-		void Debug(VisualDebugContext& debugContext) override;
+  uint16 GetCategoryBits() { return m_categoryBits; }
+  uint16 GetMaskBits() { return m_maskBits; }
 
-	private:
-		b2Body* m_b2Body = nullptr;
-		b2BodyType m_bodyType;
-		bool m_isBullet;
-		uint16 m_categoryBits;
-		uint16 m_maskBits;
+  void Debug(VisualDebugContext& debugContext) override;
 
-	protected:
-		void VirtualOnActivated() override;
-		void VirtualOnDeactivated() override;
+  void OnTransformChangedCallback();
 
-	friend class SceneSerializer;
-	};
-}
+ private:
+  b2Body* m_b2Body = nullptr;
+  b2BodyType m_bodyType;
+  bool m_isBullet;
+  uint16 m_categoryBits;
+  uint16 m_maskBits;
+
+ protected:
+  void VirtualOnActivated() override;
+  void VirtualOnDeactivated() override;
+
+  friend class SceneSerializer;
+};
+}  // namespace Engine

@@ -186,38 +186,47 @@ Engine::GameObject* GameObjectFactory::CreateBulletObject(BulletFactoryDef def)
   transformDef.Position = def.Position;
   transformDef.Rotation = def.Rotation;
 
-  auto obj = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
+  auto obj = Engine::GameObjectManager::Get().GetPooledObject(Engine::GameObjectManager::BULLET);
+  if (obj) {
+    obj->GetTransform()->SetPosition(def.Position);
+    obj->GetTransform()->SetRotationRad(def.Rotation);
+    obj->GetComponent<BulletComponent>()->m_timeToDie = 3.0f;
+    obj->SetActive(true);
+  }
+  else {
+    obj = Engine::GameObjectManager::Get().CreateGameObject("Bullet", Engine::GameObjectTag::PLAYER_BULLET, transformDef);
 
-  Engine::PhysicsBodyDef physBodyDef;
-  physBodyDef.BodyType = b2_dynamicBody;
-  physBodyDef.IsBullet = true;
-  physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
-  physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
+    Engine::PhysicsBodyDef physBodyDef;
+    physBodyDef.BodyType = b2_dynamicBody;
+    physBodyDef.IsBullet = true;
+    physBodyDef.CategoryBits = physics::EntityCategory::PLAYER_BULLET;
+    physBodyDef.MaskBits = physics::EntityMask::M_PLAYER_BULLET;
 
-  obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
+    obj->AddComponent<Engine::PhysicsBodyComponent>(physBodyDef);
 
-  Engine::CircleFixtureDef circleFixtureDef;
-  circleFixtureDef.Radius = 1.0f;
-  circleFixtureDef.IsSensor = true;
+    Engine::CircleFixtureDef circleFixtureDef;
+    circleFixtureDef.Radius = 1.0f;
+    circleFixtureDef.IsSensor = true;
 
-  Engine::SpriteDrawableDef spriteDef;
-  spriteDef.Layer = Engine::view::Layer::BULLET;
-  spriteDef.TextureName = "bullet";
-  spriteDef.Size = {6.0f, 6.0f};
+    Engine::SpriteDrawableDef spriteDef;
+    spriteDef.Layer = Engine::view::Layer::BULLET;
+    spriteDef.TextureName = "bullet";
+    spriteDef.Size = {6.0f, 6.0f};
 
-  obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
-  obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
-  obj->AddComponent<Engine::AnimationControllerComponent>();
-  // obj->AddComponent<DestroyAfterTimeComponent>(3.0f);
+    obj->AddComponent<Engine::SpriteDrawableComponent>(spriteDef);
+    obj->AddComponent<Engine::CircleFixtureComponent>(circleFixtureDef);
+    obj->AddComponent<Engine::AnimationControllerComponent>();
+    // obj->AddComponent<DestroyAfterTimeComponent>(3.0f);
 
-  auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
-  auto* flyingState = animController->GetStateMachine().AddAnimationState("bullet_flying");
+    auto* animController = obj->GetComponent<Engine::AnimationControllerComponent>();
+    auto* flyingState = animController->GetStateMachine().AddAnimationState("bullet_flying");
 
-  BulletDef bulletDef;
-  bulletDef.Damage = def.Damage;
-  bulletDef.BulletHits = def.BulletHits;
-  bulletDef.BurningDamage = def.BurningDamage;
-  obj->AddComponent<BulletComponent>(bulletDef);
+    BulletDef bulletDef;
+    bulletDef.Damage = def.Damage;
+    bulletDef.BulletHits = def.BulletHits;
+    bulletDef.BurningDamage = def.BurningDamage;
+    obj->AddComponent<BulletComponent>(bulletDef);
+  }
 
   return obj;
 }

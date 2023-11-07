@@ -28,7 +28,7 @@ EnemySpawningManager::EnemySpawningManager(Engine::Application& app) : m_app(app
     entry.TimeMin = 1.f;
     entry.TimeMax = 25.0f;
 
-    // m_spawningEntries.push_back(entry);
+    m_spawningEntries.push_back(entry);
   }
 
   {
@@ -48,7 +48,7 @@ EnemySpawningManager::EnemySpawningManager(Engine::Application& app) : m_app(app
     entry.TimeMin = 10.0f;
     entry.TimeMax = 100.0f;
 
-    // m_spawningEntries.push_back(entry);
+    m_spawningEntries.push_back(entry);
   }
 }
 
